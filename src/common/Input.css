@@ -1,0 +1,33 @@
+.input-block {
+  position: relative;
+}
+
+.input {
+  width: 100%;
+  border: 1px solid gray;
+  padding: 11px 10px 8px 10px;
+  box-sizing: border-box;
+  border-radius: 3px;
+}
+
+.input:focus-visible {
+  outline: none;
+  background-color: #f5f5f5;
+}
+
+input:invalid {
+  border-color: #d3b369;
+}
+
+.name {
+  position: absolute;
+  left: 10px;
+  top: -3px;
+  padding: 0px 3px;
+  background: white;
+  color: gray;
+}
+
+.required-mark {
+  margin-left: 2px;
+}
