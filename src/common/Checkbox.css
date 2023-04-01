@@ -1,0 +1,19 @@
+.checkbox-wrapper {
+  display: flex;
+  align-items: center;
+  width: fit-content;
+}
+
+.checkbox {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid #d3b369;
+  border-radius: 10px;
+}
+
+.checkbox:checked {
+  background-image: url('../image/icon/checkbox.png');
+  background-size: 100% 100%;
+  background-color: #d3b369;
+}
