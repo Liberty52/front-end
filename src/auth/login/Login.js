@@ -22,12 +22,12 @@ function LoginForm() {
         event.preventDefault();
         const email = event.target.email.value;
         const password = event.target.password.value;
-        // const checked = event.target.checkbox.checked;
+        const checked = event.target.checkbox.checked;
         const dto = {
           email: email,
           password: password,
         };
-        post(dto);
+        post(dto, checked);
       }}
     >
       <div className="login-title">로그인</div>
@@ -55,9 +55,12 @@ function SocialLogin() {
     <div className="social-login">
       <div className="login-title">소셜 로그인</div>
       <div>
-        <Button text="네이버 로그인 버튼 (임시)" />
-        <Button text="카카오 로그인 버튼 (임시)" />
-        <Button text="페이스북 로그인 버튼 (임시)" />
+        <Button
+          href={'http://13.125.49.218:8080/auth/oauth2/authorization/naver'}
+          text="네이버 로그인 버튼"
+        />
+        <Button href={'#'} text="카카오 로그인 버튼 (임시)" />
+        <Button href={'#'} text="페이스북 로그인 버튼 (임시)" />
       </div>
     </div>
   );
