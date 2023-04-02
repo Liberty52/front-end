@@ -10,3 +10,7 @@
 .button:hover {
   background-color: #c2a258;
 }
+
+.button a {
+  color: white;
+}

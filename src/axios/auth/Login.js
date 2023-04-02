@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export default function post(dto) {
+export default function post(dto, checked) {
   axios
     .post('http://13.125.49.218:8080/auth/login', JSON.stringify(dto), {
       headers: {
@@ -9,9 +9,16 @@ export default function post(dto) {
     })
     .then(response => {
       alert(response.data.name + '님 환영합니다!');
-      console.log(response.data.profileUser); // undefined(null)
-      console.log(response.data.role); // USER
-      // 회원 정보 세션 저장
+      if (checked) {
+        localStorage.setItem(
+          'REFRESH_TOKEN',
+          response.headers.refresh.split(' ')[1]
+        );
+      }
+      localStorage.setItem(
+        'ACCESS_TOKEN',
+        response.headers.access.split(' ')[1]
+      );
       window.location.replace('/');
     })
     .catch(e => {
