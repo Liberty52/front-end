@@ -26,7 +26,7 @@ const confirmDelete = (memberId) => {
     axios
       .delete(`http://13.125.49.218:8080/auth/member/${memberId}`, {
         headers: {
-          Authorization: "Bearer " + localStorage.getItem("ACCESS_TOKEN"),
+          Authorization: localStorage.getItem("ACCESS_TOKEN"),
         },
       })
       .then(() => {
