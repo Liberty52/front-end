@@ -24,7 +24,7 @@ const confirmDelete = (memberId) => {
   // const navigate = useNavigate();
   if (window.confirm("정말로 탈퇴하시겠습니까?")) {
     axios
-      .delete(`http://13.125.49.218:8080/auth/member/${memberId}`, {
+      .delete(`http://13.125.49.218:8080/auth/member`, {
         headers: {
           Authorization: localStorage.getItem("ACCESS_TOKEN"),
         },
