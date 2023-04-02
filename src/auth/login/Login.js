@@ -1,4 +1,5 @@
 import './Login.css';
+import post from '../../axios/auth/Login.js';
 import Checkbox from '../../common/Checkbox';
 import InputGroup from '../../common/InputGroup';
 import Button from '../../common/Button';
@@ -13,9 +14,6 @@ function LoginInput() {
   return <InputGroup inputItems={loginItems} />;
 }
 
-// axios - api 연동
-function post() {}
-
 function LoginForm() {
   return (
     <form
@@ -24,8 +22,12 @@ function LoginForm() {
         event.preventDefault();
         const email = event.target.email.value;
         const password = event.target.password.value;
-        const checked = event.target.checkbox.checked;
-        post();
+        // const checked = event.target.checkbox.checked;
+        const dto = {
+          email: email,
+          password: password,
+        };
+        post(dto);
       }}
     >
       <div className="login-title">로그인</div>
