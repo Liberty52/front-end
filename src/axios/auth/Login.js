@@ -10,15 +10,9 @@ export default function post(dto, checked) {
     .then(response => {
       alert(response.data.name + '님 환영합니다!');
       if (checked) {
-        localStorage.setItem(
-          'REFRESH_TOKEN',
-          response.headers.refresh.split(' ')[1]
-        );
+        localStorage.setItem('REFRESH_TOKEN', response.headers.refresh);
       }
-      localStorage.setItem(
-        'ACCESS_TOKEN',
-        response.headers.access.split(' ')[1]
-      );
+      localStorage.setItem('ACCESS_TOKEN', response.headers.access);
       window.location.replace('/');
     })
     .catch(e => {
