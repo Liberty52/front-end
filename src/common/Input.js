@@ -2,10 +2,11 @@ import './Input.css';
 
 export default function Input(props) {
   const inputItem = props.inputItem;
+  const cn = props.className ? 'input ' + props.className : 'input';
   return (
     <div className="input-block">
       <input
-        className={'input ' + props.className}
+        className={cn}
         key={inputItem.name}
         type={inputItem.type}
         name={inputItem.name}
