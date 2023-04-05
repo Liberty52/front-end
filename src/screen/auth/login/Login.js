@@ -1,9 +1,9 @@
 import './Login.css';
-import post from '../../axios/auth/Login.js';
-import Checkbox from '../../common/Checkbox';
-import InputGroup from '../../common/InputGroup';
-import Button from '../../common/Button';
-import logo from '../../image/icon/logo.png';
+import post from '../../../axios/auth/Login.js';
+import Checkbox from '../../../component/Checkbox';
+import InputGroup from '../../../component/InputGroup';
+import Button from '../../../component/Button';
+import logo from '../../../image/icon/logo.png';
 
 function LoginInput() {
   const loginItems = [

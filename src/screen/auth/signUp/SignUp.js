@@ -1,9 +1,9 @@
 import './SignUp.css';
-import post from '../../axios/auth/SignUp.js';
-import InputGroup from '../../common/InputGroup';
-import Button from '../../common/Button';
-import photo from '../../image/icon/photo.png';
-import logo from '../../image/icon/logo.png';
+import post from '../../../axios/auth/SignUp.js';
+import InputGroup from '../../../component/InputGroup';
+import Button from '../../../component/Button';
+import photo from '../../../image/icon/photo.png';
+import logo from '../../../image/icon/logo.png';
 import { useState } from 'react';
 
 function SignUpForm() {
