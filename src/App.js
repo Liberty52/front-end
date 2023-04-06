@@ -7,6 +7,7 @@ import MyInfo from "./screen/auth/myInfo/MyInfo";
 import Redirect from "./screen/auth/redirect/Redirect";
 import Purchase from "./screen/shopping/purchase/Purchase";
 import Cart from "./screen/shopping/cart/Cart";
+import Order from './screen/product/Order';
 import "./app.css";
 
 export default function App() {
@@ -21,6 +22,7 @@ export default function App() {
         <Route path={"/purchase"} element={<Purchase />}></Route>
         <Route path={"/cart"} element={<Cart />}></Route>
         <Route path={"/redirect"} element={<Redirect />}></Route>
+        <Route path={'/product_speaker/:id'} element={<Order />}></Route>
       </Routes>
     </BrowserRouter>
   );
