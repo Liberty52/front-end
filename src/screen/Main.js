@@ -1,12 +1,12 @@
-import './Main.css';
-import image from '../image/icon/liberty52.jpg';
+import "./Main.css";
+import image from "../image/icon/liberty52.jpg";
 
 function Header() {
   const headerItemsLeft = [
-    { name: '로고', href: '#' },
-    { name: '제품소개', href: '#' },
-    { name: '사업소개', href: '#' },
-    { name: '지점소개(쇼룸)', href: '#' },
+    { name: "로고", href: "#" },
+    { name: "제품소개", href: "#" },
+    { name: "사업소개", href: "#" },
+    { name: "지점소개(쇼룸)", href: "#" },
   ];
 
   const headerLeft = [];
@@ -14,14 +14,14 @@ function Header() {
     let headerItem = headerItemsLeft[i];
     headerLeft.push(
       <li key={headerItem.name}>
-        <a href={'/' + headerItem.href}>{headerItem.name}</a>
+        <a href={"/" + headerItem.href}>{headerItem.name}</a>
       </li>
     );
   }
 
   const headerItemsRight = [
-    { name: '로그인', href: 'login' },
-    { name: '바로구매', href: '#' },
+    { name: "로그인", href: "login" },
+    { name: "바로구매", href: "purchase" },
   ];
 
   const headerRight = [];
@@ -29,7 +29,7 @@ function Header() {
     let headerItem = headerItemsRight[i];
     headerRight.push(
       <li key={headerItem.name}>
-        <a href={'/' + headerItem.href}>{headerItem.name}</a>
+        <a href={"/" + headerItem.href}>{headerItem.name}</a>
       </li>
     );
   }
