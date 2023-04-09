@@ -6,7 +6,46 @@
   align-items: center;
 }
 
-.infoBtn {
+.myInfo-info-group {
   width: 350px;
-  margin: 20px 0;
+}
+
+.myInfo-input-group {
+  text-align: center;
+}
+
+.myInfo-button-group {
+  width: 350px;
+  text-align: center;
+}
+
+.myInfo-image-wrapper {
+  margin: 6px 0 14px 0;
+}
+
+.myInfo-table {
+  width: 100%;
+}
+
+.myInfo-table tr {
+  height: 35px;
+}
+
+.myInfo-table th {
+  text-align: right;
+  padding-right: 5px;
+}
+
+.myInfo-table td {
+  text-align: left;
+  padding-left: 5px;
+  width: 70%;
+}
+
+.myInfo-table span {
+  padding-left: 10px;
+}
+
+.myInfo-table div {
+  margin: 6px 0;
 }

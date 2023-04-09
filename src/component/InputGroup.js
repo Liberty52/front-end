@@ -5,9 +5,7 @@ export default function InputGroup(props) {
   let inputItems = props.inputItems;
   const list = [];
   inputItems.map((inputItem, i) => {
-    list.push(
-      <Input className="input-group-input" key={i} inputItem={inputItem} />
-    );
+    list.push(<Input key={i} inputItem={inputItem} />);
   });
   return <div>{list}</div>;
 }
