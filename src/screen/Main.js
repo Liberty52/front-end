@@ -27,7 +27,7 @@ function Header() {
 
   const headerItemsRight = [
     { name: "로그인", href: "login" },
-    { name: "바로구매", href: "#" },
+    { name: "바로구매", href: "purchase" },
   ];
 
   const headerRight = [];
