@@ -1,0 +1,41 @@
+.social_login_button {
+    width: 100%;
+    border: none;
+    border-radius: 3px;
+    padding: 10px;
+    margin: 6px 0px;
+    display: flex;
+    font-weight: 600;
+    justify-content: center;
+    align-items: center;
+}
+.naver{
+    background-color: #19CE60;
+}
+.naver:hover{
+    background-color: #2ADF71;
+}
+.naver a, .google a , .facebook a{
+    color: white;
+}
+
+.kakao{
+    background-color: #fae100;
+    color: black;
+}
+.kakao:hover{
+    background-color: #fbf211;
+}
+.google{
+    background-color: #EA4335;
+}
+.google:hover{
+    background-color: #FB5446;
+}
+.facebook{
+    background-color: #3B5998;
+    color: white;
+}
+.facebook:hover{
+    background-color: #4C6AA9;
+}
