@@ -8,7 +8,6 @@ import Redirect from './screen/auth/redirect/Redirect';
 import ChangePasswordPage from './screen/auth/redirect/ChangePasswordPage';
 import './app.css';
 
-
 export default function App() {
   return (
     <BrowserRouter>
