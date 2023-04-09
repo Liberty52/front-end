@@ -5,7 +5,6 @@ import './ChangePasswordPage.css';
 import { useSearchParams, Redirect } from "react-router-dom";
 import { useNavigate } from "react-router";
 
-
 export default function ChangePasswordPage() {
     const [newPassword, setNewPassword] = useState("");
     const [confirmNewPassword, setConfirmNewPassword] = useState("");

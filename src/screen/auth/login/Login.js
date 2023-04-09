@@ -7,7 +7,6 @@ import Button from '../../../component/Button';
 import logo from '../../../image/icon/logo.png';
 import React, { useState, useEffect } from 'react';
 
-
 function LoginInput() {
   const loginItems = [
     { type: 'email', name: 'email', required: true },
@@ -172,7 +171,6 @@ function CompanyLogin() {
   );
 }
 
-
 function SocialLogin() {
   return (
     <div className="social-login">
@@ -203,7 +201,6 @@ function LoginHeader() {
   );
 }
 
-
 export default function Login() {
   return (
     <div className="login">
@@ -214,3 +211,4 @@ export default function Login() {
     </div>
   );
 }
+
