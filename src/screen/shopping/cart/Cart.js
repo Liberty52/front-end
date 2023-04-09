@@ -34,12 +34,13 @@ function CartPage() {
       <MypageHeader name={"장바구니"}></MypageHeader>
       <Table bordered hover>
         <tr>
-          <th>제품명</th>
-          <th>거치방식</th>
-          <th>기본소재</th>
-          <th>색상</th>
-          <th>가격</th>
-          <th>수량</th>
+          <th width="20%">제품명</th>
+          <th width="20%">거치방식</th>
+          <th width="20%">기본소재</th>
+          <th width="15%">색상</th>
+          <th width="15%">가격</th>
+          <th width="5%">수량</th>
+          <th width="5%"></th>
         </tr>
         {data.length > 0 &&
           data.map((item) => {
