@@ -4,6 +4,8 @@ import Checkbox from '../../../component/Checkbox';
 import InputGroup from '../../../component/InputGroup';
 import Button from '../../../component/Button';
 import logo from '../../../image/icon/logo.png';
+import SocialLoginButton from "../../../component/SocialLoginButton";
+import {SOCIAL_LOGIN_PROVIDER} from "../../../global/Constants";
 
 function LoginInput() {
   const loginItems = [
@@ -55,12 +57,10 @@ function SocialLogin() {
     <div className="social-login">
       <div className="login-title">소셜 로그인</div>
       <div>
-        <Button
-          href={'http://13.125.49.218:8080/auth/oauth2/authorization/naver'}
-          text="네이버 로그인 버튼"
-        />
-        <Button href={'#'} text="카카오 로그인 버튼 (임시)" />
-        <Button href={'#'} text="페이스북 로그인 버튼 (임시)" />
+          <SocialLoginButton provider={SOCIAL_LOGIN_PROVIDER.NAVER}/>
+          <SocialLoginButton provider={SOCIAL_LOGIN_PROVIDER.KAKAO}/>
+          <SocialLoginButton provider={SOCIAL_LOGIN_PROVIDER.GOOGLE}/>
+          <SocialLoginButton provider={SOCIAL_LOGIN_PROVIDER.FACEBOOK}/>
       </div>
     </div>
   );
