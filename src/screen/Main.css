@@ -1,4 +1,10 @@
 /* common */
+button {
+  border: none;
+  padding: 0;
+  background: none;
+}
+
 .section,
 .section-row {
   height: 100%;
@@ -14,6 +20,7 @@ ul {
   position: relative;
 }
 
+/* Header */
 .header {
   display: flex;
   justify-content: space-between;
@@ -30,7 +37,7 @@ ul {
 }
 
 .header-items li {
-  margin-right: 20px;
+  margin-right: 30px;
 }
 
 .section {
