@@ -11,7 +11,7 @@ function SignUpForm() {
     <form
       className="signUp-form"
       onSubmit={event => {
-        event.preventDefault();
+        //event.preventDefault();
         const email = event.target.email.value;
         const password = event.target.password.value;
         const phoneNumber = event.target.phoneNumber.value;
