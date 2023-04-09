@@ -4,6 +4,10 @@
     align-items: stretch;
 }
 
+.order-wrap {
+    margin-top: 20px;
+}
+
 .order-title {
     text-align: right;
     margin-right: 5%

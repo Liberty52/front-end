@@ -7,7 +7,7 @@ import instargram_img from "../image/icon/instagram.png";
 import kakaotalk_img from "../image/icon/kakao-talk.png";
 import $ from "jquery";
 
-function Header() {
+export function Header() {
   const headerItemsLeft = [
     { name: "로고", href: "#" },
     { name: "제품소개", href: "#" },
@@ -92,7 +92,7 @@ function Section3() {
   );
 }
 
-function Footer() {
+export function Footer() {
   return (
     <footer>
       <div className="inner">

@@ -1,8 +1,8 @@
 import './Order.css';
 import Dropdown from "../../component/Dropdown";
-import DefaultLayout from "../../component/Layout"
 import Button from '../../component/Button';
 import { useParams } from 'react-router-dom';
+import { Header } from '../Main';
 
 const getProductDetailAPI = (id) => {
     return {
@@ -36,31 +36,34 @@ const Order = () => {
     const { name, imageUrl, productOptions } = getProductDetailAPI(id); // just mock api
 
     return (
-    <DefaultLayout>
-        <div className='order-title'>
-            <h2>{name}</h2>
-        </div>
-        <div className="order">
-            <div className="order-image">
-                <img src={imageUrl} /> 
+        <>
+        <Header/>
+        <div className="order-wrap">
+            <div className='order-title'>
+                <h2>{name}</h2>
             </div>
-            <div className='order-inputs'>
-                <div className="order-inputs-selects">
-                    <Dropdown className={"order-inputs-select"} items={productOptions.holder} title="거치 방식을 선택하세요." placeholder="거치 방식을 선택해주세요. (필수)" />
-                    <Dropdown className={"order-inputs-select"} items={productOptions.material} title="기본 소재를 선택하세요." placeholder="기본 소재를 선택해주세요. (필수)" />
-                    <Dropdown className={"order-inputs-select"} items={productOptions.materialOption} title="기본 소재 옵션을 선택하세요." placeholder="기본 소재 옵션을 선택해주세요. (필수)" />
+            <div className="order">
+                <div className="order-image">
+                    <img src={imageUrl} /> 
                 </div>
-                <div className="order-inputs-buttons">
-                    <div className="order-inputs-button">
-                        <Button text="구매하기" />
+                <div className='order-inputs'>
+                    <div className="order-inputs-selects">
+                        <Dropdown className={"order-inputs-select"} items={productOptions.holder} title="거치 방식을 선택하세요." placeholder="거치 방식을 선택해주세요. (필수)" />
+                        <Dropdown className={"order-inputs-select"} items={productOptions.material} title="기본 소재를 선택하세요." placeholder="기본 소재를 선택해주세요. (필수)" />
+                        <Dropdown className={"order-inputs-select"} items={productOptions.materialOption} title="기본 소재 옵션을 선택하세요." placeholder="기본 소재 옵션을 선택해주세요. (필수)" />
                     </div>
-                    <div className="order-inputs-button">
-                        <Button text="장바구니" />
+                    <div className="order-inputs-buttons">
+                        <div className="order-inputs-button">
+                            <Button text="구매하기" />
+                        </div>
+                        <div className="order-inputs-button">
+                            <Button text="장바구니" />
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </DefaultLayout>
+        </div>  
+        </>
     )
 }
 
