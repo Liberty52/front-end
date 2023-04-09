@@ -21,3 +21,16 @@ export default function post(dto, checked) {
       }
     });
 }
+
+export function findEmail(name, phoneNumber) {
+  const requestBody = {
+    name: name,
+    phoneNumber: phoneNumber
+  };
+
+  return axios.post('http://13.125.49.218:8080/find-email', requestBody, {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+}
