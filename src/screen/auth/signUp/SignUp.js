@@ -1,10 +1,9 @@
 import './SignUp.css';
 import post from '../../../axios/auth/SignUp.js';
 import InputGroup from '../../../component/InputGroup';
+import ImageInput from '../../../component/ImageInput';
 import Button from '../../../component/Button';
-import photo from '../../../image/icon/photo.png';
-import logo from '../../../image/icon/logo.png';
-import { useState } from 'react';
+import Logo from '../../../component/Logo';
 
 function SignUpForm() {
   return (
@@ -29,40 +28,12 @@ function SignUpForm() {
       }}
     >
       <div className="signUp-title">회원가입</div>
-      <ImageInput />
+      <div className="signUp-image-wrapper">
+        <ImageInput />
+      </div>
       <SignUpInput />
       <Button text="회원가입" />
     </form>
-  );
-}
-
-function ImageInput() {
-  const [imgFile, setImgFile] = useState(photo);
-  const reader = new FileReader();
-  return (
-    <div className="image-input-wrapper">
-      <label>
-        <input
-          className="image-input"
-          type="file"
-          name="file"
-          accept="image/*"
-          onChange={event => {
-            const file = event.currentTarget.files[0];
-            if (file) {
-              reader.readAsDataURL(file);
-              reader.onloadend = () => {
-                setImgFile(reader.result);
-                document.querySelector('.image-preview').src = imgFile;
-              };
-            }
-          }}
-        ></input>
-        <div className="image-crop">
-          <img className="image-preview" src={imgFile} alt="프로필 이미지" />
-        </div>
-      </label>
-    </div>
   );
 }
 
@@ -84,20 +55,10 @@ function SignUpInput() {
   return <InputGroup inputItems={signUpItems} />;
 }
 
-function SignUpHeader() {
-  return (
-    <div className="signUp-header">
-      <a href="/">
-        <img className="signUp-logo" src={logo} />
-      </a>
-    </div>
-  );
-}
-
 export default function SignUp() {
   return (
     <div className="signUp">
-      <SignUpHeader />
+      <Logo />
       <SignUpForm />
     </div>
   );

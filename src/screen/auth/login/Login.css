@@ -6,14 +6,6 @@
   align-items: center;
 }
 
-.login-header {
-  margin-bottom: 40px;
-}
-
-.login-logo {
-  width: 170px;
-}
-
 .company-login,
 .social-login {
   width: 350px;

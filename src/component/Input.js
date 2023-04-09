@@ -1,12 +1,13 @@
 import './Input.css';
+import { useState } from 'react';
 
 export default function Input(props) {
   const inputItem = props.inputItem;
-  const cn = props.className ? 'input ' + props.className : 'input';
+  const [value, setValue] = useState(inputItem.value);
   return (
     <div className="input-block">
       <input
-        className={cn}
+        className="input"
         key={inputItem.name}
         type={inputItem.type}
         name={inputItem.name}
@@ -14,6 +15,10 @@ export default function Input(props) {
         pattern={inputItem.pattern}
         maxLength={inputItem.maxLength}
         title={inputItem.title}
+        value={value}
+        onChange={e => {
+          setValue(e.target.value);
+        }}
         autoComplete="off"
       ></input>
       <span className="name">

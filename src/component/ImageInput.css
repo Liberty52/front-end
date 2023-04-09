@@ -1,0 +1,8 @@
+.image-input-input {
+  display: none;
+}
+
+.image-input .image-crop:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+  transition: 0.3s;
+}

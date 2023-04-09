@@ -8,7 +8,7 @@ export default function post(dto, file) {
     new Blob([JSON.stringify(dto)], { type: 'application/json' })
   );
   axios
-    .post('http://13.125.49.218:8080/auth/sign-up', formData, {
+    .post('http://localhost:8080/auth/sign-up', formData, {
       headers: {
         'Contest-Type': 'multipart/form-data',
       },
