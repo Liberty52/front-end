@@ -7,7 +7,7 @@ export default function post(dto) {
     new Blob([JSON.stringify(dto)], { type: "application/json" })
   );
   axios
-    .post("http://13.125.49.218:8080/shopping/cart", formData, {
+    .post("http://13.125.49.218:8080/cart-items", formData, {
       headers: {
         "Contest-Type": "multipart/form-data",
       },

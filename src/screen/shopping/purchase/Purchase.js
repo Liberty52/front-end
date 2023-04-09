@@ -1,5 +1,4 @@
 import post from "../../../axios/shopping/Purchase.js";
-import InputGroup from "../../../component/InputGroup";
 import Button from "../../../component/Button";
 import "./Purchase.css";
 import { useState } from "react";
