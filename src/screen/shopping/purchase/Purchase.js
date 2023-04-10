@@ -5,10 +5,12 @@ import { useState } from "react";
 import Select from "react-select";
 
 function PurchaseForm() {
+  const productId = "10101";
+  const ea = "1";
   const [inputValues, setInputValues] = useState({
-    holder: "",
-    material: "",
-    color: "",
+    a: "",
+    b: "",
+    c: "",
   });
   console.log(inputValues);
 
@@ -17,10 +19,11 @@ function PurchaseForm() {
     const holder = e.target.holder.value;
     const material = e.target.material.value;
     const color = e.target.color.value;
+    const list = [holder, material, color];
     const dto = {
-      holder: holder,
-      material: material,
-      color: color,
+      productId: productId,
+      ea: ea,
+      optionRequestList: list,
     };
     console.log(dto);
     post(dto);
@@ -61,21 +64,21 @@ const SelectBox = (props) => {
 
 const holder = [
   { value: "nothing", name: "-선택하세요-" },
-  { value: "easel", name: "이젤 거치형" },
-  { value: "wall", name: "벽걸이형" },
+  { value: "a1", name: "이젤 거치형" },
+  { value: "a2", name: "벽걸이형" },
 ];
 
 const color = [
   { value: "nothing", name: "-선택하세요-" },
-  { value: "glossySilver", name: "유광실버" },
-  { value: "matteSilver", name: "무광실버" },
-  { value: "glossyWhite", name: "유광백색" },
-  { value: "matteWhite", name: "무광백색" },
+  { value: "c1", name: "유광실버" },
+  { value: "c2", name: "무광실버" },
+  { value: "c3", name: "유광백색" },
+  { value: "c4", name: "무광백색" },
 ];
 
 const material = [
   { value: "nothing", name: "-선택하세요-" },
-  { value: "al", name: "1mm 알루미늄시트" },
+  { value: "b1", name: "1mm 알루미늄시트" },
 ];
 
 export default function Purchase() {
