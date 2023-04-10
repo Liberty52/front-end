@@ -1,14 +1,14 @@
-import axios from "axios";
+import axios from '../axios';
 
 export default function getMyInfo() {
-  return new Promise((res) => {
+  return new Promise(res => {
     axios
-      .get("http://liberty52:444/auth/my", {
+      .get('/auth/my', {
         headers: {
-          Authorization: localStorage.getItem("ACCESS_TOKEN"),
+          Authorization: localStorage.getItem('ACCESS_TOKEN'),
         },
       })
-      .then((response) => {
+      .then(response => {
         const info = {
           profileUrl: response.data.profileUrl,
           email: response.data.email,
@@ -17,8 +17,8 @@ export default function getMyInfo() {
         };
         res(info);
       })
-      .catch((e) => {
-        alert("정보를 가져오는데 실패했습니다.");
+      .catch(e => {
+        alert('정보를 가져오는데 실패했습니다.');
       });
   });
 }
