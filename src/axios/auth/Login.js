@@ -1,23 +1,23 @@
-import axios from "axios";
+import axios from '../axios';
 
 export default function post(dto, checked) {
   axios
-    .post("http://liberty52:444/auth/login", JSON.stringify(dto), {
+    .post('/auth/login', JSON.stringify(dto), {
       headers: {
-        "Content-Type": `application/json`,
+        'Content-Type': `application/json`,
       },
     })
-    .then((response) => {
-      alert(response.data.name + "님 환영합니다!");
+    .then(response => {
+      alert(response.data.name + '님 환영합니다!');
       if (checked) {
-        localStorage.setItem("REFRESH_TOKEN", response.headers.refresh);
+        localStorage.setItem('REFRESH_TOKEN', response.headers.refresh);
       }
-      localStorage.setItem("ACCESS_TOKEN", response.headers.access);
-      window.location.replace("/");
+      localStorage.setItem('ACCESS_TOKEN', response.headers.access);
+      window.location.replace('/');
     })
-    .catch((e) => {
+    .catch(e => {
       if (e.response) {
-        if (e.response.status === 401) alert("로그인 실패.");
+        if (e.response.status === 401) alert('로그인 실패.');
       }
     });
 }
@@ -28,9 +28,9 @@ export function findEmail(name, phoneNumber) {
     phoneNumber: phoneNumber,
   };
 
-  return axios.post("http://liberty52:444/find-email", requestBody, {
+  return axios.post('/find-email', requestBody, {
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
   });
 }
@@ -40,9 +40,9 @@ export function sendPasswordResetEmail(email) {
     email: email,
   };
   console.log(email);
-  return axios.post("http://liberty52:444/auth/password/send-mail", data, {
+  return axios.post('/auth/password/send-mail', data, {
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
   });
 }
@@ -52,9 +52,9 @@ export function resetPassword(emailToken, password) {
     emailToken: emailToken,
     password: password,
   };
-  return axios.patch("http://liberty52:444/auth/password", data, {
+  return axios.patch('/auth/password', data, {
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
   });
 }
