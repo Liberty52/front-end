@@ -25,7 +25,7 @@ export function Header() {
       </li>
     );
   }
-  
+
   const [headerItemsRight, setHeaderItemsRight] = useState();
 
   useEffect(() => {
@@ -43,6 +43,7 @@ export function Header() {
           },
           href: '#',
         },
+        { name: '장바구니', href: 'cart' },
         { name: '바로구매', href: '#' },
       ]);
     } else {
