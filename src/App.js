@@ -22,14 +22,8 @@ export default function App() {
         <Route path={'/signUp'} element={<SignUp />}></Route>
         <Route path={'/find'} element={<Find />}></Route>
         <Route path={'/redirect'} element={<Redirect />}></Route>
-        <Route path={"/"} element={<Main />}></Route>
-        <Route path={"/myInfo"} element={<MyInfo />}></Route>
-        <Route path={"/login"} element={<Login />}></Route>
-        <Route path={"/signUp"} element={<SignUp />}></Route>
-        <Route path={"/find"} element={<Find />}></Route>
         <Route path={"/purchase"} element={<Purchase />}></Route>
         <Route path={"/cart"} element={<Cart />}></Route>
-        <Route path={"/redirect"} element={<Redirect />}></Route>
         <Route path={'/product_speaker/:id'} element={<Order />}></Route>
         <Route path={'/auth/password'} element={<ChangePasswordPage />} />
       </Routes>
