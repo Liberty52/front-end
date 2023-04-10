@@ -70,7 +70,9 @@ function FindForm() {
       const phoneNumber = event.target.phone.value;
       findEmail(name, phoneNumber)
         .then(response => {
-          alert('이메일 찾기 성공: ' + response.data.email);
+          const email = response.data.email;
+          const maskedEmail = email.slice(0, 4) + '*'.repeat(email.length - 4);
+          alert('이메일 찾기 성공: ' + maskedEmail);
         })
         .catch(e => {
           if (e.response && e.response.status === 400) {
