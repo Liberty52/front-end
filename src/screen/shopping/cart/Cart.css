@@ -47,3 +47,13 @@
   width: 50%;
   margin-left: 30px;
 }
+
+.delBtn {
+  align-items: center;
+  padding: 5px;
+  margin: 5px 0;
+}
+
+.cartTable {
+  padding: 5px;
+}

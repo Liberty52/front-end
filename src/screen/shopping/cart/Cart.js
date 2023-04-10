@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import './Cart.css';
-import Button from '../../../component/Button';
-import axios from 'axios';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import Table from 'react-bootstrap/Table';
-import { useNavigate } from 'react-router-dom';
-import './CartPrice.css';
+import React, { useState, useEffect } from "react";
+import "./Cart.css";
+import LButton from "../../../component/Button";
+import axios from "axios";
+import "bootstrap/dist/css/bootstrap.min.css";
+import Table from "react-bootstrap/Table";
+import { useNavigate } from "react-router-dom";
+import Button from "react-bootstrap/Button";
+import "./CartPrice.css";
 
 function MypageHeader({ name }) {
   return (
@@ -29,10 +30,28 @@ function CartPage() {
     alert('장바구니에 담긴 상품이 없습니다.');
     // return navigate("/");
   }
+  // const data = [
+  //   {
+  //     name: "Liberty52-Frame",
+  //     holder: "벽걸이",
+  //     material: "알루미늄",
+  //     color: "유광실버",
+  //     price: "50000",
+  //     amount: "1",
+  //   },
+  //   {
+  //     name: "Liberty52-Frame",
+  //     holder: "아치형",
+  //     material: "알루미늄",
+  //     color: "무광실버",
+  //     price: "40000",
+  //     amount: "2",
+  //   },
+  // ];
   return (
     <div>
-      <MypageHeader name={'장바구니'}></MypageHeader>
-      <Table bordered hover>
+      <MypageHeader name={"장바구니"}></MypageHeader>
+      <Table bordered hover className="cartTable">
         <tr>
           <th width="20%">제품명</th>
           <th width="20%">거치방식</th>
@@ -53,12 +72,14 @@ function CartPage() {
                 <th>{item.price}</th>
                 <th>{item.amount}</th>
                 <th>
-                  <button
+                  <Button
+                    variant="outline-danger"
+                    className="delBtn"
                     type="button"
                     onClick={event => handleDeleteClick(event, item.id)}
                   >
-                    삭제
-                  </button>
+                    X
+                  </Button>
                 </th>
               </tr>
             );
@@ -112,7 +133,7 @@ function pay() {}
 const Payment = () => {
   return (
     <div className="payBtn">
-      <Button onClick={pay} text="결제하기" />
+      <LButton onClick={pay} text="결제하기" />
     </div>
   );
 };
