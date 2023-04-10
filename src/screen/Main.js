@@ -8,7 +8,7 @@ import kakaotalk_img from '../image/icon/kakao-talk.png';
 import $ from 'jquery';
 import { useEffect, useState } from 'react';
 
-function Header() {
+export function Header() {
   const headerItemsLeft = [
     { name: '로고', href: '#' },
     { name: '제품소개', href: '#' },
@@ -25,7 +25,7 @@ function Header() {
       </li>
     );
   }
-
+  
   const [headerItemsRight, setHeaderItemsRight] = useState();
 
   useEffect(() => {
@@ -117,7 +117,7 @@ function Section3() {
   );
 }
 
-function Footer() {
+export function Footer() {
   return (
     <footer>
       <div className="inner">
