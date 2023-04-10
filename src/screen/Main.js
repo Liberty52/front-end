@@ -1,18 +1,19 @@
-import "./Main.css";
-import liberty52_img from "../image/icon/liberty52.jpg";
-import chromaluxe_img from "../image/icon/chromaluxe.jpg";
-import speaker_img from "../image/icon/speaker.jpg";
-import youtube_img from "../image/icon/youtube.png";
-import instargram_img from "../image/icon/instagram.png";
-import kakaotalk_img from "../image/icon/kakao-talk.png";
-import $ from "jquery";
+import './Main.css';
+import liberty52_img from '../image/icon/liberty52.jpg';
+import chromaluxe_img from '../image/icon/chromaluxe.jpg';
+import speaker_img from '../image/icon/speaker.jpg';
+import youtube_img from '../image/icon/youtube.png';
+import instargram_img from '../image/icon/instagram.png';
+import kakaotalk_img from '../image/icon/kakao-talk.png';
+import $ from 'jquery';
+import { useEffect, useState } from 'react';
 
-function Header() {
+export function Header() {
   const headerItemsLeft = [
-    { name: "로고", href: "#" },
-    { name: "제품소개", href: "#" },
-    { name: "사업소개", href: "#" },
-    { name: "지점소개(쇼룸)", href: "#" },
+    { name: '로고', href: '#' },
+    { name: '제품소개', href: '#' },
+    { name: '사업소개', href: '#' },
+    { name: '지점소개(쇼룸)', href: '#' },
   ];
 
   const headerLeft = [];
@@ -20,22 +21,47 @@ function Header() {
     let headerItem = headerItemsLeft[i];
     headerLeft.push(
       <li key={headerItem.name}>
-        <a href={"/" + headerItem.href}>{headerItem.name}</a>
+        <a href={'/' + headerItem.href}>{headerItem.name}</a>
       </li>
     );
   }
 
-  const headerItemsRight = [
-    { name: "로그인", href: "login" },
-    { name: "바로구매", href: "purchase" },
-  ];
+  const [headerItemsRight, setHeaderItemsRight] = useState();
+
+  useEffect(() => {
+    if (localStorage.getItem('ACCESS_TOKEN')) {
+      setHeaderItemsRight([
+        { name: '내정보', href: 'myInfo' },
+        {
+          name: '로그아웃',
+          onClick: () => {
+            if (window.confirm('로그아웃하시겠습니까?')) {
+              localStorage.removeItem('ACCESS_TOKEN');
+              localStorage.removeItem('REFRESH_TOKEN');
+              window.location.href = '/';
+            }
+          },
+          href: '#',
+        },
+        { name: '장바구니', href: 'cart' },
+        { name: '바로구매', href: '#' },
+      ]);
+    } else {
+      setHeaderItemsRight([
+        { name: '로그인', href: 'login' },
+        { name: '바로구매', href: '#' },
+      ]);
+    }
+  }, []);
 
   const headerRight = [];
   for (let i in headerItemsRight) {
     let headerItem = headerItemsRight[i];
     headerRight.push(
       <li key={headerItem.name}>
-        <a href={"/" + headerItem.href}>{headerItem.name}</a>
+        <button onClick={headerItem.onClick}>
+          <a href={'/' + headerItem.href}>{headerItem.name}</a>
+        </button>
       </li>
     );
   }
@@ -92,7 +118,7 @@ function Section3() {
   );
 }
 
-function Footer() {
+export function Footer() {
   return (
     <footer>
       <div className="inner">
@@ -132,20 +158,20 @@ function Footer() {
 export default function Main() {
   window.addEventListener(
     // 휠 기본 기능 막기
-    "wheel",
+    'wheel',
     function (e) {
       e.preventDefault();
     },
     { passive: false }
   );
 
-  var mHtml = $("html");
+  var mHtml = $('html');
   var page = 1;
 
   mHtml.animate({ scrollTop: 0 }, 10); // Y가 0이 아닐 경우 대비
 
-  $(window).on("wheel", function (e) {
-    if (mHtml.is(":animated")) return;
+  $(window).on('wheel', function (e) {
+    if (mHtml.is(':animated')) return;
     if (e.originalEvent.deltaY > 0) {
       // deltaY가 양수면 휠을 아래로 내리는 중, 음수면 위로 올리는 중
       if (page === 4) return; // 끝까지 내렸을 때 리턴함으로 휠이동 방지

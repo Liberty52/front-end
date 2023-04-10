@@ -10,7 +10,7 @@ import "./CartPrice.css";
 
 function MypageHeader({ name }) {
   return (
-    <div className="header">
+    <div className="cart-header">
       <h1>{name}</h1>
     </div>
   );
@@ -21,13 +21,13 @@ function CartPage() {
   const navigate = useNavigate();
   const [data, setCartList] = useState([]);
   useEffect(() => {
-    axios.get("http://13.125.49.218:8080/cart").then((response) => {
+    axios.get('http://13.125.49.218:8080/cart').then(response => {
       setCartList(response.data);
     });
   });
   if (!data) return null;
   if (data.length === 0) {
-    alert("장바구니에 담긴 상품이 없습니다.");
+    alert('장바구니에 담긴 상품이 없습니다.');
     // return navigate("/");
   }
   // const data = [
@@ -62,7 +62,7 @@ function CartPage() {
           <th width="5%"></th>
         </tr>
         {data.length > 0 &&
-          data.map((item) => {
+          data.map(item => {
             return (
               <tr>
                 <th>{item.name}</th>
@@ -76,7 +76,7 @@ function CartPage() {
                     variant="outline-danger"
                     className="delBtn"
                     type="button"
-                    onClick={(event) => handleDeleteClick(event, item.id)}
+                    onClick={event => handleDeleteClick(event, item.id)}
                   >
                     X
                   </Button>
@@ -120,10 +120,10 @@ function CartPrice() {
   );
 }
 
-const handleDeleteClick = (itemId) => {
-  if (window.confirm("정말로 삭제하시겠습니까?")) {
+const handleDeleteClick = itemId => {
+  if (window.confirm('정말로 삭제하시겠습니까?')) {
     axios.delete(`http://13.125.49.218:8080/`).then(() => {
-      window.location.replace("/");
+      window.location.replace('/');
     });
   }
 };
@@ -141,10 +141,10 @@ const Payment = () => {
 export default function Cart() {
   return (
     <div className="position">
-      <div className="left">
+      <div className="cart-left">
         <CartPage />
       </div>
-      <div className="right">
+      <div className="cart-right">
         <CartPrice></CartPrice>
         <Payment></Payment>
       </div>
