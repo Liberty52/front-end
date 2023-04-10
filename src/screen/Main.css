@@ -34,10 +34,15 @@ ul {
   display: flex;
   margin: 0;
   list-style-type: none;
+  align-items: center;
 }
 
 .header-items li {
   margin-right: 30px;
+}
+
+.header-items button {
+  margin: 0;
 }
 
 .section {
