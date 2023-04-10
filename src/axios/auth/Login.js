@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export default function post(dto, checked) {
   axios
-    .post('http://13.125.49.218:8080/auth/login', JSON.stringify(dto), {
+    .post('http://localhost:8080/auth/login', JSON.stringify(dto), {
       headers: {
         'Content-Type': `application/json`,
       },
