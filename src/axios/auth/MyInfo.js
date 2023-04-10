@@ -1,18 +1,18 @@
-import axios from 'axios';
+import axios from "axios";
 
 export default function del(memberId) {
-  if (window.confirm('정말로 탈퇴하시겠습니까?')) {
+  if (window.confirm("정말로 탈퇴하시겠습니까?")) {
     axios
-      .delete(`http://13.125.49.218:8080/auth/member`, {
+      .delete(`http://liberty52:444/auth/member`, {
         headers: {
-          Authorization: localStorage.getItem('ACCESS_TOKEN'),
+          Authorization: localStorage.getItem("ACCESS_TOKEN"),
         },
       })
       .then(() => {
         localStorage.clear();
-        alert('탈퇴가 성공적으로 이루어졌습니다.');
+        alert("탈퇴가 성공적으로 이루어졌습니다.");
         // navigate("/");
       })
-      .catch(err => alert(err.response.data.message));
+      .catch((err) => alert(err.response.data.message));
   }
 }
