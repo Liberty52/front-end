@@ -21,7 +21,7 @@ function CartPage() {
   const navigate = useNavigate();
   const [data, setCartList] = useState([]);
   useEffect(() => {
-    axios.get("http://liberty52:444/product/cart-items").then((response) => {
+    axios.get("https://liberty52:444/product/cart-items").then((response) => {
       setCartList(response.data);
     });
   });
@@ -123,7 +123,7 @@ function CartPrice() {
 const handleDeleteClick = (itemId) => {
   if (window.confirm("정말로 삭제하시겠습니까?")) {
     axios
-      .delete(`http://liberty52:444/product/cart-items/cartItemId`, {
+      .delete(`https://liberty52:444/product/cart-items/cartItemId`, {
         headers: {
           Authorization: localStorage.getItem("ACCESS_TOKEN"),
         },
