@@ -4,9 +4,7 @@ import Button from '../../../component/Button';
 import Image from '../../../component/Image';
 import ImageInput from '../../../component/ImageInput';
 import Input from '../../../component/Input';
-import del from '../../../axios/auth/MyInfo.js';
-import putMyInfo from '../../../axios/auth/PutMyInfo';
-import getMyInfo from '../../../axios/auth/GetMyInfo';
+import { delMyInfo, putMyInfo, getMyInfo } from '../../../axios/auth/MyInfo';
 import Logo from '../../../component/Logo';
 import { useState, useEffect } from 'react';
 
@@ -63,7 +61,7 @@ function ButtonGroup(props) {
   ) : (
     <div className="myInfo-button-group">
       <Button text="정보 수정" onClick={props.setUpdateMode} />
-      <Button text="회원 탈퇴" onClick={del} />
+      <Button text="회원 탈퇴" onClick={delMyInfo} />
     </div>
   );
 }
