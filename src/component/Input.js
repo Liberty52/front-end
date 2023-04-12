@@ -3,7 +3,8 @@ import { useState } from 'react';
 
 export default function Input(props) {
   const inputItem = props.inputItem;
-  const [value, setValue] = useState(inputItem.value);
+  const [value, setValue] = useState('');
+  setValue(inputItem.value);
   return (
     <div className="input-block">
       <input
