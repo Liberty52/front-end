@@ -1,4 +1,5 @@
 import axios from '../axios';
+import Select from 'react-select';
 
 export default function post(dto) {
   const formData = new FormData();

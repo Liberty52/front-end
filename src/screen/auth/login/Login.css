@@ -6,6 +6,14 @@
   align-items: center;
 }
 
+.login-header {
+  margin-bottom: 40px;
+}
+
+.login-logo {
+  width: 170px;
+}
+
 .company-login,
 .social-login {
   width: 350px;
@@ -56,6 +64,7 @@
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 999;
 }
+
 .modal.is-active {
   display: flex;
 }
@@ -64,15 +73,21 @@
   background-color: white;
   padding: 20px;
   border-radius: 10px;
+  width: 100%;
 }
 
-@media screen and (max-width: 500px) {
-  .company-login,
-  .social-login {
-    width: 70%;
-  }
+/*수정*/
+.find-button {
+  background: none;
+  border: none;
+  color: blue;
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 14px;
+}
 
-  .border {
-    width: 76%;
+@media screen and (min-width: 501px) {
+  .modal.is-active .modal-content {
+    width: 350px;
   }
 }
