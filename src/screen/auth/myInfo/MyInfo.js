@@ -79,7 +79,7 @@ function MyInfoForm(props) {
         const updatePassword = event.target.updatePassword.value;
         const confirm = event.target.confirm.value;
         const phoneNumber = event.target.phoneNumber.value;
-        const file = event.target.file.value;
+        const file = event.target.file.files[0];
         const dto = {
           name: name,
           originPassword: originPassword,
