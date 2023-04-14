@@ -28,7 +28,7 @@ export function findEmail(name, phoneNumber) {
     phoneNumber: phoneNumber,
   };
 
-  return axios.post('/find-email', requestBody, {
+  return axios.post('/auth/find-email', requestBody, {
     headers: {
       'Content-Type': 'application/json',
     },

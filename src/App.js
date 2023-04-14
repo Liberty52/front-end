@@ -10,6 +10,7 @@ import Purchase from "./screen/shopping/purchase/Purchase";
 import Cart from "./screen/shopping/cart/Cart";
 import Order from './screen/product/Order';
 import ChangePasswordPage from './screen/auth/redirect/ChangePasswordPage';
+import Inquiry from "./screen/shopping/inquiry/inquiry";
 import "./app.css";
 
 export default function App() {
@@ -26,8 +27,8 @@ export default function App() {
         <Route path={"/cart"} element={<Cart />}></Route>
         <Route path={'/product_speaker/:id'} element={<Order />}></Route>
         <Route path={'/auth/password'} element={<ChangePasswordPage />} />
+        <Route path={'/inquiry'} element={<Inquiry />} />
       </Routes>
     </BrowserRouter>
   );
 }
-

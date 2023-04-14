@@ -15,7 +15,7 @@ const getProductDetailAPI = (id) => {
                 { value: 'strawberry', label: 'Strawberry' },
                 { value: 'vanilla', label: 'Vanilla' },
             ],
-            
+
             material: [
                 { value: 'chocolate', label: 'Chocolate' },
                 { value: 'strawberry', label: 'Strawberry' },
@@ -44,7 +44,7 @@ const Order = () => {
             </div>
             <div className="order">
                 <div className="order-image">
-                    <img src={imageUrl} /> 
+                    <img src={imageUrl} />
                 </div>
                 <div className='order-inputs'>
                     <div className="order-inputs-selects">
@@ -62,7 +62,7 @@ const Order = () => {
                     </div>
                 </div>
             </div>
-        </div>  
+        </div>
         </>
     )
 }

@@ -66,7 +66,7 @@ function FindForm() {
     event.preventDefault();
     if (activeTab === 'id') {
       const name = event.target.name.value;
-      const phoneNumber = event.target.phone.value;
+      const phoneNumber = event.target.phoneNumber.value;
       findEmail(name, phoneNumber)
         .then(response => {
           const email = response.data.email;
@@ -133,11 +133,12 @@ function FindForm() {
 
 function IdInput() {
   const loginItems = [
-    { type: 'name', name: 'name', required: true },
-    { type: 'phone', name: 'phone number', required: true }
+    { type: 'text', name: 'name', required: true, label: '이름' },
+    { type: 'tel', name: 'phoneNumber', required: true, label: '휴대전화 번호' },
   ];
   return <InputGroup inputItems={loginItems} />;
 }
+
 
 function PasswordInput() {
   const loginItems = [
