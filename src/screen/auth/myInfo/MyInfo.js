@@ -12,6 +12,7 @@ function InfoGroup(props) {
   const updateMode = props.updateMode;
   const inputItems = props.inputItems;
   const infoItems = props.infoItems;
+  const image = props.image;
 
   let returnValue = [];
   if (updateMode) {
@@ -43,7 +44,7 @@ function InfoGroup(props) {
   return (
     <div className="myInfo-info-group">
       <div className="myInfo-image-wrapper">
-        {updateMode ? <ImageInput image={props.image} /> : <Image />}
+        {updateMode ? <ImageInput image={image} /> : <Image image={image} />}
       </div>
       <table className="myInfo-table">
         <tbody>{returnValue}</tbody>
@@ -114,7 +115,9 @@ function MyInfoForm(props) {
 
 export default function MyInfo() {
   useEffect(() => {
-    getMyInfo().then(res => setMyInfo(res));
+    getMyInfo().then(res => {
+      setMyInfo(res);
+    });
   }, []);
 
   const [myInfo, setMyInfo] = useState();
