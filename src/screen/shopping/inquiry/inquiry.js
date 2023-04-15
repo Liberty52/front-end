@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './inquiry.css';
-import { fetchOrders } from '../../../axios/Inquiry/Inquiry';
+import { fetchOrders } from '../../../axios/inquiry/Inquiry';
 
 import youtube_img from '../../../image/icon/youtube.png';
 import instargram_img from '../../../image/icon/instagram.png';
@@ -159,8 +159,6 @@ function OrderList() {
 </>
   );
 }
-
-
 
 export default function inquiry() {
   return (
