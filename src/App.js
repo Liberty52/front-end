@@ -23,7 +23,7 @@ export default function App() {
         <Route path={"/redirect"} element={<Redirect />}></Route>
         <Route path={"/purchase"} element={<Purchase />}></Route>
         <Route path={"/cart"} element={<Cart />}></Route>
-        <Route path={"/product/order"} element={<Order />}></Route>
+        <Route path={"/order"} element={<Order />}></Route>
         <Route path={"/auth/password"} element={<ChangePasswordPage />} />
       </Routes>
     </BrowserRouter>

@@ -10,6 +10,7 @@ const Order = () => {
     basic_material: "",
     add_material: "",
     add_image: "",
+    quantity: 1,
   });
   const navigate = useNavigate();
   const onHandleChange = (e) => {
@@ -20,15 +21,18 @@ const Order = () => {
   };
   const onHandleSubmit = (e) => {
     e.preventDefault();
-    navigate("payment", {
+    navigate("/payment", {
       state: {
         mounting_method: `${formValue.mounting_method}`,
         basic_material: `${formValue.basic_material}`,
         add_material: `${formValue.add_material}`,
         add_image: `${formValue.add_image}`,
+        quantity: `${formValue.quantity}`,
       },
     });
   };
+  const defaultPrice = 1550000;
+  const [price, setPrice] = useState(defaultPrice);
   return (
     <>
       <Header />
@@ -44,7 +48,7 @@ const Order = () => {
             <div className="order-inputs-selects">
               <div className="mounting-method">
                 <h3>거치 방식을 선택하세요</h3>
-                <div className="easel">
+                <div className="radio-btn">
                   <label>
                     <input
                       type="radio"
@@ -56,7 +60,7 @@ const Order = () => {
                     이젤 거치형
                   </label>
                 </div>
-                <div className="wall">
+                <div className="radio-btn">
                   <label>
                     <input
                       type="radio"
@@ -70,16 +74,18 @@ const Order = () => {
               </div>
               <div className="basic-material">
                 <h3>기본소재를 선택하세요</h3>
-                <label>
-                  <input
-                    type="radio"
-                    name="basic_material"
-                    value="1mm 두께 승화전사 인쇄용 알루미늄시트"
-                    required
-                    onChange={onHandleChange}
-                  />
-                  1mm 두께 승화전사 인쇄용 알루미늄시트
-                </label>
+                <div className="radio-btn">
+                  <label>
+                    <input
+                      type="radio"
+                      name="basic_material"
+                      value="1mm 두께 승화전사 인쇄용 알루미늄시트"
+                      required
+                      onChange={onHandleChange}
+                    />
+                    1mm 두께 승화전사 인쇄용 알루미늄시트
+                  </label>
+                </div>
               </div>
               <div className="add-material">
                 <h3>추가 하고 싶은 기본소재 옵션을 선택하세요</h3>
@@ -123,15 +129,35 @@ const Order = () => {
               </div>
               <div className="add-image">
                 <h3>나만의 개성을 추가해봐요</h3>
+                <div className="radio-btn">
+                  <label>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      name="add_image"
+                      required
+                      onChange={onHandleChange}
+                    />
+                    배경 이미지 추가하기
+                  </label>
+                </div>
+              </div>
+              <div className="quantity">
+                Liberty52_frame
                 <input
-                  type="file"
-                  accept="image/*"
-                  name="add_image"
+                  type="number"
+                  name="quantity"
+                  value={formValue.quantity}
                   required
-                  onChange={onHandleChange}
+                  onChange={(e) => {
+                    onHandleChange(e);
+                    setPrice(defaultPrice * e.target.value);
+                  }}
                 />
+                {price}원
               </div>
               <input type="submit" value="구매하기" />
+              <button>장바구니</button>
             </div>
           </form>
         </div>

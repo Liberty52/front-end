@@ -44,12 +44,12 @@ export function Header() {
           href: "#",
         },
         { name: "장바구니", href: "cart" },
-        { name: "구매하기", href: "product/order" },
+        { name: "구매하기", href: "order" },
       ]);
     } else {
       setHeaderItemsRight([
         { name: "로그인", href: "login" },
-        { name: "구매하기", href: "product/order" },
+        { name: "구매하기", href: "order" },
       ]);
     }
   }, []);
@@ -82,7 +82,7 @@ function Section() {
         <div className="text3">내가 만드는 세상 유일</div>
       </div>
       <div>
-        <a href="/product/order">구매하기</a>
+        <a href="/order">구매하기</a>
       </div>
       <div>
         <img className="image" src={liberty52_img} alt="Liberty52_frame"></img>
