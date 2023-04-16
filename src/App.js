@@ -9,9 +9,9 @@ import Cart from './screen/shopping/cart/Cart';
 import Order from './screen/product/Order';
 import Payment from './screen/product/payment/Payment';
 import ChangePasswordPage from './screen/auth/redirect/ChangePasswordPage';
-import './app.css';
-import Editor from './screen/product/Editor';
-import Provider from './Provider';
+import Inquiry from "./screen/shopping/inquiry/Inquiry";
+import Detail from "./screen/shopping/detail/Detail";
+import "./app.css";
 
 export default function App() {
   return (
@@ -23,12 +23,12 @@ export default function App() {
         <Route path={'/login'} element={<Login />}></Route>
         <Route path={'/signUp'} element={<SignUp />}></Route>
         <Route path={'/redirect'} element={<Redirect />}></Route>
-        <Route path={'/purchase'} element={<Purchase />}></Route>
-        <Route path={'/cart'} element={<Cart />}></Route>
-        <Route path={'/editor'} element={<Editor />} />
-        <Route path={'/payment'} element={<Payment />}></Route>
-        <Route path={'/order'} element={<Order />}></Route>
+        <Route path={"/purchase"} element={<Purchase />}></Route>
+        <Route path={"/cart"} element={<Cart />}></Route>
+        <Route path={'/product_speaker/:id'} element={<Order />}></Route>
         <Route path={'/auth/password'} element={<ChangePasswordPage />} />
+        <Route path={'/inquiry'} element={<Inquiry />} />
+        <Route path={'/detail/:orderId'} element={<Detail />} />
       </Routes>
     </BrowserRouter>
     </Provider>

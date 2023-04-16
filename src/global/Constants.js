@@ -1,4 +1,5 @@
-import { SOCIAL_LOGIN_URL } from "./url";
+import { SOCIAL_LOGIN_URL } from './url';
+
 const SOCIAL_LOGIN_PROVIDER = {
   NAVER: {
     text: "네이버 로그인",
@@ -23,3 +24,6 @@ const SOCIAL_LOGIN_PROVIDER = {
 };
 
 export { SOCIAL_LOGIN_PROVIDER };
+export const API_LOGIN_GOOGLE = `${SOCIAL_LOGIN_URL}/google`;
+export const API_LOGIN_FACEBOOK = `${SOCIAL_LOGIN_URL}/facebook`;
+export const API_LOGIN_NAVER = `${SOCIAL_LOGIN_URL}/naver`;

@@ -12,32 +12,32 @@ export default function ChangePasswordPage() {
     const [isSuccess, setIsSuccess] = useState(false);
     const navigate = useNavigate();
     const [searchParams, setSearchParams] = useSearchParams();
-  
+
     useEffect(() => {
       const emailToken = searchParams.get("emailToken");
       const limitTime = searchParams.get("limitTime");
-  
+
       // Check if emailToken and limitTime are valid
       // If not, set errorMessage and return
-  
+
       // Check if the time limit has expired
       // If it has, set errorMessage and return
-  
+
     }, [searchParams]);
-  
+
     const handleSubmit = async (e) => {
       e.preventDefault();
-  
+
       if (newPassword !== confirmNewPassword) {
         setErrorMessage("새로운 비밀번호와 새로운 비밀번호 확인이 일치하지 않습니다.");
         return;
       }
-  
+
       try {
         const emailToken = searchParams.get("emailToken");
-  
+
         const response = await resetPassword(emailToken, newPassword);
-  
+
         console.log(response.data);
         // 비밀번호 변경 성공 메시지 처리
         setIsSuccess(true);

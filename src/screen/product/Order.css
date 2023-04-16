@@ -105,7 +105,13 @@ h2 {
     width: 85%;
   }
 
+<<<<<<< HEAD
+    .order-inputs {
+        width: 85%;
+    }
+=======
   .order-inputs {
     width: 85%;
   }
+>>>>>>> main
 }

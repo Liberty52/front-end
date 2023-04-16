@@ -1,3 +1,52 @@
+<<<<<<< HEAD
+import './Order.css';
+import Dropdown from "../../component/Dropdown";
+import Button from '../../component/Button';
+import { useParams } from 'react-router-dom';
+import { Header } from '../Main';
+
+const getProductDetailAPI = (id) => {
+    return {
+        id,
+        name: "Adhesive Screen Surface",
+        imageUrl: "https://cdn.imweb.me/thumbnail/20220317/b40c227b9356f.jpg",
+        productOptions: {
+            holder: [
+                { value: 'chocolate', label: 'Chocolate' },
+                { value: 'strawberry', label: 'Strawberry' },
+                { value: 'vanilla', label: 'Vanilla' },
+            ],
+
+            material: [
+                { value: 'chocolate', label: 'Chocolate' },
+                { value: 'strawberry', label: 'Strawberry' },
+                { value: 'vanilla', label: 'Vanilla' },
+            ],
+            materialOption: [
+                { value: 'chocolate', label: 'Chocolate' },
+                { value: 'strawberry', label: 'Strawberry' },
+                { value: 'vanilla', label: 'Vanilla' },
+            ]
+        }
+    }
+}
+
+const Order = () => {
+    const { id } = useParams();
+
+    const { name, imageUrl, productOptions } = getProductDetailAPI(id); // just mock api
+
+    return (
+        <>
+        <Header/>
+        <div className="order-wrap">
+            <div className='order-title'>
+                <h2>{name}</h2>
+            </div>
+            <div className="order">
+                <div className="order-image">
+                    <img src={imageUrl} />
+=======
 import "./Order.css";
 import { Header, Footer } from "../Main";
 import { useState } from "react";
@@ -59,6 +108,7 @@ const Order = () => {
                     />
                     이젤 거치형
                   </label>
+>>>>>>> main
                 </div>
                 <div className="radio-btn">
                   <label>
@@ -159,6 +209,12 @@ const Order = () => {
               <input type="submit" value="구매하기" />
               <button>장바구니</button>
             </div>
+<<<<<<< HEAD
+        </div>
+        </>
+    )
+}
+=======
           </form>
         </div>
       </div>
@@ -166,5 +222,6 @@ const Order = () => {
     </>
   );
 };
+>>>>>>> main
 
 export default Order;
