@@ -7,7 +7,7 @@ import instargram_img from '../image/icon/instagram.png';
 import kakaotalk_img from '../image/icon/kakao-talk.png';
 import $ from 'jquery';
 import { useEffect, useState } from 'react';
-
+import { useHistory } from 'react-router-dom';
 export function Header() {
   const headerItemsLeft = [
     { name: '로고', href: '#' },

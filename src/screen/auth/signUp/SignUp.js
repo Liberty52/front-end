@@ -10,13 +10,13 @@ function SignUpForm() {
     <form
       className="signUp-form"
       onSubmit={event => {
-        //event.preventDefault();
+        event.preventDefault();
         const email = event.target.email.value;
         const password = event.target.password.value;
         const phoneNumber = event.target.phoneNumber.value;
         const name = event.target.name.value;
         const recommender = event.target.recommender.value;
-        const file = event.target.file.value;
+        const file = event.target.file.files[0];
         const dto = {
           email: email,
           password: password,
@@ -63,4 +63,3 @@ export default function SignUp() {
     </div>
   );
 }
-

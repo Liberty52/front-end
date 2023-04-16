@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import './inquiry.css';
+import './Inquiry.css';
 import { fetchOrders } from '../../../axios/inquiry/Inquiry';
 
 import youtube_img from '../../../image/icon/youtube.png';
 import instargram_img from '../../../image/icon/instagram.png';
 import kakaotalk_img from '../../../image/icon/kakao-talk.png';
+import { useNavigate } from 'react-router-dom';
+
+
 
 export function Header() {
   const headerItemsLeft = [
@@ -110,8 +113,10 @@ export async function getAccessToken() {
   return localStorage.getItem('ACCESS_TOKEN');
 }
 
+
 function OrderList() {
   const [orders, setOrders] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchOrdersData = async () => {
@@ -126,40 +131,62 @@ function OrderList() {
 
     fetchOrdersData();
   }, []);
+  function goToDetail(orderId) {
+    navigate(`/detail/${orderId}`);
+  }
 
   return (
-<>
-<div className="content">
-  <div className="TCheck">----확인해주십시오.</div>
-  <div className="section">
-  <div>
-      {orders.map((order) => (
-        <div key={order.orderId}>
-          <h2>{order.orderId}</h2>
-          <p>{order.orderDate}</p>
-          <p>{order.orderStatus}</p>
-          <p>{order.address}</p>
-          <p>{order.receiverEmail}</p>
-          <p>{order.receiverPhoneNumber}</p>
-          <p>{order.receiverName}</p>
-          <img src={order.productRepresentUrl} alt="representative" />
-          <ul>
-            {order.products.map((product) => (
-              <li key={product.name}>
-                {product.name} - {product.quantity}개 / {product.price}원
-              </li>
-            ))}
-          </ul>
+    <>
+    <div className='InquiryWrapper'>
+      <div className="content">
+        <div className="TCheck">----확인해주십시오.</div>
+        <div className="sectionOrder">
+          {orders.map((order) => (
+            <div key={order.orderId} className="order-container"
+              onClick={() => goToDetail(order.orderId)}>
+                <h5>{order.orderId}</h5>
+                <img src={order.productRepresentUrl} alt="representative" className='productRepresentUrl'/>
+              <div className="order-right">
+                <div className="order-right-top">
+                  <ul>
+                    {order.products.map((product) => (
+                      <li className="product-item" key={product.name}>
+                        <p>{product.name}</p>
+                        <p>{product.quantity} 수량</p>
+                        <p>₩{product.price.toLocaleString()}</p>
+
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div className="order-right-bottom">
+                  <p className='address2'>
+                    <p className='address1'>배송지: </p>
+                    <p className="address">{order.address}</p>
+                  </p>
+                  <div className="personal-info">
+                    <p>연락처 정보: </p>
+                    <p className='email'>{order.receiverEmail}</p>
+                    <p className='phonenumber'>{order.receiverPhoneNumber}</p>
+                    <p className='Ordername'>{order.receiverName}</p>
+                  </div>
+                  <p className='date'>{order.orderDate}</p>
+                  <p className="order-status">{order.orderStatus}</p>
+                      {order.orderStatus === 'ORDERED' && (
+                        <button className="cancel">취소</button>
+                      )}
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
-      ))}
-    </div>
-  </div>
-</div>
-
-</>
+      </div>
+      </div>
+    </>
   );
-}
 
+                    }
 export default function inquiry() {
   return (
 <>
@@ -169,3 +196,4 @@ export default function inquiry() {
     </>
   );
 }
+
