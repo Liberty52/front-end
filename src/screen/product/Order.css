@@ -1,70 +1,78 @@
+.header {
+  position: static;
+}
+h3 {
+  text-align: center;
+}
+h2 {
+  text-align: start;
+}
 .order {
-    display: flex;
-    justify-content: space-evenly;
-    align-items: stretch;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: stretch;
 }
 
 .order-wrap {
-    margin-top: 20px;
+  margin-top: 20px;
 }
 
 .order-title {
-    text-align: right;
-    margin-right: 5%
+  text-align: right;
+  margin-right: 5%;
 }
 
 .order-image {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    width: 45%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 45%;
 }
 
 .order-inputs {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 45%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 45%;
 }
 
 .order-inputs-selects {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .order-inputs-select {
-    margin: 20px;
+  margin: 20px;
 }
 
 .order-inputs-buttons {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 
 .order-inputs-button {
-    width: 45%;
-    margin: 0 2.5%;
+  width: 45%;
+  margin: 0 2.5%;
 }
 
-
 @media screen and (max-width: 500px) {
-    .order {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-    }
+  .order {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
 
-    .order-title {
-        text-align: center;
-    }
+  .order-title {
+    text-align: center;
+  }
 
-    .order-image {
-        width: 85%;
-    }
+  .order-image {
+    width: 85%;
+  }
 
-    .order-inputs {
-        width: 85%;
-    }
+  .order-inputs {
+    width: 85%;
+  }
 }
