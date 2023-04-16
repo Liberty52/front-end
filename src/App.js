@@ -10,10 +10,13 @@ import Order from './screen/product/Order';
 import Payment from './screen/product/payment/Payment';
 import ChangePasswordPage from './screen/auth/redirect/ChangePasswordPage';
 import './app.css';
+import Editor from './screen/product/Editor';
+import Provider from './Provider';
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <Provider>
+      <BrowserRouter>
       <Routes>
         <Route path={'/'} element={<Main />}></Route>
         <Route path={'/myInfo'} element={<MyInfo />}></Route>
@@ -22,10 +25,12 @@ export default function App() {
         <Route path={'/redirect'} element={<Redirect />}></Route>
         <Route path={'/purchase'} element={<Purchase />}></Route>
         <Route path={'/cart'} element={<Cart />}></Route>
+        <Route path={'/editor'} element={<Editor />} />
         <Route path={'/payment'} element={<Payment />}></Route>
         <Route path={'/order'} element={<Order />}></Route>
         <Route path={'/auth/password'} element={<ChangePasswordPage />} />
       </Routes>
     </BrowserRouter>
+    </Provider>
   );
 }
