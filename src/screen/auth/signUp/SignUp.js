@@ -1,15 +1,15 @@
-import './SignUp.css';
-import post from '../../../axios/auth/SignUp.js';
-import InputGroup from '../../../component/InputGroup';
-import ImageInput from '../../../component/ImageInput';
-import Button from '../../../component/Button';
-import Logo from '../../../component/Logo';
+import "./SignUp.css";
+import post from "../../../axios/auth/SignUp.js";
+import InputGroup from "../../../component/InputGroup";
+import ImageInput from "../../../component/ImageInput";
+import Button from "../../../component/Button";
+import Logo from "../../../component/Logo";
 
 function SignUpForm() {
   return (
     <form
       className="signUp-form"
-      onSubmit={event => {
+      onSubmit={(event) => {
         event.preventDefault();
         const email = event.target.email.value;
         const password = event.target.password.value;
@@ -24,6 +24,7 @@ function SignUpForm() {
           name: name,
           recommender: recommender,
         };
+        console.log(dto, file);
         post(dto, file);
       }}
     >
@@ -39,18 +40,18 @@ function SignUpForm() {
 
 function SignUpInput() {
   const signUpItems = [
-    { type: 'email', name: 'email', required: true },
-    { type: 'password', name: 'password', required: true, maxLength: 25 },
+    { type: "email", name: "email", required: true },
+    { type: "password", name: "password", required: true, maxLength: 25 },
     {
-      type: 'text',
-      name: 'phoneNumber',
+      type: "text",
+      name: "phoneNumber",
       required: true,
-      pattern: '01[0,1][0-9]{6,8}',
+      pattern: "01[0,1][0-9]{6,8}",
       maxLength: 11,
-      title: 'ex) 01012341234',
+      title: "ex) 01012341234",
     },
-    { type: 'text', name: 'name', required: true, maxLength: 25 },
-    { type: 'text', name: 'recommender', required: false, maxLength: 25 },
+    { type: "text", name: "name", required: true, maxLength: 25 },
+    { type: "text", name: "recommender", required: false, maxLength: 25 },
   ];
   return <InputGroup inputItems={signUpItems} />;
 }
