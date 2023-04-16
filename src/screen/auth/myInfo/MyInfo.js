@@ -4,9 +4,7 @@ import Button from '../../../component/Button';
 import Image from '../../../component/Image';
 import ImageInput from '../../../component/ImageInput';
 import Input from '../../../component/Input';
-import del from '../../../axios/auth/MyInfo.js';
-import putMyInfo from '../../../axios/auth/PutMyInfo';
-import getMyInfo from '../../../axios/auth/GetMyInfo';
+import { delMyInfo, putMyInfo, getMyInfo } from '../../../axios/auth/MyInfo';
 import Logo from '../../../component/Logo';
 import { useState, useEffect } from 'react';
 
@@ -14,6 +12,7 @@ function InfoGroup(props) {
   const updateMode = props.updateMode;
   const inputItems = props.inputItems;
   const infoItems = props.infoItems;
+  const image = props.image;
 
   let returnValue = [];
   if (updateMode) {
@@ -45,7 +44,7 @@ function InfoGroup(props) {
   return (
     <div className="myInfo-info-group">
       <div className="myInfo-image-wrapper">
-        {updateMode ? <ImageInput image={props.image} /> : <Image />}
+        {updateMode ? <ImageInput image={image} /> : <Image image={image} />}
       </div>
       <table className="myInfo-table">
         <tbody>{returnValue}</tbody>
@@ -63,7 +62,7 @@ function ButtonGroup(props) {
   ) : (
     <div className="myInfo-button-group">
       <Button text="정보 수정" onClick={props.setUpdateMode} />
-      <Button text="회원 탈퇴" onClick={del} />
+      <Button text="회원 탈퇴" onClick={delMyInfo} />
     </div>
   );
 }
@@ -81,7 +80,7 @@ function MyInfoForm(props) {
         const updatePassword = event.target.updatePassword.value;
         const confirm = event.target.confirm.value;
         const phoneNumber = event.target.phoneNumber.value;
-        const file = event.target.file.value;
+        const file = event.target.file.files[0];
         const dto = {
           name: name,
           originPassword: originPassword,
@@ -116,7 +115,9 @@ function MyInfoForm(props) {
 
 export default function MyInfo() {
   useEffect(() => {
-    getMyInfo().then(res => setMyInfo(res));
+    getMyInfo().then(res => {
+      setMyInfo(res);
+    });
   }, []);
 
   const [myInfo, setMyInfo] = useState();

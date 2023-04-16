@@ -1,21 +1,21 @@
-import "./Login.css";
-import post from "../../../axios/auth/Login.js";
+import './Login.css';
+import post from '../../../axios/auth/Login.js';
 import {
   findEmail,
   sendPasswordResetEmail,
-} from "../../../axios/auth/Login.js";
-import Checkbox from "../../../component/Checkbox";
-import InputGroup from "../../../component/InputGroup";
-import Button from "../../../component/Button";
-import logo from "../../../image/icon/logo.png";
-import React, { useState, useEffect } from "react";
-import SocialLoginButton from "../../../component/SocialLoginButton";
-import { SOCIAL_LOGIN_PROVIDER } from "../../../global/Constants";
+} from '../../../axios/auth/Login.js';
+import Checkbox from '../../../component/Checkbox';
+import InputGroup from '../../../component/InputGroup';
+import Button from '../../../component/Button';
+import Logo from '../../../component/Logo';
+import React, { useState, useEffect } from 'react';
+import SocialLoginButton from '../../../component/SocialLoginButton';
+import { SOCIAL_LOGIN_PROVIDER } from '../../../global/Constants';
 
 function LoginInput() {
   const loginItems = [
-    { type: "email", name: "email", required: true },
-    { type: "password", name: "password", required: true },
+    { type: 'email', name: 'email', required: true },
+    { type: 'password', name: 'password', required: true },
   ];
 
   return <InputGroup inputItems={loginItems} />;
@@ -25,7 +25,7 @@ function LoginForm() {
   return (
     <form
       className="login-form"
-      onSubmit={(event) => {
+      onSubmit={event => {
         event.preventDefault();
         const email = event.target.email.value;
         const password = event.target.password.value;
@@ -51,7 +51,7 @@ function PasswordRecoveryModal({ showModal, closeModal }) {
   }
 
   return (
-    <div className={`modal${showModal ? " is-active" : ""}`}>
+    <div className={`modal${showModal ? ' is-active' : ''}`}>
       <div className="modal-content">
         <h2>아이디/비밀번호 찾기</h2>
         <FindForm />
@@ -62,38 +62,38 @@ function PasswordRecoveryModal({ showModal, closeModal }) {
 }
 
 function FindForm() {
-  const [activeTab, setActiveTab] = useState("id");
+  const [activeTab, setActiveTab] = useState('id');
 
-  const handleTabClick = (e) => {
+  const handleTabClick = e => {
     setActiveTab(e.target.value);
   };
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async event => {
     event.preventDefault();
-    if (activeTab === "id") {
+    if (activeTab === 'id') {
       const name = event.target.name.value;
       const phoneNumber = event.target.phone.value;
       findEmail(name, phoneNumber)
-        .then((response) => {
+        .then(response => {
           const email = response.data.email;
-          const maskedEmail = email.slice(0, 4) + "*".repeat(email.length - 4);
-          alert("이메일 찾기 성공: " + maskedEmail);
+          const maskedEmail = email.slice(0, 4) + '*'.repeat(email.length - 4);
+          alert('이메일 찾기 성공: ' + maskedEmail);
         })
-        .catch((e) => {
+        .catch(e => {
           if (e.response && e.response.status === 400) {
-            alert("이메일 찾기 실패");
+            alert('이메일 찾기 실패');
           }
         });
-    } else if (activeTab === "password") {
+    } else if (activeTab === 'password') {
       const email = event.target.email.value;
       console.log(email);
       try {
         const response = await sendPasswordResetEmail(email);
         // 비밀번호 찾기 성공 시 처리
-        console.log("비밀번호 찾기 메일 전송 성공", response);
+        console.log('비밀번호 찾기 메일 전송 성공', response);
       } catch (error) {
         // 비밀번호 찾기 실패 시 처리
-        console.error("비밀번호 찾기 메일 전송 실패", error.response);
+        console.error('비밀번호 찾기 메일 전송 실패', error.response);
       }
     }
   };
@@ -108,7 +108,7 @@ function FindForm() {
             value="id"
             defaultChecked
             onClick={handleTabClick}
-          />{" "}
+          />{' '}
           아이디
         </label>
         <label>
@@ -117,17 +117,17 @@ function FindForm() {
             name="tab"
             value="password"
             onClick={handleTabClick}
-          />{" "}
+          />{' '}
           비밀번호
         </label>
       </div>
-      <div className="tab-content" style={{ marginTop: "0.5rem" }}>
-        {activeTab === "id" && (
+      <div className="tab-content" style={{ marginTop: '0.5rem' }}>
+        {activeTab === 'id' && (
           <div className="tab-pane active">
             <IdInput />
           </div>
         )}
-        {activeTab === "password" && (
+        {activeTab === 'password' && (
           <div className="tab-pane">
             <PasswordInput />
           </div>
@@ -140,14 +140,14 @@ function FindForm() {
 
 function IdInput() {
   const loginItems = [
-    { type: "name", name: "name", required: true },
-    { type: "phone", name: "phone number", required: true },
+    { type: 'name', name: 'name', required: true },
+    { type: 'phone', name: 'phone number', required: true },
   ];
   return <InputGroup inputItems={loginItems} />;
 }
 
 function PasswordInput() {
-  const loginItems = [{ type: "email", name: "email", required: true }];
+  const loginItems = [{ type: 'email', name: 'email', required: true }];
   return <InputGroup inputItems={loginItems} />;
 }
 
@@ -196,20 +196,10 @@ function Border() {
   return <div className="border"></div>;
 }
 
-function LoginHeader() {
-  return (
-    <div className="login-header">
-      <a href="/">
-        <img className="login-logo" src={logo} />
-      </a>
-    </div>
-  );
-}
-
 export default function Login() {
   return (
     <div className="login">
-      <LoginHeader />
+      <Logo />
       <CompanyLogin />
       <Border />
       <SocialLogin />

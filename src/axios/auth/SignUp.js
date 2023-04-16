@@ -10,7 +10,7 @@ export default function post(dto, file) {
   axios
     .post('/auth/sign-up', formData, {
       headers: {
-        'Contest-Type': 'multipart/form-data',
+        'Content-Type': 'multipart/form-data',
       },
     })
     .then(() => {
