@@ -236,11 +236,7 @@ footer .info div {
     width: 66.67%;
 }
 
-/* Detail.css */
 
-/* 기존 스타일은 생략되었습니다. */
-
-/* 화면 너비가 768픽셀 이하일 때 적용되는 미디어 쿼리 */
 @media (max-width: 768px) {
     .header {
         flex-direction: column;
