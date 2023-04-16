@@ -1,7 +1,6 @@
 import { useStyletron, styled } from "baseui"
 import Icons from "../icons"
 import { Block } from "baseui/block"
-import { useTranslation } from "react-i18next"
 import useAppContext from "../../../hooks/useAppContext"
 import Scrollable from "../Scrollable"
 import useSidebarOpen from "../../../hooks/useSidebarOpen"
@@ -22,7 +21,6 @@ const BASE_ITEMS = [
 
 const PanelsList = () => {
   const { activePanel } = useAppContext()
-  const { t } = useTranslation("editor")
   const PANEL_ITEMS = BASE_ITEMS
   return (
     <Container>
