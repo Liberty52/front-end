@@ -7,6 +7,7 @@ import Redirect from './screen/auth/redirect/Redirect';
 import Purchase from './screen/shopping/purchase/Purchase';
 import Cart from './screen/shopping/cart/Cart';
 import Order from './screen/product/Order';
+import Payment from './screen/product/payment/Payment';
 import ChangePasswordPage from './screen/auth/redirect/ChangePasswordPage';
 import './app.css';
 import Editor from './screen/product/Editor';
@@ -24,9 +25,9 @@ export default function App() {
         <Route path={'/redirect'} element={<Redirect />}></Route>
         <Route path={'/purchase'} element={<Purchase />}></Route>
         <Route path={'/cart'} element={<Cart />}></Route>
-        <Route path={"/product/order"} element={<Order />}></Route>
-        <Route path={'/product_speaker/:id'} element={<Order />}></Route>
-        <Route path={'/product_speaker/:id/edit'} element={<Editor />} />
+        <Route path={'/editor'} element={<Editor />} />
+        <Route path={'/payment'} element={<Payment />}></Route>
+        <Route path={'/order'} element={<Order />}></Route>
         <Route path={'/auth/password'} element={<ChangePasswordPage />} />
       </Routes>
     </BrowserRouter>

@@ -56,6 +56,39 @@ h2 {
   margin: 0 2.5%;
 }
 
+.radio-btn {
+  width: 85%;
+  margin: 0 auto;
+  margin-bottom: 20px;
+  border: 1px solid #eae7e7;
+  border-radius: 10px;
+}
+.radio-btn input[type="radio"] {
+  /* display: none; */
+}
+.radio-btn label {
+  display: block;
+  border-radius: 10px;
+  margin: 0 auto;
+  text-align: center;
+  height: -webkit-fill-available;
+  line-height: 45px;
+}
+/* Checked */
+.radio-btn input[type="radio"]:checked + span {
+  background: #184da0;
+  color: #fff;
+}
+/* Hover */
+.radio-btn label:hover {
+  color: "red";
+}
+
+.add-image input {
+  display: none;
+}
+
+/* 모바일 */
 @media screen and (max-width: 500px) {
   .order {
     display: flex;
