@@ -3,6 +3,8 @@ import { Header, Footer } from "../Main";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import product_img from "../../image/icon/product.png";
+import post from "../../axios/shopping/Cart";
+import ImageInput from "../../component/ImageInput";
 
 const Order = () => {
   const [formValue, setFormValue] = useState({
@@ -12,6 +14,8 @@ const Order = () => {
     add_image: "",
     quantity: 1,
   });
+  let dto = {};
+  let imageFile = "";
   const navigate = useNavigate();
   const onHandleChange = (e) => {
     setFormValue({
@@ -21,6 +25,29 @@ const Order = () => {
   };
   const onHandleSubmit = (e) => {
     e.preventDefault();
+    const productName = "Liberty 52_Frame";
+    const options = [
+      `${formValue.mounting_method}`,
+      `${formValue.basic_material}`,
+      `${formValue.add_material}`,
+    ];
+    const quantity = `${formValue.quantity}`;
+    const image = e.target.file.files[0];
+    const data = {
+      productName: productName,
+      options: options,
+      quantity: parseInt(quantity),
+    };
+    dto = data;
+    imageFile = image;
+  };
+
+  const addCart = () => {
+    console.log(dto, imageFile);
+    post(dto, imageFile);
+  };
+
+  function buy() {
     navigate("/payment", {
       state: {
         mounting_method: `${formValue.mounting_method}`,
@@ -30,7 +57,8 @@ const Order = () => {
         quantity: `${formValue.quantity}`,
       },
     });
-  };
+  }
+
   const defaultPrice = 1550000;
   const [price, setPrice] = useState(defaultPrice);
   return (
@@ -93,44 +121,44 @@ const Order = () => {
                   <input
                     type="radio"
                     name="add_material"
-                    value="유광 실버"
+                    value="유광실버"
                     required
                     onChange={onHandleChange}
                   />
-                  유광 실버
+                  유광실버
                 </label>
                 <label>
                   <input
                     type="radio"
                     name="add_material"
-                    value="무광 실버"
+                    value="무광실버"
                     onChange={onHandleChange}
                   />
-                  무광 실버
+                  무광실버
                 </label>
                 <label>
                   <input
                     type="radio"
                     name="add_material"
-                    value="유광 백색"
+                    value="유광백색"
                     onChange={onHandleChange}
                   />
-                  유광 백색
+                  유광백색
                 </label>
                 <label>
                   <input
                     type="radio"
                     name="add_material"
-                    value="무광 백색"
+                    value="무광백색"
                     onChange={onHandleChange}
                   />
-                  무광 백색
+                  무광백색
                 </label>
               </div>
               <div className="add-image">
                 <h3>나만의 개성을 추가해봐요</h3>
                 <div className="radio-btn">
-                  <label>
+                  {/* <label>
                     <input
                       type="file"
                       accept="image/*"
@@ -139,7 +167,8 @@ const Order = () => {
                       onChange={onHandleChange}
                     />
                     배경 이미지 추가하기
-                  </label>
+                  </label> */}
+                  <ImageInput />
                 </div>
               </div>
               <div className="quantity">
@@ -156,8 +185,8 @@ const Order = () => {
                 />
                 {price}원
               </div>
-              <input type="submit" value="구매하기" />
-              <button>장바구니</button>
+              <input type="submit" value="구매하기" onClick={buy} />
+              <input type="submit" value="장바구니" onClick={addCart} />
             </div>
           </form>
         </div>
