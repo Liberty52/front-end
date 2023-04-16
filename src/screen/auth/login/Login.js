@@ -33,7 +33,7 @@ function LoginForm() {
     >
       <div className="login-title">로그인</div>
       <LoginInput />
-      <Checkbox className="login-checkbox" text="로그인 상태 유지" />
+      <Checkbox text="로그인 상태 유지" />
       <Button text="로그인" />
     </form>
   );

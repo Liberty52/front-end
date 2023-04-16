@@ -26,13 +26,13 @@
   margin-bottom: 10px;
 }
 
-.login-checkbox,
-.button {
-  margin: 6px 0;
+.login-form .checkbox {
+  margin-top: 6px;
+  margin-bottom: 6px;
 }
 
-.login-checkbox {
-  margin-right: 7px;
+.button {
+  margin: 6px 0;
 }
 
 .login-nav {

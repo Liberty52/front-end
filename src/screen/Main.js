@@ -1,4 +1,4 @@
-import './Main.css';
+import "./Main.css";
 import liberty52_img from '../image/icon/liberty52.jpg';
 import chromaluxe_img from '../image/icon/chromaluxe.jpg';
 import speaker_img from '../image/icon/speaker.jpg';
@@ -8,12 +8,13 @@ import kakaotalk_img from '../image/icon/kakao-talk.png';
 import $ from 'jquery';
 import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+
 export function Header() {
   const headerItemsLeft = [
-    { name: '로고', href: '#' },
-    { name: '제품소개', href: '#' },
-    { name: '사업소개', href: '#' },
-    { name: '지점소개(쇼룸)', href: '#' },
+    { name: "로고", href: "#" },
+    { name: "제품소개", href: "#" },
+    { name: "사업소개", href: "#" },
+    { name: "지점소개(쇼룸)", href: "#" },
   ];
 
   const headerLeft = [];
@@ -21,7 +22,7 @@ export function Header() {
     let headerItem = headerItemsLeft[i];
     headerLeft.push(
       <li key={headerItem.name}>
-        <a href={'/' + headerItem.href}>{headerItem.name}</a>
+        <a href={"/" + headerItem.href}>{headerItem.name}</a>
       </li>
     );
   }
@@ -29,27 +30,27 @@ export function Header() {
   const [headerItemsRight, setHeaderItemsRight] = useState();
 
   useEffect(() => {
-    if (localStorage.getItem('ACCESS_TOKEN')) {
+    if (localStorage.getItem("ACCESS_TOKEN")) {
       setHeaderItemsRight([
-        { name: '내정보', href: 'myInfo' },
+        { name: "내정보", href: "myInfo" },
         {
-          name: '로그아웃',
+          name: "로그아웃",
           onClick: () => {
-            if (window.confirm('로그아웃하시겠습니까?')) {
-              localStorage.removeItem('ACCESS_TOKEN');
-              localStorage.removeItem('REFRESH_TOKEN');
-              window.location.href = '/';
+            if (window.confirm("로그아웃하시겠습니까?")) {
+              localStorage.removeItem("ACCESS_TOKEN");
+              localStorage.removeItem("REFRESH_TOKEN");
+              window.location.href = "/";
             }
           },
-          href: '#',
+          href: "#",
         },
-        { name: '장바구니', href: 'cart' },
-        { name: '바로구매', href: '#' },
+        { name: "장바구니", href: "cart" },
+        { name: "구매하기", href: "order" },
       ]);
     } else {
       setHeaderItemsRight([
-        { name: '로그인', href: 'login' },
-        { name: '바로구매', href: '#' },
+        { name: "로그인", href: "login" },
+        { name: "구매하기", href: "order" },
       ]);
     }
   }, []);
@@ -60,7 +61,7 @@ export function Header() {
     headerRight.push(
       <li key={headerItem.name}>
         <button onClick={headerItem.onClick}>
-          <a href={'/' + headerItem.href}>{headerItem.name}</a>
+          <a href={"/" + headerItem.href}>{headerItem.name}</a>
         </button>
       </li>
     );
@@ -82,7 +83,7 @@ function Section() {
         <div className="text3">내가 만드는 세상 유일</div>
       </div>
       <div>
-        <button className="outline-button">구매하기</button>
+        <a href="/order">구매하기</a>
       </div>
       <div>
         <img className="image" src={liberty52_img} alt="Liberty52_frame"></img>
@@ -158,20 +159,20 @@ export function Footer() {
 export default function Main() {
   window.addEventListener(
     // 휠 기본 기능 막기
-    'wheel',
+    "wheel",
     function (e) {
       e.preventDefault();
     },
     { passive: false }
   );
 
-  var mHtml = $('html');
+  var mHtml = $("html");
   var page = 1;
 
   mHtml.animate({ scrollTop: 0 }, 10); // Y가 0이 아닐 경우 대비
 
-  $(window).on('wheel', function (e) {
-    if (mHtml.is(':animated')) return;
+  $(window).on("wheel", function (e) {
+    if (mHtml.is(":animated")) return;
     if (e.originalEvent.deltaY > 0) {
       // deltaY가 양수면 휠을 아래로 내리는 중, 음수면 위로 올리는 중
       if (page === 4) return; // 끝까지 내렸을 때 리턴함으로 휠이동 방지
