@@ -1,12 +1,13 @@
 import "./Main.css";
-import liberty52_img from "../image/icon/liberty52.jpg";
-import chromaluxe_img from "../image/icon/chromaluxe.jpg";
-import speaker_img from "../image/icon/speaker.jpg";
-import youtube_img from "../image/icon/youtube.png";
-import instargram_img from "../image/icon/instagram.png";
-import kakaotalk_img from "../image/icon/kakao-talk.png";
-import $ from "jquery";
-import { useEffect, useState } from "react";
+import liberty52_img from '../image/icon/liberty52.jpg';
+import chromaluxe_img from '../image/icon/chromaluxe.jpg';
+import speaker_img from '../image/icon/speaker.jpg';
+import youtube_img from '../image/icon/youtube.png';
+import instargram_img from '../image/icon/instagram.png';
+import kakaotalk_img from '../image/icon/kakao-talk.png';
+import $ from 'jquery';
+import { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
 export function Header() {
   const headerItemsLeft = [
