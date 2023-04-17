@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './Inquiry.css';
-import { fetchOrders } from '../../../axios/inquiry/Inquiry';
+import { fetchOrders } from '../../../axios/shopping/Inquiry';
 import Header from '../../../component/Header';
 import Footer from '../../../component/Footer';
 import { useNavigate } from 'react-router-dom';
