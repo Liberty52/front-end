@@ -76,16 +76,6 @@
   width: 100%;
 }
 
-/*수정*/
-.find-button {
-  background: none;
-  border: none;
-  color: blue;
-  text-decoration: underline;
-  cursor: pointer;
-  font-size: 14px;
-}
-
 @media screen and (min-width: 501px) {
   .modal.is-active .modal-content {
     width: 350px;

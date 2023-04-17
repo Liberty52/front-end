@@ -1,80 +1,32 @@
-<<<<<<< HEAD
 import './Order.css';
-import Dropdown from "../../component/Dropdown";
-import Button from '../../component/Button';
-import { useParams } from 'react-router-dom';
-import { Header } from '../Main';
-
-const getProductDetailAPI = (id) => {
-    return {
-        id,
-        name: "Adhesive Screen Surface",
-        imageUrl: "https://cdn.imweb.me/thumbnail/20220317/b40c227b9356f.jpg",
-        productOptions: {
-            holder: [
-                { value: 'chocolate', label: 'Chocolate' },
-                { value: 'strawberry', label: 'Strawberry' },
-                { value: 'vanilla', label: 'Vanilla' },
-            ],
-
-            material: [
-                { value: 'chocolate', label: 'Chocolate' },
-                { value: 'strawberry', label: 'Strawberry' },
-                { value: 'vanilla', label: 'Vanilla' },
-            ],
-            materialOption: [
-                { value: 'chocolate', label: 'Chocolate' },
-                { value: 'strawberry', label: 'Strawberry' },
-                { value: 'vanilla', label: 'Vanilla' },
-            ]
-        }
-    }
-}
-
-const Order = () => {
-    const { id } = useParams();
-
-    const { name, imageUrl, productOptions } = getProductDetailAPI(id); // just mock api
-
-    return (
-        <>
-        <Header/>
-        <div className="order-wrap">
-            <div className='order-title'>
-                <h2>{name}</h2>
-            </div>
-            <div className="order">
-                <div className="order-image">
-                    <img src={imageUrl} />
-=======
-import "./Order.css";
-import { Header, Footer } from "../Main";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import product_img from "../../image/icon/product.png";
-import post from "../../axios/shopping/Cart";
-import ImageInput from "../../component/ImageInput";
+import Header from '../../component/Header';
+import Footer from '../../component/Footer';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import product_img from '../../image/icon/product.png';
+import post from '../../axios/shopping/Cart';
+import ImageInput from '../../component/ImageInput';
 
 const Order = () => {
   const [formValue, setFormValue] = useState({
-    mounting_method: "",
-    basic_material: "",
-    add_material: "",
-    add_image: "",
+    mounting_method: '',
+    basic_material: '',
+    add_material: '',
+    add_image: '',
     quantity: 1,
   });
   let dto = {};
-  let imageFile = "";
+  let imageFile = '';
   const navigate = useNavigate();
-  const onHandleChange = (e) => {
+  const onHandleChange = e => {
     setFormValue({
       ...formValue,
       [e.target.name]: e.target.value,
     });
   };
-  const onHandleSubmit = (e) => {
+  const onHandleSubmit = e => {
     e.preventDefault();
-    const productName = "Liberty 52_Frame";
+    const productName = 'Liberty 52_Frame';
     const options = [
       `${formValue.mounting_method}`,
       `${formValue.basic_material}`,
@@ -97,7 +49,7 @@ const Order = () => {
   };
 
   function buy() {
-    navigate("/payment", {
+    navigate('/payment', {
       state: {
         mounting_method: `${formValue.mounting_method}`,
         basic_material: `${formValue.basic_material}`,
@@ -136,7 +88,6 @@ const Order = () => {
                     />
                     이젤 거치형
                   </label>
->>>>>>> main
                 </div>
                 <div className="radio-btn">
                   <label>
@@ -228,7 +179,7 @@ const Order = () => {
                   name="quantity"
                   value={formValue.quantity}
                   required
-                  onChange={(e) => {
+                  onChange={e => {
                     onHandleChange(e);
                     setPrice(defaultPrice * e.target.value);
                   }}
@@ -238,12 +189,6 @@ const Order = () => {
               <input type="submit" value="구매하기" onClick={buy} />
               <input type="submit" value="장바구니" onClick={addCart} />
             </div>
-<<<<<<< HEAD
-        </div>
-        </>
-    )
-}
-=======
           </form>
         </div>
       </div>
@@ -251,6 +196,5 @@ const Order = () => {
     </>
   );
 };
->>>>>>> main
 
 export default Order;

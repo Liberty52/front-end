@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from "react";
-import "./Cart.css";
-import LButton from "../../component/Button";
-import axios from "axios";
-import "bootstrap/dist/css/bootstrap.min.css";
-import Table from "react-bootstrap/Table";
-import { useNavigate } from "react-router-dom";
-import Button from "react-bootstrap/Button";
-import "./CartPrice.css";
-import { Header } from "../Main";
-import GetCartList from "../../axios/shopping/Cart";
+import React, { useState, useEffect } from 'react';
+import './Cart.css';
+import LButton from '../../component/Button';
+import axios from 'axios';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Table from 'react-bootstrap/Table';
+import { useNavigate } from 'react-router-dom';
+import Button from 'react-bootstrap/Button';
+import './CartPrice.css';
+import Header from '../../component/Header';
+import GetCartList from '../../axios/shopping/Cart';
 
 function TableHeader({ name }) {
   return (
@@ -27,7 +27,7 @@ function CartList() {
       setCheckedList([...checkedList, item]);
       setTotalPrice(totalPrice + price);
     } else if (!checked) {
-      setCheckedList(checkedList.filter((element) => element !== item));
+      setCheckedList(checkedList.filter(element => element !== item));
       setTotalPrice(totalPrice - price);
     }
     CartPrice(totalPrice);
@@ -35,19 +35,19 @@ function CartList() {
   const [data, setCartList] = useState([]);
   useEffect(() => {
     axios
-      .get("https://liberty52:444/product/carts", {
+      .get('https://liberty52:444/product/carts', {
         headers: {
-          Authorization: localStorage.getItem("ACCESS_TOKEN"),
+          Authorization: localStorage.getItem('ACCESS_TOKEN'),
         },
       })
-      .then((response) => {
+      .then(response => {
         setCartList(response.data);
       });
   });
   if (!data) return null;
   if (data.length === 0) {
-    alert("장바구니에 담긴 상품이 없습니다.");
-    return navigate("/");
+    alert('장바구니에 담긴 상품이 없습니다.');
+    return navigate('/');
   }
   // const data = [
   //   {
@@ -109,7 +109,7 @@ function CartList() {
 
   return (
     <div>
-      <TableHeader name={"장바구니 / Shopping cart"}></TableHeader>
+      <TableHeader name={'장바구니 / Shopping cart'}></TableHeader>
       <Table bordered hover className="cartTable">
         <thead>
           <tr>
@@ -137,7 +137,7 @@ function CartList() {
                       type="checkbox"
                       id={item.id}
                       value={item.price}
-                      onChange={(e) => {
+                      onChange={e => {
                         onCheckedElement(
                           e.target.checked,
                           e.target.id,
@@ -148,7 +148,7 @@ function CartList() {
                   </th>
                   <th>{item.name}</th>
                   <th>
-                    {item.options.map((option) => (
+                    {item.options.map(option => (
                       <p>
                         {option.optionName} : {option.detailName} (+
                         {addComma(option.price)}원)
@@ -192,7 +192,7 @@ function CartList() {
         <Button
           className="UDBtn"
           variant="outline-danger"
-          onClick={(e) => handleDeleteClick(checkedList, e)}
+          onClick={e => handleDeleteClick(checkedList, e)}
         >
           선택상품 삭제
         </Button>
@@ -245,51 +245,51 @@ function CartPrice(cartPrice) {
   );
 }
 
-const addComma = (price) => {
-  let returnString = price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+const addComma = price => {
+  let returnString = price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   return returnString;
 };
 
-const handleDeleteClick = (checkedList) => {
+const handleDeleteClick = checkedList => {
   console.log(checkedList);
   if (checkedList == 0) {
-    alert("체크된 항목이 없습니다");
+    alert('체크된 항목이 없습니다');
   } else {
-    if (window.confirm("정말로 삭제하시겠습니까?")) {
+    if (window.confirm('정말로 삭제하시겠습니까?')) {
       axios
         .delete(
           `https://liberty52:444/product/carts/custom-products/{customProductId}`,
           {
             headers: {
-              Authorization: localStorage.getItem("ACCESS_TOKEN"),
+              Authorization: localStorage.getItem('ACCESS_TOKEN'),
             },
           }
         )
         .then(() => {
-          window.location.replace("/");
+          window.location.replace('/');
         });
     }
   }
 };
 
-const handleEditClick = (customProductId) => {
+const handleEditClick = customProductId => {
   axios
     .patch(
       `https://liberty52:444/product/carts/custom-products/{customProductId}`,
       {
         headers: {
-          Authorization: localStorage.getItem("ACCESS_TOKEN"),
+          Authorization: localStorage.getItem('ACCESS_TOKEN'),
         },
       }
     )
     .then(() => {
-      window.location.replace("/");
+      window.location.replace('/');
     });
 };
 
 export default function Cart() {
   return (
-    <div>
+    <div className="cart">
       <Header />
       <br></br>
       <div className="position">
