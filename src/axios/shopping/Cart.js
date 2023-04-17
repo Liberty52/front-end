@@ -24,7 +24,7 @@ export default function post(dto, file) {
 export function GetCartList() {
   const [data, setCartList] = useState([]);
   axios
-    .get("https://liberty52:444/product/carts", {
+    .get("https://liberty52.com:444/product/carts", {
       headers: {
         Authorization: localStorage.getItem("ACCESS_TOKEN"),
       },
