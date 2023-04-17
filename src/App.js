@@ -12,10 +12,11 @@ import Inquiry from './screen/shopping/inquiry/Inquiry';
 import Detail from './screen/shopping/detail/Detail';
 import Provider from './Provider';
 import './app.css';
+import Editor from './screen/product/Editor';
 
 export default function App() {
   return (
-    // <Provider>
+    <Provider>
     <BrowserRouter>
       <Routes>
         <Route path={'/'} element={<Main />} />
@@ -29,8 +30,9 @@ export default function App() {
         <Route path={'/auth/password'} element={<ChangePasswordPage />} />
         <Route path={'/inquiry'} element={<Inquiry />} />
         <Route path={'/detail/:orderId'} element={<Detail />} />
+        <Route path={'/editor'} element={<Editor />} />
       </Routes>
     </BrowserRouter>
-    // </Provider>
+    </Provider>
   );
 }
