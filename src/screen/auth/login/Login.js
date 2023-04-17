@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import './Login.css';
 import post from '../../../axios/auth/Login.js';
-import {findEmail, sendPasswordResetEmail } from '../../../axios/auth/Login.js';
+import {
+  findEmail,
+  sendPasswordResetEmail,
+} from '../../../axios/auth/Login.js';
 import Checkbox from '../../../component/Checkbox';
 import InputGroup from '../../../component/InputGroup';
 import Button from '../../../component/Button';
@@ -58,11 +61,11 @@ function PasswordRecoveryModal({ showModal, closeModal }) {
 function FindForm() {
   const [activeTab, setActiveTab] = useState('id');
 
-  const handleTabClick = (e) => {
+  const handleTabClick = e => {
     setActiveTab(e.target.value);
   };
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async event => {
     event.preventDefault();
     if (activeTab === 'id') {
       const name = event.target.name.value;
@@ -102,7 +105,8 @@ function FindForm() {
             value="id"
             defaultChecked
             onClick={handleTabClick}
-          /> 아이디
+          />{' '}
+          아이디
         </label>
         <label>
           <input
@@ -110,18 +114,19 @@ function FindForm() {
             name="tab"
             value="password"
             onClick={handleTabClick}
-          /> 비밀번호
+          />{' '}
+          비밀번호
         </label>
       </div>
       <div className="tab-content" style={{ marginTop: '0.5rem' }}>
         {activeTab === 'id' && (
           <div className="tab-pane active">
-            <IdInput/>
+            <IdInput />
           </div>
         )}
         {activeTab === 'password' && (
           <div className="tab-pane active">
-            <PasswordInput/>
+            <PasswordInput />
           </div>
         )}
       </div>
@@ -130,20 +135,21 @@ function FindForm() {
   );
 }
 
-
 function IdInput() {
   const loginItems = [
     { type: 'text', name: 'name', required: true, label: '이름' },
-    { type: 'tel', name: 'phoneNumber', required: true, label: '휴대전화 번호' },
+    {
+      type: 'tel',
+      name: 'phoneNumber',
+      required: true,
+      label: '휴대전화 번호',
+    },
   ];
   return <InputGroup inputItems={loginItems} />;
 }
 
-
 function PasswordInput() {
-  const loginItems = [
-    { type: 'email', name: 'email', required: true }
-  ];
+  const loginItems = [{ type: 'email', name: 'email', required: true }];
   return <InputGroup inputItems={loginItems} />;
 }
 
@@ -167,14 +173,12 @@ function CompanyLogin() {
       <LoginForm />
       <div className="login-nav">
         <a href="/signUp">회원가입</a>
-        <button className="find-button" onClick={openModal}>아이디/비밀번호 찾기</button>
+        <button onClick={openModal}>아이디/비밀번호 찾기</button>
         <PasswordRecoveryModal showModal={showModal} closeModal={closeModal} />
       </div>
     </div>
   );
 }
-
-
 
 function SocialLogin() {
   return (
