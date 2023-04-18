@@ -35,7 +35,7 @@ function CartList() {
   const [data, setCartList] = useState([]);
   useEffect(() => {
     axios
-      .get('https://liberty52:444/product/carts', {
+      .get('https://liberty52.com:444/product/carts', {
         headers: {
           Authorization: localStorage.getItem('ACCESS_TOKEN'),
         },
@@ -43,7 +43,7 @@ function CartList() {
       .then(response => {
         setCartList(response.data);
       });
-  });
+  }, []);
   if (!data) return null;
   if (data.length === 0) {
     alert('장바구니에 담긴 상품이 없습니다.');
@@ -258,7 +258,7 @@ const handleDeleteClick = checkedList => {
     if (window.confirm('정말로 삭제하시겠습니까?')) {
       axios
         .delete(
-          `https://liberty52:444/product/carts/custom-products/{customProductId}`,
+          `https://liberty52.com:444/product/carts/custom-products/{customProductId}`,
           {
             headers: {
               Authorization: localStorage.getItem('ACCESS_TOKEN'),
@@ -275,7 +275,7 @@ const handleDeleteClick = checkedList => {
 const handleEditClick = customProductId => {
   axios
     .patch(
-      `https://liberty52:444/product/carts/custom-products/{customProductId}`,
+      `https://liberty52.com:444/product/carts/custom-products/{customProductId}`,
       {
         headers: {
           Authorization: localStorage.getItem('ACCESS_TOKEN'),
