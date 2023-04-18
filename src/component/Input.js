@@ -1,12 +1,18 @@
 import './Input.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function Input(props) {
   const inputItem = props.inputItem;
-  const [value, setValue] = useState(inputItem.value ? inputItem.value : '');
+  const [value, setValue] = useState('');
+
+  useEffect(() => {
+    setValue(inputItem.value ? inputItem.value : '');
+  }, [inputItem.value]);
+
   return (
     <div className="input-block">
       <input
+        id={inputItem.name}
         className="input"
         key={inputItem.name}
         type={inputItem.type}
@@ -16,9 +22,11 @@ export default function Input(props) {
         maxLength={inputItem.maxLength}
         title={inputItem.title}
         value={value}
+        readOnly={inputItem.readOnly ? inputItem.readOnly : false}
         onChange={e => {
           setValue(e.target.value);
         }}
+        onClick={inputItem.onClick}
         autoComplete="off"
       ></input>
       <span className="name">
