@@ -1,4 +1,4 @@
-
+import './PaymentInfo.css';
 import * as React from 'react';
 import {Box, Radio, RadioGroup, Sheet, Input, Checkbox} from "@mui/joy";
 import Select, { selectClasses } from '@mui/joy/Select';
@@ -8,8 +8,8 @@ import {useState} from "react";
 
 function PaymentMethod(props) {
 
-    const handleChange = (e) => {
-        props.setPayment(e.target.value);
+    const onPMChanged = (e) => {
+        props.setPaymentMethod(e.target.value);
     };
 
     return (
@@ -38,7 +38,7 @@ function PaymentMethod(props) {
                             overlay
                             disableIcon
                             value={element.value}
-                            onChange={handleChange}
+                            onChange={onPMChanged}
                             slotProps={{
                                 label: ({ checked }) => ({
                                     sx: {
@@ -67,7 +67,22 @@ function PaymentMethod(props) {
     );
 }
 
-function VBankContent() {
+function VBankContent(props) {
+    const vBankList = [
+        {
+            value: 'vbank_hana',
+            label: '(예시) 하나은행 25691006208604 블룸즈베리랩'
+        },
+    ];
+
+    const onAccountChange = (e, value) => {
+        props.setVBankAccount(value);
+    };
+
+    const onDepositorChange = (e) => {
+        props.setDepositorName(e.target.value);
+    };
+
     return(
         <div>
             <Select
@@ -83,13 +98,18 @@ function VBankContent() {
                     fontSize: 13,
                     minHeight: '34px',
                 }}
-                defaultValue="vbank_account">
-                <Option
-                    value="vbank_account"
-                    sx={{
-                        fontSize: 12,
-                    }}
-                >(예시) 하나은행 25691006208604 블룸즈베리랩</Option>
+                onChange={onAccountChange}
+                defaultValue={vBankList[0].value}
+            >
+                {vBankList.map((vBank) => (
+                    <Option
+                        key={vBank.value}
+                        value={vBank.value}
+                        sx={{
+                            fontSize: 12,
+                        }}
+                    >{vBank.label}</Option>
+                ))}
             </Select>
 
             <Box
@@ -105,6 +125,7 @@ function VBankContent() {
                         minHeight: '34px',
                         "--Input-focusedThickness": "1px",
                     }}
+                    onChange={onDepositorChange}
                     placeholder="입금자명 (미입력시 주문자명)" variant="outlined" color="neutral" />
             </Box>
 
@@ -120,11 +141,32 @@ function VBankContent() {
 }
 
 export default function PaymentInfo(props) {
-    const [selectedPayment, setSelectedPayment] = useState("card");
+    const { PM_CARD, PM_VBANK, defaultVBankAccount, defaultDepositorName } = props.constants
 
-    const setPayment = (payment) => {
-        setSelectedPayment(payment);
-        props.setPayment(payment);
+    const [pm, setPm] = useState({pm: PM_CARD});
+
+    const setPaymentMethod = (newPaymentMethod) => {
+        props.setPayment((prevState) => {
+            return {...prevState, paymentMethod: newPaymentMethod}
+        });
+        setPm(newPaymentMethod);
+
+        if (newPaymentMethod === PM_CARD) {
+            setVBankAccount(defaultVBankAccount);
+            setDepositorName(defaultDepositorName);
+        }
+    }
+
+    const setVBankAccount = (newAccount) => {
+        props.setPayment((prevState) => {
+            return {...prevState, vBankAccount: newAccount}
+        });
+    }
+
+    const setDepositorName = (newDepositor) => {
+        props.setPayment((prevState) => {
+            return {...prevState, depositorName: newDepositor}
+        });
     }
 
     return (
@@ -132,8 +174,13 @@ export default function PaymentInfo(props) {
             <div className="title">결제 수단</div>
             <div className="content">
                 <div className="payment-info">
-                    <PaymentMethod setPayment={setPayment} />
-                    {selectedPayment === 'vbank' && <VBankContent/> }
+                    <PaymentMethod setPaymentMethod={setPaymentMethod} />
+                    {pm === PM_VBANK &&
+                        <VBankContent
+                            setVBankAccount={setVBankAccount}
+                            setDepositorName={setDepositorName}
+                        />
+                    }
                 </div>
             </div>
         </div>

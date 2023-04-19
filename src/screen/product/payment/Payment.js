@@ -7,6 +7,8 @@ import Checkbox from '../../../component/Checkbox';
 import liberty52 from '../../../image/icon/liberty52.jpg';
 import { useEffect, useState } from 'react';
 import PaymentInfo from "./PaymentInfo";
+import uuid from "react-uuid";
+import {checkPayApproval, prepareCard} from "../../../axios/shopping/Payment";
 
 function Header() {
   const headerItemsLeft = [
@@ -249,42 +251,76 @@ function Total(props) {
   );
 }
 
-const IMP = window.IMP;
-IMP.init("imp07432404");
+
+
 
 function ConfirmSection(props) {
-  const [payment, setPayment] = useState("card");
+
+  const constants = {
+    PM_CARD: 'card',
+    PM_VBANK: 'vbank',
+    defaultVBankAccount: 'vbank_hana',
+    defaultDepositorName: props.paymentInfo.receiverName
+  }
+
+  const [payment, setPayment] = useState({
+    paymentMethod: constants.PM_CARD,
+    vBankAccount: constants.defaultVBankAccount,
+    depositorName: constants.defaultDepositorName
+  });
 
   const productName = `Liberty52_Frame ${props.productInfo.quantity} 개`;
-  const amount = 1_550_000 * props.productInfo.quantity;
+  const amount = 1_550_000 * props.productInfo.quantity; // 변경해야함.
   const bEmail = props.paymentInfo.receiverEmail;
   const bName = props.paymentInfo.receiverName;
   const bTel = props.paymentInfo.receiverPhoneNumber;
   const bAddr = props.paymentInfo.address1;
   const bPostcode = props.paymentInfo.zipCode;
 
+  const IMP = window.IMP;
+  IMP.init("imp07432404");
+
   const requestPay = () => {
-    IMP.request_pay({
-      pg : 'html5_inicis',
-      pay_method : payment,
-      merchant_uid: "IMP57008833-33004",
-      name : productName,
-      amount : 1000,
-      currency : 'KRW',
-      buyer_email : bEmail,
-      buyer_name : bName,
-      buyer_tel : bTel,
-      buyer_addr : bAddr,
-      buyer_postcode : bPostcode,
-    }, function (rsp) { // callback
-      if (rsp.success) {
-        console.log(rsp);
-        // 예를들어 결제 진행중입니다라는 페이지로 넘어간다든가?
-      } else {
-        console.log(rsp);
-        // 결제를 실패하였습니다라는 alert (결제실패코드, 실패메시지)
-      }
-    });
+    if (payment.paymentMethod === constants.PM_CARD) {
+
+      prepareCard({ buyerEmail: bEmail, amount: amount })
+          .then(res => {
+            const merchantUid = res;
+
+            IMP.request_pay({
+              pg : 'html5_inicis',
+              pay_method : payment.paymentMethod,
+              merchant_uid: merchantUid,
+              name : productName,
+              amount : amount,
+              currency : 'KRW',
+              buyer_email : bEmail,
+              buyer_name : bName,
+              buyer_tel : bTel,
+              buyer_addr : bAddr,
+              buyer_postcode : bPostcode,
+            }, function (rsp) { // callback
+              if (rsp.success) {
+                console.log(rsp);
+                checkPayApproval({
+                  impUid: rsp.imp_uid,
+                  merchantUid: rsp.merchant_uid
+                });
+
+              } else {
+                if (rsp.error_msg !== '사용자가 결제를 취소하셨습니다') {
+                  alert(`결제에 실패하였습니다. 에러 내용: ${rsp.error_msg}`);
+                }
+              }
+            });
+
+          })
+
+
+
+    } else if (payment.paymentMethod === constants.PM_VBANK) {
+
+    }
   }
 
   return (
@@ -300,7 +336,9 @@ function ConfirmSection(props) {
         <Product productInfo={props.productInfo} />
         <BackgroundImage add_image={props.productInfo.add_image} />
         <DeliveryInfo paymentInfo={props.paymentInfo} />
-        <PaymentInfo setPayment={setPayment} />
+        <PaymentInfo
+            constants={constants}
+            setPayment={setPayment} />
         <TermsOfUse />
         <Total quantity={props.productInfo.quantity} />
         <Button
