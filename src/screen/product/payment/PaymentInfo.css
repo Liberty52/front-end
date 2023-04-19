@@ -1,0 +1,10 @@
+.payment-info {
+    margin-top: 10px;
+    margin-bottom: 5px;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}

@@ -6,6 +6,7 @@ import InputGroup from '../../../component/InputGroup';
 import Checkbox from '../../../component/Checkbox';
 import liberty52 from '../../../image/icon/liberty52.jpg';
 import { useEffect, useState } from 'react';
+import PaymentInfo from "./PaymentInfo";
 
 function Header() {
   const headerItemsLeft = [
@@ -204,18 +205,6 @@ function DeliveryInfo(props) {
   );
 }
 
-function PaymentInfo() {
-  return (
-    <div className="confirm-info">
-      <div className="title">결제 상세 정보</div>
-      <div className="content">
-        <span>결제 수단: ~~</span>
-        <span>청구 주소: ~~</span>
-        <span>Toss Payment</span>
-      </div>
-    </div>
-  );
-}
 
 function TermsOfUse() {
   return (
@@ -260,7 +249,44 @@ function Total(props) {
   );
 }
 
+const IMP = window.IMP;
+IMP.init("imp07432404");
+
 function ConfirmSection(props) {
+  const [payment, setPayment] = useState("card");
+
+  const productName = `Liberty52_Frame ${props.productInfo.quantity} 개`;
+  const amount = 1_550_000 * props.productInfo.quantity;
+  const bEmail = props.paymentInfo.receiverEmail;
+  const bName = props.paymentInfo.receiverName;
+  const bTel = props.paymentInfo.receiverPhoneNumber;
+  const bAddr = props.paymentInfo.address1;
+  const bPostcode = props.paymentInfo.zipCode;
+
+  const requestPay = () => {
+    IMP.request_pay({
+      pg : 'html5_inicis',
+      pay_method : payment,
+      merchant_uid: "IMP57008833-33004",
+      name : productName,
+      amount : 1000,
+      currency : 'KRW',
+      buyer_email : bEmail,
+      buyer_name : bName,
+      buyer_tel : bTel,
+      buyer_addr : bAddr,
+      buyer_postcode : bPostcode,
+    }, function (rsp) { // callback
+      if (rsp.success) {
+        console.log(rsp);
+        // 예를들어 결제 진행중입니다라는 페이지로 넘어간다든가?
+      } else {
+        console.log(rsp);
+        // 결제를 실패하였습니다라는 alert (결제실패코드, 실패메시지)
+      }
+    });
+  }
+
   return (
     <div className="confirm-section">
       <form
@@ -274,10 +300,13 @@ function ConfirmSection(props) {
         <Product productInfo={props.productInfo} />
         <BackgroundImage add_image={props.productInfo.add_image} />
         <DeliveryInfo paymentInfo={props.paymentInfo} />
-        <PaymentInfo />
+        <PaymentInfo setPayment={setPayment} />
         <TermsOfUse />
         <Total quantity={props.productInfo.quantity} />
-        <Button text="결제하기" />
+        <Button
+            text="결제하기"
+            onClick={requestPay}
+        />
         <Button
           text="돌아가기"
           onClick={e => {
