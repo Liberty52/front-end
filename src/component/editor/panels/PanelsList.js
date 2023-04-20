@@ -17,11 +17,16 @@ const BASE_ITEMS = [
       id: "images",
       name: "Images",
     },
+    {
+      id: "uploads",
+      name: "Uploads",
+    },
   ]
 
 const PanelsList = () => {
   const { activePanel } = useAppContext()
   const PANEL_ITEMS = BASE_ITEMS
+
   return (
     <Container>
       <Scrollable autoHide={true}>
@@ -43,8 +48,8 @@ const PanelListItem = ({ label, icon, activePanel, name }) => {
   const { setActivePanel } = useAppContext()
   const {setIsSidebarOpen} = useSidebarOpen()
   const [css, theme] = useStyletron()
-  // @ts-ignore
   const Icon = Icons[icon]
+
   return (
     <Block
       id="EditorPanelList"

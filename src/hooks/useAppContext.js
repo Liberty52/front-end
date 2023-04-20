@@ -1,21 +1,6 @@
 import { useContext, createContext } from "react"
+import { AppContext } from "../contexts/AppContext"
 
-const AppContext = createContext({
-    isMobile: false,
-    setIsMobile: () => {},
-    templates: [],
-    setTemplates: () => {},
-    uploads: [],
-    setUploads: () => {},
-    shapes: [],
-    setShapes: () => {},
-    activePanel: "Images",
-    setActivePanel: () => {},
-    activeSubMenu: null,
-    setActiveSubMenu: (value) => {},
-    currentTemplate: {},
-    setCurrentTemplate: {},
-  })
 
 const useAppContext = () => {
   const {
