@@ -2,10 +2,10 @@
 import Customize from "./Customize"
 import Uploads from "./Uploads"
 import Images from "./Images"
-// import Layers from "./Layers"
+import Layers from "./Layers"
 export default {
-  Customize: Customize,
-  Uploads: Uploads,
-  Images: Images,
-//   Layers: Layers,
+  Customize,
+  Uploads,
+  Images,
+  Layers
 }

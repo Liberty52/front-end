@@ -25,6 +25,10 @@ const BASE_ITEMS = [
       id: "customize",
       name: "Customize",
     },
+    {
+      id: "layers",
+      name: "Layers",
+    },
   ]
 
 const PanelsList = () => {
