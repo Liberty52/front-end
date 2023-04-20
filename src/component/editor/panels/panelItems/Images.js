@@ -48,7 +48,6 @@ const Images = () => {
         <Block padding="0 1.5rem">
           <div style={{ display: "grid", gap: "8px", gridTemplateColumns: "1fr 1fr" }}>
             {images.map((image, index) => {
-              console.log(index)
               return <ImageItem key={index} onClick={() => addObject(image.src.large)} preview={image.src.small} />
             })}
           </div>
