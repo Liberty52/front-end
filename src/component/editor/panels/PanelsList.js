@@ -21,6 +21,10 @@ const BASE_ITEMS = [
       id: "uploads",
       name: "Uploads",
     },
+    {
+      id: "customize",
+      name: "Customize",
+    },
   ]
 
 const PanelsList = () => {
