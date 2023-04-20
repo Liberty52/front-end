@@ -1,7 +1,7 @@
 
 import EditorContainer from '../../component/editor/EditorContainer';
 import Panels from '../../component/editor/panels/Panels';
-import Canvas from '../../component/editor/Canvas';
+import Canvas from '../../component/editor/canvas/Canvas';
 import { BaseProvider, LightTheme } from "baseui"
 
 

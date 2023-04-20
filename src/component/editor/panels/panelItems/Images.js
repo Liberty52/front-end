@@ -2,10 +2,8 @@ import React from "react"
 import { useStyletron } from "baseui"
 import { Block } from "baseui/block"
 import { images } from "../../../../constants/mock-data"
-// import AngleDoubleLeft from "~/components/Icons/AngleDoubleLeft"
-
 import { useEditor } from "@layerhub-io/react"
-import Scrollable from "../../Scrollable"
+import Scrollable from "../../common/Scrollable"
 import AngleDoubleLeft from "../../icons/AngleDoubleLeft"
 import useSidebarOpen from "../../../../hooks/useSidebarOpen"
 

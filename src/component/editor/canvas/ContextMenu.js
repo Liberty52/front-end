@@ -1,13 +1,13 @@
 import { useActiveObject, useContextMenuRequest, useEditor } from "@layerhub-io/react"
 import { useStyletron } from "baseui"
-import BringToFront from "./icons/BringToFront"
-import Delete from "./icons/Delete"
-import Duplicate from "./icons/Duplicate"
-import Elements from "./icons/Elements"
-import Locked from "./icons/Locked"
-import Paste from "./icons/Paste"
-import SendToBack from "./icons/SendToBack"
-import Unlocked from "./icons/Unlocked"
+import BringToFront from "../icons/BringToFront"
+import Delete from "../icons/Delete"
+import Duplicate from "../icons/Duplicate"
+import Elements from "../icons/Elements"
+import Locked from "../icons/Locked"
+import Paste from "../icons/Paste"
+import SendToBack from "../icons/SendToBack"
+import Unlocked from "../icons/Unlocked"
 
 const ContextMenu = () => {
   const contextMenuRequest = useContextMenuRequest()
@@ -27,7 +27,7 @@ const ContextMenu = () => {
 
   if (contextMenuRequest.target.type === "Background") {
     return (
-      <div // @ts-ignore
+      <div
         onContextMenu={(e) => e.preventDefault()}
         style={{
           position: "absolute",
@@ -79,7 +79,7 @@ const ContextMenu = () => {
   return (
     <>
       {!contextMenuRequest.target.locked ? (
-        <div // @ts-ignore
+        <div
           onContextMenu={(e) => e.preventDefault()}
           style={{
             position: "absolute",

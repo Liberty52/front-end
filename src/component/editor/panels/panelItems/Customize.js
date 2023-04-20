@@ -8,7 +8,7 @@ import { useEditor, useFrame } from "@layerhub-io/react"
 import { Modal, ROLE } from "baseui/modal"
 import { Block } from "baseui/block"
 import AngleDoubleLeft from "../../icons/AngleDoubleLeft"
-import Scrollable from "../../Scrollable"
+import Scrollable from "../../common/Scrollable"
 import { sampleFrames } from "../../../../constants/mock-data"
 import Scrollbar from "@layerhub-io/react-custom-scrollbar"
 import SwapHorizontal from "../../icons/SwapHorizontal"
@@ -20,7 +20,6 @@ import product_img from '../../../../image/icon/product.png';
 const colors = ["#ffffff", "#9B9B9B", "#4A4A4A", "#000000", "#A70C2C", "#DA9A15", "#F8E71D", "#47821A", "#4990E2"]
 
 const previewImgs = [product_img]
-
 
 const Customize = () => {
   const editor = useEditor()
@@ -188,7 +187,6 @@ const ResizeTemplate = () => {
   }, [frame])
 
   const applyResize = () => {
-    // @ts-ignore
     const size = activeKey === "0" ? selectedFrame : desiredFrame
     if (editor) {
       editor.frame.resize({
@@ -206,9 +204,7 @@ const ResizeTemplate = () => {
     setIsOpen(false)
   }
   const isEnabled =
-    // @ts-ignore
     (activeKey === "0" && selectedFrame.id !== 0) ||
-    // @ts-ignore
     (activeKey === "1" && !!parseInt(desiredFrame.width) && !!parseInt(desiredFrame.height))
 
   return (

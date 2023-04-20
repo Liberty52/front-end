@@ -2,7 +2,7 @@ import { useStyletron, styled } from "baseui"
 import Icons from "../icons"
 import { Block } from "baseui/block"
 import useAppContext from "../../../hooks/useAppContext"
-import Scrollable from "../Scrollable"
+import Scrollable from "../common/Scrollable"
 import useSidebarOpen from "../../../hooks/useSidebarOpen"
 
 const Container = styled("div", (props) => ({
