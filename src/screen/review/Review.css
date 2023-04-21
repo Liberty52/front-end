@@ -1,0 +1,72 @@
+.review {
+  margin: 0 15px;
+  margin-top: 40px;
+}
+
+.review .tab {
+  padding: 7px 0;
+  border-bottom: 1px solid gray;
+  text-align: center;
+}
+
+.review .title,
+.review .filter,
+.review .user,
+.review .content {
+  margin: 7px 0;
+}
+
+.review .title-div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.review .title-div .title {
+  font-weight: bold;
+}
+
+.review .title-div .button {
+  width: initial;
+  border-radius: 20px;
+}
+
+.review .title-div .button img {
+  width: 20px;
+}
+
+.review .filter {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.review .user {
+  display: flex;
+  align-items: center;
+}
+
+.review .user .name {
+  margin-right: 7px;
+}
+
+.review .user .image-crop {
+  width: 35px;
+  height: 35px;
+  margin: 0;
+  margin-right: 12px;
+}
+
+/* 모달 */
+.review .modal {
+  display: flex;
+}
+
+.review .modal .stars {
+  display: flex;
+  justify-content: center;
+}
+
+.review .modal .stars img {
+  width: 30px;
+  margin: 0 3px;
+}

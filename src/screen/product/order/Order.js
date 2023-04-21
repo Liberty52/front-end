@@ -1,11 +1,12 @@
 import './Order.css';
-import Header from '../../component/Header';
-import Footer from '../../component/Footer';
+import Header from '../../../component/Header';
+import Footer from '../../../component/Footer';
+import Review from '../../review/Review';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import product_img from '../../image/icon/product.png';
-import post from '../../axios/shopping/Cart';
-import ImageInput from '../../component/ImageInput';
+import product_img from '../../../image/icon/product.png';
+import post from '../../../axios/shopping/Cart';
+import ImageInput from '../../../component/ImageInput';
 
 const Order = () => {
   const [formValue, setFormValue] = useState({
@@ -192,6 +193,7 @@ const Order = () => {
           </form>
         </div>
       </div>
+      <Review />
       <Footer />
     </>
   );
