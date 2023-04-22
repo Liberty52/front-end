@@ -11,16 +11,15 @@
 
 .review .title-div,
 .review .filter,
-.review .user,
+.review .review-content .review-header,
 .review .review-content,
 .review .content,
 .review .pages {
-  margin: 7px 0;
+  margin: 10px 0;
 }
 
 .review .title-div {
   display: flex;
-  justify-content: space-between;
   align-items: center;
 }
 
@@ -43,29 +42,53 @@
   justify-content: flex-end;
 }
 
-.review .review-content {
-  padding: 7px 15px;
+.review .review-content .review-header {
+  display: flex;
+  justify-content: space-between;
 }
 
-.review .review-content .user {
+.review .review-content .review-header .user {
   display: flex;
   align-items: center;
 }
 
-.review .review-content .user .image-crop {
+.review .review-content .review-header .user .image-crop {
   width: 30px;
   height: 30px;
-  margin: 0;
   margin-right: 10px;
 }
 
-.review .review-content .user .name {
+.review .review-content .review-header .user .name {
   margin-right: 7px;
 }
 
-.review .review-content .rating img {
+.review .review-content .review-header .content-buttons {
+  display: flex;
+  align-items: center;
+}
+
+.review .review-content .review-header .content-buttons span {
+  margin-left: 5px;
+}
+
+.review .review-content .review-header .content-buttons a {
+  cursor: pointer;
+}
+
+.review .review-content .review-header .rating img {
   width: 20px;
   margin-right: 3px;
+}
+
+.review .review-content .files {
+  display: flex;
+}
+
+.review .review-content .files .image-crop {
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
+  border-radius: 0;
 }
 
 .review .pages {
@@ -75,9 +98,10 @@
 .review .pages span {
   margin-right: 20px;
   color: gray;
+  cursor: pointer;
 }
 
-.review .pages span .active {
+.review .pages .active {
   color: black;
   font-weight: bold;
 }
@@ -146,7 +170,6 @@
 .review .modal .images .image-crop {
   width: 70px;
   height: 70px;
-  margin: 0;
   margin-right: 10px;
   border-radius: 7px;
 }

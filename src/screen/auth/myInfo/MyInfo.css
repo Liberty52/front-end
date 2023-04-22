@@ -23,6 +23,10 @@
   margin: 6px 0 14px 0;
 }
 
+.myInfo .image-crop {
+  margin: 0 auto;
+}
+
 .myInfo-table {
   width: 100%;
 }

@@ -7,7 +7,7 @@ export default function Image(props) {
       <img
         className="image-preview"
         src={props.image ? props.image : photo}
-        alt="프로필 이미지"
+        alt={props.alt}
       />
     </div>
   );

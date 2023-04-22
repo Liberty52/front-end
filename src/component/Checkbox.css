@@ -2,6 +2,7 @@
   display: flex;
   align-items: center;
   width: fit-content;
+  cursor: pointer;
 }
 
 .checkbox {
@@ -16,5 +17,5 @@
 .checkbox:checked {
   background-image: url('../image/icon/checkbox.png');
   background-size: 100% 100%;
-  background-color: #d3b369;
+  background-color: black;
 }

@@ -1,7 +1,6 @@
 import './Review.css';
 import React, { useState, useEffect } from 'react';
 import Checkbox from '../../component/Checkbox';
-import ImageButton from '../../component/ImageButton';
 import Image from '../../component/Image';
 import ImageInput from '../../component/ImageInput';
 import Button from '../../component/Button';
@@ -12,7 +11,8 @@ import close from '../../image/icon/close.png';
 import { getReview } from '../../axios/review/Review';
 
 function Modal(props) {
-  const [rating, setRating] = useState(1);
+  const [rating, setRating] = useState(props.reviewInfo.rating);
+
   return (
     <div className="modal">
       <div className="modal-content">
@@ -32,7 +32,7 @@ function Modal(props) {
             <span>리뷰 작성</span>
             <img src={close} onClick={props.closeModal} />
           </div>
-          <div className="rating" onDrag={e => console.log(e.clientX)}>
+          <div className="rating">
             <img src={star_filled} onClick={() => setRating(1)} />
             <img
               src={rating < 2 ? star : star_filled}
@@ -51,7 +51,9 @@ function Modal(props) {
               onClick={() => setRating(5)}
             />
           </div>
-          <textarea name="content" required />
+          <textarea name="content" required>
+            {props.reviewInfo.content}
+          </textarea>
           <div className="images">
             <ImageInput />
             <ImageInput />
@@ -65,20 +67,64 @@ function Modal(props) {
 }
 
 function ReviewContent() {
+  const [modal, showModal] = useState(false);
+  // dummy data
+  const [reviewInfo, setReviewInfo] = useState({
+    image: pencil, // 프로필 이미지
+    nickname: '닉네임',
+    rating: 5,
+    content: '리뷰 내용요요요요요요요요용',
+    files: [pencil, star_filled, star_filled], // 리뷰에 첨부한 이미지
+  });
+
+  const filesChildNode = [];
+  reviewInfo.files.map(file => {
+    filesChildNode.push(<Image image={file} />);
+  });
+
   return (
     <div className="review-content">
-      <div className="user">
-        <Image image={pencil} />
-        <div className="name">닉네임</div>
-        <div className="rating">
-          <img src={star_filled} />
-          <img src={star_filled} />
-          <img src={star_filled} />
-          <img src={star_filled} />
-          <img src={star_filled} />
+      {modal ? (
+        <Modal closeModal={() => showModal(false)} reviewInfo={reviewInfo} />
+      ) : (
+        <></>
+      )}
+      <div className="review-header">
+        <div className="user">
+          <Image image={reviewInfo.image} />
+          <div className="name">닉네임</div>
+          <div className="rating">
+            <img src={star_filled} />
+            <img src={reviewInfo.rating < 2 ? star : star_filled} />
+            <img src={reviewInfo.rating < 3 ? star : star_filled} />
+            <img src={reviewInfo.rating < 4 ? star : star_filled} />
+            <img src={reviewInfo.rating < 5 ? star : star_filled} />
+          </div>
+        </div>
+        <div className="content-buttons">
+          <span>
+            <a
+              onClick={() => {
+                showModal(true);
+              }}
+            >
+              수정
+            </a>
+          </span>
+          <span>|</span>
+          <span>
+            <a
+              onClick={() => {
+                alert('삭제 axios 추가 필요'); // 삭제 axios
+              }}
+            >
+              삭제
+            </a>
+          </span>
         </div>
       </div>
-      <div className="content">리뷰 내용요요요요요요요요용</div>
+      <div className="content">{reviewInfo.content}</div>
+      <div className="files">{filesChildNode}</div>
     </div>
   );
 }
@@ -88,28 +134,18 @@ export default function Review() {
     getReview('LIB-001', 0, 5, false);
   }, []);
 
-  const [modal, showModal] = useState(false);
-
   return (
     <div className="review">
-      {modal ? <Modal closeModal={() => showModal(false)} /> : <></>}
       <div className="tab">리뷰</div>
       <div className="title-div">
         <div className="title">구매평 (개수)</div>
-        <ImageButton
-          type="button"
-          image={pencil}
-          onClick={() => {
-            showModal(true);
-          }}
-        />
       </div>
       <div className="filter">
         <Checkbox text="포토 구매평만 보기" />
       </div>
       <ReviewContent />
       <div className="pages">
-        <span>1</span>
+        <span className="active">1</span>
         <span>2</span>
       </div>
     </div>
