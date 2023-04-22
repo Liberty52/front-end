@@ -22,7 +22,7 @@ export default function Input(props) {
         maxLength={inputItem.maxLength}
         title={inputItem.title}
         value={value}
-        readOnly={inputItem.readOnly ? inputItem.readOnly : false}
+        readOnly={inputItem.readOnly}
         onChange={e => {
           setValue(e.target.value);
         }}

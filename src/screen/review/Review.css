@@ -9,10 +9,12 @@
   text-align: center;
 }
 
-.review .title,
+.review .title-div,
 .review .filter,
 .review .user,
-.review .content {
+.review .review-content,
+.review .content,
+.review .pages {
   margin: 7px 0;
 }
 
@@ -23,6 +25,7 @@
 }
 
 .review .title-div .title {
+  font-size: 15px;
   font-weight: bold;
 }
 
@@ -40,20 +43,43 @@
   justify-content: flex-end;
 }
 
-.review .user {
+.review .review-content {
+  padding: 7px 15px;
+}
+
+.review .review-content .user {
   display: flex;
   align-items: center;
 }
 
-.review .user .name {
+.review .review-content .user .image-crop {
+  width: 30px;
+  height: 30px;
+  margin: 0;
+  margin-right: 10px;
+}
+
+.review .review-content .user .name {
   margin-right: 7px;
 }
 
-.review .user .image-crop {
-  width: 35px;
-  height: 35px;
-  margin: 0;
-  margin-right: 12px;
+.review .review-content .rating img {
+  width: 20px;
+  margin-right: 3px;
+}
+
+.review .pages {
+  text-align: center;
+}
+
+.review .pages span {
+  margin-right: 20px;
+  color: gray;
+}
+
+.review .pages span .active {
+  color: black;
+  font-weight: bold;
 }
 
 /* 모달 */
@@ -61,12 +87,66 @@
   display: flex;
 }
 
-.review .modal .stars {
+.review .modal .modal-content {
+  margin: 0 30%;
+}
+
+.review .modal .title,
+.review .modal .rating,
+.review .modal textarea,
+.review .modal .images {
+  margin-bottom: 13px;
+}
+
+.review .modal .title {
+  display: flex;
+  font-weight: bold;
+  border-bottom: 1px solid gray;
+  padding: 10px 0;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.review .modal .title span {
+  font-size: 16px;
+}
+
+.review .modal .title img {
+  width: 19px;
+  height: 19px;
+}
+
+.review .modal .rating {
   display: flex;
   justify-content: center;
 }
 
-.review .modal .stars img {
-  width: 30px;
+.review .modal .rating img {
+  width: 33px;
   margin: 0 3px;
+}
+
+.review .modal textarea {
+  width: 100%;
+  height: 100px;
+  padding: 7px;
+  resize: none; /* 사용자 임의 변경 불가 */
+  border: 1px solid gray;
+}
+
+.review .modal textarea:focus-visible {
+  outline: none;
+  border: 1.5px solid gray;
+}
+
+.review .modal .images {
+  display: flex;
+}
+
+.review .modal .images .image-crop {
+  width: 70px;
+  height: 70px;
+  margin: 0;
+  margin-right: 10px;
+  border-radius: 7px;
 }
