@@ -71,3 +71,12 @@ th {
   margin-bottom: 10%;
   width: 10%;
 }
+
+.quantityInput {
+  width: 100%;
+}
+
+select {
+  width: 100%;
+  margin: 3%;
+}
