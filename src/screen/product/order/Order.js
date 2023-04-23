@@ -1,33 +1,33 @@
-import './Order.css';
-import Header from '../../../component/Header';
-import Footer from '../../../component/Footer';
-import Review from '../../review/Review';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import product_img from '../../../image/icon/product.png';
-import post from '../../../axios/shopping/Cart';
-import ImageInput from '../../../component/ImageInput';
+import "./Order.css";
+import Header from "../../../component/Header";
+import Footer from "../../../component/Footer";
+import Review from "../../review/Review";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import product_img from "../../../image/icon/product.png";
+import post from "../../../axios/shopping/Cart";
+import ImageInput from "../../../component/ImageInput";
 
 const Order = () => {
   const [formValue, setFormValue] = useState({
-    mounting_method: '',
-    basic_material: '',
-    add_material: '',
-    add_image: '',
+    mounting_method: "",
+    basic_material: "",
+    add_material: "",
+    add_image: "",
     quantity: 1,
   });
   let dto = {};
-  let imageFile = '';
+  let imageFile = "";
   const navigate = useNavigate();
-  const onHandleChange = e => {
+  const onHandleChange = (e) => {
     setFormValue({
       ...formValue,
       [e.target.name]: e.target.value,
     });
   };
-  const onHandleSubmit = e => {
+  const onHandleSubmit = (e) => {
     e.preventDefault();
-    const productName = 'Liberty 52_Frame';
+    const productName = "Liberty 52_Frame";
     const options = [
       `${formValue.mounting_method}`,
       `${formValue.basic_material}`,
@@ -50,7 +50,7 @@ const Order = () => {
   };
 
   function buy() {
-    navigate('/payment', {
+    navigate("/payment", {
       state: {
         mounting_method: `${formValue.mounting_method}`,
         basic_material: `${formValue.basic_material}`,
@@ -66,14 +66,17 @@ const Order = () => {
   return (
     <>
       <Header />
-      <div className="order-wrap">
-        <div className="order-title">
-          <h2>Liberty52_frame</h2>
-        </div>
-        <div className="order">
-          <div className="order-image">
+      <div className="container">
+        <div className="product">
+          <div className="product-title">
+            <h2>Liberty52_frame</h2>
+          </div>
+          <div className="product-image">
             <img src={product_img} alt="제품 이미지" />
           </div>
+        </div>
+
+        <div className="order">
           <form className="order-inputs" onSubmit={onHandleSubmit}>
             <div className="order-inputs-selects">
               <div className="mounting-method">
@@ -180,7 +183,7 @@ const Order = () => {
                   name="quantity"
                   value={formValue.quantity}
                   required
-                  onChange={e => {
+                  onChange={(e) => {
                     onHandleChange(e);
                     setPrice(defaultPrice * e.target.value);
                   }}
@@ -193,6 +196,7 @@ const Order = () => {
           </form>
         </div>
       </div>
+
       <Review />
       <Footer />
     </>

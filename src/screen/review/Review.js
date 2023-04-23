@@ -1,14 +1,14 @@
-import './Review.css';
-import React, { useState, useEffect } from 'react';
-import Checkbox from '../../component/Checkbox';
-import Image from '../../component/Image';
-import ImageInput from '../../component/ImageInput';
-import Button from '../../component/Button';
-import pencil from '../../image/icon/pencil.png';
-import star from '../../image/icon/star.png';
-import star_filled from '../../image/icon/star_filled.png';
-import close from '../../image/icon/close.png';
-import { getReview } from '../../axios/review/Review';
+import "./Review.css";
+import React, { useState, useEffect } from "react";
+import Checkbox from "../../component/Checkbox";
+import Image from "../../component/Image";
+import ImageInput from "../../component/ImageInput";
+import Button from "../../component/Button";
+import pencil from "../../image/icon/pencil.png";
+import star from "../../image/icon/star.png";
+import star_filled from "../../image/icon/star_filled.png";
+import close from "../../image/icon/close.png";
+import { deleteReview, getReview, putReview } from "../../axios/review/Review";
 
 function Modal(props) {
   const [rating, setRating] = useState(props.reviewInfo.rating);
@@ -17,14 +17,18 @@ function Modal(props) {
     <div className="modal">
       <div className="modal-content">
         <form
-          onSubmit={e => {
+          onSubmit={(e) => {
             e.preventDefault();
             console.log(rating);
             console.log(e.target.content.value);
             console.log(e.target.file[0].files);
             console.log(e.target.file[1].files);
             console.log(e.target.file[2].files);
-            // postReview() - axios
+            const dto = {
+              rating: rating,
+              content: e.target.content.value,
+            };
+            putReview(dto, e.target.file, props.reviewInfo.reviewId);
           }}
         >
           <div className="title">
@@ -51,13 +55,15 @@ function Modal(props) {
               onClick={() => setRating(5)}
             />
           </div>
-          <textarea name="content" required>
-            {props.reviewInfo.content}
-          </textarea>
+          <textarea
+            name="content"
+            value={props.reviewInfo.content}
+            required
+          ></textarea>
           <div className="images">
-            <ImageInput />
-            <ImageInput />
-            <ImageInput />
+            <ImageInput imgFile={props.reviewInfo.files[0]} />
+            <ImageInput imgFile={props.reviewInfo.files[1]} />
+            <ImageInput imgFile={props.reviewInfo.files[2]} />
           </div>
           <Button text="등록" />
         </form>
@@ -70,15 +76,16 @@ function ReviewContent() {
   const [modal, showModal] = useState(false);
   // dummy data
   const [reviewInfo, setReviewInfo] = useState({
+    reviewId: 1,
     image: pencil, // 프로필 이미지
-    nickname: '닉네임',
+    nickname: "닉네임",
     rating: 5,
-    content: '리뷰 내용요요요요요요요요용',
+    content: "리뷰 내용요요요요요요요요용",
     files: [pencil, star_filled, star_filled], // 리뷰에 첨부한 이미지
   });
 
   const filesChildNode = [];
-  reviewInfo.files.map(file => {
+  reviewInfo.files.map((file) => {
     filesChildNode.push(<Image image={file} />);
   });
 
@@ -115,7 +122,7 @@ function ReviewContent() {
           <span>
             <a
               onClick={() => {
-                alert('삭제 axios 추가 필요'); // 삭제 axios
+                deleteReview(reviewInfo.reviewId);
               }}
             >
               삭제
@@ -131,7 +138,7 @@ function ReviewContent() {
 
 export default function Review() {
   useEffect(() => {
-    getReview('LIB-001', 0, 5, false);
+    getReview("LIB-001", 0, 5, false);
   }, []);
 
   return (
