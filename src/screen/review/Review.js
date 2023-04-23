@@ -72,21 +72,13 @@ function Modal(props) {
   );
 }
 
-function ReviewContent() {
+function ReviewContent(props) {
   const [modal, showModal] = useState(false);
-  // dummy data
-  const [reviewInfo, setReviewInfo] = useState({
-    reviewId: 1,
-    image: pencil, // 프로필 이미지
-    nickname: "닉네임",
-    rating: 5,
-    content: "리뷰 내용요요요요요요요요용",
-    files: [pencil, star_filled, star_filled], // 리뷰에 첨부한 이미지
-  });
+  const reviewInfo = props.reviewInfo;
 
   const filesChildNode = [];
-  reviewInfo.files.map((file) => {
-    filesChildNode.push(<Image image={file} />);
+  reviewInfo.imageUrls.map((imageUrl) => {
+    filesChildNode.push(<Image image={imageUrl} />);
   });
 
   return (
@@ -98,8 +90,8 @@ function ReviewContent() {
       )}
       <div className="review-header">
         <div className="user">
-          <Image image={reviewInfo.image} />
-          <div className="name">닉네임</div>
+          <Image image={reviewInfo.authorProfileUrl} />
+          <div className="name">{reviewInfo.authorName}</div>
           <div className="rating">
             <img src={star_filled} />
             <img src={reviewInfo.rating < 2 ? star : star_filled} />
@@ -137,8 +129,28 @@ function ReviewContent() {
 }
 
 export default function Review() {
+  const contents = [];
+  const pages = [];
   useEffect(() => {
-    getReview("LIB-001", 0, 5, false);
+    getReview("LIB-001", 1, 5, false).then((res) => {
+      const contents = res.contents;
+      for (var i = 0; i < contents.length; i++) {
+        const reviewInfo = {
+          reviewId: contents.reviewId,
+          rating: contents.rating,
+          imageUrls: contents.imageUrls,
+          content: contents.content,
+          authorProfileUrl: contents.authorProfileUrl,
+          authorName: contents.authorName,
+        };
+        contents.push(<ReviewContent reviewInfo={reviewInfo} />);
+      }
+      for (var j = res.startPage; j <= res.lastPage; j++) {
+        if (j === res.currentPage)
+          pages.push(<span className="active">{j}</span>);
+        else pages.push(<span>{j}</span>);
+      }
+    });
   }, []);
 
   return (
@@ -150,11 +162,8 @@ export default function Review() {
       <div className="filter">
         <Checkbox text="포토 구매평만 보기" />
       </div>
-      <ReviewContent />
-      <div className="pages">
-        <span className="active">1</span>
-        <span>2</span>
-      </div>
+      <div>{contents}</div>
+      <div className="pages">{pages}</div>
     </div>
   );
 }

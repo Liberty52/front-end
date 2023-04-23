@@ -23,19 +23,22 @@ export function postReview(dto, file, orderId) {
     });
 }
 
-export function getReview(productId, size, page, photoFilter) {
-  axios
-    .get(
-      `/product/reviews/products/${productId}?size=${size}&page=${page}&photoFilter=${photoFilter}`,
-      {
-        headers: {
-          Authorization: localStorage.getItem("ACCESS_TOKEN"),
-        },
-      }
-    )
-    .then((response) => {
-      return response.data;
-    });
+export function getReview(productId, page, size, photoFilter) {
+  return new Promise((res) => {
+    axios
+      .get(
+        `/product/reviews/products/${productId}?size=${size}&page=${page}&photoFilter=${photoFilter}`,
+        {
+          headers: {
+            Authorization: localStorage.getItem("ACCESS_TOKEN"),
+          },
+        }
+      )
+      .then((response) => {
+        res(response.data);
+      })
+      .catch((e) => console.log(e));
+  });
 }
 
 export function putReview(dto, file, reviewId) {
