@@ -2,10 +2,8 @@ import React from "react"
 import { useStyletron } from "baseui"
 import { Block } from "baseui/block"
 import { images } from "../../../../constants/mock-data"
-// import AngleDoubleLeft from "~/components/Icons/AngleDoubleLeft"
-
 import { useEditor } from "@layerhub-io/react"
-import Scrollable from "../../Scrollable"
+import Scrollable from "../../common/Scrollable"
 import AngleDoubleLeft from "../../icons/AngleDoubleLeft"
 import useSidebarOpen from "../../../../hooks/useSidebarOpen"
 
@@ -48,7 +46,6 @@ const Images = () => {
         <Block padding="0 1.5rem">
           <div style={{ display: "grid", gap: "8px", gridTemplateColumns: "1fr 1fr" }}>
             {images.map((image, index) => {
-              console.log(index)
               return <ImageItem key={index} onClick={() => addObject(image.src.large)} preview={image.src.small} />
             })}
           </div>
