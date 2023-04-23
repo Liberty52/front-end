@@ -65,6 +65,7 @@ const Order = () => {
   const [price, setPrice] = useState(defaultPrice);
   return (
     <>
+    <Cookie />
       <Header />
       <div className="order-wrap">
         <div className="order-title">
