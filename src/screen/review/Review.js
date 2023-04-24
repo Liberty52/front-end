@@ -8,10 +8,25 @@ import pencil from "../../image/icon/pencil.png";
 import star from "../../image/icon/star.png";
 import star_filled from "../../image/icon/star_filled.png";
 import close from "../../image/icon/close.png";
-import { deleteReview, getReview, putReview } from "../../axios/review/Review";
+import {
+  deleteReview,
+  getReview,
+  postReview,
+  putReview,
+} from "../../axios/review/Review";
 
 function Modal(props) {
-  const [rating, setRating] = useState(props.reviewInfo.rating);
+  const modalInfo =
+    props.reviewInfo === undefined
+      ? {
+          rating: 1,
+          imageUrls: ["", "", ""],
+          content: "",
+        }
+      : props.reviewInfo;
+  console.log(modalInfo);
+  const [rating, setRating] = useState(modalInfo.rating);
+  const [text, setText] = useState(modalInfo.content);
 
   return (
     <div className="modal">
@@ -19,16 +34,24 @@ function Modal(props) {
         <form
           onSubmit={(e) => {
             e.preventDefault();
-            console.log(rating);
-            console.log(e.target.content.value);
-            console.log(e.target.file[0].files);
-            console.log(e.target.file[1].files);
-            console.log(e.target.file[2].files);
+            // console.log(rating);
+            // console.log(e.target.content.value);
+            // console.log(e.target.file[0].files);
+            // console.log(e.target.file[1].files);
+            // console.log(e.target.file[2].files);
             const dto = {
               rating: rating,
               content: e.target.content.value,
             };
-            putReview(dto, e.target.file, props.reviewInfo.reviewId);
+            if (props.reviewInfo === undefined) {
+              console.log(dto);
+              console.log(e.target.file);
+              postReview(
+                dto,
+                e.target.file,
+                "6343dcf2-83f8-451a-ae6d-d1faf953167a"
+              );
+            } else putReview(dto, e.target.file, modalInfo.reviewId);
           }}
         >
           <div className="title">
@@ -57,13 +80,16 @@ function Modal(props) {
           </div>
           <textarea
             name="content"
-            value={props.reviewInfo.content}
+            value={text}
             required
+            onChange={(e) => {
+              setText(e.target.value);
+            }}
           ></textarea>
           <div className="images">
-            <ImageInput imgFile={props.reviewInfo.files[0]} />
-            <ImageInput imgFile={props.reviewInfo.files[1]} />
-            <ImageInput imgFile={props.reviewInfo.files[2]} />
+            <ImageInput imgFile={modalInfo.imageUrls[0]} />
+            <ImageInput imgFile={modalInfo.imageUrls[1]} />
+            <ImageInput imgFile={modalInfo.imageUrls[2]} />
           </div>
           <Button text="등록" />
         </form>
@@ -129,36 +155,40 @@ function ReviewContent(props) {
 }
 
 export default function Review() {
+  const [modal, showModal] = useState(false);
+
   const contents = [];
   const pages = [];
   useEffect(() => {
-    getReview("LIB-001", 1, 5, false).then((res) => {
-      const contents = res.contents;
-      for (var i = 0; i < contents.length; i++) {
-        const reviewInfo = {
-          reviewId: contents.reviewId,
-          rating: contents.rating,
-          imageUrls: contents.imageUrls,
-          content: contents.content,
-          authorProfileUrl: contents.authorProfileUrl,
-          authorName: contents.authorName,
-        };
-        contents.push(<ReviewContent reviewInfo={reviewInfo} />);
-      }
-      for (var j = res.startPage; j <= res.lastPage; j++) {
-        if (j === res.currentPage)
-          pages.push(<span className="active">{j}</span>);
-        else pages.push(<span>{j}</span>);
-      }
-    });
+    // getReview("LIB-001", 1, 5, false).then((res) => {
+    //   const contents = res.contents;
+    //   for (var i = 0; i < contents.length; i++) {
+    //     const reviewInfo = {
+    //       reviewId: contents.reviewId,
+    //       rating: contents.rating,
+    //       imageUrls: contents.imageUrls,
+    //       content: contents.content,
+    //       authorProfileUrl: contents.authorProfileUrl,
+    //       authorName: contents.authorName,
+    //     };
+    //     contents.push(<ReviewContent reviewInfo={reviewInfo} />);
+    //   }
+    //   for (var j = res.startPage; j <= res.lastPage; j++) {
+    //     if (j === res.currentPage)
+    //       pages.push(<span className="active">{j}</span>);
+    //     else pages.push(<span>{j}</span>);
+    //   }
+    // });
   }, []);
 
   return (
     <div className="review">
+      {modal ? <Modal closeModal={() => showModal(false)} /> : <></>}
       <div className="tab">리뷰</div>
       <div className="title-div">
         <div className="title">구매평 (개수)</div>
       </div>
+      <Button text="구매평 쓰기" onClick={() => showModal(true)}></Button>
       <div className="filter">
         <Checkbox text="포토 구매평만 보기" />
       </div>
