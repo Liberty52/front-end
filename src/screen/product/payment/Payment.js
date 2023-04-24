@@ -1,12 +1,16 @@
 import './Payment.css';
 import DaumPostcode from 'react-daum-postcode';
-import { useLocation } from 'react-router-dom';
 import Header from '../../../component/Header';
+import { useLocation, useNavigate } from 'react-router-dom';
+// import Header from '../../../component/Header';
 import Button from '../../../component/Button';
 import InputGroup from '../../../component/InputGroup';
 import Checkbox from '../../../component/Checkbox';
 import liberty52 from '../../../image/icon/liberty52.jpg';
 import { useState, useEffect } from 'react';
+import {HttpStatusCode} from "axios";
+import {checkPayApproval, prepareCard} from "../../../axios/shopping/Payment";
+import PaymentInfo from "./PaymentInfo";
 
 function PaymentSection(props) {
   const deliveryInfo = props.deliveryInfo;
@@ -170,17 +174,6 @@ function DeliveryInfo(props) {
   );
 }
 
-function PaymentInfo() {
-  return (
-    <div className="confirm-info">
-      <div className="title">결제 상세 정보</div>
-      <div className="content">
-        <span>-</span>
-      </div>
-    </div>
-  );
-}
-
 function TermsOfUse() {
   return (
     <div className="confirm-termsOfUse">
@@ -224,7 +217,100 @@ function Total(props) {
   );
 }
 
+
 function ConfirmSection(props) {
+  const navigate = useNavigate();
+  const [success, setSuccess] = useState(false);
+
+  const productDto = {
+    productName: `Liberty 52_Frame`,
+    options: [
+      props.productInfo.mounting_method,
+      props.productInfo.basic_material,
+      props.productInfo.add_material
+    ],
+    quantity: props.productInfo.quantity,
+  }
+  const destinationDto = {
+    receiverName: props.deliveryInfo.receiverName,
+    receiverEmail: props.deliveryInfo.receiverEmail,
+    receiverPhoneNumber: props.deliveryInfo.receiverPhoneNumber,
+    address1: props.deliveryInfo.address1,
+    address2: props.deliveryInfo.address2,
+    zipCode: props.deliveryInfo.zipCode
+  }
+  const imageFile = props.productInfo.add_image;
+
+  const constants = {
+    PM_CARD: 'card',
+    PM_VBANK: 'vbank',
+    defaultVBankAccount: 'vbank_hana',
+    defaultDepositorName: destinationDto.receiverName
+  }
+
+  const [payment, setPayment] = useState({
+    paymentMethod: constants.PM_CARD,
+    vBankAccount: constants.defaultVBankAccount,
+    depositorName: constants.defaultDepositorName
+  });
+
+  const IMP = window.IMP;
+  IMP.init("imp07432404");
+
+  const requestPay = () => {
+    if (payment.paymentMethod === constants.PM_CARD) {
+
+      prepareCard({
+        productDto: productDto,
+        destinationDto: destinationDto
+      }, imageFile)
+          .then(res => {
+            const {merchantId, amount}  = res;
+
+            IMP.request_pay({
+              pg : 'html5_inicis',
+              pay_method : payment.paymentMethod,
+              merchant_uid: merchantId,
+              name : productDto.productName,
+              amount : amount,
+              currency : 'KRW',
+              buyer_email : destinationDto.receiverEmail,
+              buyer_name : destinationDto.receiverName,
+              buyer_tel : destinationDto.receiverPhoneNumber,
+              buyer_addr : destinationDto.address1,
+              buyer_postcode : destinationDto.zipCode,
+            }, function (rsp) { // callback
+              if (rsp.success) {
+                console.log(rsp);
+
+                const res = checkPayApproval(merchantId);
+
+                if (res.status === HttpStatusCode.Ok) {
+                  setSuccess(true)
+                } else if (res.status === HttpStatusCode.BadRequest) {
+                  alert("결제가 실패하였습니다. 결제가 위조 되었을 가능성이 있습니다.");
+                } else {
+                  alert('결제가 실패하였습니다.');
+                }
+              } else {
+                if (rsp.error_msg !== '사용자가 결제를 취소하셨습니다') {
+                  alert(`결제에 실패하였습니다. 에러 내용: ${rsp.error_msg}`);
+                }
+              }
+            });
+
+          })
+
+    } else if (payment.paymentMethod === constants.PM_VBANK) {
+      // Not Yet
+      alert("준비중입니다.");
+    }
+  }
+
+  if (success) {
+    navigate('/inquiry');
+  }
+
   return (
     <div className="confirm-section">
       <form
@@ -238,10 +324,15 @@ function ConfirmSection(props) {
         <Product productInfo={props.productInfo} />
         <BackgroundImage add_image={props.productInfo.add_image} />
         <DeliveryInfo deliveryInfo={props.deliveryInfo} />
-        <PaymentInfo />
+        <PaymentInfo
+            constants={constants}
+            setPayment={setPayment} />
         <TermsOfUse />
         <Total quantity={props.productInfo.quantity} />
-        <Button text="결제하기" />
+        <Button
+            text="결제하기"
+            onClick={requestPay}
+        />
         <Button
           text="돌아가기"
           onClick={e => {

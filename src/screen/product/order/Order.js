@@ -1,14 +1,15 @@
 import "./Order.css";
-import Header from "../../../component/Header";
-import Footer from "../../../component/Footer";
-import Review from "../../review/Review";
+import Header from "../../component/Header";
+import Footer from "../../component/Footer";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import product_img from "../../../image/icon/product.png";
-import post from "../../../axios/shopping/Cart";
-import ImageInput from "../../../component/ImageInput";
+import product_img from "../../image/icon/product.png";
+import post from "../../axios/shopping/Cart";
+import ImageInput from "../../component/ImageInput";
+import Cookie from "../auth/redirect/Cookie";
 
 const Order = () => {
+  const [mode, setMode] = useState("");
   const [formValue, setFormValue] = useState({
     mounting_method: "",
     basic_material: "",
@@ -42,29 +43,37 @@ const Order = () => {
     };
     dto = data;
     imageFile = image;
+    switch (mode) {
+      case "cart":
+        post(dto, imageFile);
+        break;
+      case "buy":
+        navigate("/payment", {
+          state: {
+            mounting_method: `${formValue.mounting_method}`,
+            basic_material: `${formValue.basic_material}`,
+            add_material: `${formValue.add_material}`,
+            add_image: imageFile,
+            quantity: `${formValue.quantity}`,
+          },
+        });
+        break;
+    }
   };
 
   const addCart = () => {
-    console.log(dto, imageFile);
-    post(dto, imageFile);
+    setMode("cart");
   };
 
-  function buy() {
-    navigate("/payment", {
-      state: {
-        mounting_method: `${formValue.mounting_method}`,
-        basic_material: `${formValue.basic_material}`,
-        add_material: `${formValue.add_material}`,
-        add_image: `${formValue.add_image}`,
-        quantity: `${formValue.quantity}`,
-      },
-    });
-  }
+  const buy = () => {
+    setMode("buy");
+  };
 
   const defaultPrice = 1550000;
   const [price, setPrice] = useState(defaultPrice);
   return (
     <>
+      <Cookie />
       <Header />
       <div className="container">
         <div className="product">
@@ -196,8 +205,6 @@ const Order = () => {
           </form>
         </div>
       </div>
-
-      <Review />
       <Footer />
     </>
   );
