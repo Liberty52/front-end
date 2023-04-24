@@ -292,7 +292,6 @@ function ConfirmSection(props) {
   IMP.init("imp07432404");
 
   const requestPay = () => {
-
     if (payment.paymentMethod === constants.PM_CARD) {
 
       prepareCard({
