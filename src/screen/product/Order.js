@@ -9,6 +9,7 @@ import ImageInput from '../../component/ImageInput';
 import Cookie from "../auth/redirect/Cookie";
 
 const Order = () => {
+  const [mode,setMode] = useState("");
   const [formValue, setFormValue] = useState({
     mounting_method: '',
     basic_material: '',
@@ -42,23 +43,30 @@ const Order = () => {
     };
     dto = data;
     imageFile = image;
+    switch (mode){
+      case "cart" :
+        post(dto, imageFile);
+        break;
+      case "buy":
+        navigate('/payment', {
+          state: {
+            mounting_method: `${formValue.mounting_method}`,
+            basic_material: `${formValue.basic_material}`,
+            add_material: `${formValue.add_material}`,
+            add_image: imageFile,
+            quantity: `${formValue.quantity}`,
+          },
+        });
+        break;
+    }
   };
 
   const addCart = () => {
-    console.log(dto, imageFile);
-    post(dto, imageFile);
+    setMode("cart")
   };
 
-  function buy() {
-    navigate('/payment', {
-      state: {
-        mounting_method: `${formValue.mounting_method}`,
-        basic_material: `${formValue.basic_material}`,
-        add_material: `${formValue.add_material}`,
-        add_image: `${formValue.add_image}`,
-        quantity: `${formValue.quantity}`,
-      },
-    });
+  const buy = () => {
+    setMode("buy")
   }
 
   const defaultPrice = 1550000;
@@ -171,31 +179,31 @@ const Order = () => {
                     />
                     배경 이미지 추가하기
                   </label> */}
-                  <ImageInput />
+                    <ImageInput />
+                  </div>
                 </div>
+                <div className="quantity">
+                  Liberty52_frame
+                  <input
+                      type="number"
+                      name="quantity"
+                      value={formValue.quantity}
+                      required
+                      onChange={e => {
+                        onHandleChange(e);
+                        setPrice(defaultPrice * e.target.value);
+                      }}
+                  />
+                  {price}원
+                </div>
+                <input type="submit" value="구매하기" onClick={buy} />
+                <input type="submit" value="장바구니" onClick={addCart} />
               </div>
-              <div className="quantity">
-                Liberty52_frame
-                <input
-                  type="number"
-                  name="quantity"
-                  value={formValue.quantity}
-                  required
-                  onChange={e => {
-                    onHandleChange(e);
-                    setPrice(defaultPrice * e.target.value);
-                  }}
-                />
-                {price}원
-              </div>
-              <input type="submit" value="구매하기" onClick={buy} />
-              <input type="submit" value="장바구니" onClick={addCart} />
-            </div>
-          </form>
+            </form>
+          </div>
         </div>
-      </div>
-      <Footer />
-    </>
+        <Footer />
+      </>
   );
 };
 
