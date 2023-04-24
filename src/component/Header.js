@@ -42,6 +42,7 @@ export default function Header() {
     } else {
       setHeaderItemsRight([
         { name: '로그인', href: 'login' },
+        { name: "장바구니", href: "cart" },
         { name: '구매하기', href: 'order' },
       ]);
     }

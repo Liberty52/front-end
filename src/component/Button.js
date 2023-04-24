@@ -1,17 +1,13 @@
 import './Button.css';
 
 export default function Button(props) {
-  if (props.href) {
-    return (
-      <button className={'button'} onClick={props.onClick}>
-        <a href={props.href}>{props.text}</a>
-      </button>
-    );
-  } else {
-    return (
-      <button className="button" onClick={props.onClick}>
-        {props.text}
-      </button>
-    );
-  }
+  return (
+    <button
+      type={props.type ? props.type : 'submit'}
+      className={'button'}
+      onClick={props.onClick}
+    >
+      {props.href ? <a href={props.href}>{props.text}</a> : <>{props.text}</>}
+    </button>
+  );
 }

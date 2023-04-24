@@ -1,107 +1,45 @@
 import './Payment.css';
+import DaumPostcode from 'react-daum-postcode';
+import { useLocation } from 'react-router-dom';
+import Header from '../../../component/Header';
 import { useLocation, useNavigate } from 'react-router-dom';
 // import Header from '../../../component/Header';
 import Button from '../../../component/Button';
 import InputGroup from '../../../component/InputGroup';
 import Checkbox from '../../../component/Checkbox';
 import liberty52 from '../../../image/icon/liberty52.jpg';
-import { useEffect, useState } from 'react';
-import PaymentInfo from "./PaymentInfo";
-import {checkPayApproval, prepareCard} from "../../../axios/shopping/Payment";
-import {HttpStatusCode} from "axios";
-
-function Header() {
-  const headerItemsLeft = [
-    { name: '로고', href: '#' },
-    { name: '제품소개', href: '#' },
-    { name: '사업소개', href: '#' },
-    { name: '지점소개(쇼룸)', href: '#' },
-  ];
-
-  const headerLeft = [];
-  for (let i in headerItemsLeft) {
-    let headerItem = headerItemsLeft[i];
-    headerLeft.push(
-      <li key={headerItem.name}>
-        <a href={'/' + headerItem.href}>{headerItem.name}</a>
-      </li>
-    );
-  }
-
-  const [headerItemsRight, setHeaderItemsRight] = useState();
-
-  useEffect(() => {
-    if (localStorage.getItem('ACCESS_TOKEN')) {
-      setHeaderItemsRight([
-        { name: '내정보', href: 'myInfo' },
-        {
-          name: '로그아웃',
-          onClick: () => {
-            if (window.confirm('로그아웃하시겠습니까?')) {
-              localStorage.removeItem('ACCESS_TOKEN');
-              localStorage.removeItem('REFRESH_TOKEN');
-              window.location.href = '/';
-            }
-          },
-          href: '#',
-        },
-        { name: '장바구니', href: 'cart' },
-        { name: '바로구매', href: '#' },
-      ]);
-    } else {
-      setHeaderItemsRight([
-        { name: '로그인', href: 'login' },
-        { name: '바로구매', href: '#' },
-      ]);
-    }
-  }, []);
-
-  const headerRight = [];
-  for (let i in headerItemsRight) {
-    let headerItem = headerItemsRight[i];
-    headerRight.push(
-      <li key={headerItem.name}>
-        <button onClick={headerItem.onClick}>
-          <a href={'/' + headerItem.href}>{headerItem.name}</a>
-        </button>
-      </li>
-    );
-  }
-  return (
-    <div className="header">
-      <ul className="header-items">{headerLeft}</ul>
-      <ul className="header-items">{headerRight}</ul>
-    </div>
-  );
-}
+import { useState, useEffect } from 'react';
 
 function PaymentSection(props) {
+  const deliveryInfo = props.deliveryInfo;
+  const [address, setAddress] = useState({
+    address1: deliveryInfo.address1,
+    zipCode: deliveryInfo.zipCode,
+  });
+  const [visible, setVisible] = useState(false); // 주소 검색창 (react daum postcoded)
   const paymentItems = [
     {
       type: 'text',
       name: 'receiverName',
       required: true,
       maxLength: 25,
-      value: props.paymentInfo.receiverName,
+      value: deliveryInfo.receiverName,
     },
     {
       type: 'text',
-      name: 'address1',
+      name: 'address',
       required: true,
-      value: props.paymentInfo.address1,
+      value: address.address1
+        ? address.address1 + ' (' + address.zipCode + ')'
+        : '',
+      onClick: () => setVisible(true),
+      readOnly: true,
     },
     {
       type: 'text',
       name: 'address2',
       required: true,
-      value: props.paymentInfo.address2,
-    },
-    {
-      type: 'text',
-      name: 'zipCode',
-      required: true,
-      value: props.paymentInfo.zipCode,
-      pattern: '[0-9]*',
+      value: deliveryInfo.address2,
     },
   ];
 
@@ -110,7 +48,7 @@ function PaymentSection(props) {
       type: 'email',
       name: 'receiverEmail',
       required: true,
-      value: props.paymentInfo.receiverEmail,
+      value: deliveryInfo.receiverEmail,
     },
     {
       type: 'text',
@@ -119,7 +57,7 @@ function PaymentSection(props) {
       pattern: '01[0,1][0-9]{6,8}',
       maxLength: 11,
       title: 'ex) 01012341234',
-      value: props.paymentInfo.receiverPhoneNumber,
+      value: deliveryInfo.receiverPhoneNumber,
     },
   ];
 
@@ -129,13 +67,15 @@ function PaymentSection(props) {
         onSubmit={e => {
           e.preventDefault();
           props.setSection('confirm');
-          props.setPaymentInfo({
+          props.setDeliveryInfo({
             receiverName: e.target.receiverName.value,
-            address1: e.target.address1.value,
+            address1: address.address1,
             address2: e.target.address2.value,
-            zipCode: e.target.zipCode.value,
             receiverEmail: e.target.receiverEmail.value,
-            receiverPhoneNumber: e.target.receiverPhoneNumber.value,
+            zipCode: address.zipCode,
+            receiverPhoneNumber: e.target.checkbox.checked
+              ? ''
+              : e.target.receiverPhoneNumber.value,
           });
         }}
       >
@@ -144,12 +84,37 @@ function PaymentSection(props) {
         </div>
         <div className="payment-user">
           <div>이름 및 주소 입력:</div>
+          {/* 모달로 구현 */}
+          <div style={{ display: visible ? 'block' : 'none' }}>
+            <Button
+              type="button"
+              text="닫기"
+              onClick={() => setVisible(false)}
+            />
+            <DaumPostcode
+              onComplete={data => {
+                setAddress({
+                  address1: data.address,
+                  zipCode: data.zonecode,
+                });
+                setVisible(false);
+              }}
+              autoClose={false}
+            />
+          </div>
           <InputGroup inputItems={paymentItems} />
         </div>
         <div className="payment-contact">
           <div>연락처 정보:</div>
           <InputGroup inputItems={contactItems} />
-          <Checkbox text="휴대폰 번호가 없습니다." />
+          <Checkbox
+            text="휴대폰 번호가 없습니다."
+            onChange={e => {
+              const input = document.querySelector('#receiverPhoneNumber');
+              input.disabled = e.target.checked;
+              input.required = !e.target.checked;
+            }}
+          />
         </div>
         <Button text="결제 페이지로 이동" />
       </form>
@@ -193,20 +158,30 @@ function DeliveryInfo(props) {
         <div>
           <div>배송지: </div>
           <div>
-            ({props.paymentInfo.zipCode}) {props.paymentInfo.address1}{' '}
-            {props.paymentInfo.address2}
+            ({props.deliveryInfo.zipCode}) {props.deliveryInfo.address1}{' '}
           </div>
+          <div>{props.deliveryInfo.address2}</div>
         </div>
         <div>
           <div>연락처 정보:</div>
-          <div>{props.paymentInfo.receiverEmail}</div>
-          <div>{props.paymentInfo.receiverPhoneNumber}</div>
+          <div>{props.deliveryInfo.receiverEmail}</div>
+          <div>{props.deliveryInfo.receiverPhoneNumber}</div>
         </div>
       </div>
     </div>
   );
 }
 
+function PaymentInfo() {
+  return (
+    <div className="confirm-info">
+      <div className="title">결제 상세 정보</div>
+      <div className="content">
+        <span>-</span>
+      </div>
+    </div>
+  );
+}
 
 function TermsOfUse() {
   return (
@@ -216,7 +191,7 @@ function TermsOfUse() {
         <Checkbox
           text={
             <div>
-              <a href="#">Liberty 개인정보 취급방침</a>
+              <a href="">Liberty 개인정보 취급방침</a>
               <span>
                 에 따라 개인정보를 수집하고, 사용하고, 제3자에 제공하고,
                 처리한다는 점에 동의합니다.
@@ -357,7 +332,7 @@ function ConfirmSection(props) {
         </div>
         <Product productInfo={props.productInfo} />
         <BackgroundImage add_image={props.productInfo.add_image} />
-        <DeliveryInfo paymentInfo={props.paymentInfo} />
+        <DeliveryInfo deliveryInfo={props.deliveryInfo} />
         <PaymentInfo
             constants={constants}
             setPayment={setPayment} />
@@ -384,7 +359,7 @@ export default function Payment() {
   const productInfo = { ...location.state };
 
   const [section, setSection] = useState('form');
-  const [paymentInfo, setPaymentInfo] = useState({
+  const [deliveryInfo, setDeliveryInfo] = useState({
     receiverName: '',
     address1: '',
     address2: '',
@@ -398,14 +373,14 @@ export default function Payment() {
       {section === 'form' ? (
         <PaymentSection
           setSection={setSection}
-          paymentInfo={paymentInfo}
-          setPaymentInfo={setPaymentInfo}
+          deliveryInfo={deliveryInfo}
+          setDeliveryInfo={setDeliveryInfo}
         />
       ) : (
         <ConfirmSection
           setSection={setSection}
           productInfo={productInfo}
-          paymentInfo={paymentInfo}
+          deliveryInfo={deliveryInfo}
         />
       )}
     </div>

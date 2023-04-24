@@ -349,3 +349,22 @@ export const images = [
       alt: "",
     },
 ]
+
+export const sampleFrames = [
+  {
+    id: 1,
+    name: "Liberty 52 Frame - Minimum Size",
+    width: 1024,
+    height: 768,
+    unit: "px",
+    previewId: 0,
+  },
+  {
+    id: 2,
+    name: "Liberty 52 Frame - Actual Size",
+    width: 1920,
+    height: 1080,
+    unit: "px",
+    previewId: 0,
+  },
+]
