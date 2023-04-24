@@ -1,5 +1,5 @@
 import './Payment.css';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 // import Header from '../../../component/Header';
 import Button from '../../../component/Button';
 import InputGroup from '../../../component/InputGroup';
@@ -7,8 +7,8 @@ import Checkbox from '../../../component/Checkbox';
 import liberty52 from '../../../image/icon/liberty52.jpg';
 import { useEffect, useState } from 'react';
 import PaymentInfo from "./PaymentInfo";
-import uuid from "react-uuid";
 import {checkPayApproval, prepareCard} from "../../../axios/shopping/Payment";
+import {HttpStatusCode} from "axios";
 
 function Header() {
   const headerItemsLeft = [
@@ -252,9 +252,9 @@ function Total(props) {
 }
 
 
-
-
 function ConfirmSection(props) {
+  const navigate = useNavigate();
+  const [success, setSuccess] = useState(false);
 
   const constants = {
     PM_CARD: 'card',
@@ -269,44 +269,64 @@ function ConfirmSection(props) {
     depositorName: constants.defaultDepositorName
   });
 
-  const productName = `Liberty52_Frame ${props.productInfo.quantity} 개`;
-  const amount = 1_550_000 * props.productInfo.quantity; // 변경해야함.
-  const bEmail = props.paymentInfo.receiverEmail;
-  const bName = props.paymentInfo.receiverName;
-  const bTel = props.paymentInfo.receiverPhoneNumber;
-  const bAddr = props.paymentInfo.address1;
-  const bPostcode = props.paymentInfo.zipCode;
+  const productDto = {
+    productName: `Liberty 52_Frame`,
+    options: [
+        props.productInfo.mounting_method,
+        props.productInfo.basic_material,
+        props.productInfo.add_material
+    ],
+    quantity: props.productInfo.quantity,
+  }
+  const destinationDto = {
+    receiverName: props.paymentInfo.receiverName,
+    receiverEmail: props.paymentInfo.receiverEmail,
+    receiverPhoneNumber: props.paymentInfo.receiverPhoneNumber,
+    address1: props.paymentInfo.address1,
+    address2: props.paymentInfo.address2,
+    zipCode: props.paymentInfo.zipCode
+  }
+  const imageFile = props.productInfo.add_image;
 
   const IMP = window.IMP;
   IMP.init("imp07432404");
 
   const requestPay = () => {
+
     if (payment.paymentMethod === constants.PM_CARD) {
 
-      prepareCard({ buyerEmail: bEmail, amount: amount })
+      prepareCard({
+        productDto: productDto,
+        destinationDto: destinationDto
+      }, imageFile)
           .then(res => {
-            const merchantUid = res;
+            const {merchantId, amount}  = res;
 
             IMP.request_pay({
               pg : 'html5_inicis',
               pay_method : payment.paymentMethod,
-              merchant_uid: merchantUid,
-              name : productName,
+              merchant_uid: merchantId,
+              name : productDto.productName,
               amount : amount,
               currency : 'KRW',
-              buyer_email : bEmail,
-              buyer_name : bName,
-              buyer_tel : bTel,
-              buyer_addr : bAddr,
-              buyer_postcode : bPostcode,
+              buyer_email : destinationDto.receiverEmail,
+              buyer_name : destinationDto.receiverName,
+              buyer_tel : destinationDto.receiverPhoneNumber,
+              buyer_addr : destinationDto.address1,
+              buyer_postcode : destinationDto.zipCode,
             }, function (rsp) { // callback
               if (rsp.success) {
                 console.log(rsp);
-                checkPayApproval({
-                  impUid: rsp.imp_uid,
-                  merchantUid: rsp.merchant_uid
-                });
 
+                const res = checkPayApproval(merchantId);
+
+                if (res.status === HttpStatusCode.Ok) {
+                  setSuccess(true)
+                } else if (res.status === HttpStatusCode.BadRequest) {
+                  alert("결제가 실패하였습니다. 결제가 위조 되었을 가능성이 있습니다.");
+                } else {
+                  alert('결제가 실패하였습니다.');
+                }
               } else {
                 if (rsp.error_msg !== '사용자가 결제를 취소하셨습니다') {
                   alert(`결제에 실패하였습니다. 에러 내용: ${rsp.error_msg}`);
@@ -316,11 +336,14 @@ function ConfirmSection(props) {
 
           })
 
-
-
     } else if (payment.paymentMethod === constants.PM_VBANK) {
-
+      // Not Yet
+      alert("준비중입니다.");
     }
+  }
+
+  if (success) {
+    navigate('/inquiry');
   }
 
   return (

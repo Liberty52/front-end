@@ -1,19 +1,26 @@
 import axios from "../axios";
-import {HttpStatusCode} from "axios";
 
-export function prepareCard(dto) {
+export function prepareCard(dto, file) {
+    console.log(file);
+    const formData = new FormData();
+    formData.append('imageFile', file);
+    formData.append(
+        'dto',
+        new Blob([JSON.stringify(dto)], { type: 'application/json' })
+    );
     return new Promise(res => {
         axios
             .post('/product/orders/payment/card/prepare',
-                JSON.stringify(dto),
+                formData,
                 {
                     headers: {
-                        'Content-Type': `application/json`,
+                        'Content-Type': `multipart/form-data`,
+                        'Authorization': localStorage.getItem('ACCESS_TOKEN'),
                     }
                 }
             )
             .then(response => {
-                res(response.data.merchantUid);
+                res(response.data);
             })
             .catch(e => {
                 console.log(e);
@@ -22,29 +29,27 @@ export function prepareCard(dto) {
     });
 }
 
-export function checkPayApproval(dto) {
-    axios
-        .post('/product/orders/payment/card',
-            JSON.stringify(dto),
-            {
-                headers: {
-                    'Content-Type': `application/json`,
+export function checkPayApproval(orderId) {
+    return new Promise(res => {
+        axios
+            .get('/product/orders/payment/card/confirm/'+orderId,
+                {
+                    headers: {
+                        'Content-Type': `application/json`,
+                        'Authorization': localStorage.getItem('ACCESS_TOKEN')
+                    }
                 }
-            }
-        )
-        .then(response => {
-            if (response.status === HttpStatusCode.Ok) {
-                // 결제 완료 -> 주문 조회 페이지로 이동
-                alert("결제가 완료되었습니다.");
+            )
+            .then(response => {
+                res(response);
+            })
+            .catch(e => {
+                console.log(e);
+            })
+    });
 
-            } else if (response.status === HttpStatusCode.BadRequest) {
-                alert("결제가 실패하였습니다. 결제가 위조 되었을 가능성이 있습니다.");
-            } else {
-                alert('결제가 실패하였습니다.');
-            }
-        })
-        .catch(e => {
-            console.log(e);
-            alert("결제가 실패하였습니다.");
-        });
+}
+
+export function payByVBank() {
+
 }
