@@ -2,7 +2,7 @@ import { useStyletron, styled } from "baseui"
 import Icons from "../icons"
 import { Block } from "baseui/block"
 import useAppContext from "../../../hooks/useAppContext"
-import Scrollable from "../Scrollable"
+import Scrollable from "../common/Scrollable"
 import useSidebarOpen from "../../../hooks/useSidebarOpen"
 
 const Container = styled("div", (props) => ({
@@ -17,11 +17,24 @@ const BASE_ITEMS = [
       id: "images",
       name: "Images",
     },
+    {
+      id: "uploads",
+      name: "Uploads",
+    },
+    {
+      id: "customize",
+      name: "Customize",
+    },
+    {
+      id: "layers",
+      name: "Layers",
+    },
   ]
 
 const PanelsList = () => {
   const { activePanel } = useAppContext()
   const PANEL_ITEMS = BASE_ITEMS
+
   return (
     <Container>
       <Scrollable autoHide={true}>
@@ -43,8 +56,8 @@ const PanelListItem = ({ label, icon, activePanel, name }) => {
   const { setActivePanel } = useAppContext()
   const {setIsSidebarOpen} = useSidebarOpen()
   const [css, theme] = useStyletron()
-  // @ts-ignore
   const Icon = Icons[icon]
+
   return (
     <Block
       id="EditorPanelList"

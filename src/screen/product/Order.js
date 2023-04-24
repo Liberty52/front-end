@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import product_img from '../../image/icon/product.png';
 import post from '../../axios/shopping/Cart';
 import ImageInput from '../../component/ImageInput';
+import Cookie from "../auth/redirect/Cookie";
 
 const Order = () => {
   const [formValue, setFormValue] = useState({
@@ -64,6 +65,7 @@ const Order = () => {
   const [price, setPrice] = useState(defaultPrice);
   return (
     <>
+    <Cookie />
       <Header />
       <div className="order-wrap">
         <div className="order-title">
