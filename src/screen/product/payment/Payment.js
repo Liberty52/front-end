@@ -1,6 +1,5 @@
 import './Payment.css';
 import DaumPostcode from 'react-daum-postcode';
-import { useLocation } from 'react-router-dom';
 import Header from '../../../component/Header';
 import { useLocation, useNavigate } from 'react-router-dom';
 // import Header from '../../../component/Header';
@@ -9,6 +8,9 @@ import InputGroup from '../../../component/InputGroup';
 import Checkbox from '../../../component/Checkbox';
 import liberty52 from '../../../image/icon/liberty52.jpg';
 import { useState, useEffect } from 'react';
+import {HttpStatusCode} from "axios";
+import {checkPayApproval, prepareCard} from "../../../axios/shopping/Payment";
+import PaymentInfo from "./PaymentInfo";
 
 function PaymentSection(props) {
   const deliveryInfo = props.deliveryInfo;
@@ -172,17 +174,6 @@ function DeliveryInfo(props) {
   );
 }
 
-function PaymentInfo() {
-  return (
-    <div className="confirm-info">
-      <div className="title">결제 상세 정보</div>
-      <div className="content">
-        <span>-</span>
-      </div>
-    </div>
-  );
-}
-
 function TermsOfUse() {
   return (
     <div className="confirm-termsOfUse">
@@ -231,11 +222,30 @@ function ConfirmSection(props) {
   const navigate = useNavigate();
   const [success, setSuccess] = useState(false);
 
+  const productDto = {
+    productName: `Liberty 52_Frame`,
+    options: [
+      props.productInfo.mounting_method,
+      props.productInfo.basic_material,
+      props.productInfo.add_material
+    ],
+    quantity: props.productInfo.quantity,
+  }
+  const destinationDto = {
+    receiverName: props.deliveryInfo.receiverName,
+    receiverEmail: props.deliveryInfo.receiverEmail,
+    receiverPhoneNumber: props.deliveryInfo.receiverPhoneNumber,
+    address1: props.deliveryInfo.address1,
+    address2: props.deliveryInfo.address2,
+    zipCode: props.deliveryInfo.zipCode
+  }
+  const imageFile = props.productInfo.add_image;
+
   const constants = {
     PM_CARD: 'card',
     PM_VBANK: 'vbank',
     defaultVBankAccount: 'vbank_hana',
-    defaultDepositorName: props.paymentInfo.receiverName
+    defaultDepositorName: destinationDto.receiverName
   }
 
   const [payment, setPayment] = useState({
@@ -243,25 +253,6 @@ function ConfirmSection(props) {
     vBankAccount: constants.defaultVBankAccount,
     depositorName: constants.defaultDepositorName
   });
-
-  const productDto = {
-    productName: `Liberty 52_Frame`,
-    options: [
-        props.productInfo.mounting_method,
-        props.productInfo.basic_material,
-        props.productInfo.add_material
-    ],
-    quantity: props.productInfo.quantity,
-  }
-  const destinationDto = {
-    receiverName: props.paymentInfo.receiverName,
-    receiverEmail: props.paymentInfo.receiverEmail,
-    receiverPhoneNumber: props.paymentInfo.receiverPhoneNumber,
-    address1: props.paymentInfo.address1,
-    address2: props.paymentInfo.address2,
-    zipCode: props.paymentInfo.zipCode
-  }
-  const imageFile = props.productInfo.add_image;
 
   const IMP = window.IMP;
   IMP.init("imp07432404");
