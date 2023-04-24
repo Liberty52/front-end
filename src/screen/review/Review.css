@@ -15,12 +15,13 @@
 .review .review-content,
 .review .content,
 .review .pages {
-  margin: 10px 0;
+  margin: 8px 0;
 }
 
 .review .title-div {
   display: flex;
   align-items: center;
+  justify-content: space-between;
 }
 
 .review .title-div .title {
@@ -29,12 +30,8 @@
 }
 
 .review .title-div .button {
-  width: initial;
-  border-radius: 20px;
-}
-
-.review .title-div .button img {
-  width: 20px;
+  width: auto;
+  padding: 6px 10px;
 }
 
 .review .filter {

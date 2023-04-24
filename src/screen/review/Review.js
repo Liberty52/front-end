@@ -32,23 +32,14 @@ function Modal(props) {
         <form
           onSubmit={e => {
             e.preventDefault();
-            // console.log(rating);
-            // console.log(e.target.content.value);
-            // console.log(e.target.file[0].files);
-            // console.log(e.target.file[1].files);
-            // console.log(e.target.file[2].files);
             const dto = {
+              productName: 'Liberty 52',
               rating: rating,
               content: e.target.content.value,
+              orderId: '6343dcf2-83f8-451a-ae6d-d1faf953167a',
             };
             if (props.reviewInfo === undefined) {
-              console.log(dto);
-              console.log(e.target.file);
-              postReview(
-                dto,
-                e.target.file,
-                '6343dcf2-83f8-451a-ae6d-d1faf953167a'
-              );
+              postReview(dto, e.target.file);
             } else putReview(dto, e.target.file, modalInfo.reviewId);
           }}
         >
@@ -80,10 +71,11 @@ function Modal(props) {
             name="content"
             value={text}
             required
+            maxLength={1000}
             onChange={e => {
               setText(e.target.value);
             }}
-          ></textarea>
+          />
           <div className="images">
             <ImageInput imgFile={modalInfo.imageUrls[0]} />
             <ImageInput imgFile={modalInfo.imageUrls[1]} />
@@ -99,12 +91,13 @@ function Modal(props) {
 function ReviewContents(props) {
   const reviewContents = props.reviewContents;
   let list = [];
-  console.log(reviewContents);
   list = [];
   for (var i = 0; i < reviewContents.length; i++) {
     list.push(<ReviewContent reviewInfo={reviewContents[i]} />);
   }
-  return <div>{list}</div>;
+  return (
+    <div>{list.length > 0 ? list : <span>작성된 구매평이 없습니다.</span>}</div>
+  );
 }
 
 function ReviewContent(props) {
@@ -177,19 +170,35 @@ function Pages(props) {
   const pages = props.pages;
   const list = [];
   for (var i = pages.startPage; i <= pages.lastPage; i++) {
-    list.push(<span>i</span>);
+    if (i === pages.currentPage)
+      list.push(
+        <span key={i} className="active">
+          {i}
+        </span>
+      );
+    else list.push(<span key={i}>{i}</span>);
   }
   return <div className="pages">{list}</div>;
 }
 
 export default function Review() {
   const [modal, showModal] = useState(false);
+  const [onlyPhoto, setOnlyPhoto] = useState(false);
   const [reviewContents, setReviewContents] = useState([]);
-  const [pages, setPages] = useState({});
+  const [pages, setPages] = useState({
+    startPage: 1,
+    lastPage: 1,
+    currentPage: 1,
+  });
 
   useEffect(() => {
-    getReview('LIB-001', 1, 5, false).then(res => {
+    getReview('LIB-001', 1, 5, onlyPhoto).then(res => {
       const contents = res.contents;
+      setPages({
+        startPage: res.startPage,
+        lastPage: res.lastPage,
+        currentPage: res.currentPage,
+      });
       for (var i = 0; i < contents.length; i++) {
         const reviewInfo = {
           reviewId: contents[i].reviewId,
@@ -202,13 +211,8 @@ export default function Review() {
         };
         setReviewContents([...reviewContents, reviewInfo]);
       }
-      setPages({
-        startPage: res.startPage,
-        lastPage: res.lastPage,
-        currentPage: res.currentPage,
-      });
     });
-  }, []);
+  }, [onlyPhoto]);
 
   return (
     <div className="review">
@@ -216,10 +220,16 @@ export default function Review() {
       <div className="tab">리뷰</div>
       <div className="title-div">
         <div className="title">구매평 (개수)</div>
+        <Button text="구매평 쓰기" onClick={() => showModal(true)} />
       </div>
-      <Button text="구매평 쓰기" onClick={() => showModal(true)}></Button>
+      <div className="button-div"></div>
       <div className="filter">
-        <Checkbox text="포토 구매평만 보기" />
+        <Checkbox
+          text="포토 구매평만 보기"
+          onChange={() => {
+            setOnlyPhoto(!onlyPhoto);
+          }}
+        />
       </div>
       <ReviewContents reviewContents={reviewContents} />
       <Pages pages={pages} />
