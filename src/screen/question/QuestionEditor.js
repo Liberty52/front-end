@@ -90,48 +90,60 @@ export default function QuestionEditor(){
     })
   }
 
-  const editorActionButtonClicked = () => {
+  function moveToQuestionDetailPage() {
+    navigate(`/question/${location.state.id}`, {
+      replace: true
+    });
+  }
+
+  function updateQuestion() {
+    alert("수정됐습니다!");
+    const data = {
+      id: prevData.id,
+      title: title,
+      content: content,
+      status: prevData.status,
+      createdAt: prevData.createdAt,
+      no: prevData.no
+    };
+    UPDATE_MOCK_DATA(data);
+    moveToQuestionDetailPage();
+  }
+
+  function addQuestion() {
+    alert("글이 추가되었습니다!");
+    const date = new Date();
+    const data = {
+      id: uuid(),
+      title: title,
+      content: content,
+      status: "대기",
+      createdAt: date.getFullYear() + "-" + date.getMonth() + "-" + date.getDay(),
+      no: GET_NEXT_NO()
+    };
+    ADD_MOCK_DATA(data);
+    moveToListButtonClicked();
+  }
+  const validateTitle = () => {
     if(title.length < 1){
       alert("제목을 작성해주세요!")
-      return;
+      return false;
     }
     if(title.length > 50){
-      alert("제목은 50를 초과할 수 없습니다.")
-      return;
+      alert("제목은 50자를 초과할 수 없습니다.")
+      return false;
     }
+    return true;
+  }
 
-
+  const editorActionButtonClicked = () => {
+    if(!validateTitle())
+      return;
 
     if(location.state.mode === HTML_EDITOR_MODE.UPDATE){
-       alert("수정됐습니다!")
-      const data = {
-         id : prevData.id,
-        title : title,
-        content : content,
-        status : prevData.status,
-        createdAt : prevData.createdAt,
-        no : prevData.no
-      }
-
-      UPDATE_MOCK_DATA(data);
-
-
-      navigate(`/question/${location.state.id}`, {
-        replace : true
-      })
+      updateQuestion();
     }else{
-      alert("글이 추가되었습니다!")
-      const date = new Date();
-      const data = {
-        id : uuid(),
-        title : title,
-        content : content,
-        status : '대기',
-        createdAt : date.getFullYear() + '-' + date.getMonth() + '-' + date.getDay() ,
-        no : GET_NEXT_NO()
-      }
-      ADD_MOCK_DATA(data);
-      moveToListButtonClicked()
+      addQuestion();
     }
   }
 
