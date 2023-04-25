@@ -1,14 +1,16 @@
 import styled from "styled-components";
 
+export const ColumnDirectionFlexBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`
 
-export const QuestionListContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+export const QuestionListContainer = styled(ColumnDirectionFlexBox)`
    padding:  50px 370px;
 `
-export const QuestionListTitle = styled.div`
+export const QuestionListHeader = styled.div`
   font-weight: 600;
   font-size: 32px;
   border-bottom: 3px solid black;
@@ -56,12 +58,12 @@ export const EmptyListExpression = styled.div`
   font-weight: bold;
 `
 
-export const QuestionAddButtonWrapper = styled.div`
+export const QuestionPageButtonWrapper = styled.div`
   display: flex;
   justify-content: end;
   width: 100%;
 `
-export const QuestionAddButton = styled.div`
+export const QuestionPageButton = styled.div`
   font-weight: bold;
   color: white;
   background-color: #2E2E2E;
@@ -69,6 +71,7 @@ export const QuestionAddButton = styled.div`
   
   :hover{
     cursor: pointer;
+    background-color: #3E3E3E;
   }
 `
 
