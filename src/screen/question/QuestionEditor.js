@@ -95,6 +95,10 @@ export default function QuestionEditor(){
       alert("제목을 작성해주세요!")
       return;
     }
+    if(title.length > 50){
+      alert("제목은 50를 초과할 수 없습니다.")
+      return;
+    }
 
 
 
