@@ -76,10 +76,17 @@ export default function QuestionEditor(){
       hideModeSwitch: true,
       events : {
         change : editorHTMLChanged
+      },
+      hooks : {
+        addImageBlobHook: (blob, callback) => uploadImages(blob, callback)
       }
-
     });
   },[])
+
+  const uploadImages = (blob, callback) => {
+    alert("이미지 업로드 중...")
+    callback(uuid());
+  }
 
   const titleInputChanged = (event) => {
     setTitle(event.target.value)
