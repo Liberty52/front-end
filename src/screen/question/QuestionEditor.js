@@ -37,6 +37,7 @@ export default function QuestionEditor(){
 
   let editor;
   useEffect(() => {
+    window.scrollTo(0,0);
     const mode = location.state.mode;
     let data;
     if(mode === HTML_EDITOR_MODE.ADD){
@@ -45,6 +46,8 @@ export default function QuestionEditor(){
 
       const PREV_DATA = GET_MOCK_DETAIL_DATA(location.state.id);
       data = PREV_DATA.content;
+      setHtmlSize(data.length)
+      setContent(data)
       setPrevData(PREV_DATA);
       setTitle(PREV_DATA.title)
     }
@@ -58,6 +61,7 @@ export default function QuestionEditor(){
       initialValue : data,
       language : "ko-KR",
       hideModeSwitch: true,
+      autofocus : false,
       events : {
         change : editorHTMLChanged
       },
@@ -134,7 +138,7 @@ export default function QuestionEditor(){
       <QuestionEditorHeader>
             1:1문의
       </QuestionEditorHeader>
-      <QuestEditorTitleInput value={title} type={"text"} placeholder={"제목을 입력해주세요"} onChange={titleInputChanged}/>
+      <QuestEditorTitleInput autofocus value={title} type={"text"} placeholder={"제목을 입력해주세요"} onChange={titleInputChanged}/>
       <HTMLEditor id={"editor"}></HTMLEditor>
       <HTMLSizeLimiter>
         <div>
