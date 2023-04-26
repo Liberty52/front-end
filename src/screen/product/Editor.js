@@ -4,6 +4,7 @@ import Panels from '../../component/editor/panels/Panels';
 import Canvas from '../../component/editor/canvas/Canvas';
 import { BaseProvider, LightTheme } from "baseui"
 import Toolbox from '../../component/editor/toolbax';
+import Footer from '../../component/editor/Footer';
 
 
 const Editor = () => {
@@ -15,6 +16,7 @@ const Editor = () => {
               <div style={{ flex: 1, display: "flex", flexDirection: "column", position: "relative" }}>
                 <Toolbox />
                 <Canvas />
+                <Footer />
               </div>
             </div>
           </EditorContainer>
