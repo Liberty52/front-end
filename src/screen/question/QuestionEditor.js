@@ -139,6 +139,8 @@ export default function QuestionEditor(){
   const editorActionButtonClicked = () => {
     if(!validateTitle())
       return;
+    if(!validateContent())
+      return;
 
     if(location.state.mode === HTML_EDITOR_MODE.UPDATE){
       updateQuestion();
@@ -147,6 +149,31 @@ export default function QuestionEditor(){
     }
   }
 
+  function validateContent(){
+    if(contentValidator()){
+      alert("내용을 입력해주세요")
+      return false;
+    }
+      return true;
+  }
+
+
+  function contentValidator(){
+
+    let stack = [];
+    let v = "";
+    for (let i = 0; i < content.length; i++) {
+        if(content.charAt(i)=== '<'){
+          stack.push(content.charAt(i))
+        }
+        else if(content.charAt(i) === '>'){
+          stack = [];
+        }
+        else if(stack.length==0)
+          v = v + content.charAt(i);
+    }
+    return v.trim().length === 0;
+  }
 
   return <>
     <Header/>
