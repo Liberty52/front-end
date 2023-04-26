@@ -286,17 +286,14 @@ function ConfirmSection(props) {
             }, async function (rsp) { // callback
               if (rsp.success) {
                 console.log(rsp);
-
                 setIsConfirmProgressing(true)
 
                 try {
                   const response = await checkPayApproval(merchantId);
-                  console.log(response);
                   setIsConfirmProgressing(false)
                   setSuccess(true)
                 } catch (err) {
                   setIsConfirmProgressing(false)
-                  console.log(err)
                   const code = err.response.data.errorCode;
                   const message = err.response.data.errorMessage;
                   alert(`결제가 실패하였습니다.\n에러코드: ${code}\n에러내용:\n${message}`);
