@@ -11,6 +11,7 @@ import { useState, useEffect } from 'react';
 import {HttpStatusCode} from "axios";
 import {checkPayApproval, prepareCard} from "../../../axios/shopping/Payment";
 import PaymentInfo from "./PaymentInfo";
+import CenterCircularProgress from "../../../component/CenterCircularProgress";
 
 function PaymentSection(props) {
   const deliveryInfo = props.deliveryInfo;
@@ -221,6 +222,9 @@ function Total(props) {
 function ConfirmSection(props) {
   const navigate = useNavigate();
   const [success, setSuccess] = useState(false);
+  const [isConfirmProgressing, setIsConfirmProgressing] = useState(false);
+
+
 
   const productDto = {
     productName: `Liberty 52_Frame`,
@@ -265,7 +269,7 @@ function ConfirmSection(props) {
         destinationDto: destinationDto
       }, imageFile)
           .then(res => {
-            const {merchantId, amount}  = res;
+            const {merchantId, amount} = res;
 
             IMP.request_pay({
               pg : 'html5_inicis',
@@ -279,19 +283,25 @@ function ConfirmSection(props) {
               buyer_tel : destinationDto.receiverPhoneNumber,
               buyer_addr : destinationDto.address1,
               buyer_postcode : destinationDto.zipCode,
-            }, function (rsp) { // callback
+            }, async function (rsp) { // callback
               if (rsp.success) {
                 console.log(rsp);
 
-                const res = checkPayApproval(merchantId);
+                setIsConfirmProgressing(true)
 
-                if (res.status === HttpStatusCode.Ok) {
+                try {
+                  const response = await checkPayApproval(merchantId);
+                  console.log(response);
+                  setIsConfirmProgressing(false)
                   setSuccess(true)
-                } else if (res.status === HttpStatusCode.BadRequest) {
-                  alert("결제가 실패하였습니다. 결제가 위조 되었을 가능성이 있습니다.");
-                } else {
-                  alert('결제가 실패하였습니다.');
+                } catch (err) {
+                  setIsConfirmProgressing(false)
+                  console.log(err)
+                  const code = err.response.data.errorCode;
+                  const message = err.response.data.errorMessage;
+                  alert(`결제가 실패하였습니다.\n에러코드: ${code}\n에러내용:\n${message}`);
                 }
+
               } else {
                 if (rsp.error_msg !== '사용자가 결제를 취소하셨습니다') {
                   alert(`결제에 실패하였습니다. 에러 내용: ${rsp.error_msg}`);
@@ -318,6 +328,7 @@ function ConfirmSection(props) {
           e.preventDefault();
         }}
       >
+        <CenterCircularProgress isConfirmProgressing={isConfirmProgressing} />
         <div className="payment-title">
           입력하신 사항이 모두 정확한지 확인해주십시오.
         </div>

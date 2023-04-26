@@ -30,24 +30,15 @@ export function prepareCard(dto, file) {
 }
 
 export function checkPayApproval(orderId) {
-    return new Promise(res => {
-        axios
-            .get('/product/orders/payment/card/confirm/'+orderId,
-                {
-                    headers: {
-                        'Content-Type': `application/json`,
-                        'Authorization': localStorage.getItem('ACCESS_TOKEN')
-                    }
+    return axios
+        .get('/product/orders/payment/card/confirm/'+orderId,
+            {
+                headers: {
+                    'Content-Type': `application/json`,
+                    'Authorization': localStorage.getItem('ACCESS_TOKEN')
                 }
-            )
-            .then(response => {
-                res(response);
-            })
-            .catch(e => {
-                console.log(e);
-            })
-    });
-
+            }
+        );
 }
 
 export function payByVBank() {
