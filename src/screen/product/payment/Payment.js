@@ -9,7 +9,7 @@ import Checkbox from '../../../component/Checkbox';
 import liberty52 from '../../../image/icon/liberty52.jpg';
 import { useState, useEffect } from 'react';
 import {HttpStatusCode} from "axios";
-import {checkPayApproval, prepareCard} from "../../../axios/shopping/Payment";
+import {checkPayApproval, payByVBank, prepareCard} from "../../../axios/shopping/Payment";
 import PaymentInfo from "./PaymentInfo";
 import CenterCircularProgress from "../../../component/CenterCircularProgress";
 
@@ -224,8 +224,6 @@ function ConfirmSection(props) {
   const [success, setSuccess] = useState(false);
   const [isConfirmProgressing, setIsConfirmProgressing] = useState(false);
 
-
-
   const productDto = {
     productName: `Liberty 52_Frame`,
     options: [
@@ -310,7 +308,26 @@ function ConfirmSection(props) {
 
     } else if (payment.paymentMethod === constants.PM_VBANK) {
       // Not Yet
-      alert("준비중입니다.");
+      console.log(payment.vBankAccount); console.log(payment.depositorName);
+
+      const vBankDto = {
+        vBankInfo: payment.vBankAccount,
+        depositorName: payment.depositorName
+      };
+
+      payByVBank({
+        productDto: productDto,
+        destinationDto: destinationDto,
+        vBankDto: vBankDto
+      }, imageFile)
+          .then(res => {
+            const {orderId} = res
+            console.log(orderId);
+            setSuccess(true);
+          })
+          .catch(err => {
+
+          });
     }
   }
 

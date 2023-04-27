@@ -1,7 +1,6 @@
 import axios from "../axios";
 
 export function prepareCard(dto, file) {
-    console.log(file);
     const formData = new FormData();
     formData.append('imageFile', file);
     formData.append(
@@ -41,6 +40,30 @@ export function checkPayApproval(orderId) {
         );
 }
 
-export function payByVBank() {
-
+export function payByVBank(dto, file) {
+    const formData = new FormData();
+    formData.append('imageFile', file);
+    formData.append(
+        'dto',
+        new Blob([JSON.stringify(dto)], { type: 'application/json' })
+    );
+    return new Promise(res => {
+        axios
+            .post('/product/orders/payment/vbank',
+                formData,
+                {
+                    headers: {
+                        'Content-Type': `multipart/form-data`,
+                        'Authorization': localStorage.getItem('ACCESS_TOKEN'),
+                    }
+                }
+            )
+            .then(response => {
+                res(response.data);
+            })
+            .catch(e => {
+                console.log(e);
+                alert("결제 요청에 실패했습니다.");
+            })
+    });
 }
