@@ -18,7 +18,6 @@ const Preview = ({ isOpen, setIsOpen }) => {
     if (editor) {
       const template = editor.scene.exportToJSON()
       const image = (await editor.renderer.render(template))
-      console.log(image)
       setState({ image })
       setLoading(false)
     }
