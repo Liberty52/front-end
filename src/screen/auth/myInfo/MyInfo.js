@@ -8,46 +8,111 @@ import { delMyInfo, putMyInfo, getMyInfo } from '../../../axios/auth/MyInfo';
 import Header from '../../../component/Header';
 import { useState, useEffect } from 'react';
 
+function UpdateInfo(props) {
+  const myInfo = props.myInfo;
+
+  return (
+    <>
+      <tr>
+        <td>
+          <Input
+            type="text"
+            name="name"
+            label="이름"
+            required={true}
+            maxLength={25}
+            value={myInfo === undefined ? '' : myInfo.name}
+          />
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <Input
+            type="text"
+            name="phoneNumber"
+            label="휴대폰번호"
+            required={true}
+            pattern="01[0,1][0-9]{6,8}"
+            maxLength={11}
+            title="ex) 01012341234"
+            value={myInfo === undefined ? '' : myInfo.phoneNumber}
+          />
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <Input
+            type="password"
+            name="originPassword"
+            label="현재 비밀번호"
+            required={true}
+          />
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <Input type="password" name="updatePassword" label="변경 비밀번호" />
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <Input type="password" name="confirm" label="비밀번호 확인" />
+        </td>
+      </tr>
+    </>
+  );
+}
+
+function CurrentInfo(props) {
+  const myInfo = props.myInfo;
+  return (
+    <>
+      <tr>
+        <th>이름</th>
+        <td>
+          <span className="info-value">
+            {myInfo === undefined ? '' : myInfo.name}
+          </span>
+        </td>
+      </tr>
+      <tr>
+        <th>이메일</th>
+        <td>
+          <span className="info-value">
+            {myInfo === undefined ? '' : myInfo.email}
+          </span>
+        </td>
+      </tr>
+      <tr>
+        <th>휴대폰번호</th>
+        <td>
+          <span className="info-value">
+            {myInfo === undefined ? '' : myInfo.phoneNumber}
+          </span>
+        </td>
+      </tr>
+    </>
+  );
+}
+
 function InfoGroup(props) {
   const updateMode = props.updateMode;
-  const inputItems = props.inputItems;
-  const infoItems = props.infoItems;
-  const image = props.image;
+  const myInfo = props.myInfo;
+  const image = myInfo === undefined ? '' : myInfo.profileUrl;
 
-  let returnValue = [];
-  if (updateMode) {
-    inputItems.map(inputItem => {
-      returnValue.push(
-        <tr key={inputItem.name}>
-          <td>
-            {inputItem.name === 'email' ? (
-              <span>{inputItem.value}</span>
-            ) : (
-              <Input inputItem={inputItem}></Input>
-            )}
-          </td>
-        </tr>
-      );
-    });
-  } else {
-    infoItems.map(infoItem => {
-      returnValue.push(
-        <tr key={infoItem.name}>
-          <th>{infoItem.name}</th>
-          <td>
-            <span>{infoItem.value}</span>
-          </td>
-        </tr>
-      );
-    });
-  }
   return (
     <div className="myInfo-info-group">
       <div className="myInfo-image-wrapper">
         {updateMode ? <ImageInput image={image} /> : <Image image={image} />}
       </div>
       <table className="myInfo-table">
-        <tbody>{returnValue}</tbody>
+        <tbody>
+          {updateMode ? (
+            <UpdateInfo myInfo={props.myInfo} />
+          ) : (
+            <CurrentInfo myInfo={props.myInfo} />
+          )}
+        </tbody>
       </table>
     </div>
   );
@@ -77,52 +142,6 @@ function MyInfoForm() {
   const [myInfo, setMyInfo] = useState();
   const [updateMode, setUpdateMode] = useState(false);
 
-  const infoItems = [
-    {
-      name: 'name',
-      value: myInfo === undefined ? '' : myInfo.name,
-    },
-    {
-      name: 'email',
-      value: myInfo === undefined ? '' : myInfo.email,
-    },
-    {
-      name: 'phoneNumber',
-      value: myInfo === undefined ? '' : myInfo.phoneNumber,
-    },
-  ];
-  const inputItems = [
-    {
-      type: 'text',
-      name: 'name',
-      required: true,
-      maxLength: 25,
-      value: myInfo === undefined ? '' : myInfo.name,
-    },
-    {
-      type: 'text',
-      name: 'phoneNumber',
-      required: true,
-      pattern: '01[0,1][0-9]{6,8}',
-      maxLength: 11,
-      title: 'ex) 01012341234',
-      value: myInfo === undefined ? '' : myInfo.phoneNumber,
-    },
-    {
-      type: 'password',
-      name: 'originPassword',
-      required: true,
-    },
-    {
-      type: 'password',
-      name: 'updatePassword',
-    },
-    {
-      type: 'password',
-      name: 'confirm',
-    },
-  ];
-
   return (
     <form
       onSubmit={event => {
@@ -147,12 +166,7 @@ function MyInfoForm() {
       }}
       className="myInfo-input-group"
     >
-      <InfoGroup
-        updateMode={updateMode}
-        inputItems={inputItems}
-        infoItems={infoItems}
-        image={myInfo === undefined ? '' : myInfo.profileUrl}
-      />
+      <InfoGroup updateMode={updateMode} myInfo={myInfo} />
       <ButtonGroup
         updateMode={updateMode}
         setUpdateMode={() => {

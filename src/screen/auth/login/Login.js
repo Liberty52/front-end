@@ -7,17 +7,17 @@ import {
 } from '../../../axios/auth/Login.js';
 import Header from '../../../component/Header';
 import Checkbox from '../../../component/Checkbox';
-import InputGroup from '../../../component/InputGroup';
+import Input from '../../../component/Input';
 import Button from '../../../component/Button';
 import SocialLoginButton from '../../../component/SocialLoginButton';
 import { SOCIAL_LOGIN_PROVIDER } from '../../../global/Constants';
 function LoginInput() {
-  const loginItems = [
-    { type: 'email', name: 'email', required: true },
-    { type: 'password', name: 'password', required: true },
-  ];
-
-  return <InputGroup inputItems={loginItems} />;
+  return (
+    <div class="inputs">
+      <Input type="email" name="email" label="이메일" required={true} />
+      <Input type="password" name="password" label="비밀번호" required={true} />
+    </div>
+  );
 }
 
 function LoginForm() {
@@ -147,12 +147,22 @@ function IdInput() {
       label: '휴대전화 번호',
     },
   ];
-  return <InputGroup inputItems={loginItems} />;
+  return (
+    <div className="inputs">
+      <Input type="text" name="name" required={true} label="이름" />
+      <Input
+        type="tel"
+        name="phoneNumber"
+        required={true}
+        label="휴대전화 번호"
+      />
+    </div>
+  );
 }
 
 function PasswordInput() {
   const loginItems = [{ type: 'email', name: 'email', required: true }];
-  return <InputGroup inputItems={loginItems} />;
+  return <Input type="email" name="email" required={true} />;
 }
 
 function CompanyLogin() {
