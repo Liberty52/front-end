@@ -18,7 +18,6 @@ const Uploads = () => {
 
   const handleDropFiles = async (files) => {
     const file = files[0]
-    console.log(file.size)
     /*
       Full HD : 1920 x 1080 
       pixel : 2073600

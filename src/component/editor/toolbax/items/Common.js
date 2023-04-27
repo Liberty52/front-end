@@ -35,7 +35,6 @@ const Common = () => {
   React.useEffect(() => {
     let watcher = async () => {
       if (activeObject) {
-        // @ts-ignore
         setState({ isGroup: activeObject.type === "group", isMultiple: activeObject.type === "activeSelection" })
       }
     }
@@ -101,7 +100,6 @@ const CommonLayers = () => {
 
   React.useEffect(() => {
     if (activeObject) {
-      //  @ts-ignore
       setChecked(!!activeObject.clipPath)
     }
   }, [activeObject])
@@ -225,7 +223,6 @@ const LockUnlock = () => {
 
   React.useEffect(() => {
     if (activeObject) {
-      // @ts-ignore
       setState({ locked: !!activeObject.locked })
     }
   }, [activeObject])
