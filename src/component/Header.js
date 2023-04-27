@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 
 export default function Header() {
   const headerItemsLeft = [
-    { name: '로고', href: '#' },
     { name: '제품소개', href: '#' },
     { name: '사업소개', href: '#' },
     { name: '지점소개(쇼룸)', href: '#' },
@@ -42,7 +41,7 @@ export default function Header() {
     } else {
       setHeaderItemsRight([
         { name: '로그인', href: 'login' },
-        { name: "장바구니", href: "cart" },
+        { name: '장바구니', href: 'cart' },
         { name: '구매하기', href: 'order' },
       ]);
     }
@@ -61,7 +60,17 @@ export default function Header() {
   }
   return (
     <header className="header">
-      <ul className="header-items">{headerLeft}</ul>
+      <ul className="header-items">
+        <li>
+          <a href={'#'}>
+            <img
+              className="logo-img"
+              src="https://cdn.imweb.me/thumbnail/20230321/6b7c0ea933d65.png"
+            />
+          </a>
+        </li>
+        {headerLeft}
+      </ul>
       <ul className="header-items">{headerRight}</ul>
     </header>
   );
