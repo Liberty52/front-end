@@ -5,12 +5,12 @@ import {
   findEmail,
   sendPasswordResetEmail,
 } from '../../../axios/auth/Login.js';
+import Header from '../../../component/Header';
 import Checkbox from '../../../component/Checkbox';
 import InputGroup from '../../../component/InputGroup';
 import Button from '../../../component/Button';
-import logo from '../../../image/icon/logo.png';
-import SocialLoginButton from "../../../component/SocialLoginButton";
-import {SOCIAL_LOGIN_PROVIDER} from "../../../global/Constants";
+import SocialLoginButton from '../../../component/SocialLoginButton';
+import { SOCIAL_LOGIN_PROVIDER } from '../../../global/Constants';
 function LoginInput() {
   const loginItems = [
     { type: 'email', name: 'email', required: true },
@@ -183,40 +183,32 @@ function CompanyLogin() {
 }
 
 function SocialLogin() {
-    return (
-        <div className="social-login">
-            <div className="login-title">소셜 로그인</div>
-            <div>
-                <SocialLoginButton provider={SOCIAL_LOGIN_PROVIDER.NAVER}/>
-                <SocialLoginButton provider={SOCIAL_LOGIN_PROVIDER.KAKAO}/>
-                <SocialLoginButton provider={SOCIAL_LOGIN_PROVIDER.GOOGLE}/>
-                <SocialLoginButton provider={SOCIAL_LOGIN_PROVIDER.FACEBOOK}/>
-            </div>
-        </div>
-    );
+  return (
+    <div className="social-login">
+      <div className="login-title">소셜 로그인</div>
+      <div>
+        <SocialLoginButton provider={SOCIAL_LOGIN_PROVIDER.NAVER} />
+        <SocialLoginButton provider={SOCIAL_LOGIN_PROVIDER.KAKAO} />
+        <SocialLoginButton provider={SOCIAL_LOGIN_PROVIDER.GOOGLE} />
+        <SocialLoginButton provider={SOCIAL_LOGIN_PROVIDER.FACEBOOK} />
+      </div>
+    </div>
+  );
 }
 
 function Border() {
   return <div className="border"></div>;
 }
 
-function LoginHeader() {
-  return (
-    <div className="login-header">
-      <a href="/">
-        <img className="login-logo" src={logo} />
-      </a>
-    </div>
-  );
-}
-
 export default function Login() {
   return (
     <div className="login">
-      <LoginHeader />
-      <CompanyLogin />
-      <Border />
-      <SocialLogin />
+      <Header />
+      <div className="section">
+        <CompanyLogin />
+        <Border />
+        <SocialLogin />
+      </div>
     </div>
   );
 }

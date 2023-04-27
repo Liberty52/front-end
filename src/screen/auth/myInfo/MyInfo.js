@@ -5,7 +5,7 @@ import Image from '../../../component/Image';
 import ImageInput from '../../../component/ImageInput';
 import Input from '../../../component/Input';
 import { delMyInfo, putMyInfo, getMyInfo } from '../../../axios/auth/MyInfo';
-import Logo from '../../../component/Logo';
+import Header from '../../../component/Header';
 import { useState, useEffect } from 'react';
 
 function InfoGroup(props) {
@@ -67,53 +67,7 @@ function ButtonGroup(props) {
   );
 }
 
-function MyInfoForm(props) {
-  const setMyInfo = props.setMyInfo;
-  const [updateMode, setUpdateMode] = useState(false);
-  return (
-    <form
-      onSubmit={event => {
-        event.preventDefault();
-        if (!updateMode) return;
-        const name = event.target.name.value;
-        const originPassword = event.target.originPassword.value;
-        const updatePassword = event.target.updatePassword.value;
-        const confirm = event.target.confirm.value;
-        const phoneNumber = event.target.phoneNumber.value;
-        const file = event.target.file.files[0];
-        const dto = {
-          name: name,
-          originPassword: originPassword,
-          updatePassword: updatePassword,
-          phoneNumber: phoneNumber,
-        };
-        if (confirm === updatePassword) {
-          putMyInfo(dto, file).then(res => setMyInfo(res));
-          setUpdateMode(false);
-        } else alert('비밀번호와 비밀번호 확인이 일치하지 않습니다.');
-      }}
-      className="myInfo-input-group"
-    >
-      <InfoGroup
-        updateMode={updateMode}
-        inputItems={props.inputItems}
-        infoItems={props.infoItems}
-        image={props.image}
-      />
-      <ButtonGroup
-        updateMode={updateMode}
-        setUpdateMode={() => {
-          setUpdateMode(true);
-        }}
-        cancelUpdateMode={() => {
-          setUpdateMode(false);
-        }}
-      />
-    </form>
-  );
-}
-
-export default function MyInfo() {
+function MyInfoForm() {
   useEffect(() => {
     getMyInfo().then(res => {
       setMyInfo(res);
@@ -121,6 +75,8 @@ export default function MyInfo() {
   }, []);
 
   const [myInfo, setMyInfo] = useState();
+  const [updateMode, setUpdateMode] = useState(false);
+
   const infoItems = [
     {
       name: 'name',
@@ -166,15 +122,63 @@ export default function MyInfo() {
       name: 'confirm',
     },
   ];
+
   return (
-    <div className="myInfo">
-      <Logo />
-      <MyInfoForm
-        image={myInfo === undefined ? '' : myInfo.profileUrl}
+    <form
+      onSubmit={event => {
+        event.preventDefault();
+        if (!updateMode) return;
+        const name = event.target.name.value;
+        const originPassword = event.target.originPassword.value;
+        const updatePassword = event.target.updatePassword.value;
+        const confirm = event.target.confirm.value;
+        const phoneNumber = event.target.phoneNumber.value;
+        const file = event.target.file.files[0];
+        const dto = {
+          name: name,
+          originPassword: originPassword,
+          updatePassword: updatePassword,
+          phoneNumber: phoneNumber,
+        };
+        if (confirm === updatePassword) {
+          putMyInfo(dto, file).then(res => setMyInfo(res));
+          setUpdateMode(false);
+        } else alert('비밀번호와 비밀번호 확인이 일치하지 않습니다.');
+      }}
+      className="myInfo-input-group"
+    >
+      <InfoGroup
+        updateMode={updateMode}
         inputItems={inputItems}
         infoItems={infoItems}
-        setMyInfo={setMyInfo}
+        image={myInfo === undefined ? '' : myInfo.profileUrl}
       />
+      <ButtonGroup
+        updateMode={updateMode}
+        setUpdateMode={() => {
+          setUpdateMode(true);
+        }}
+        cancelUpdateMode={() => {
+          setUpdateMode(false);
+        }}
+      />
+    </form>
+  );
+}
+
+function Section() {
+  return (
+    <div className="section">
+      <MyInfoForm />
+    </div>
+  );
+}
+
+export default function MyInfo() {
+  return (
+    <div className="myInfo">
+      <Header />
+      <Section />
     </div>
   );
 }

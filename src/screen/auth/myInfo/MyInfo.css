@@ -1,5 +1,13 @@
 .myInfo {
   height: 100%;
+}
+
+.myInfo .header {
+  position: fixed;
+}
+
+.myInfo .section {
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
