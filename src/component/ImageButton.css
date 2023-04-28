@@ -1,0 +1,9 @@
+.image-button {
+  background-color: black;
+  border-radius: 5px;
+}
+
+.image-button img {
+  width: 25px;
+  padding: 3px;
+}

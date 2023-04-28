@@ -23,7 +23,12 @@ const SOCIAL_LOGIN_PROVIDER = {
   },
 };
 
-export { SOCIAL_LOGIN_PROVIDER };
+const HTML_EDITOR_MODE = {
+  ADD : "ADD",
+  UPDATE : "UPDATE"
+}
+
+export { SOCIAL_LOGIN_PROVIDER, HTML_EDITOR_MODE };
 export const API_LOGIN_GOOGLE = `${SOCIAL_LOGIN_URL}/google`;
 export const API_LOGIN_FACEBOOK = `${SOCIAL_LOGIN_URL}/facebook`;
 export const API_LOGIN_NAVER = `${SOCIAL_LOGIN_URL}/naver`;
