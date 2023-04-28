@@ -17,6 +17,7 @@ import { useEffect, useState } from "react";
 import { HTML_EDITOR_MODE } from "../../global/Constants";
 import { getQuestionList } from "../../axios/question/QuestionsList";
 import { convertQuestionStatus } from "../../utils";
+import uuid from "react-uuid";
 
 
 export default function QuestionList() {
@@ -32,7 +33,7 @@ export default function QuestionList() {
       const list = await getQuestionList(pageNum,pageSize);
       let count = 0;
       let number = 1 + pageNum * pageSize;
-      console.log(list.data);
+
       while(count < list.data.contents.length){
         list.data.contents[count].no = number + count;
         count++;
@@ -110,17 +111,13 @@ export default function QuestionList() {
         }) : <></>}
         </tbody>
       </QuestionListTable>
+      {data.contents?.length === 0 ? <EmptyListExpression key={uuid()}>등록된 문의가 없습니다</EmptyListExpression> :
 
-
-      {data.contents?.length === 0 ? <EmptyListExpression>등록된 문의가 없습니다</EmptyListExpression> :
-
-        <QuestionListTablePageNumberButtonWrapper>
+        <QuestionListTablePageNumberButtonWrapper key={uuid()}>
           <PageNumberButton onClick={pageNumberMinusButtonClicked}>&lt;</PageNumberButton>
-          {createPageNumberButton()?.map(i => {
-            return <>
-              <PageNumberButton key={i} isCurrentPage={i===data.currentPage} onClick={() => pageNumberButtonClicked(i)}>{i}</PageNumberButton>
-            </>
-          })}
+          {createPageNumberButton()?.map(i =>
+            <PageNumberButton key={i} isCurrentPage={i===data.currentPage} onClick={() => pageNumberButtonClicked(i)}>{i}</PageNumberButton>
+          )}
           <PageNumberButton onClick={pageNumberPlusButtonClicked}>&gt;</PageNumberButton>
         </QuestionListTablePageNumberButtonWrapper>
       }

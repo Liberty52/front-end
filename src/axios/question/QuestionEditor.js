@@ -34,6 +34,7 @@ export const uploadImage = (file) => {
   formData.append("file",file);
   return request.post(UPLOAD_IMAGE(),formData,{
     headers : {
+      Authorization : localStorage.getItem("ACCESS_TOKEN"),
       "Content-Type" : CONTENT_TYPE.MultipartFormData
     }
   })
