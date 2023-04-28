@@ -4,13 +4,13 @@ import Header from '../../../component/Header';
 import { useLocation, useNavigate } from 'react-router-dom';
 // import Header from '../../../component/Header';
 import Button from '../../../component/Button';
-import InputGroup from '../../../component/InputGroup';
+import Input from '../../../component/Input';
 import Checkbox from '../../../component/Checkbox';
 import liberty52 from '../../../image/icon/liberty52.jpg';
-import { useState, useEffect } from 'react';
-import {HttpStatusCode} from "axios";
-import {checkPayApproval, prepareCard} from "../../../axios/shopping/Payment";
-import PaymentInfo from "./PaymentInfo";
+import { useState } from 'react';
+import { HttpStatusCode } from 'axios';
+import { checkPayApproval, prepareCard } from '../../../axios/shopping/Payment';
+import PaymentInfo from './PaymentInfo';
 
 function PaymentSection(props) {
   const deliveryInfo = props.deliveryInfo;
@@ -19,49 +19,6 @@ function PaymentSection(props) {
     zipCode: deliveryInfo.zipCode,
   });
   const [visible, setVisible] = useState(false); // 주소 검색창 (react daum postcoded)
-  const paymentItems = [
-    {
-      type: 'text',
-      name: 'receiverName',
-      required: true,
-      maxLength: 25,
-      value: deliveryInfo.receiverName,
-    },
-    {
-      type: 'text',
-      name: 'address',
-      required: true,
-      value: address.address1
-        ? address.address1 + ' (' + address.zipCode + ')'
-        : '',
-      onClick: () => setVisible(true),
-      readOnly: true,
-    },
-    {
-      type: 'text',
-      name: 'address2',
-      required: true,
-      value: deliveryInfo.address2,
-    },
-  ];
-
-  const contactItems = [
-    {
-      type: 'email',
-      name: 'receiverEmail',
-      required: true,
-      value: deliveryInfo.receiverEmail,
-    },
-    {
-      type: 'text',
-      name: 'receiverPhoneNumber',
-      required: true,
-      pattern: '01[0,1][0-9]{6,8}',
-      maxLength: 11,
-      title: 'ex) 01012341234',
-      value: deliveryInfo.receiverPhoneNumber,
-    },
-  ];
 
   return (
     <div className="payment-section">
@@ -85,7 +42,7 @@ function PaymentSection(props) {
           어디로 주문하신 제품이 배송되길 원하십니까?
         </div>
         <div className="payment-user">
-          <div>이름 및 주소 입력:</div>
+          <div className="input-title">이름 및 주소 입력:</div>
           {/* 모달로 구현 */}
           <div style={{ display: visible ? 'block' : 'none' }}>
             <Button
@@ -104,11 +61,59 @@ function PaymentSection(props) {
               autoClose={false}
             />
           </div>
-          <InputGroup inputItems={paymentItems} />
+          <div className="inputs">
+            <Input
+              type="text"
+              name="receiverName"
+              label="이름"
+              required
+              maxLength={25}
+              value={deliveryInfo.receiverName}
+            />
+            <Input
+              type="text"
+              name="address1"
+              label="주소"
+              required
+              maxLength={25}
+              value={
+                address.address1
+                  ? address.address1 + ' (' + address.zipCode + ')'
+                  : ''
+              }
+              onClick={() => setVisible(true)}
+              readOnly
+            />
+            <Input
+              type="text"
+              name="address2"
+              label="상세 주소"
+              required
+              value={deliveryInfo.address2}
+            />
+          </div>
         </div>
         <div className="payment-contact">
-          <div>연락처 정보:</div>
-          <InputGroup inputItems={contactItems} />
+          <div className="input-title">연락처 정보:</div>
+          <div className="inputs">
+            <Input
+              type="email"
+              name="receiverEmail"
+              label="이메일"
+              required
+              value={deliveryInfo.receiverEmail}
+            />
+            <Input
+              type="text"
+              name="receiverPhoneNumber"
+              label="휴대폰 번호"
+              required
+              pattern="01[0,1][0-9]{6,8}"
+              maxLength={11}
+              title="ex) 01012341234"
+              value={deliveryInfo.receiverPhoneNumber}
+            />
+          </div>
           <Checkbox
             text="휴대폰 번호가 없습니다."
             onChange={e => {
@@ -217,7 +222,6 @@ function Total(props) {
   );
 }
 
-
 function ConfirmSection(props) {
   const navigate = useNavigate();
   const [success, setSuccess] = useState(false);
@@ -227,85 +231,90 @@ function ConfirmSection(props) {
     options: [
       props.productInfo.mounting_method,
       props.productInfo.basic_material,
-      props.productInfo.add_material
+      props.productInfo.add_material,
     ],
     quantity: props.productInfo.quantity,
-  }
+  };
   const destinationDto = {
     receiverName: props.deliveryInfo.receiverName,
     receiverEmail: props.deliveryInfo.receiverEmail,
     receiverPhoneNumber: props.deliveryInfo.receiverPhoneNumber,
     address1: props.deliveryInfo.address1,
     address2: props.deliveryInfo.address2,
-    zipCode: props.deliveryInfo.zipCode
-  }
+    zipCode: props.deliveryInfo.zipCode,
+  };
   const imageFile = props.productInfo.add_image;
 
   const constants = {
     PM_CARD: 'card',
     PM_VBANK: 'vbank',
     defaultVBankAccount: 'vbank_hana',
-    defaultDepositorName: destinationDto.receiverName
-  }
+    defaultDepositorName: destinationDto.receiverName,
+  };
 
   const [payment, setPayment] = useState({
     paymentMethod: constants.PM_CARD,
     vBankAccount: constants.defaultVBankAccount,
-    depositorName: constants.defaultDepositorName
+    depositorName: constants.defaultDepositorName,
   });
 
   const IMP = window.IMP;
-  IMP.init("imp07432404");
+  IMP.init('imp07432404');
 
   const requestPay = () => {
     if (payment.paymentMethod === constants.PM_CARD) {
+      prepareCard(
+        {
+          productDto: productDto,
+          destinationDto: destinationDto,
+        },
+        imageFile
+      ).then(res => {
+        const { merchantId, amount } = res;
 
-      prepareCard({
-        productDto: productDto,
-        destinationDto: destinationDto
-      }, imageFile)
-          .then(res => {
-            const {merchantId, amount}  = res;
+        IMP.request_pay(
+          {
+            pg: 'html5_inicis',
+            pay_method: payment.paymentMethod,
+            merchant_uid: merchantId,
+            name: productDto.productName,
+            amount: amount,
+            currency: 'KRW',
+            buyer_email: destinationDto.receiverEmail,
+            buyer_name: destinationDto.receiverName,
+            buyer_tel: destinationDto.receiverPhoneNumber,
+            buyer_addr: destinationDto.address1,
+            buyer_postcode: destinationDto.zipCode,
+          },
+          function (rsp) {
+            // callback
+            if (rsp.success) {
+              console.log(rsp);
 
-            IMP.request_pay({
-              pg : 'html5_inicis',
-              pay_method : payment.paymentMethod,
-              merchant_uid: merchantId,
-              name : productDto.productName,
-              amount : amount,
-              currency : 'KRW',
-              buyer_email : destinationDto.receiverEmail,
-              buyer_name : destinationDto.receiverName,
-              buyer_tel : destinationDto.receiverPhoneNumber,
-              buyer_addr : destinationDto.address1,
-              buyer_postcode : destinationDto.zipCode,
-            }, function (rsp) { // callback
-              if (rsp.success) {
-                console.log(rsp);
+              const res = checkPayApproval(merchantId);
 
-                const res = checkPayApproval(merchantId);
-
-                if (res.status === HttpStatusCode.Ok) {
-                  setSuccess(true)
-                } else if (res.status === HttpStatusCode.BadRequest) {
-                  alert("결제가 실패하였습니다. 결제가 위조 되었을 가능성이 있습니다.");
-                } else {
-                  alert('결제가 실패하였습니다.');
-                }
+              if (res.status === HttpStatusCode.Ok) {
+                setSuccess(true);
+              } else if (res.status === HttpStatusCode.BadRequest) {
+                alert(
+                  '결제가 실패하였습니다. 결제가 위조 되었을 가능성이 있습니다.'
+                );
               } else {
-                if (rsp.error_msg !== '사용자가 결제를 취소하셨습니다') {
-                  alert(`결제에 실패하였습니다. 에러 내용: ${rsp.error_msg}`);
-                }
+                alert('결제가 실패하였습니다.');
               }
-            });
-
-          })
-
+            } else {
+              if (rsp.error_msg !== '사용자가 결제를 취소하셨습니다') {
+                alert(`결제에 실패하였습니다. 에러 내용: ${rsp.error_msg}`);
+              }
+            }
+          }
+        );
+      });
     } else if (payment.paymentMethod === constants.PM_VBANK) {
       // Not Yet
-      alert("준비중입니다.");
+      alert('준비중입니다.');
     }
-  }
+  };
 
   if (success) {
     navigate('/inquiry');
@@ -324,15 +333,10 @@ function ConfirmSection(props) {
         <Product productInfo={props.productInfo} />
         <BackgroundImage add_image={props.productInfo.add_image} />
         <DeliveryInfo deliveryInfo={props.deliveryInfo} />
-        <PaymentInfo
-            constants={constants}
-            setPayment={setPayment} />
+        <PaymentInfo constants={constants} setPayment={setPayment} />
         <TermsOfUse />
         <Total quantity={props.productInfo.quantity} />
-        <Button
-            text="결제하기"
-            onClick={requestPay}
-        />
+        <Button text="결제하기" onClick={requestPay} />
         <Button
           text="돌아가기"
           onClick={e => {
