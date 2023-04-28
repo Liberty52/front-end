@@ -1,12 +1,12 @@
 import Header from "../../component/Header";
 import Footer from "../../component/Footer";
 import { useLocation } from "react-router-dom";
-import styled from "styled-components";
 import { useEffect, useState } from "react";
 import {
-  ColumnDirectionFlexBox, CurrentHtmlSizeSpan,
+  CurrentHtmlSizeSpan,
   HTMLEditor,
-  HTMLSizeLimiter, MoveToListButton,
+  HTMLSizeLimiter,
+  MoveToListButton,
   QuestEditorTitleInput,
   QuestionEditorHeader,
   QuestionEditorPageContainer,
@@ -14,14 +14,12 @@ import {
   QuestionPageButtonWrapper
 } from "../../component/question/QuestionComponent";
 import { Editor } from "@toast-ui/editor";
-import '@toast-ui/editor/dist/toastui-editor.css';
-import '@toast-ui/editor/dist/i18n/ko-kr';
+import "@toast-ui/editor/dist/toastui-editor.css";
+import "@toast-ui/editor/dist/i18n/ko-kr";
 import { HTML_EDITOR_MODE } from "../../global/Constants";
 import { useNavigate } from "react-router";
-import { ADD_MOCK_DATA, GET_MOCK_DETAIL_DATA, GET_NEXT_NO, UPDATE_MOCK_DATA } from "../../global/QuestionMockApi";
-import uuid from "react-uuid";
-
-
+import { createQuestion, updateQuestion, uploadImage } from "../../axios/question/QuestionEditor";
+import { getQuestionDetail } from "../../axios/question/QuestionDetail";
 
 
 export default function QuestionEditor(){
@@ -36,15 +34,17 @@ export default function QuestionEditor(){
   const [prevData, setPrevData] = useState();
 
   let editor;
-  useEffect(() => {
-    window.scrollTo(0,0);
+
+  const effect = async () => {
     const mode = location.state.mode;
     let data;
-    if(mode === HTML_EDITOR_MODE.ADD){
+    if (mode === HTML_EDITOR_MODE.ADD) {
       data = ' ';
-    }else{
-
-      const PREV_DATA = GET_MOCK_DETAIL_DATA(location.state.id);
+    } else {
+      let PREV_DATA;
+      await getQuestionDetail(location.state.id).then(res => {
+        PREV_DATA = res.data;
+      })
       data = PREV_DATA.content;
       setHtmlSize(data.length)
       setContent(data)
@@ -57,23 +57,28 @@ export default function QuestionEditor(){
       el: document.querySelector('#editor'),
       previewStyle: 'vertical',
       height: '500px',
-      initialEditType : 'wysiwyg',
-      initialValue : data,
-      language : "ko-KR",
+      initialEditType: 'wysiwyg',
+      initialValue: data,
+      language: "ko-KR",
       hideModeSwitch: true,
-      autofocus : false,
-      events : {
-        change : editorHTMLChanged
+      autofocus: false,
+      events: {
+        change: editorHTMLChanged
       },
-      hooks : {
+      hooks: {
         addImageBlobHook: (blob, callback) => uploadImages(blob, callback)
       }
     });
+  }
+
+  useEffect( () => {
+    effect();
   },[])
 
   const uploadImages = (blob, callback) => {
-    alert("이미지 업로드 중...")
-    callback(uuid());
+    uploadImage(blob).then(res => {
+      callback(res.data)
+    });
   }
 
   const titleInputChanged = (event) => {
@@ -96,33 +101,24 @@ export default function QuestionEditor(){
     });
   }
 
-  function updateQuestion() {
+  function updateQuestionButtonClikced() {
     alert("수정됐습니다!");
     const data = {
-      id: prevData.id,
       title: title,
       content: content,
-      status: prevData.status,
-      createdAt: prevData.createdAt,
-      no: prevData.no
     };
-    UPDATE_MOCK_DATA(data);
-    moveToQuestionDetailPage();
+    updateQuestion(data ,moveToQuestionDetailPage,prevData.id)
+    ;
   }
 
   function addQuestion() {
     alert("글이 추가되었습니다!");
-    const date = new Date();
+
     const data = {
-      id: uuid(),
       title: title,
       content: content,
-      status: "대기",
-      createdAt: date.getFullYear() + "-" + date.getMonth() + "-" + date.getDay(),
-      no: GET_NEXT_NO()
     };
-    ADD_MOCK_DATA(data);
-    moveToListButtonClicked();
+    createQuestion(data,moveToListButtonClicked);
   }
   const validateTitle = () => {
     if(title.length < 1){
@@ -143,7 +139,7 @@ export default function QuestionEditor(){
       return;
 
     if(location.state.mode === HTML_EDITOR_MODE.UPDATE){
-      updateQuestion();
+      updateQuestionButtonClikced();
     }else{
       addQuestion();
     }
@@ -181,7 +177,7 @@ export default function QuestionEditor(){
       <QuestionEditorHeader>
             1:1문의
       </QuestionEditorHeader>
-      <QuestEditorTitleInput autofocus value={title} type={"text"} placeholder={"제목을 입력해주세요"} onChange={titleInputChanged}/>
+      <QuestEditorTitleInput autoFocus value={title} type={"text"} placeholder={"제목을 입력해주세요"} onChange={titleInputChanged}/>
       <HTMLEditor id={"editor"}></HTMLEditor>
       <HTMLSizeLimiter>
         <div>

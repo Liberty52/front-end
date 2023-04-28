@@ -87,6 +87,9 @@ export const PageNumberButton = styled.div`
   justify-content: center;
   align-items: center;
   padding: 5px;
+  font-size: 16px;
+  color:  ${props => props.isCurrentPage ? 'black' : 'rgba(0,0,0,0.2)'} ;
+  text-decoration:  ${props => props.isCurrentPage ? 'underline' : 'none'} ;
   font-weight: bold;
   :hover{
     cursor: pointer;

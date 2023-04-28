@@ -17,11 +17,12 @@ import {
   QuestionEditorHeader,
   QuestionListContainer
 } from "../../component/question/QuestionComponent";
-import { DELETE_MOCK_DATA, GET_MOCK_DETAIL_DATA } from "../../global/QuestionMockApi";
 import { useEffect, useState } from "react";
 import { Editor } from "@toast-ui/editor";
 import { useNavigate } from "react-router";
 import { HTML_EDITOR_MODE } from "../../global/Constants";
+import { deleteQuestion, getQuestionDetail } from "../../axios/question/QuestionDetail";
+import { convertQuestionStatus } from "../../utils";
 
 
 export default function QuestionDetail(){
@@ -31,17 +32,28 @@ export default function QuestionDetail(){
   const [data,setData] = useState();
 
   useEffect(() => {
-    const  prevData = GET_MOCK_DETAIL_DATA(id);
+    let  prevData
+    try{
+      getQuestionDetail(id)
+        .then(res => {
+          prevData = res.data;
+          setData(prevData)
+          const viewer = new Editor.factory({
+            el: document.querySelector('#viewer'),
+            height: '500px',
+            initialEditType : 'wysiwyg',
+            initialValue : prevData.content,
+            language : "ko-KR",
+            viewer : true
+          });
+        });
+
+
+    }catch (err){
+      console.error(err)
+    }
     setData(prevData)
 
-    const viewer = new Editor.factory({
-      el: document.querySelector('#viewer'),
-      height: '500px',
-      initialEditType : 'wysiwyg',
-      initialValue : prevData.content,
-      language : "ko-KR",
-      viewer : true
-    });
   },[])
 
   const updateButtonClicked = () => {
@@ -55,10 +67,15 @@ export default function QuestionDetail(){
   }
   const deleteButtonClicked = () => {
 
-    DELETE_MOCK_DATA(id)
-    navigate('/question',{
-      replace : true
-    })
+    if(window.confirm("정말로 삭제하시겠습니까?")){
+      deleteQuestion(id).then(() => {
+        navigate('/question',{
+          replace : true
+        })
+      }).catch(err => console.error(err));
+    }
+
+
   }
   const moveToListButtonClicked = () => {
     navigate('/question', {
@@ -78,7 +95,7 @@ export default function QuestionDetail(){
           <QuestionDetailTitleWrapper>
             <QuestionDetailTitle>{data.title}</QuestionDetailTitle>
             <QuestionDetailSide>
-              <QuestionDetailSideStatus>{data.status}</QuestionDetailSideStatus>
+              <QuestionDetailSideStatus>{convertQuestionStatus(data.status)}</QuestionDetailSideStatus>
               <QuestionDetailSideCreatedAt>{data.createdAt}</QuestionDetailSideCreatedAt>
             </QuestionDetailSide>
           </QuestionDetailTitleWrapper>

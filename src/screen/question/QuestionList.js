@@ -13,15 +13,43 @@ import {
   QuestionTableHeaderMiddleItem
 } from "../../component/question/QuestionComponent";
 import { useNavigate } from "react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { HTML_EDITOR_MODE } from "../../global/Constants";
-import { GET_MOCK_DATA } from "../../global/QuestionMockApi";
+import { getQuestionList } from "../../axios/question/QuestionsList";
+import { convertQuestionStatus } from "../../utils";
 
 
 export default function QuestionList() {
-
-
   const navigate = useNavigate();
+  const [pageNum, setPageNum] = useState(0);
+
+  const [data,setData] = useState([]);
+
+  const pageSize = 10;
+
+  const effect = async () => {
+    try{
+      const list = await getQuestionList(pageNum,pageSize);
+      let count = 0;
+      let number = 1 + pageNum * pageSize;
+      console.log(list.data);
+      while(count < list.data.contents.length){
+        list.data.contents[count].no = number + count;
+        count++;
+      }
+      setData(list.data);
+
+    }catch (e){
+      console.error(e)
+    }
+  }
+
+  useEffect(() => {
+    effect();
+  },[pageNum]);
+
+
+
   const moveToEditorPageButtonClicked = () => {
     navigate(`/question/editor`, {
       state: {
@@ -33,6 +61,29 @@ export default function QuestionList() {
     navigate(`/question/${id}`)
   }
 
+  const createPageNumberButton = () => {
+    if(data === undefined)
+      return undefined;
+    const array = new Array();
+    for(let i = data.startPage; i <= data.lastPage; i++)
+      array.push(i);
+    return array;
+  }
+
+  const pageNumberButtonClicked = (id) => {
+    setPageNum(id-1);
+  }
+  const pageNumberMinusButtonClicked = () => {
+    if(pageNum == 0)
+      return;
+    setPageNum(prev => prev-1);
+
+  }
+  const pageNumberPlusButtonClicked = () => {
+    if(pageNum == data.totalPage-1)
+      return;
+    setPageNum(prev => prev+1);
+  }
 
   return <>
     <Header />
@@ -48,11 +99,12 @@ export default function QuestionList() {
           </QuestionListTableHeader>
         </thead>
         <tbody>
-        {GET_MOCK_DATA().length !== 0 ? GET_MOCK_DATA().map(d => {
+        {data.contents?.length !== 0 ? data.contents?.map(d => {
+
           return <QuestionListTableBodyRow key={d.id} onClick={() => moveToDetailPageButtonClicked(d.id)}>
             <td>{d.no}</td>
             <td>{d.title}</td>
-            <td>{d.status}</td>
+            <td>{convertQuestionStatus(d.status)}</td>
             <QuestionListTableBodyWriteTimestamp>{d.createdAt}</QuestionListTableBodyWriteTimestamp>
           </QuestionListTableBodyRow>;
         }) : <></>}
@@ -60,14 +112,18 @@ export default function QuestionList() {
       </QuestionListTable>
 
 
-      {GET_MOCK_DATA().length === 0 ? <EmptyListExpression>등록된 문의가 없습니다</EmptyListExpression> : ""}
-      {/*TODO CurrentPage가 아닌 애들은 색상 처리 다르게 해주기*/}
-      <QuestionListTablePageNumberButtonWrapper>
-        <PageNumberButton>1</PageNumberButton>
-        <PageNumberButton>2</PageNumberButton>
-        <PageNumberButton>3</PageNumberButton>
-      </QuestionListTablePageNumberButtonWrapper>
+      {data.contents?.length === 0 ? <EmptyListExpression>등록된 문의가 없습니다</EmptyListExpression> :
 
+        <QuestionListTablePageNumberButtonWrapper>
+          <PageNumberButton onClick={pageNumberMinusButtonClicked}>&lt;</PageNumberButton>
+          {createPageNumberButton()?.map(i => {
+            return <>
+              <PageNumberButton key={i} isCurrentPage={i===data.currentPage} onClick={() => pageNumberButtonClicked(i)}>{i}</PageNumberButton>
+            </>
+          })}
+          <PageNumberButton onClick={pageNumberPlusButtonClicked}>&gt;</PageNumberButton>
+        </QuestionListTablePageNumberButtonWrapper>
+      }
       <QuestionPageButtonWrapper >
         <QuestionPageButton onClick={moveToEditorPageButtonClicked}>문의 작성</QuestionPageButton>
       </QuestionPageButtonWrapper>
@@ -75,3 +131,5 @@ export default function QuestionList() {
     <Footer />
   </>;
 }
+
+
