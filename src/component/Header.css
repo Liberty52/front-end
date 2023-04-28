@@ -19,3 +19,7 @@
 .header-items button {
   margin: 0;
 }
+
+.header-items .logo-img {
+  width: 150px;
+}

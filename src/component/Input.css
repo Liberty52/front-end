@@ -10,6 +10,14 @@
   border-radius: 3px;
 }
 
+.inputs .input {
+  margin: 10px 0;
+}
+
+.input:hover {
+  background-color: #f5f5f5;
+}
+
 .input-block .input:focus-visible {
   outline: none;
   border-width: 1.5px;
@@ -19,7 +27,7 @@
   border-color: red;
 }
 
-.input-block .name {
+.label {
   position: absolute;
   left: 10px;
   top: -7px;
