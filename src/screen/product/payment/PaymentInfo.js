@@ -4,7 +4,9 @@ import {Box, Radio, RadioGroup, Sheet, Input, Checkbox} from "@mui/joy";
 import Select, { selectClasses } from '@mui/joy/Select';
 import Option from '@mui/joy/Option';
 import KeyboardArrowDown from '@mui/icons-material/KeyboardArrowDown';
-import {useState} from "react";
+import {useEffect, useState} from "react";
+import axios from "../../../axios/axios";
+import {getVBankInfos} from "../../../axios/shopping/Payment";
 
 function PaymentMethod(props) {
 
@@ -68,12 +70,30 @@ function PaymentMethod(props) {
 }
 
 function VBankContent(props) {
-    const vBankList = [
-        {
-            value: 'vbank_hana',
-            label: '(예시) 하나은행 25691006208604 블룸즈베리랩'
-        },
-    ];
+    const [vbankInfos, setVbankInfos] = useState({
+        vbankInfos: [
+            { account: '' },
+        ]
+    });
+    useEffect(() => {
+        const fetchVBankInfo = async () => {
+            try {
+                const vbankList = await getVBankInfos();
+                setVbankInfos(vbankList.data);
+            } catch (e) {
+                console.log(e)
+                alert('가상계좌 정보를 가져오는데 실패했습니다. 다시 시도해주세요.')
+            }
+        };
+
+        fetchVBankInfo();
+    }, []);
+
+    const [isCashReceiptChecked, setIsCashReceiptChecked] = useState(false);
+    const handleCheckBoxChange = (event) => {
+        setIsCashReceiptChecked(event.target.checked);
+        props.setIsCashReceipt(event.target.checked);
+    };
 
     const onAccountChange = (e, value) => {
         props.setVBankAccount(value);
@@ -99,16 +119,16 @@ function VBankContent(props) {
                     minHeight: '34px',
                 }}
                 onChange={onAccountChange}
-                defaultValue={vBankList[0].value}
+                placeholder={'가상계좌를 선택해주세요.'}
             >
-                {vBankList.map((vBank) => (
+                {vbankInfos.vbankInfos.map((vBank) => (
                     <Option
-                        key={vBank.value}
-                        value={vBank.value}
+                        key={vBank.account}
+                        value={vBank.account}
                         sx={{
                             fontSize: 12,
                         }}
-                    >{vBank.label}</Option>
+                    >{vBank.account}</Option>
                 ))}
             </Select>
 
@@ -131,6 +151,8 @@ function VBankContent(props) {
 
             <Box>
                 <Checkbox
+                    checked={isCashReceiptChecked}
+                    onChange={handleCheckBoxChange}
                     sx={{
                         fontSize: 11,
                     }}
@@ -169,6 +191,12 @@ export default function PaymentInfo(props) {
         });
     }
 
+    const setIsCashReceipt = (newValue) => {
+        props.setPayment((prevState) => {
+            return {...prevState, isCashReceipt: newValue}
+        });
+    }
+
     return (
         <div className="confirm-info">
             <div className="title">결제 수단</div>
@@ -179,6 +207,7 @@ export default function PaymentInfo(props) {
                         <VBankContent
                             setVBankAccount={setVBankAccount}
                             setDepositorName={setDepositorName}
+                            setIsCashReceipt={setIsCashReceipt}
                         />
                     }
                 </div>
