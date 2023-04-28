@@ -8,13 +8,15 @@
   appearance: none;
   width: 18px;
   height: 18px;
-  border: 1.5px solid #d3b369;
-  border-radius: 10px;
+  background-image: url('../image/icon/checkbox_0.png');
+  background-size: 100% 100%;
   margin-right: 7px;
+}
+
+.checkbox:hover {
+  background-image: url('../image/icon/checkbox_1.png');
 }
 
 .checkbox:checked {
   background-image: url('../image/icon/checkbox.png');
-  background-size: 100% 100%;
-  background-color: #d3b369;
 }
