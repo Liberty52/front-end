@@ -1,26 +1,26 @@
-import "./Review.css";
-import React, { useState, useEffect } from "react";
-import Checkbox from "../../component/Checkbox";
-import Image from "../../component/Image";
-import ImageInput from "../../component/ImageInput";
-import Button from "../../component/Button";
-import star from "../../image/icon/star.png";
-import star_filled from "../../image/icon/star_filled.png";
-import close from "../../image/icon/close.png";
+import './Review.css';
+import React, { useState, useEffect } from 'react';
+import Checkbox from '../../component/Checkbox';
+import Image from '../../component/Image';
+import ImageInput from '../../component/ImageInput';
+import Button from '../../component/Button';
+import star from '../../image/icon/star.png';
+import star_filled from '../../image/icon/star_filled.png';
+import close from '../../image/icon/close.png';
 import {
   deleteReview,
   getReview,
   postReview,
   putReview,
-} from "../../axios/review/Review";
+} from '../../axios/review/Review';
 
-function Modal(props) {
+export function Modal(props) {
   const modalInfo =
     props.reviewInfo === undefined
       ? {
           rating: 1,
-          imageUrls: ["", "", ""],
-          content: "",
+          imageUrls: ['', '', ''],
+          content: '',
         }
       : props.reviewInfo;
   const [rating, setRating] = useState(modalInfo.rating);
@@ -30,13 +30,13 @@ function Modal(props) {
     <div className="modal">
       <div className="modal-content">
         <form
-          onSubmit={(e) => {
+          onSubmit={e => {
             e.preventDefault();
             const dto = {
-              productName: "Liberty 52_Frame",
+              productName: 'Liberty 52_Frame',
               rating: rating,
               content: e.target.content.value,
-              orderId: "GORDER-001",
+              orderId: 'GORDER-001',
             };
             if (props.reviewInfo === undefined) {
               postReview(dto, e.target.file);
@@ -72,7 +72,7 @@ function Modal(props) {
             value={text}
             required
             maxLength={1000}
-            onChange={(e) => {
+            onChange={e => {
               setText(e.target.value);
             }}
           />
@@ -104,7 +104,7 @@ function ReviewContent(props) {
   const reviewInfo = props.reviewInfo;
 
   const filesChildNode = [];
-  reviewInfo.imageUrls.map((imageUrl) => {
+  reviewInfo.imageUrls.map(imageUrl => {
     filesChildNode.push(<Image image={imageUrl} />);
   });
 
@@ -120,7 +120,7 @@ function ReviewContent(props) {
           <Image
             image={
               reviewInfo.authorProfileUrl === null
-                ? ""
+                ? ''
                 : reviewInfo.authorProfileUrl
             }
           />
@@ -191,7 +191,7 @@ export default function Review() {
   });
 
   useEffect(() => {
-    getReview("LIB-001", 5, 1, onlyPhoto).then((res) => {
+    getReview('LIB-001', 5, 1, onlyPhoto).then(res => {
       const contents = res.contents;
       setReviewContents([]);
       setPages({

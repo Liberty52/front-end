@@ -378,12 +378,12 @@ function ConfirmSection(props) {
         <div className="payment-title">
           입력하신 사항이 모두 정확한지 확인해주십시오.
         </div>
-        <Product productInfo={props.productInfo} />
-        <BackgroundImage add_image={props.productInfo.add_image} />
-        <DeliveryInfo deliveryInfo={props.deliveryInfo} />
+        <Product productInfo={productDto} />
+        <BackgroundImage add_image={imageFile} />
+        <DeliveryInfo deliveryInfo={destinationDto} />
         <PaymentInfo constants={constants} setPayment={setPayment} />
         <TermsOfUse />
-        <Total quantity={props.productInfo.quantity} />
+        <Total quantity={productDto.quantity} />
         <Button text="결제하기" onClick={requestPay} />
         <Button
           text="돌아가기"
@@ -399,7 +399,7 @@ function ConfirmSection(props) {
 
 export default function Payment() {
   const location = useLocation();
-  const productInfo = { ...location.state };
+  const productInfo = { ...location.state }; // mounting_method, basic_material, add_material, add_image, quantity
 
   const [section, setSection] = useState('form');
   const [deliveryInfo, setDeliveryInfo] = useState({
