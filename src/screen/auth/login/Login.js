@@ -5,19 +5,19 @@ import {
   findEmail,
   sendPasswordResetEmail,
 } from '../../../axios/auth/Login.js';
+import Header from '../../../component/Header';
 import Checkbox from '../../../component/Checkbox';
-import InputGroup from '../../../component/InputGroup';
+import Input from '../../../component/Input';
 import Button from '../../../component/Button';
-import logo from '../../../image/icon/logo.png';
-import SocialLoginButton from "../../../component/SocialLoginButton";
-import {SOCIAL_LOGIN_PROVIDER} from "../../../global/Constants";
+import SocialLoginButton from '../../../component/SocialLoginButton';
+import { SOCIAL_LOGIN_PROVIDER } from '../../../global/Constants';
 function LoginInput() {
-  const loginItems = [
-    { type: 'email', name: 'email', required: true },
-    { type: 'password', name: 'password', required: true },
-  ];
-
-  return <InputGroup inputItems={loginItems} />;
+  return (
+    <div class="inputs">
+      <Input type="email" name="email" label="이메일" required={true} />
+      <Input type="password" name="password" label="비밀번호" required={true} />
+    </div>
+  );
 }
 
 function LoginForm() {
@@ -147,12 +147,22 @@ function IdInput() {
       label: '휴대전화 번호',
     },
   ];
-  return <InputGroup inputItems={loginItems} />;
+  return (
+    <div className="inputs">
+      <Input type="text" name="name" required={true} label="이름" />
+      <Input
+        type="tel"
+        name="phoneNumber"
+        required={true}
+        label="휴대전화 번호"
+      />
+    </div>
+  );
 }
 
 function PasswordInput() {
   const loginItems = [{ type: 'email', name: 'email', required: true }];
-  return <InputGroup inputItems={loginItems} />;
+  return <Input type="email" name="email" required={true} />;
 }
 
 function CompanyLogin() {
@@ -183,40 +193,32 @@ function CompanyLogin() {
 }
 
 function SocialLogin() {
-    return (
-        <div className="social-login">
-            <div className="login-title">소셜 로그인</div>
-            <div>
-                <SocialLoginButton provider={SOCIAL_LOGIN_PROVIDER.NAVER}/>
-                <SocialLoginButton provider={SOCIAL_LOGIN_PROVIDER.KAKAO}/>
-                <SocialLoginButton provider={SOCIAL_LOGIN_PROVIDER.GOOGLE}/>
-                <SocialLoginButton provider={SOCIAL_LOGIN_PROVIDER.FACEBOOK}/>
-            </div>
-        </div>
-    );
+  return (
+    <div className="social-login">
+      <div className="login-title">소셜 로그인</div>
+      <div>
+        <SocialLoginButton provider={SOCIAL_LOGIN_PROVIDER.NAVER} />
+        <SocialLoginButton provider={SOCIAL_LOGIN_PROVIDER.KAKAO} />
+        <SocialLoginButton provider={SOCIAL_LOGIN_PROVIDER.GOOGLE} />
+        <SocialLoginButton provider={SOCIAL_LOGIN_PROVIDER.FACEBOOK} />
+      </div>
+    </div>
+  );
 }
 
 function Border() {
   return <div className="border"></div>;
 }
 
-function LoginHeader() {
-  return (
-    <div className="login-header">
-      <a href="/">
-        <img className="login-logo" src={logo} />
-      </a>
-    </div>
-  );
-}
-
 export default function Login() {
   return (
     <div className="login">
-      <LoginHeader />
-      <CompanyLogin />
-      <Border />
-      <SocialLogin />
+      <Header />
+      <div className="section">
+        <CompanyLogin />
+        <Border />
+        <SocialLogin />
+      </div>
     </div>
   );
 }

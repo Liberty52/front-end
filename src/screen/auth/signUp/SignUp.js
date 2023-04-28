@@ -1,15 +1,23 @@
-import "./SignUp.css";
-import post from "../../../axios/auth/SignUp.js";
-import InputGroup from "../../../component/InputGroup";
-import ImageInput from "../../../component/ImageInput";
-import Button from "../../../component/Button";
-import Logo from "../../../component/Logo";
+import './SignUp.css';
+import post from '../../../axios/auth/SignUp.js';
+import Input from '../../../component/Input';
+import ImageInput from '../../../component/ImageInput';
+import Button from '../../../component/Button';
+import Header from '../../../component/Header';
 
-function SignUpForm() {
+function Section() {
+  return (
+    <div className="section">
+      <Form />
+    </div>
+  );
+}
+
+function Form() {
   return (
     <form
       className="signUp-form"
-      onSubmit={(event) => {
+      onSubmit={event => {
         event.preventDefault();
         const email = event.target.email.value;
         const password = event.target.password.value;
@@ -39,28 +47,48 @@ function SignUpForm() {
 }
 
 function SignUpInput() {
-  const signUpItems = [
-    { type: "email", name: "email", required: true },
-    { type: "password", name: "password", required: true, maxLength: 25 },
-    {
-      type: "text",
-      name: "phoneNumber",
-      required: true,
-      pattern: "01[0,1][0-9]{6,8}",
-      maxLength: 11,
-      title: "ex) 01012341234",
-    },
-    { type: "text", name: "name", required: true, maxLength: 25 },
-    { type: "text", name: "recommender", required: false, maxLength: 25 },
-  ];
-  return <InputGroup inputItems={signUpItems} />;
+  return (
+    <div className="inputs">
+      <Input type="email" name="email" label="이메일" required={true} />
+      <Input
+        type="password"
+        name="password"
+        label="비밀번호"
+        required={true}
+        maxLength={25}
+      />
+      <Input
+        type="text"
+        name="phoneNumber"
+        label="휴대폰번호"
+        required={true}
+        pattern="01[0,1][0-9]{6,8}"
+        maxLength={11}
+        title="ex) 01012341234"
+      />
+      <Input
+        type="text"
+        name="name"
+        label="이름"
+        required={true}
+        maxLength={25}
+      />
+      <Input
+        type="text"
+        name="recommender"
+        label="추천인"
+        required={false}
+        maxLength={25}
+      />
+    </div>
+  );
 }
 
 export default function SignUp() {
   return (
     <div className="signUp">
-      <Logo />
-      <SignUpForm />
+      <Header />
+      <Section />
     </div>
   );
 }
