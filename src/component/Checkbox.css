@@ -15,6 +15,11 @@
   padding: 9px;
 }
 
+.checkbox-wrapper label {
+  display: inline;
+  cursor: pointer;
+}
+
 .checkbox:hover {
   background-image: url('../image/icon/checkbox_1.png');
 }

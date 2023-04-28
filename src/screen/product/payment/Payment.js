@@ -5,8 +5,9 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import Button from '../../../component/Button';
 import Input from '../../../component/Input';
 import Checkbox from '../../../component/Checkbox';
+import Modal from '../../../component/Modal';
 import liberty52 from '../../../image/icon/liberty52.jpg';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import {
   checkPayApproval,
   payByVBank,
@@ -17,23 +18,20 @@ import CenterCircularProgress from '../../../component/CenterCircularProgress';
 
 function AddressSearchModal(props) {
   return (
-    <div className="modal">
-      <div className="modal-content">
-        <DaumPostcode
-          onComplete={data => {
-            props.setAddress({
-              address1: data.buildingName
-                ? data.address + ' (' + data.buildingName + ')'
-                : data.address,
-              zipCode: data.zonecode,
-            });
-            props.closeModal();
-          }}
-          autoClose={false}
-        />
-        <Button type="button" text="닫기" onClick={props.closeModal} />
-      </div>
-    </div>
+    <Modal title="주소 검색" closeModal={props.closeModal}>
+      <DaumPostcode
+        onComplete={data => {
+          props.setAddress({
+            address1: data.buildingName
+              ? data.address + ' (' + data.buildingName + ')'
+              : data.address,
+            zipCode: data.zonecode,
+          });
+          props.closeModal();
+        }}
+        autoClose={false}
+      />
+    </Modal>
   );
 }
 
@@ -65,7 +63,7 @@ function PaymentSection(props) {
             address2: e.target.address2.value,
             receiverEmail: e.target.receiverEmail.value,
             zipCode: address.zipCode,
-            receiverPhoneNumber: e.target.checkbox.checked
+            receiverPhoneNumber: e.target.phoneCheckbox.checked
               ? ''
               : e.target.receiverPhoneNumber.value,
           });
@@ -131,6 +129,7 @@ function PaymentSection(props) {
           </div>
           <Checkbox
             text="휴대폰 번호가 없습니다."
+            name="phoneCheckbox"
             onChange={e => {
               const input = document.querySelector('#receiverPhoneNumber');
               input.disabled = e.target.checked;
@@ -210,20 +209,37 @@ function DeliveryInfo(props) {
 }
 
 function TermsOfUse() {
+  const [modal, setModal] = useState(false);
+
   return (
     <div className="confirm-termsOfUse">
+      {modal ? (
+        <Modal title="개인정보 취급방침" closeModal={() => setModal(false)}>
+          이용약관
+          입니다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다닭
+        </Modal>
+      ) : (
+        <></>
+      )}
       <div className="title">이용 약관</div>
       <div className="content">
         <Checkbox
-          text={
-            <div>
-              <a href="">Liberty 개인정보 취급방침</a>
-              <span>
-                에 따라 개인정보를 수집하고, 사용하고, 제3자에 제공하고,
-                처리한다는 점에 동의합니다.
-              </span>
-            </div>
+          name="termsOfUse"
+          independentText1={
+            <button
+              type="button"
+              onClick={() => {
+                setModal(true);
+                console.log(modal);
+              }}
+            >
+              Liberty 개인정보 취급방침
+            </button>
           }
+          text="
+              에 따라 개인정보를 수집하고, 사용하고, 제3자에 제공하고,
+              처리한다는 점에 동의합니다.
+          "
         />
       </div>
     </div>
@@ -383,7 +399,7 @@ function ConfirmSection(props) {
       <form
         onSubmit={e => {
           e.preventDefault();
-          if (!e.target.checkbox.checked) {
+          if (!e.target.termsOfUse.checked) {
             alert('이용약관에 동의해주세요');
             return;
           }

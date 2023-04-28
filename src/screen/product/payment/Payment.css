@@ -79,6 +79,10 @@
   margin-bottom: 7px;
 }
 
+.confirm-termsOfUse .checkbox-wrapper button {
+  text-decoration: underline;
+}
+
 .confirm-total .title {
   margin-bottom: 7px;
 }
@@ -96,10 +100,6 @@
 }
 
 /* 모달 */
-.payment .payment-section .modal {
-  display: flex;
-}
-
 .payment .payment-section .modal-content {
   width: 50%;
 }
