@@ -41,7 +41,7 @@ export function checkPayApproval(orderId) {
 }
 
 export function getVBankInfos() {
-    return axios.get("/orders/payment/vbank")
+    return axios.get("/product/orders/payment/vbank")
 }
 
 export function payByVBank(dto, file) {
@@ -53,7 +53,7 @@ export function payByVBank(dto, file) {
     );
     return new Promise(res => {
         axios
-            .post('/orders/payment/vbank',
+            .post('/product/orders/payment/vbank',
                 formData,
                 {
                     headers: {
