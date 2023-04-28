@@ -12,16 +12,46 @@ import { HttpStatusCode } from 'axios';
 import { checkPayApproval, prepareCard } from '../../../axios/shopping/Payment';
 import PaymentInfo from './PaymentInfo';
 
+function AddressSearchModal(props) {
+  return (
+    <div className="modal">
+      <div className="modal-content">
+        <DaumPostcode
+          onComplete={data => {
+            props.setAddress({
+              address1: data.buildingName
+                ? data.address + '(' + data.buildingName + ')'
+                : data.address,
+              zipCode: data.zonecode,
+            });
+            props.closeModal();
+          }}
+          autoClose={false}
+        />
+        <Button type="button" text="닫기" onClick={props.closeModal} />
+      </div>
+    </div>
+  );
+}
+
 function PaymentSection(props) {
   const deliveryInfo = props.deliveryInfo;
   const [address, setAddress] = useState({
-    address1: deliveryInfo.address1,
-    zipCode: deliveryInfo.zipCode,
+    address1: '',
+    zipCode: '',
   });
-  const [visible, setVisible] = useState(false); // 주소 검색창 (react daum postcoded)
+  const [modal, setModal] = useState(false); // 주소 검색창 (react daum postcoded)
 
   return (
     <div className="payment-section">
+      {modal ? (
+        <AddressSearchModal
+          setAddress={setAddress}
+          closeModal={() => setModal(false)}
+        />
+      ) : (
+        <></>
+      )}
       <form
         onSubmit={e => {
           e.preventDefault();
@@ -43,24 +73,6 @@ function PaymentSection(props) {
         </div>
         <div className="payment-user">
           <div className="input-title">이름 및 주소 입력:</div>
-          {/* 모달로 구현 */}
-          <div style={{ display: visible ? 'block' : 'none' }}>
-            <Button
-              type="button"
-              text="닫기"
-              onClick={() => setVisible(false)}
-            />
-            <DaumPostcode
-              onComplete={data => {
-                setAddress({
-                  address1: data.address,
-                  zipCode: data.zonecode,
-                });
-                setVisible(false);
-              }}
-              autoClose={false}
-            />
-          </div>
           <div className="inputs">
             <Input
               type="text"
@@ -78,10 +90,10 @@ function PaymentSection(props) {
               maxLength={25}
               value={
                 address.address1
-                  ? address.address1 + ' (' + address.zipCode + ')'
+                  ? '(' + address.zipCode + ') ' + address.address1
                   : ''
               }
-              onClick={() => setVisible(true)}
+              onClick={() => setModal(true)}
               readOnly
             />
             <Input
