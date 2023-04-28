@@ -183,6 +183,7 @@ function BackgroundImage(props) {
 }
 
 function DeliveryInfo(props) {
+  const deliveryInfo = props.deliveryInfo;
   return (
     <div className="confirm-info">
       <div className="title">배송 상세 정보</div>
@@ -190,14 +191,18 @@ function DeliveryInfo(props) {
         <div>
           <div>배송지: </div>
           <div>
-            ({props.deliveryInfo.zipCode}) {props.deliveryInfo.address1}{' '}
+            ({deliveryInfo.zipCode}) {deliveryInfo.address1}{' '}
           </div>
-          <div>{props.deliveryInfo.address2}</div>
+          <div>{deliveryInfo.address2}</div>
         </div>
         <div>
           <div>연락처 정보:</div>
-          <div>{props.deliveryInfo.receiverEmail}</div>
-          <div>{props.deliveryInfo.receiverPhoneNumber}</div>
+          <div>{deliveryInfo.receiverEmail}</div>
+          <div>
+            {deliveryInfo.receiverPhoneNumber === ''
+              ? '휴대폰 번호 미입력'
+              : deliveryInfo.receiverPhoneNumber}
+          </div>
         </div>
       </div>
     </div>
@@ -285,6 +290,7 @@ function ConfirmSection(props) {
     isCashReceipt: false,
   });
 
+  /* IMP 결제 관련 코드 */
   const IMP = window.IMP;
   IMP.init('imp07432404');
 
@@ -346,7 +352,6 @@ function ConfirmSection(props) {
       if (payment.depositorName === '') {
         payment.depositorName = destinationDto.receiverName;
       }
-
       setIsConfirmProgressing(true);
       const vBankDto = {
         vbankInfo: payment.vBankAccount,
@@ -373,15 +378,19 @@ function ConfirmSection(props) {
     }
   };
 
-  if (success) {
-    navigate('/inquiry');
-  }
-
   return (
     <div className="confirm-section">
       <form
         onSubmit={e => {
           e.preventDefault();
+          if (!e.target.checkbox.checked) {
+            alert('이용약관에 동의해주세요');
+            return;
+          }
+          requestPay();
+          if (success) {
+            navigate('/inquiry');
+          }
         }}
       >
         <CenterCircularProgress isConfirmProgressing={isConfirmProgressing} />
@@ -394,8 +403,9 @@ function ConfirmSection(props) {
         <PaymentInfo constants={constants} setPayment={setPayment} />
         <TermsOfUse />
         <Total quantity={productDto.quantity} />
-        <Button text="결제하기" onClick={requestPay} />
+        <Button text="결제하기" />
         <Button
+          type="button"
           text="돌아가기"
           onClick={e => {
             e.preventDefault();
