@@ -4,38 +4,37 @@
 
 .input-block .input {
   width: 100%;
-  border: 1px solid black;
-  padding: 11px 10px 8px 10px;
+  border: 1.5px solid lightgray;
+  padding: 10px 10px;
   box-sizing: border-box;
-  border-radius: 3px;
+  border-radius: 8px;
 }
 
-.inputs .input {
+.inputs .input-block {
   margin: 10px 0;
 }
 
 .input:hover {
-  background-color: #f5f5f5;
+  border: 1.5px solid #0071e3;
 }
 
 .input-block .input:focus-visible {
   outline: none;
-  border-width: 1.5px;
+  border: 1.5px solid #0071e3;
 }
 
-.input-block input:invalid {
-  border-color: red;
+.input-block .input:focus-visible ~ .label {
+  position: absolute;
+  top: -7px;
+  transition: top 0.1s;
 }
 
 .label {
+  font-size: 12px;
   position: absolute;
   left: 10px;
-  top: -7px;
+  top: 13px;
   padding: 0px 3px;
   background: white;
   color: gray;
-}
-
-.input-block .required-mark {
-  margin-left: 2px;
 }
