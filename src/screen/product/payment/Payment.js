@@ -246,14 +246,15 @@ function ConfirmSection(props) {
   const constants = {
     PM_CARD: 'card',
     PM_VBANK: 'vbank',
-    defaultVBankAccount: 'vbank_hana',
+    defaultVBankAccount: '',
     defaultDepositorName: destinationDto.receiverName
   }
 
   const [payment, setPayment] = useState({
     paymentMethod: constants.PM_CARD,
     vBankAccount: constants.defaultVBankAccount,
-    depositorName: constants.defaultDepositorName
+    depositorName: constants.defaultDepositorName,
+    isCashReceipt: false
   });
 
   const IMP = window.IMP;
@@ -307,27 +308,37 @@ function ConfirmSection(props) {
           })
 
     } else if (payment.paymentMethod === constants.PM_VBANK) {
-      // Not Yet
-      console.log(payment.vBankAccount); console.log(payment.depositorName);
 
+      if (payment.vBankAccount === '') {
+        alert("가상계좌를 선택해주세요.")
+        return
+      }
+
+      if (payment.depositorName === '') {
+        payment.depositorName = destinationDto.receiverName;
+      }
+
+      setIsConfirmProgressing(true)
       const vBankDto = {
-        vBankInfo: payment.vBankAccount,
-        depositorName: payment.depositorName
+        vbankInfo: payment.vBankAccount,
+        depositorName: payment.depositorName,
+        isApplyCashReceipt: payment.isCashReceipt
       };
 
       payByVBank({
         productDto: productDto,
         destinationDto: destinationDto,
-        vBankDto: vBankDto
+        vbankDto: vBankDto
       }, imageFile)
           .then(res => {
             const {orderId} = res
-            console.log(orderId);
             setSuccess(true);
           })
           .catch(err => {
-
+            console.log(err)
           });
+
+      setIsConfirmProgressing(false)
     }
   }
 

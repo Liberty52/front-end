@@ -40,6 +40,10 @@ export function checkPayApproval(orderId) {
         );
 }
 
+export function getVBankInfos() {
+    return axios.get("/orders/payment/vbank")
+}
+
 export function payByVBank(dto, file) {
     const formData = new FormData();
     formData.append('imageFile', file);
@@ -49,7 +53,7 @@ export function payByVBank(dto, file) {
     );
     return new Promise(res => {
         axios
-            .post('/product/orders/payment/vbank',
+            .post('/orders/payment/vbank',
                 formData,
                 {
                     headers: {
@@ -62,8 +66,8 @@ export function payByVBank(dto, file) {
                 res(response.data);
             })
             .catch(e => {
-                console.log(e);
-                alert("결제 요청에 실패했습니다.");
+                const eData = e.response.data
+                alert(`결제 요청이 실패하였습니다.\n에러코드: ${eData.errorCode}\n에러메시지:\n${eData.errorMessage}`);
             })
     });
 }
