@@ -11,6 +11,7 @@
   background-image: url('../image/icon/checkbox_0.png');
   background-size: 100% 100%;
   margin-right: 7px;
+  padding: 9px;
 }
 
 .checkbox:hover {

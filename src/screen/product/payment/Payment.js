@@ -2,16 +2,18 @@ import './Payment.css';
 import DaumPostcode from 'react-daum-postcode';
 import Header from '../../../component/Header';
 import { useLocation, useNavigate } from 'react-router-dom';
-// import Header from '../../../component/Header';
 import Button from '../../../component/Button';
 import Input from '../../../component/Input';
 import Checkbox from '../../../component/Checkbox';
 import liberty52 from '../../../image/icon/liberty52.jpg';
 import { useState, useEffect } from 'react';
-import {HttpStatusCode} from "axios";
-import {checkPayApproval, payByVBank, prepareCard} from "../../../axios/shopping/Payment";
-import PaymentInfo from "./PaymentInfo";
-import CenterCircularProgress from "../../../component/CenterCircularProgress";
+import {
+  checkPayApproval,
+  payByVBank,
+  prepareCard,
+} from '../../../axios/shopping/Payment';
+import PaymentInfo from './PaymentInfo';
+import CenterCircularProgress from '../../../component/CenterCircularProgress';
 
 function AddressSearchModal(props) {
   return (
@@ -21,7 +23,7 @@ function AddressSearchModal(props) {
           onComplete={data => {
             props.setAddress({
               address1: data.buildingName
-                ? data.address + '(' + data.buildingName + ')'
+                ? data.address + ' (' + data.buildingName + ')'
                 : data.address,
               zipCode: data.zonecode,
             });
@@ -263,14 +265,14 @@ function ConfirmSection(props) {
     PM_CARD: 'card',
     PM_VBANK: 'vbank',
     defaultVBankAccount: '',
-    defaultDepositorName: destinationDto.receiverName
+    defaultDepositorName: destinationDto.receiverName,
   };
 
   const [payment, setPayment] = useState({
     paymentMethod: constants.PM_CARD,
     vBankAccount: constants.defaultVBankAccount,
     depositorName: constants.defaultDepositorName,
-    isCashReceipt: false
+    isCashReceipt: false,
   });
 
   const IMP = window.IMP;
@@ -278,84 +280,86 @@ function ConfirmSection(props) {
 
   const requestPay = () => {
     if (payment.paymentMethod === constants.PM_CARD) {
+      prepareCard(
+        {
+          productDto: productDto,
+          destinationDto: destinationDto,
+        },
+        imageFile
+      ).then(res => {
+        const { merchantId, amount } = res;
 
-      prepareCard({
-        productDto: productDto,
-        destinationDto: destinationDto
-      }, imageFile)
-          .then(res => {
-            const {merchantId, amount} = res;
-
-            IMP.request_pay({
-              pg : 'html5_inicis',
-              pay_method : payment.paymentMethod,
-              merchant_uid: merchantId,
-              name : productDto.productName,
-              amount : amount,
-              currency : 'KRW',
-              buyer_email : destinationDto.receiverEmail,
-              buyer_name : destinationDto.receiverName,
-              buyer_tel : destinationDto.receiverPhoneNumber,
-              buyer_addr : destinationDto.address1,
-              buyer_postcode : destinationDto.zipCode,
-            }, async function (rsp) { // callback
-              if (rsp.success) {
-                console.log(rsp);
-                setIsConfirmProgressing(true)
-
-                try {
-                  const response = await checkPayApproval(merchantId);
-                  setIsConfirmProgressing(false)
-                  setSuccess(true)
-                } catch (err) {
-                  setIsConfirmProgressing(false)
-                  const code = err.response.data.errorCode;
-                  const message = err.response.data.errorMessage;
-                  alert(`카드결제가 실패하였습니다.\n에러코드: ${code}\n에러내용:\n${message}`);
-                }
-
-              } else {
-                if (rsp.error_msg !== '사용자가 결제를 취소하셨습니다') {
-                  alert(`카드결제에 실패하였습니다. 에러 내용: ${rsp.error_msg}`);
-                }
+        IMP.request_pay(
+          {
+            pg: 'html5_inicis',
+            pay_method: payment.paymentMethod,
+            merchant_uid: merchantId,
+            name: productDto.productName,
+            amount: amount,
+            currency: 'KRW',
+            buyer_email: destinationDto.receiverEmail,
+            buyer_name: destinationDto.receiverName,
+            buyer_tel: destinationDto.receiverPhoneNumber,
+            buyer_addr: destinationDto.address1,
+            buyer_postcode: destinationDto.zipCode,
+          },
+          async function (rsp) {
+            // callback
+            if (rsp.success) {
+              console.log(rsp);
+              setIsConfirmProgressing(true);
+              try {
+                const response = await checkPayApproval(merchantId);
+                setIsConfirmProgressing(false);
+                setSuccess(true);
+              } catch (err) {
+                setIsConfirmProgressing(false);
+                const code = err.response.data.errorCode;
+                const message = err.response.data.errorMessage;
+                alert(
+                  `카드결제가 실패하였습니다.\n에러코드: ${code}\n에러내용:\n${message}`
+                );
               }
-            });
-
-          })
-
+            } else {
+              if (rsp.error_msg !== '사용자가 결제를 취소하셨습니다') {
+                alert(`카드결제에 실패하였습니다. 에러 내용: ${rsp.error_msg}`);
+              }
+            }
+          }
+        );
+      });
     } else if (payment.paymentMethod === constants.PM_VBANK) {
-
       if (payment.vBankAccount === '') {
-        alert("가상계좌를 선택해주세요.")
-        return
+        alert('가상계좌를 선택해주세요.');
+        return;
       }
-
       if (payment.depositorName === '') {
         payment.depositorName = destinationDto.receiverName;
       }
 
-      setIsConfirmProgressing(true)
+      setIsConfirmProgressing(true);
       const vBankDto = {
         vbankInfo: payment.vBankAccount,
         depositorName: payment.depositorName,
-        isApplyCashReceipt: payment.isCashReceipt
+        isApplyCashReceipt: payment.isCashReceipt,
       };
-
-      payByVBank({
-        productDto: productDto,
-        destinationDto: destinationDto,
-        vbankDto: vBankDto
-      }, imageFile)
-          .then(res => {
-            const {orderId} = res
-            setSuccess(true);
-          })
-          .catch(err => {
-            console.log(err)
-            alert('가상계좌 결제가 실패하였습니다.')
-          });
-
-      setIsConfirmProgressing(false)
+      payByVBank(
+        {
+          productDto: productDto,
+          destinationDto: destinationDto,
+          vbankDto: vBankDto,
+        },
+        imageFile
+      )
+        .then(res => {
+          const { orderId } = res;
+          setSuccess(true);
+        })
+        .catch(err => {
+          console.log(err);
+          alert('가상계좌 결제가 실패하였습니다.');
+        });
+      setIsConfirmProgressing(false);
     }
   };
 

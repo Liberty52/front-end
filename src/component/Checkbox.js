@@ -8,6 +8,7 @@ export default function Checkbox(props) {
         name="checkbox"
         type="checkbox"
         onChange={props.onChange}
+        checked={props.checked}
       ></input>
       {props.text}
     </label>
