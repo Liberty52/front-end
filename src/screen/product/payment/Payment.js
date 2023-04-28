@@ -299,12 +299,12 @@ function ConfirmSection(props) {
                   setIsConfirmProgressing(false)
                   const code = err.response.data.errorCode;
                   const message = err.response.data.errorMessage;
-                  alert(`결제가 실패하였습니다.\n에러코드: ${code}\n에러내용:\n${message}`);
+                  alert(`카드결제가 실패하였습니다.\n에러코드: ${code}\n에러내용:\n${message}`);
                 }
 
               } else {
                 if (rsp.error_msg !== '사용자가 결제를 취소하셨습니다') {
-                  alert(`결제에 실패하였습니다. 에러 내용: ${rsp.error_msg}`);
+                  alert(`카드결제에 실패하였습니다. 에러 내용: ${rsp.error_msg}`);
                 }
               }
             });
@@ -340,6 +340,7 @@ function ConfirmSection(props) {
           })
           .catch(err => {
             console.log(err)
+            alert('가상계좌 결제가 실패하였습니다.')
           });
 
       setIsConfirmProgressing(false)

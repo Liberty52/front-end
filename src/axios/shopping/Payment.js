@@ -23,7 +23,7 @@ export function prepareCard(dto, file) {
             })
             .catch(e => {
                 console.log(e);
-                alert("결제 요청에 실패했습니다.");
+                alert("카드결제 요청에 실패했습니다.");
             })
     });
 }
@@ -67,7 +67,7 @@ export function payByVBank(dto, file) {
             })
             .catch(e => {
                 const eData = e.response.data
-                alert(`결제 요청이 실패하였습니다.\n에러코드: ${eData.errorCode}\n에러메시지:\n${eData.errorMessage}`);
+                alert(`가상계좌 결제 요청이 실패하였습니다.\n에러코드: ${eData.errorCode}\n에러메시지:\n${eData.errorMessage}`);
             })
     });
 }

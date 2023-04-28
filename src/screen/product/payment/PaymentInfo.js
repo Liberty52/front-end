@@ -79,10 +79,10 @@ function VBankContent(props) {
         const fetchVBankInfo = async () => {
             try {
                 const vbankList = await getVBankInfos();
-                console.log(vbankList.data);
                 setVbankInfos(vbankList.data);
             } catch (e) {
                 console.log(e)
+                alert('가상계좌 정보를 가져오는데 실패했습니다. 다시 시도해주세요.')
             }
         };
 
@@ -193,7 +193,6 @@ export default function PaymentInfo(props) {
 
     const setIsCashReceipt = (newValue) => {
         props.setPayment((prevState) => {
-            console.log(newValue);
             return {...prevState, isCashReceipt: newValue}
         });
     }
