@@ -436,6 +436,11 @@ export default function Payment() {
   const location = useLocation();
   const productInfo = { ...location.state }; // mounting_method, basic_material, add_material, add_image, quantity
 
+  if (!productInfo.mounting_method) {
+    alert('주문 후에 결제 페이지를 사용할 수 있습니다.');
+    window.location.replace('/order');
+  }
+
   const [section, setSection] = useState('form');
   const [deliveryInfo, setDeliveryInfo] = useState({
     receiverName: '',
