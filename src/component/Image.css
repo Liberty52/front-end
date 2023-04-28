@@ -3,9 +3,7 @@
   width: 100px;
   height: 100px;
   border-radius: 50px;
-  margin: 0 auto;
   overflow: hidden;
-  box-shadow: 0px 0px 7px 3px lightgray;
 }
 
 .image-preview {

@@ -5,7 +5,7 @@ import SignUp from './screen/auth/signUp/SignUp';
 import MyInfo from './screen/auth/myInfo/MyInfo';
 import Redirect from './screen/auth/redirect/Redirect';
 import Cart from './screen/cart/Cart';
-import Order from './screen/product/Order';
+import Order from './screen/product/order/Order';
 import Payment from './screen/product/payment/Payment';
 import ChangePasswordPage from './screen/auth/redirect/ChangePasswordPage';
 import Inquiry from './screen/shopping/inquiry/Inquiry';

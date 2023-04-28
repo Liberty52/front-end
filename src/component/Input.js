@@ -20,7 +20,7 @@ export default function Input(props) {
         maxLength={props.maxLength}
         title={props.title}
         value={value}
-        readOnly={props.readOnly ? props.readOnly : false}
+        readOnly={inputItem.readOnly}
         onChange={e => {
           setValue(e.target.value);
         }}
