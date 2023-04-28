@@ -1,18 +1,23 @@
 .header {
   position: static;
 }
-h3 {
-  text-align: center;
-}
-.container {
+.order-container {
+  width: 95%;
+  margin: 0 auto;
   display: flex;
-  margin: 0;
+  flex-direction: column;
+}
+
+.order-container h1 {
+  font-weight: 1000;
+}
+
+.container-2 {
+  display: flex;
+  justify-content: space-between;
 }
 .product {
   width: 60%;
-}
-.product-title {
-  padding-left: 3%;
 }
 .product-image {
   display: flex;
@@ -22,11 +27,30 @@ h3 {
   top: 5%;
 }
 
+.mounting-method,
+.basic-material,
+.add-material,
+.add-image,
+.quantity {
+  margin-bottom: 130px;
+}
+
 .order {
-  width: 40%;
+  width: 35%;
   display: flex;
   justify-content: space-evenly;
   align-items: stretch;
+}
+
+.order .order-title {
+  text-align: center;
+  margin-bottom: 10px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.order .material-group {
+  text-align: center;
 }
 
 .order-inputs {
@@ -58,10 +82,10 @@ h3 {
 .radio-btn {
   width: 85%;
   margin: 0 auto;
-  margin-bottom: 20px;
   border: 1px solid #eae7e7;
   border-radius: 10px;
 }
+
 .radio-btn input[type="radio"] {
   /* display: none; */
 }
@@ -85,6 +109,14 @@ h3 {
 
 .add-image input {
   display: none;
+}
+.order-btn-group {
+  display: flex;
+  justify-content: space-between;
+}
+
+.order-btn-group .button {
+  width: 47%;
 }
 
 /* 모바일 */
