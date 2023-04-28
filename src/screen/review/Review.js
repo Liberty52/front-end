@@ -14,7 +14,7 @@ import {
   putReview,
 } from "../../axios/review/Review";
 
-function Modal(props) {
+export function Modal(props) {
   const modalInfo =
     props.reviewInfo === undefined
       ? {
