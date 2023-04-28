@@ -100,6 +100,7 @@
 }
 
 /* 모달 */
-.payment .payment-section .modal-content {
+.payment .payment-section .modal-content,
+.payment .confirm-section .confirm-termsOfUse .modal-content {
   width: 50%;
 }

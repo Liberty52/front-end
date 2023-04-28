@@ -95,7 +95,6 @@ function PaymentSection(props) {
                   : ''
               }
               onClick={() => setModal(true)}
-              readOnly
             />
             <Input
               type="text"
