@@ -164,10 +164,20 @@ function Product(props) {
 }
 
 function BackgroundImage(props) {
+  const [imageSrc, setImageSrc] = useState('');
+  const reader = new FileReader();
+  const file = props.add_image;
+
+  if (file) {
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setImageSrc(reader.result);
+    };
+  }
   return (
     <div className="confirm-backgroundImage">
       <div className="title">배경이미지 시안</div>
-      <img src={props.add_image} />
+      <img src={imageSrc} />
     </div>
   );
 }
