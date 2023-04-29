@@ -1,10 +1,10 @@
 import './ImageInput.css';
 import Image from './Image';
-import photo from '../image/icon/photo.png';
+import plus from '../image/icon/plus.png';
 import { useState } from 'react';
 
 export default function ImageInput(props) {
-  const [imgFile, setImgFile] = useState(props.image ? props.image : photo);
+  const [imgFile, setImgFile] = useState(props.image ? props.image : plus);
   const reader = new FileReader();
   return (
     <label className="image-input">
@@ -19,7 +19,7 @@ export default function ImageInput(props) {
             reader.readAsDataURL(file);
             reader.onloadend = () => {
               setImgFile(reader.result);
-              document.querySelector('.image-preview').src = imgFile;
+              event.target.parentNode.children[1].children[0].src = imgFile;
             };
           }
         }}

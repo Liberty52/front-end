@@ -1,14 +1,10 @@
 .button {
   width: 100%;
-  background-color: #d3b369;
+  background-color: black;
   border-radius: 3px;
   color: white;
   padding: 10px;
   margin: 6px 0;
-}
-
-.button:hover {
-  background-color: #c2a258;
 }
 
 .button a {

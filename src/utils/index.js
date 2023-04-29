@@ -19,7 +19,6 @@ export const toBase64 = (file) =>
     reader.onerror = (error) => reject(error)
   })
 
-
 export const getSelectionType = (selection) => {
     let types = []
     if (!selection) {
@@ -48,3 +47,9 @@ export const getSelectionType = (selection) => {
     return types
   }
   
+export const convertQuestionStatus = (status) => {
+    if(status === "WAITING")
+        return "대기";
+    else
+        return "완료"
+}
