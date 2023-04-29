@@ -1,0 +1,29 @@
+.modal {
+  display: flex;
+}
+
+.modal-content {
+  width: 80%;
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.modal .title {
+  display: flex;
+  font-weight: bold;
+  border-bottom: 1px solid gray;
+  padding-bottom: 15px;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.modal .title span {
+  font-size: 17px;
+}
+
+.modal .title img {
+  width: 25px;
+  height: 25px;
+}

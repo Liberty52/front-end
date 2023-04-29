@@ -2,14 +2,21 @@ import './Checkbox.css';
 
 export default function Checkbox(props) {
   return (
-    <label className="checkbox-wrapper">
+    <div className="checkbox-wrapper">
       <input
+        id={props.name ? props.name : 'checkbox'}
         className="checkbox"
-        name="checkbox"
+        name={props.name ? props.name : 'checkbox'}
         type="checkbox"
         onChange={props.onChange}
+        checked={props.checked}
       ></input>
-      {props.text}
-    </label>
+      <span>
+        {props.independentText1}
+        <label htmlFor={props.name ? props.name : 'checkbox'}>
+          {props.text}
+        </label>
+      </span>
+    </div>
   );
 }
