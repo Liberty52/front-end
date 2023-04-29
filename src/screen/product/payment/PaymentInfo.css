@@ -1,10 +1,11 @@
 .payment-info {
-    margin-top: 10px;
-    margin-bottom: 5px;
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+  width: 100%;
+}
+
+.bank-content {
+  margin-top: 15px;
+}
+
+.bank-content div {
+  margin-bottom: 10px;
 }

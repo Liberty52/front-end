@@ -27,10 +27,10 @@ export default function Input(props) {
         onClick={props.onClick}
         autoComplete="off"
       ></input>
-      <span className="label">
+      <label for={props.name} className="label">
         {props.label}
-        <span className="required-mark">{props.required ? '(필수)' : ''}</span>
-      </span>
+        {props.required ? ' (필수)' : ''}
+      </label>
     </div>
   );
 }
