@@ -3,25 +3,23 @@ footer {
   background-color: #f6f6f6;
 }
 footer .inner {
-  padding: 40px 0 60px 0;
+  padding: 40px 15px 60px;
 }
 footer .menu {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-footer ul {
+footer .policy {
   display: flex;
+  margin: 0;
   padding: 0;
 }
-footer li {
-  padding-right: 15px;
-}
-footer .sns {
-  text-align: right;
+footer .policy li {
+  margin-right: 15px;
 }
 footer .sns a {
-  padding-right: 10px;
+  margin-left: 10px;
 }
 footer .sns a img {
   width: 21px;
@@ -33,5 +31,5 @@ footer .info {
 footer .info div {
   color: #999;
   font-size: 12px;
-  padding-bottom: 2px;
+  margin-bottom: 2px;
 }
