@@ -8,6 +8,12 @@ export default function Input(props) {
     setValue(props.value ? props.value : '');
   }, [props.value]);
 
+  useEffect(() => {
+    if (!value)
+      document.querySelector('#' + props.name).classList.remove('value');
+    else document.querySelector('#' + props.name).classList.add('value');
+  }, [value]);
+
   return (
     <div className="input-block">
       <input
@@ -22,7 +28,7 @@ export default function Input(props) {
         value={value}
         readOnly={props.readOnly}
         onChange={e => {
-          setValue(e.target.value);
+          if (!props.readOnly) setValue(e.target.value);
         }}
         onClick={props.onClick}
         autoComplete="off"
