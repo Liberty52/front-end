@@ -2,12 +2,13 @@ import './Order.css';
 import Header from '../../../component/Header';
 import Footer from '../../../component/Footer';
 import Review from '../../../screen/review/Review';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import product_img from '../../../image/icon/product.png';
 import post from '../../../axios/shopping/Cart';
 import Button from '../../../component/Button';
 import ImageInput from '../../../component/ImageInput';
+import Radio from '../../../component/Radio';
 import Cookie from '../../auth/redirect/Cookie';
 import $ from 'jquery';
 
@@ -72,8 +73,6 @@ const Order = () => {
     setMode('buy');
   };
 
-  useEffect(() => {});
-
   window.addEventListener(
     'wheel',
     function (e) {
@@ -83,7 +82,6 @@ const Order = () => {
   );
 
   const mHtml = $('html');
-  var page = 1;
 
   mHtml.animate({ scrollTop: 0 }, 10);
 
@@ -91,6 +89,7 @@ const Order = () => {
     calcHeight();
   });
 
+  var page = 1;
   $(window).on('wheel', function (e) {
     if (mHtml.is(':animated')) return;
     const header = $('.header');
@@ -104,7 +103,6 @@ const Order = () => {
       header.animate({ top: 0 }, 600);
       page--;
     }
-
     var posTop = (page - 1) * $(window).height();
     mHtml.animate({ scrollTop: posTop });
   });
@@ -133,7 +131,10 @@ const Order = () => {
       <div className="order-container">
         <div className="product">
           <div className="product-image">
-            <h2>Liberty52_frame</h2>
+            <div>
+              <h2>Liberty52_frame</h2>
+              <h3>구매하기</h3>
+            </div>
             <img src={product_img} alt="제품 이미지" onLoad={calcHeight} />
           </div>
         </div>
@@ -142,102 +143,66 @@ const Order = () => {
             <div className="order-inputs-selects">
               <div className="mounting-method">
                 <div className="order-title">거치 방식을 선택하세요</div>
-                <div className="radio-btn" style={{ marginBottom: '10px' }}>
-                  <label>
-                    <input
-                      type="radio"
-                      name="mounting_method"
-                      value="이젤 거치형"
-                      required
-                      onChange={onHandleChange}
-                    />
-                    이젤 거치형
-                  </label>
-                </div>
-                <div className="radio-btn">
-                  <label>
-                    <input
-                      type="radio"
-                      name="mounting_method"
-                      value="벽걸이형"
-                      onChange={onHandleChange}
-                    />
-                    벽걸이형
-                  </label>
-                </div>
+                <Radio
+                  style={{ marginBottom: '10px' }}
+                  name="mounting_method"
+                  text="이젤 거치형"
+                  onChange={onHandleChange}
+                  required
+                />
+                <Radio
+                  name="mounting_method"
+                  text="벽걸이형"
+                  onChange={onHandleChange}
+                  required
+                />
               </div>
               <div className="basic-material">
                 <div className="order-title">기본소재를 선택하세요</div>
-                <div className="radio-btn">
-                  <label>
-                    <input
-                      type="radio"
-                      name="basic_material"
-                      value="1mm 두께 승화전사 인쇄용 알루미늄시트"
-                      required
-                      onChange={onHandleChange}
-                    />
-                    1mm 두께 승화전사 인쇄용 알루미늄시트
-                  </label>
-                </div>
+                <Radio
+                  name="basic-material"
+                  text="1mm 두께 승화전사 인쇄용 알루미늄시트"
+                  onChange={onHandleChange}
+                  required
+                />
               </div>
               <div className="add-material">
                 <div className="order-title">
                   추가 하고 싶은 기본소재 옵션을 선택하세요
                 </div>
                 <div className="material-group">
-                  <label>
-                    <input
-                      type="radio"
-                      name="add_material"
-                      value="유광실버"
-                      required
-                      onChange={onHandleChange}
-                    />
-                    유광실버
-                  </label>
-                  <label>
-                    <input
-                      type="radio"
-                      name="add_material"
-                      value="무광실버"
-                      onChange={onHandleChange}
-                    />
-                    무광실버
-                  </label>
-                  <label>
-                    <input
-                      type="radio"
-                      name="add_material"
-                      value="유광백색"
-                      onChange={onHandleChange}
-                    />
-                    유광백색
-                  </label>
-                  <label>
-                    <input
-                      type="radio"
-                      name="add_material"
-                      value="무광백색"
-                      onChange={onHandleChange}
-                    />
-                    무광백색
-                  </label>
+                  <Radio
+                    style={{ marginBottom: '10px' }}
+                    name="add_material"
+                    text="유광실버"
+                    onChange={onHandleChange}
+                    required
+                  />
+                  <Radio
+                    style={{ marginBottom: '10px' }}
+                    name="add_material"
+                    text="무광실버"
+                    onChange={onHandleChange}
+                    required
+                  />
+                  <Radio
+                    style={{ marginBottom: '10px' }}
+                    name="add_material"
+                    text="유광백색"
+                    onChange={onHandleChange}
+                    required
+                  />
+                  <Radio
+                    name="add_material"
+                    text="무광백색"
+                    onChange={onHandleChange}
+                    required
+                  />
                 </div>
               </div>
               <div className="add-image">
                 <div className="order-title">나만의 개성을 추가해봐요</div>
                 <div className="radio-btn">
-                  {/* <label>
-                    <input
-                      type="file"
-                      accept="image/*"
-                      name="add_image"
-                      required
-                      onChange={onHandleChange}
-                    />
-                    배경 이미지 추가하기
-                  </label> */}
                   <ImageInput />
                 </div>
               </div>

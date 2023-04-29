@@ -2,29 +2,33 @@
   position: fixed;
 }
 
-.order-container h2 {
-  font-weight: 1000;
-  margin: 25px 0;
-}
-
 .order-container {
   display: flex;
   justify-content: space-between;
+  padding: 0 200px;
+}
+
+.order-container h2 {
+  font-weight: 1000;
+  margin: 0;
+}
+
+.order-container h3 {
+  margin-bottom: 20px;
 }
 
 .order .product {
-  width: calc(100% - 400px);
+  width: 100%;
 }
 
 .order .product-image {
   display: flex;
   position: sticky;
   flex-direction: column;
-  align-items: center;
 }
 
 .order .product-image img {
-  width: 85%;
+  width: 90%;
   border-radius: 20px;
 }
 
@@ -39,9 +43,10 @@
 }
 
 .order .order-options {
-  width: 400px;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: flex-end;
+  width: 550px;
+  margin-left: 30px;
 }
 
 .order .order-options .order-title {
@@ -77,34 +82,6 @@
 .order-inputs-button {
   width: 45%;
   margin: 0 2.5%;
-}
-
-.radio-btn {
-  width: 90%;
-  margin: 0 auto;
-  border: 1px solid #eae7e7;
-  border-radius: 10px;
-}
-
-.radio-btn input[type='radio'] {
-  /* display: none; */
-}
-.radio-btn label {
-  display: block;
-  border-radius: 10px;
-  margin: 0 auto;
-  text-align: center;
-  height: -webkit-fill-available;
-  line-height: 45px;
-}
-/* Checked */
-.radio-btn input[type='radio']:checked + span {
-  background: #184da0;
-  color: #fff;
-}
-/* Hover */
-.radio-btn label:hover {
-  color: 'red';
 }
 
 .add-image input {
