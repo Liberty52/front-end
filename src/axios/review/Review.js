@@ -75,25 +75,6 @@ export function putReview(dto, file, reviewId) {
     });
 }
 
-// export function putAddImg(dto, reviewId) {
-//   axios
-//     .post(`/reviews/${reviewId}/images`, JSON.stringify(dto), {
-//       Authorization: localStorage.getItem("ACCESS_TOKEN"),
-//     })
-//     .then()
-//     .catch((response) => {
-//       if (response.status === 400) alert("별점 또는 리뷰평에 문제가 있습니다.");
-//       else if (response.status === 403) alert("당신의 리뷰가 아닙니다.");
-//       else if (response.status === 404) alert("해당 리뷰가 존재하지 않습니다.");
-//     });
-// }
-
-// export function putDeleteImg(dto, reviewId) {
-//   axios.delete(`/reviews/${reviewId}/images`, JSON.stringify(dto), {
-//     Authorization: localStorage.getItem("ACCESS_TOKEN"),
-//   });
-// }
-
 export function deleteReview(reviewId) {
   if (window.confirm("리뷰를 삭제하시겠습니까?")) {
     axios

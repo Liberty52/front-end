@@ -9,13 +9,21 @@
   appearance: none;
   width: 18px;
   height: 18px;
-  border: 1px solid black;
-  border-radius: 10px;
+  background-image: url("../image/icon/checkbox_0.png");
+  background-size: 100% 100%;
   margin-right: 7px;
+  padding: 9px;
+}
+
+.checkbox-wrapper label {
+  display: inline;
+  cursor: pointer;
+}
+
+.checkbox:hover {
+  background-image: url("../image/icon/checkbox_1.png");
 }
 
 .checkbox:checked {
-  background-image: url('../image/icon/checkbox.png');
-  background-size: 100% 100%;
-  background-color: black;
+  background-image: url("../image/icon/checkbox.png");
 }

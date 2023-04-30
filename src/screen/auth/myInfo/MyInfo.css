@@ -1,5 +1,13 @@
 .myInfo {
   height: 100%;
+}
+
+.myInfo .header {
+  position: fixed;
+}
+
+.myInfo .section {
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -42,11 +50,10 @@
 
 .myInfo-table td {
   text-align: left;
-  padding-left: 5px;
   width: 70%;
 }
 
-.myInfo-table span {
+.myInfo-table .info-value {
   padding-left: 10px;
 }
 

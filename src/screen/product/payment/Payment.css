@@ -25,6 +25,10 @@
   margin-bottom: 30px;
 }
 
+.payment .input-title {
+  margin-bottom: 15px;
+}
+
 .payment-contact {
   margin-bottom: 10px;
 }
@@ -75,6 +79,10 @@
   margin-bottom: 7px;
 }
 
+.confirm-termsOfUse .checkbox-wrapper button {
+  text-decoration: underline;
+}
+
 .confirm-total .title {
   margin-bottom: 7px;
 }
@@ -89,4 +97,10 @@
   width: 60%;
   display: flex;
   justify-content: space-between;
+}
+
+/* 모달 */
+.payment .payment-section .modal-content,
+.payment .confirm-section .confirm-termsOfUse .modal-content {
+  width: 50%;
 }

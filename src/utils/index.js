@@ -18,3 +18,10 @@ export const toBase64 = (file) =>
     reader.onload = () => resolve(reader.result)
     reader.onerror = (error) => reject(error)
   })
+
+export const convertQuestionStatus = (status) => {
+    if(status === "WAITING")
+        return "대기";
+    else
+        return "완료"
+}
