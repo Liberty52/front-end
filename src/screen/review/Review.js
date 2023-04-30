@@ -80,13 +80,12 @@ export function Modal(props) {
             maxLength={1000}
             onChange={(e) => {
               setText(e.target.value);
-              console.log(props.reviewInfo.imageUrls[0]);
             }}
           />
           <div className="images">
-            <ImageInput image={props.reviewInfo.imageUrls[0]} />
-            <ImageInput image={props.reviewInfo.imageUrls[1]} />
-            <ImageInput image={props.reviewInfo.imageUrls[2]} />
+            <ImageInput image={modalInfo.imageUrls[0]} />
+            <ImageInput image={modalInfo.imageUrls[1]} />
+            <ImageInput image={modalInfo.imageUrls[2]} />
           </div>
           <Button text="등록" />
         </form>

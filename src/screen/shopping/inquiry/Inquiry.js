@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import './Inquiry.css';
-import { fetchOrders } from '../../../axios/shopping/Inquiry';
-import Header from '../../../component/Header';
-import Footer from '../../../component/Footer';
-import { useNavigate } from 'react-router-dom';
-import { ReviewModal } from '../../review/Review';
-import Button from '../../../component/Button';
+import React, { useState, useEffect } from "react";
+import "./Inquiry.css";
+import { fetchOrders } from "../../../axios/shopping/Inquiry";
+import Header from "../../../component/Header";
+import Footer from "../../../component/Footer";
+import { useNavigate } from "react-router-dom";
+import { Modal } from "../../review/Review";
+import Button from "../../../component/Button";
 
 export async function getAccessToken() {
-  return localStorage.getItem('ACCESS_TOKEN');
+  return localStorage.getItem("ACCESS_TOKEN");
 }
 
 function OrderList() {
@@ -32,12 +32,12 @@ function OrderList() {
     navigate(`/detail/${orderId}`);
   }
   const [modal, showModal] = useState(false);
-  const [selectedOrderId, setSelectedOrderId] = useState('');
+  const [selectedOrderId, setSelectedOrderId] = useState("");
   return (
     <>
       <div className="InquiryWrapper">
         {modal ? (
-          <ReviewModal
+          <Modal
             orderId={selectedOrderId}
             closeModal={() => showModal(false)}
             onClick={console.log(selectedOrderId)}
@@ -48,7 +48,7 @@ function OrderList() {
         <div className="content">
           <div className="TCheck">----확인해주십시오.</div>
           <div className="sectionOrder">
-            {orders.map(order => (
+            {orders.map((order) => (
               <div key={order.orderId} className="order-container">
                 <h5 onClick={() => goToDetail(order.orderId)}>
                   {order.orderId}
@@ -61,7 +61,7 @@ function OrderList() {
                 <div className="order-right">
                   <div className="order-right-top">
                     <ul>
-                      {order.products.map(product => (
+                      {order.products.map((product) => (
                         <li className="product-item" key={product.name}>
                           <p>{product.name}</p>
                           <p>{product.quantity} 수량</p>
@@ -84,7 +84,7 @@ function OrderList() {
                     </div>
                     <p className="date">{order.orderDate}</p>
                     <p className="order-status">{order.orderStatus}</p>
-                    {order.orderStatus === 'ORDERED' && (
+                    {order.orderStatus === "ORDERED" && (
                       <>
                         <Button
                           text="리뷰 쓰기"
