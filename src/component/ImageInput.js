@@ -1,5 +1,5 @@
 import './ImageInput.css';
-import Image from './Image';
+import Button from './Button';
 import plus from '../image/icon/plus.png';
 import { useState } from 'react';
 
@@ -13,18 +13,28 @@ export default function ImageInput(props) {
         type="file"
         name="file"
         accept="image/*"
-        onChange={event => {
-          const file = event.currentTarget.files[0];
+        onChange={e => {
+          const file = e.currentTarget.files[0];
           if (file) {
             reader.readAsDataURL(file);
             reader.onloadend = () => {
               setImgFile(reader.result);
-              event.target.parentNode.children[1].children[0].src = imgFile;
+              e.target.parentNode.children[1].children[1].src = imgFile;
             };
           }
         }}
-      ></input>
-      <Image image={imgFile} />
+      />
+      <div className="image-crop">
+        <Button
+          type="button"
+          text="삭제"
+          onClick={e => {
+            e.target.parentNode.parentNode.children[0].value = '';
+            setImgFile(plus);
+          }}
+        />
+        <img className="image-preview" src={imgFile} alt={props.alt} />
+      </div>
     </label>
   );
 }
