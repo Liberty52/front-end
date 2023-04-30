@@ -27,8 +27,13 @@ export default function Input(props) {
         title={props.title}
         value={value}
         readOnly={props.readOnly}
+<<<<<<< HEAD
         onChange={(e) => {
           if (!props.readOnly) setValue(e.target.value);
+=======
+        onChange={e => {
+          setValue(e.target.value);
+>>>>>>> ec83c28eba73da88312d677346a6dbf0a0d1b95b
         }}
         onClick={props.onClick}
         autoComplete="off"

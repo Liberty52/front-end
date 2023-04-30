@@ -9,7 +9,11 @@
   appearance: none;
   width: 18px;
   height: 18px;
+<<<<<<< HEAD
   background-image: url("../image/icon/checkbox_0.png");
+=======
+  background-image: url('../image/icon/checkbox_0.png');
+>>>>>>> ec83c28eba73da88312d677346a6dbf0a0d1b95b
   background-size: 100% 100%;
   margin-right: 7px;
   padding: 9px;
@@ -25,5 +29,9 @@
 }
 
 .checkbox:checked {
+<<<<<<< HEAD
   background-image: url("../image/icon/checkbox.png");
+=======
+  background-image: url('../image/icon/checkbox.png');
+>>>>>>> ec83c28eba73da88312d677346a6dbf0a0d1b95b
 }
