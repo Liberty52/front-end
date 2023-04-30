@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable jsx-a11y/alt-text */
 import "./Review.css";
 import React, { useState, useEffect } from "react";
 import Checkbox from "../../component/Checkbox";
@@ -14,7 +16,7 @@ import {
   putReview,
 } from "../../axios/review/Review";
 
-function Modal(props) {
+export function Modal(props) {
   const modalInfo =
     props.reviewInfo === undefined
       ? {
@@ -36,11 +38,15 @@ function Modal(props) {
               productName: "Liberty 52_Frame",
               rating: rating,
               content: e.target.content.value,
-              orderId: "GORDER-001",
+              orderId: props.orderId,
             };
             if (props.reviewInfo === undefined) {
               postReview(dto, e.target.file);
-            } else putReview(dto, e.target.file, modalInfo.reviewId);
+              props.closeModal();
+            } else {
+              putReview(dto, e.target.file, props.reviewInfo.reviewId);
+              props.closeModal();
+            }
           }}
         >
           <div className="title">
@@ -74,12 +80,13 @@ function Modal(props) {
             maxLength={1000}
             onChange={(e) => {
               setText(e.target.value);
+              console.log(props.reviewInfo.imageUrls[0]);
             }}
           />
           <div className="images">
-            <ImageInput imgFile={modalInfo.imageUrls[0]} />
-            <ImageInput imgFile={modalInfo.imageUrls[1]} />
-            <ImageInput imgFile={modalInfo.imageUrls[2]} />
+            <ImageInput image={props.reviewInfo.imageUrls[0]} />
+            <ImageInput image={props.reviewInfo.imageUrls[1]} />
+            <ImageInput image={props.reviewInfo.imageUrls[2]} />
           </div>
           <Button text="등록" />
         </form>
@@ -191,14 +198,9 @@ export default function Review() {
   });
 
   useEffect(() => {
-    getReview("LIB-001", 5, 1, onlyPhoto).then((res) => {
+    getReview("LIB-001", 11, 0, onlyPhoto).then((res) => {
       const contents = res.contents;
       setReviewContents([]);
-      setPages({
-        startPage: res.startPage,
-        lastPage: res.lastPage,
-        currentPage: res.currentPage,
-      });
       for (var i = 0; i < contents.length; i++) {
         const reviewInfo = {
           reviewId: contents[i].reviewId,
@@ -209,8 +211,13 @@ export default function Review() {
           authorName: contents[i].authorName,
           isYours: contents[i].isYours,
         };
-        setReviewContents([...reviewContents, reviewInfo]);
+        setReviewContents((reviewContents) => [...reviewContents, reviewInfo]);
       }
+      setPages({
+        startPage: res.startPage,
+        lastPage: res.lastPage,
+        currentPage: res.currentPage,
+      });
     });
   }, [onlyPhoto]);
 
@@ -220,7 +227,6 @@ export default function Review() {
       <div className="tab">리뷰</div>
       <div className="title-div">
         <div className="title">구매평 (개수)</div>
-        <Button text="구매평 쓰기" onClick={() => showModal(true)} />
       </div>
       <div className="button-div"></div>
       <div className="filter">

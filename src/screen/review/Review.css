@@ -9,7 +9,10 @@
   text-align: center;
 }
 
-.review .title-div,
+.review .title-div {
+  margin: 13px 0;
+}
+
 .review .filter,
 .review .review-content .review-header,
 .review .review-content,
@@ -124,7 +127,6 @@
   font-weight: bold;
   border-bottom: 1px solid gray;
   padding: 10px 0;
-  justify-content: space-between;
   align-items: center;
 }
 
