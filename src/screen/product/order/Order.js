@@ -123,7 +123,7 @@ const Order = () => {
                 <div className="basic-material">
                   <div className="order-title">기본소재를 선택하세요</div>
                   <Radio
-                    name="basic-material"
+                    name="basic_material"
                     text="1mm 두께 승화전사 인쇄용 알루미늄시트"
                     onChange={onHandleChange}
                     required
