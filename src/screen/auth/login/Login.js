@@ -196,7 +196,7 @@ function SocialLogin() {
   return (
     <div className="social-login">
       <div className="login-title">소셜 로그인</div>
-      <div>
+      <div className="social-login-button-group">
         <SocialLoginButton provider={SOCIAL_LOGIN_PROVIDER.NAVER} />
         <SocialLoginButton provider={SOCIAL_LOGIN_PROVIDER.KAKAO} />
         <SocialLoginButton provider={SOCIAL_LOGIN_PROVIDER.GOOGLE} />
