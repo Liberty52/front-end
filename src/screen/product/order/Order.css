@@ -1,22 +1,14 @@
-.order .header {
-  position: fixed;
-}
-
 .order-container {
-  display: flex;
-  justify-content: space-between;
   padding: 0 200px;
 }
-
-.order-container h2 {
+.order-page {
+  display: flex;
+}
+.order-container .product-title {
   font-weight: 1000;
-  margin: 0;
+  margin-top: 30px;
+  margin-bottom: 60px;
 }
-
-.order-container h3 {
-  margin-bottom: 20px;
-}
-
 .order .product {
   width: 100%;
 }
@@ -37,6 +29,7 @@
 .add-material,
 .add-image,
 .quantity {
+  margin-bottom: 200px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -94,6 +87,21 @@
 
 .order-btn-group .button {
   width: 47%;
+}
+
+.quantity {
+  flex-direction: row;
+}
+.quantity input {
+  margin: 0 5px;
+  width: 50px;
+}
+.quantity .price {
+  font-weight: bold;
+}
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  opacity: 1;
 }
 
 /* 모바일 */
