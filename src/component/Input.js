@@ -1,17 +1,17 @@
-import "./Input.css";
-import { useState, useEffect } from "react";
+import './Input.css';
+import { useState, useEffect } from 'react';
 
 export default function Input(props) {
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState('');
 
   useEffect(() => {
-    setValue(props.value ? props.value : "");
+    setValue(props.value ? props.value : '');
   }, [props.value]);
 
   useEffect(() => {
     if (!value)
-      document.querySelector("#" + props.name).classList.remove("value");
-    else document.querySelector("#" + props.name).classList.add("value");
+      document.querySelector('#' + props.name).classList.remove('value');
+    else document.querySelector('#' + props.name).classList.add('value');
   }, [value]);
 
   return (
@@ -27,15 +27,15 @@ export default function Input(props) {
         title={props.title}
         value={value}
         readOnly={props.readOnly}
-        onChange={(e) => {
+        onChange={e => {
           setValue(e.target.value);
         }}
         onClick={props.onClick}
         autoComplete="off"
       ></input>
-      <label for={props.name} className="label">
+      <label htmlFor={props.name} className="label">
         {props.label}
-        {props.required ? " (필수)" : ""}
+        {props.required ? ' (필수)' : ''}
       </label>
     </div>
   );

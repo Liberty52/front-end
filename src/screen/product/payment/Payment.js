@@ -229,7 +229,7 @@ function TermsOfUse() {
               type="button"
               onClick={() => {
                 setModal(true);
-                console.log(modal);
+                // console.log(modal);
               }}
             >
               Liberty 개인정보 취급방침
@@ -393,9 +393,9 @@ function ConfirmSection(props) {
     }
   };
 
-    if (success) {
-        navigate('/inquiry');
-    }
+  if (success) {
+    navigate('/inquiry');
+  }
 
   return (
     <div className="confirm-section">
