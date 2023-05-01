@@ -419,7 +419,7 @@ export default function CartList() {
                 </div>
                 <div className="shipping">
                   <p className="title">배송비</p>
-                  <p className="price">1000 원</p>
+                  <p className="price">1,000 원</p>
                 </div>
               </div>
               <div className="total">
