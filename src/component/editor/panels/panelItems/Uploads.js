@@ -8,6 +8,7 @@ import DropZone from "../DropZone"
 import { useEditor } from "@layerhub-io/react"
 import useSidebarOpen from "../../../../hooks/useSidebarOpen"
 import {generateSlug, toBase64} from "../../../../utils"
+import { toaster } from "baseui/toast"
 
 const Uploads = () => {
   const inputFileRef = React.useRef(null)
@@ -17,6 +18,38 @@ const Uploads = () => {
 
   const handleDropFiles = async (files) => {
     const file = files[0]
+    /*
+      Full HD : 1920 x 1080 
+      pixel : 2073600
+      4.147MB
+    */
+    if(file.size < 4147000) {
+      const msg = "This Image has bad resolution, Please Select Another Image(Required 1920 x 1080 Resoultion)";
+    
+      const toastKey = toaster.warning(
+        <>
+          {msg}
+        </>,
+        {
+          onClose: () => toaster.clear(toastKey),
+          overrides: {
+            InnerContainer: {
+              style: { width: "100%" }
+            }
+          }
+        }
+      );
+      toaster.update(toastKey, {
+        children: (
+          <>
+            {msg}
+          </>
+        )
+        })
+
+        setUploads([...uploads])
+      return
+    }
 
     const base64 = (await toBase64(file))
     let preview = base64
@@ -32,7 +65,7 @@ const Uploads = () => {
   }
 
   const handleInputFileRefClick = () => {
-    inputFileRef.current?.click()
+    inputFileRef.current.click()
   }
 
   const handleFileInput = (e) => {

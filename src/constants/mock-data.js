@@ -367,4 +367,20 @@ export const sampleFrames = [
     unit: "px",
     previewId: 0,
   },
+  {
+    id: 3,
+    name: "4K Size",
+    width: 3840,
+    height: 2160,
+    unit: "px",
+    previewId: 0,
+  },
+  {
+    id: 4,
+    name: "8K Size",
+    width: 7680,
+    height: 4320,
+    unit: "px",
+    previewId: 0,
+  },
 ]
