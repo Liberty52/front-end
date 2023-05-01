@@ -8,7 +8,7 @@ export default function ImageInput(props) {
 
   const reader = new FileReader();
   return (
-    <label className="image-input" onClick={() => {}}>
+    <label className="image-input">
       <input
         className="image-input-input"
         type="file"
