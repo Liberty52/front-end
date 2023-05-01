@@ -4,6 +4,7 @@ import post from '../../../axios/auth/Login.js';
 import {
   findEmail,
   sendPasswordResetEmail,
+  getOrderDetails
 } from '../../../axios/auth/Login.js';
 import Header from '../../../component/Header';
 import Checkbox from '../../../component/Checkbox';
@@ -13,7 +14,7 @@ import SocialLoginButton from '../../../component/SocialLoginButton';
 import { SOCIAL_LOGIN_PROVIDER } from '../../../global/Constants';
 function LoginInput() {
   return (
-    <div class="inputs">
+    <div className="inputs">
       <Input type="email" name="email" label="이메일" required={true} />
       <Input type="password" name="password" label="비밀번호" required={true} />
     </div>
@@ -161,7 +162,7 @@ function IdInput() {
 }
 
 function PasswordInput() {
-  const loginItems = [{ type: 'email', name: 'email', required: true }];
+
   return <Input type="email" name="email" required={true} />;
 }
 
@@ -209,6 +210,102 @@ function SocialLogin() {
 function Border() {
   return <div className="border"></div>;
 }
+///////////////////////////////////////////////////////////////
+
+function NonmemberInquiry() {
+  const [showModal, setShowModal] = useState(false);
+
+  const openModal = () => {
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
+  useEffect(() => {
+    setShowModal(false);
+  }, []);
+
+  return (
+    <div className="Nonmember-Inquiry">
+      <button onClick={openModal} className='Nonmember-bt'>비회원 주문 조회</button>
+      <NonmemberModal showModal={showModal} closeModal={closeModal} />
+    </div>
+  );
+}
+// 모달창
+function NonmemberModal({ showModal, closeModal }) {
+  if (!showModal) {
+    return null;
+  }
+
+  const handleMoveInquiry = async (orderId, phoneNumber) => {
+    try {
+      const orderDetails = await getOrderDetails(orderId, phoneNumber);
+      console.log(orderDetails)
+      if (orderDetails) {
+        window.location.href = `/product/guest/${orderId}?phoneNumber=${phoneNumber}`;
+      } else {
+        alert('주문번호와 전화번호를 확인해 주세요.');
+      }
+    } catch (error) {
+      console.error(error);
+      alert('서버를 확인해주세요.');
+    }
+  };
+
+
+  return (
+    <div className={`modal${showModal ? ' is-active' : ''}`}>
+      <div className="modal-content">
+        <h2>비회원 주문 조회</h2>
+        <MoveInquiry onMoveInquiry={handleMoveInquiry} />
+        <button className="Nonmember-button" onClick={closeModal}>
+          닫기
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function MoveInquiry({ onMoveInquiry }) {
+  const [orderId, setOrderId] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!phoneNumber) {
+      alert('전화번호를 입력해 주세요.');
+      return;
+    }
+    onMoveInquiry(orderId, phoneNumber);
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <label htmlFor="orderId">주문번호:</label>
+      <input
+        type="text"
+        id="orderId"
+        value={orderId}
+        onChange={(e) => setOrderId(e.target.value)}
+      />
+      <br />
+      <label htmlFor="phoneNumber">전화번호:</label>
+      <input
+        type="text"
+        id="phoneNumber"
+        value={phoneNumber}
+        onChange={(e) => setPhoneNumber(e.target.value)}
+      />
+      <br />
+      <button type="submit">조회</button>
+    </form>
+  );
+}
+
+
 
 export default function Login() {
   return (
@@ -218,6 +315,8 @@ export default function Login() {
         <CompanyLogin />
         <Border />
         <SocialLogin />
+        <Border />
+        <NonmemberInquiry />
       </div>
     </div>
   );
