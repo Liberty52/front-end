@@ -1,30 +1,35 @@
-.header {
-  position: static;
+.order .header {
+  position: fixed;
 }
+
 .order-container {
-  width: 95%;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-}
-
-.order-container h1 {
-  font-weight: 1000;
-}
-
-.container-2 {
   display: flex;
   justify-content: space-between;
+  padding: 0 200px;
 }
-.product {
-  width: 60%;
+
+.order-container h2 {
+  font-weight: 1000;
+  margin: 0;
 }
-.product-image {
+
+.order-container h3 {
+  margin-bottom: 20px;
+}
+
+.order .product {
+  width: 100%;
+}
+
+.order .product-image {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
   position: sticky;
-  top: 5%;
+  flex-direction: column;
+}
+
+.order .product-image img {
+  width: 90%;
+  border-radius: 20px;
 }
 
 .mounting-method,
@@ -32,31 +37,31 @@
 .add-material,
 .add-image,
 .quantity {
-  margin-bottom: 130px;
-}
-
-.order {
-  width: 35%;
   display: flex;
-  justify-content: space-evenly;
-  align-items: stretch;
+  flex-direction: column;
+  justify-content: center;
 }
 
-.order .order-title {
+.order .order-options {
+  display: flex;
+  justify-content: flex-end;
+  width: 550px;
+  margin-left: 30px;
+}
+
+.order .order-options .order-title {
   text-align: center;
   margin-bottom: 10px;
   font-size: 20px;
   font-weight: bold;
 }
 
-.order .material-group {
+.order .order-options .material-group {
   text-align: center;
 }
 
 .order-inputs {
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
 }
 
 .order-inputs-selects {
@@ -79,34 +84,6 @@
   margin: 0 2.5%;
 }
 
-.radio-btn {
-  width: 85%;
-  margin: 0 auto;
-  border: 1px solid #eae7e7;
-  border-radius: 10px;
-}
-
-.radio-btn input[type="radio"] {
-  /* display: none; */
-}
-.radio-btn label {
-  display: block;
-  border-radius: 10px;
-  margin: 0 auto;
-  text-align: center;
-  height: -webkit-fill-available;
-  line-height: 45px;
-}
-/* Checked */
-.radio-btn input[type="radio"]:checked + span {
-  background: #184da0;
-  color: #fff;
-}
-/* Hover */
-.radio-btn label:hover {
-  color: "red";
-}
-
 .add-image input {
   display: none;
 }
@@ -121,7 +98,7 @@
 
 /* 모바일 */
 @media screen and (max-width: 500px) {
-  .order {
+  .order-options {
     display: flex;
     flex-direction: column;
     justify-content: center;

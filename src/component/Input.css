@@ -21,9 +21,15 @@
 .input-block .input:focus-visible {
   outline: none;
   border: 1.5px solid #0071e3;
+  padding: 12px 10px 8px;
 }
 
-.input-block .input:focus-visible ~ .label {
+.input-block .value {
+  padding: 12px 10px 8px;
+}
+
+.input-block .input:focus-visible + .label,
+.input-block .value + .label {
   position: absolute;
   top: -7px;
   transition: top 0.1s;

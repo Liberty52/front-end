@@ -1,26 +1,28 @@
-import './Review.css';
-import React, { useState, useEffect } from 'react';
-import Checkbox from '../../component/Checkbox';
-import Image from '../../component/Image';
-import ImageInput from '../../component/ImageInput';
-import Button from '../../component/Button';
-import star from '../../image/icon/star.png';
-import star_filled from '../../image/icon/star_filled.png';
-import close from '../../image/icon/close.png';
+/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable jsx-a11y/alt-text */
+import "./Review.css";
+import React, { useState, useEffect } from "react";
+import Checkbox from "../../component/Checkbox";
+import Image from "../../component/Image";
+import ImageInput from "../../component/ImageInput";
+import Button from "../../component/Button";
+import star from "../../image/icon/star.png";
+import star_filled from "../../image/icon/star_filled.png";
+import close from "../../image/icon/close.png";
 import {
   deleteReview,
   getReview,
   postReview,
   putReview,
-} from '../../axios/review/Review';
+} from "../../axios/review/Review";
 
 export function Modal(props) {
   const modalInfo =
     props.reviewInfo === undefined
       ? {
           rating: 1,
-          imageUrls: ['', '', ''],
-          content: '',
+          imageUrls: ["", "", ""],
+          content: "",
         }
       : props.reviewInfo;
   const [rating, setRating] = useState(modalInfo.rating);
@@ -30,17 +32,21 @@ export function Modal(props) {
     <div className="modal">
       <div className="modal-content">
         <form
-          onSubmit={e => {
+          onSubmit={(e) => {
             e.preventDefault();
             const dto = {
-              productName: 'Liberty 52_Frame',
+              productName: "Liberty 52_Frame",
               rating: rating,
               content: e.target.content.value,
-              orderId: 'GORDER-001',
+              orderId: props.orderId,
             };
             if (props.reviewInfo === undefined) {
               postReview(dto, e.target.file);
-            } else putReview(dto, e.target.file, modalInfo.reviewId);
+              props.closeModal();
+            } else {
+              putReview(dto, e.target.file, props.reviewInfo.reviewId);
+              props.closeModal();
+            }
           }}
         >
           <div className="title">
@@ -72,14 +78,14 @@ export function Modal(props) {
             value={text}
             required
             maxLength={1000}
-            onChange={e => {
+            onChange={(e) => {
               setText(e.target.value);
             }}
           />
           <div className="images">
-            <ImageInput imgFile={modalInfo.imageUrls[0]} />
-            <ImageInput imgFile={modalInfo.imageUrls[1]} />
-            <ImageInput imgFile={modalInfo.imageUrls[2]} />
+            <ImageInput image={modalInfo.imageUrls[0]} />
+            <ImageInput image={modalInfo.imageUrls[1]} />
+            <ImageInput image={modalInfo.imageUrls[2]} />
           </div>
           <Button text="등록" />
         </form>
@@ -104,7 +110,7 @@ function ReviewContent(props) {
   const reviewInfo = props.reviewInfo;
 
   const filesChildNode = [];
-  reviewInfo.imageUrls.map(imageUrl => {
+  reviewInfo.imageUrls.map((imageUrl) => {
     filesChildNode.push(<Image image={imageUrl} />);
   });
 
@@ -120,7 +126,7 @@ function ReviewContent(props) {
           <Image
             image={
               reviewInfo.authorProfileUrl === null
-                ? ''
+                ? ""
                 : reviewInfo.authorProfileUrl
             }
           />
@@ -191,14 +197,9 @@ export default function Review() {
   });
 
   useEffect(() => {
-    getReview('LIB-001', 5, 1, onlyPhoto).then(res => {
+    getReview("LIB-001", 11, 0, onlyPhoto).then((res) => {
       const contents = res.contents;
       setReviewContents([]);
-      setPages({
-        startPage: res.startPage,
-        lastPage: res.lastPage,
-        currentPage: res.currentPage,
-      });
       for (var i = 0; i < contents.length; i++) {
         const reviewInfo = {
           reviewId: contents[i].reviewId,
@@ -209,8 +210,13 @@ export default function Review() {
           authorName: contents[i].authorName,
           isYours: contents[i].isYours,
         };
-        setReviewContents([...reviewContents, reviewInfo]);
+        setReviewContents((reviewContents) => [...reviewContents, reviewInfo]);
       }
+      setPages({
+        startPage: res.startPage,
+        lastPage: res.lastPage,
+        currentPage: res.currentPage,
+      });
     });
   }, [onlyPhoto]);
 
@@ -220,7 +226,6 @@ export default function Review() {
       <div className="tab">리뷰</div>
       <div className="title-div">
         <div className="title">구매평 (개수)</div>
-        <Button text="구매평 쓰기" onClick={() => showModal(true)} />
       </div>
       <div className="button-div"></div>
       <div className="filter">
