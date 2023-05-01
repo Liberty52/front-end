@@ -1,41 +1,28 @@
-.social_login_button {
-    width: 100%;
-    border: none;
-    border-radius: 3px;
-    padding: 10px;
-    margin: 6px 0px;
-    display: flex;
-    font-weight: 600;
-    justify-content: center;
-    align-items: center;
-}
-.naver{
-    background-color: #19CE60;
-}
-.naver:hover{
-    background-color: #2ADF71;
-}
-.naver a, .google a , .facebook a{
-    color: white;
+.social-login-button {
+  border-radius: 50%;
+  padding: 10px;
 }
 
-.kakao{
-    background-color: #fae100;
-    color: black;
+.social-login-button:hover {
+  filter: brightness(0.9);
 }
-.kakao:hover{
-    background-color: #fbf211;
+
+.social-login-button img {
+  width: 20px;
 }
-.google{
-    background-color: #EA4335;
+
+.naver {
+  background-color: #19ce60;
 }
-.google:hover{
-    background-color: #FB5446;
+
+.kakao {
+  background-color: #fae100;
 }
-.facebook{
-    background-color: #3B5998;
-    color: white;
+
+.google {
+  background-color: #ffffff;
 }
-.facebook:hover{
-    background-color: #4C6AA9;
+
+.facebook {
+  background-color: #475993;
 }

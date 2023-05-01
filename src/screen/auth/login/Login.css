@@ -20,6 +20,15 @@
   margin: 20px 0;
 }
 
+.social-login .social-login-button-group {
+  display: flex;
+  justify-content: center;
+}
+
+.social-login .social-login-button-group .social-login-button {
+  margin: 0 6px;
+}
+
 .login-form {
   display: flex;
   flex-direction: column;
