@@ -393,6 +393,10 @@ function ConfirmSection(props) {
     }
   };
 
+    if (success) {
+        navigate('/inquiry');
+    }
+
   return (
     <div className="confirm-section">
       <form
@@ -403,9 +407,6 @@ function ConfirmSection(props) {
             return;
           }
           requestPay();
-          if (success) {
-            navigate('/inquiry');
-          }
         }}
       >
         <CenterCircularProgress isConfirmProgressing={isConfirmProgressing} />
