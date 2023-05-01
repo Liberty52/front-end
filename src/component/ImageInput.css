@@ -22,6 +22,6 @@
   z-index: 1;
 }
 
-.image-input .image-crop:hover .button {
+.value .image-crop:hover .button {
   display: block;
 }
