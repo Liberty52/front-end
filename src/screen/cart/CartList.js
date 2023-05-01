@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import "./Cart.css";
-import CartPrice from "./CartPrice";
+import "./CartPrice.css";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Table from "react-bootstrap/Table";
 import { useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
+import LButton from "../../component/Button";
 import {
   GetCartList,
   handleDeleteClick,
@@ -118,7 +119,6 @@ export default function CartList() {
       setCheckedList(checkedList.filter((element) => element !== item));
       setTotalPrice(totalPrice - price);
     }
-    CartPrice(totalPrice);
   };
 
   const [data, setCartList] = useState([]);
@@ -156,6 +156,15 @@ export default function CartList() {
       return navigate("/");
     }
   }, []);
+  function pay() {}
+
+  const Payment = () => {
+    return (
+      <div className="payBtn">
+        <LButton onClick={pay} text="선택 상품 주문" />
+      </div>
+    );
+  };
   // const data = mockData;
   if (!data || data == "") {
     return (
@@ -193,207 +202,234 @@ export default function CartList() {
     );
   } else {
     return (
-      <div id="cartTable">
-        <div className="cart-header">
-          <h1>장바구니 / Shopping cart</h1>
-        </div>
-        <Table bordered hover className="cartTable">
-          <thead>
-            <tr>
-              <th width="5%">
-                {/* <input
+      <div>
+        <div id="cartTable" className="cart-left">
+          <div className="cart-header">
+            <h1>장바구니 / Shopping cart</h1>
+          </div>
+          <Table bordered hover className="cartTable">
+            <thead>
+              <tr>
+                <th width="5%">
+                  {/* <input
                   type="checkbox"
                   onClick={(e) => changeAllCheck(e)}
                   checked={isCheckAll}
                 ></input> */}
-              </th>
-              <th width="15%">제품명</th>
-              <th width="15%">제품가격</th>
-              <th width="25%">옵션</th>
-              <th width="15%">첨부사진</th>
-              <th width="10%">수량</th>
-              <th width="15%">주문금액</th>
-            </tr>
-          </thead>
-          <tbody>
-            {data.length > 0 &&
-              data.map((item, idx) => {
-                let orderAmount = 0.0;
-                orderAmount =
-                  (item.price +
-                    item.options[0].price +
-                    item.options[1].price +
-                    item.options[2].price) *
-                  item.quantity;
-                return (
-                  <>
-                    <tr
-                      key={idx}
-                      onClick={() =>
-                        handleRowClick(
-                          item.id,
-                          idx,
-                          item.options,
-                          item.quantity
-                        )
-                      }
-                    >
-                      <th>
-                        <input
-                          type="checkbox"
-                          id={item.id}
-                          value={orderAmount}
-                          onChange={(e) => {
-                            onCheckedElement(
-                              e.target.checked,
-                              e.target.id,
-                              parseFloat(e.target.value)
-                            );
-                          }}
-                        ></input>
-                      </th>
-                      <th>{item.name}</th>
-                      <th>{addComma(item.price)}원</th>
-                      <th>
-                        {item.options.map((option) => (
-                          <p>
-                            {option.optionName} : {option.detailName} (+
-                            {addComma(option.price)}원)
-                          </p>
-                        ))}
-                      </th>
-                      <th>
-                        <button
-                          onClick={() => window.open(item.imageUrl, "_blank")}
-                        >
-                          [이미지 링크]
-                        </button>
-                      </th>
-                      <th>{item.quantity}</th>
-                      <th>{addComma(orderAmount)}원</th>
-                    </tr>
-                    <tr
-                      style={
-                        hidden[idx] ? { display: "none" } : { display: "" }
-                      }
-                    >
-                      <th></th>
-                      <th></th>
-                      <th></th>
-                      <th>
-                        <select
-                          onChange={onHandleChange}
-                          value={formValue.holder}
-                          name="holder"
-                        >
-                          {selectList.holder.map((item, idx) => {
-                            if (idx == 0) {
-                              return (
-                                <option value={item} key={item} disabled>
-                                  {item}
-                                </option>
+                </th>
+                <th width="15%">제품명</th>
+                <th width="15%">제품가격</th>
+                <th width="25%">옵션</th>
+                <th width="15%">첨부사진</th>
+                <th width="10%">수량</th>
+                <th width="15%">주문금액</th>
+              </tr>
+            </thead>
+            <tbody>
+              {data.length > 0 &&
+                data.map((item, idx) => {
+                  let orderAmount = 0.0;
+                  orderAmount =
+                    (item.price +
+                      item.options[0].price +
+                      item.options[1].price +
+                      item.options[2].price) *
+                    item.quantity;
+                  return (
+                    <>
+                      <tr
+                        key={idx}
+                        onClick={() =>
+                          handleRowClick(
+                            item.id,
+                            idx,
+                            item.options,
+                            item.quantity
+                          )
+                        }
+                      >
+                        <th>
+                          <input
+                            type="checkbox"
+                            id={item.id}
+                            value={orderAmount}
+                            onChange={(e) => {
+                              onCheckedElement(
+                                e.target.checked,
+                                e.target.id,
+                                parseFloat(e.target.value)
                               );
-                            } else {
-                              return (
-                                <option value={item} key={item}>
-                                  {item}
-                                </option>
-                              );
-                            }
-                          })}
-                        </select>
-                        <select
-                          onChange={onHandleChange}
-                          value={formValue.material}
-                          name="material"
-                        >
-                          {selectList.material.map((item, idx) => {
-                            if (idx == 0) {
-                              return (
-                                <option value={item} key={item} disabled>
-                                  {item}
-                                </option>
-                              );
-                            } else {
-                              return (
-                                <option value={item} key={item}>
-                                  {item}
-                                </option>
-                              );
-                            }
-                          })}
-                        </select>
-                        <select
-                          onChange={onHandleChange}
-                          value={formValue.color}
-                          name="color"
-                        >
-                          {selectList.color.map((item, idx) => {
-                            if (idx == 0) {
-                              return (
-                                <option value={item} key={item} disabled>
-                                  {item}
-                                </option>
-                              );
-                            } else {
-                              return (
-                                <option value={item} key={item}>
-                                  {item}
-                                </option>
-                              );
-                            }
-                          })}
-                        </select>
-                      </th>
-                      <th>
-                        <input
-                          type="file"
-                          accept="image/*"
-                          name="file"
-                          onChange={onImageChange}
-                        ></input>
-                      </th>
-                      <th>
-                        <input
-                          onChange={onHandleChange}
-                          className="quantityInput"
-                          type="number"
-                          id="quantity"
-                          name="quantity"
-                          min="1"
-                          max="10"
-                          value={formValue.quantity}
-                        />
-                      </th>
-                      <th></th>
-                    </tr>
-                  </>
-                );
-              })}
-          </tbody>
-        </Table>
-        <form onSubmit={onHandleSubmit}>
-          <div className="btnLayout">
-            <Button
-              className="UDBtn"
-              variant="outline-danger"
-              onClick={(e) => handleDeleteClick(checkedList, e)}
-            >
-              선택상품 삭제
-            </Button>
-            <Button
-              className="UDBtn"
-              variant={disabledBtn ? "" : "outline-warning"}
-              type="submit"
-              disabled={disabledBtn}
-              onClick={(e) => {
-                handleEditClick(customProductId, editData, imageFile);
-              }}
-            >
-              수정내용 저장
-            </Button>
+                            }}
+                          ></input>
+                        </th>
+                        <th>{item.name}</th>
+                        <th>{addComma(item.price)}원</th>
+                        <th>
+                          {item.options.map((option) => (
+                            <p>
+                              {option.optionName} : {option.detailName} (+
+                              {addComma(option.price)}원)
+                            </p>
+                          ))}
+                        </th>
+                        <th>
+                          <button
+                            onClick={() => window.open(item.imageUrl, "_blank")}
+                          >
+                            [이미지 링크]
+                          </button>
+                        </th>
+                        <th>{item.quantity}</th>
+                        <th>{addComma(orderAmount)}원</th>
+                      </tr>
+                      <tr
+                        style={
+                          hidden[idx] ? { display: "none" } : { display: "" }
+                        }
+                      >
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th>
+                          <select
+                            onChange={onHandleChange}
+                            value={formValue.holder}
+                            name="holder"
+                          >
+                            {selectList.holder.map((item, idx) => {
+                              if (idx == 0) {
+                                return (
+                                  <option value={item} key={item} disabled>
+                                    {item}
+                                  </option>
+                                );
+                              } else {
+                                return (
+                                  <option value={item} key={item}>
+                                    {item}
+                                  </option>
+                                );
+                              }
+                            })}
+                          </select>
+                          <select
+                            onChange={onHandleChange}
+                            value={formValue.material}
+                            name="material"
+                          >
+                            {selectList.material.map((item, idx) => {
+                              if (idx == 0) {
+                                return (
+                                  <option value={item} key={item} disabled>
+                                    {item}
+                                  </option>
+                                );
+                              } else {
+                                return (
+                                  <option value={item} key={item}>
+                                    {item}
+                                  </option>
+                                );
+                              }
+                            })}
+                          </select>
+                          <select
+                            onChange={onHandleChange}
+                            value={formValue.color}
+                            name="color"
+                          >
+                            {selectList.color.map((item, idx) => {
+                              if (idx == 0) {
+                                return (
+                                  <option value={item} key={item} disabled>
+                                    {item}
+                                  </option>
+                                );
+                              } else {
+                                return (
+                                  <option value={item} key={item}>
+                                    {item}
+                                  </option>
+                                );
+                              }
+                            })}
+                          </select>
+                        </th>
+                        <th>
+                          <input
+                            type="file"
+                            accept="image/*"
+                            name="file"
+                            onChange={onImageChange}
+                          ></input>
+                        </th>
+                        <th>
+                          <input
+                            onChange={onHandleChange}
+                            className="quantityInput"
+                            type="number"
+                            id="quantity"
+                            name="quantity"
+                            min="1"
+                            max="10"
+                            value={formValue.quantity}
+                          />
+                        </th>
+                        <th></th>
+                      </tr>
+                    </>
+                  );
+                })}
+            </tbody>
+          </Table>
+          <form onSubmit={onHandleSubmit}>
+            <div className="btnLayout">
+              <Button
+                className="UDBtn"
+                variant="outline-danger"
+                onClick={(e) => handleDeleteClick(checkedList, e)}
+              >
+                선택상품 삭제
+              </Button>
+              <Button
+                className="UDBtn"
+                variant={disabledBtn ? "" : "outline-warning"}
+                type="submit"
+                disabled={disabledBtn}
+                onClick={(e) => {
+                  handleEditClick(customProductId, editData, imageFile);
+                }}
+              >
+                수정내용 저장
+              </Button>
+            </div>
+          </form>
+        </div>
+        <div className="cart-right">
+          <div>
+            <div className="cartprice">
+              <div className="calcwrap">
+                <div className="orderprice">
+                  <p className="title">총 주문 금액</p>
+                  <p className="price">{addComma(totalPrice)} 원</p>
+                </div>
+                <div className="discount">
+                  <p className="title">적립금</p>
+                  <p className="price">0 원</p>
+                </div>
+                <div className="shipping">
+                  <p className="title">배송비</p>
+                  <p className="price">1000 원</p>
+                </div>
+              </div>
+              <div className="total">
+                <p className="title">총 결제 금액</p>
+                <p className="price">{addComma(totalPrice + 1000)} 원</p>
+              </div>
+            </div>
+            <Payment></Payment>
           </div>
-        </form>
+        </div>
       </div>
     );
   }
