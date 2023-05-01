@@ -1,4 +1,5 @@
-import { SOCIAL_LOGIN_URL } from './url';
+import SOCIAL_LOGIN_URL from 'url';
+
 
 const SOCIAL_LOGIN_PROVIDER = {
   NAVER: {

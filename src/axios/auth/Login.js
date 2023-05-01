@@ -58,3 +58,26 @@ export function resetPassword(emailToken, password) {
     },
   });
 }
+export async function getOrderDetails(orderId, phoneNumber) {
+  try {
+    const response = await axios.get(`/product/guest/orders/${orderId}`, {
+      headers: {
+        Authorization: phoneNumber,
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching order details:', error);
+    throw error;
+  }
+}
+export async function fetchOrderDetails(orderId, phoneNumber) {
+  try {
+    const orderDetails = await getOrderDetails(orderId, phoneNumber);
+    return orderDetails;
+  } catch (error) {
+    console.error('Error fetching order details:', error);
+    throw error;
+  }
+}
