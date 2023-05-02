@@ -5,7 +5,7 @@
 .input-block .input {
   width: 100%;
   border: 1.5px solid lightgray;
-  padding: 10px 10px;
+  padding: 10px;
   box-sizing: border-box;
   border-radius: 5px;
 }
@@ -24,12 +24,12 @@
   padding: 12px 10px 8px;
 }
 
-.input-block .value {
+.value .input {
   padding: 12px 10px 8px;
 }
 
 .input-block .input:focus-visible + .label,
-.input-block .value + .label {
+.value .input + .label {
   position: absolute;
   top: -7px;
   transition: top 0.1s;

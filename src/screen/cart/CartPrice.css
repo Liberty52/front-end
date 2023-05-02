@@ -1,22 +1,22 @@
-.cart .cartprice {
+.cartprice {
   width: 50%;
   margin-left: 30px;
   padding-top: 30px;
 }
-.cart .calcwrap {
+.calcwrap {
   padding: 15px 0;
   border: 1px solid lightgray;
   height: auto;
 }
-.cart .orderprice,
-.cart .discount,
-.cart .shipping {
+.orderprice,
+.discount,
+.shipping {
   display: flex;
   justify-content: space-between;
   font-size: 14px;
   padding: 10px 20px;
 }
-.cart .total {
+.total {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -24,10 +24,10 @@
   background-color: lightgray;
   font-weight: 700;
 }
-.cart .title {
+.title {
   font-size: 16px;
 }
-.cart .price {
+.price {
   font-size: 20px;
 }
 .cart Button {

@@ -1,5 +1,4 @@
 import './Radio.css';
-import { useState, useEffect } from 'react';
 
 export default function Radio(props) {
   const radioButtons = document.querySelectorAll(
@@ -14,14 +13,16 @@ export default function Radio(props) {
         name={props.name}
         value={props.text}
         required={props.required}
+        checked={props.checked}
         onChange={e => {
           props.onChange(e);
           radioButtons.forEach(rb => {
-            if (rb !== e.target) {
-              rb.toggleAttribute('checked');
+            if (rb === e.target) {
+              if (!rb.checked) rb.toggleAttribute('checked');
+            } else {
+              if (rb.checked) rb.toggleAttribute('checked');
             }
           });
-          e.target.toggleAttribute('checked');
         }}
       />
       <label htmlFor={'radio ' + props.text}>{props.text}</label>
