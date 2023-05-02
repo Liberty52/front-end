@@ -1,5 +1,4 @@
 import './Radio.css';
-import { useState, useEffect } from 'react';
 
 export default function Radio(props) {
   const radioButtons = document.querySelectorAll(
