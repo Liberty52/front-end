@@ -15,9 +15,8 @@ export default function Input(props) {
   }, [value]);
 
   return (
-    <div className="input-block">
+    <div id={props.name} className="input-block">
       <input
-        id={props.name}
         className="input"
         type={props.type}
         name={props.name}
@@ -32,7 +31,7 @@ export default function Input(props) {
         }}
         onClick={props.onClick}
         autoComplete="off"
-      ></input>
+      />
       <label htmlFor={props.name} className="label">
         {props.label}
         {props.required ? ' (필수)' : ''}

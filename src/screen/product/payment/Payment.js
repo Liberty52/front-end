@@ -63,9 +63,7 @@ function PaymentSection(props) {
             address2: e.target.address2.value,
             receiverEmail: e.target.receiverEmail.value,
             zipCode: address.zipCode,
-            receiverPhoneNumber: e.target.phoneCheckbox.checked
-              ? ''
-              : e.target.receiverPhoneNumber.value,
+            receiverPhoneNumber: e.target.receiverPhoneNumber.value,
           });
         }}
       >
@@ -83,19 +81,26 @@ function PaymentSection(props) {
               maxLength={25}
               value={deliveryInfo.receiverName}
             />
-            <Input
-              type="text"
-              name="address1"
-              label="주소"
-              required
-              maxLength={25}
-              value={
-                address.address1
-                  ? '(' + address.zipCode + ') ' + address.address1
-                  : ''
-              }
-              onClick={() => setModal(true)}
-            />
+            <div className="input-button">
+              <Input
+                type="text"
+                name="address1"
+                label="주소"
+                required
+                maxLength={25}
+                readOnly
+                value={
+                  address.address1
+                    ? '(' + address.zipCode + ') ' + address.address1
+                    : ''
+                }
+              />
+              <Button
+                type="button"
+                text="주소 검색"
+                onClick={() => setModal(true)}
+              />
+            </div>
             <Input
               type="text"
               name="address2"
@@ -126,15 +131,6 @@ function PaymentSection(props) {
               value={deliveryInfo.receiverPhoneNumber}
             />
           </div>
-          <Checkbox
-            text="휴대폰 번호가 없습니다."
-            name="phoneCheckbox"
-            onChange={e => {
-              const input = document.querySelector('#receiverPhoneNumber');
-              input.disabled = e.target.checked;
-              input.required = !e.target.checked;
-            }}
-          />
         </div>
         <Button text="결제 페이지로 이동" />
       </form>
@@ -150,13 +146,15 @@ function Product(props) {
       <div>
         <div className="title">Liberty 52_Frame</div>
         <div>
-          <div>{productInfo.mounting_method}</div>
-          <div>{productInfo.basic_material}</div>
-          <div>{productInfo.add_material}</div>
-          <div>{productInfo.quantity}개</div>
+          <div>{productInfo.options[0]}</div>
+          <div>{productInfo.options[1]}</div>
+          <div>{productInfo.options[2]}</div>
         </div>
       </div>
-      <span>&#8361;{1550000 * productInfo.quantity}</span>
+      <div>{productInfo.quantity}개</div>
+      <span>
+        &#8361;{(1550000 * productInfo.quantity).toLocaleString('ko-KR')}
+      </span>
     </div>
   );
 }
@@ -229,7 +227,6 @@ function TermsOfUse() {
               type="button"
               onClick={() => {
                 setModal(true);
-                // console.log(modal);
               }}
             >
               Liberty 개인정보 취급방침
@@ -246,21 +243,31 @@ function TermsOfUse() {
 }
 
 function Total(props) {
+  const deliverPrice = props.deliverPrice;
+  const quantity = props.quantity;
+
   return (
     <div className="confirm-total">
       <div className="title">총계</div>
       <div className="contents">
         <div className="content">
           <span>소계</span>
-          <span>&#8361;{1550000 * props.quantity}</span>
+          <span>&#8361;{(1550000 * quantity).toLocaleString('ko-KR')}</span>
         </div>
         <div className="content">
           <span>배송</span>
-          <span>무료</span>
+          <span>
+            {deliverPrice === 0
+              ? '무료'
+              : '&#8361;' + deliverPrice.toLocaleString('ko-KOR')}
+          </span>
         </div>
         <div className="content">
           <span>총계</span>
-          <span>&#8361;{1550000 * props.quantity}</span>
+          <span>
+            &#8361;
+            {(1550000 * quantity + deliverPrice).toLocaleString('ko-KR')}
+          </span>
         </div>
       </div>
     </div>
@@ -418,7 +425,7 @@ function ConfirmSection(props) {
         <DeliveryInfo deliveryInfo={destinationDto} />
         <PaymentInfo constants={constants} setPayment={setPayment} />
         <TermsOfUse />
-        <Total quantity={productDto.quantity} />
+        <Total quantity={productDto.quantity} deliverPrice={0} />
         <Button text="결제하기" />
         <Button
           type="button"

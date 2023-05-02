@@ -29,6 +29,22 @@
   margin-bottom: 15px;
 }
 
+.payment .payment-user .input-button {
+  display: flex;
+}
+
+.payment .payment-user .input-button #address1 {
+  width: 80%;
+  border-radius: 5px 0 0 5px;
+}
+
+.payment .payment-user .input-button .button {
+  width: 20%;
+  font-size: 12px;
+  margin: 10px 0;
+  border-radius: 0 5px 5px 0;
+}
+
 .payment-contact {
   margin-bottom: 10px;
 }
