@@ -6,7 +6,7 @@ export default function Cookie() {
   let navigate = useNavigate();
   const getRandom = Math.floor(Math.random() * 1000000) + 1;
   const expires = new Date();
-  expires.setMinutes(expires.getMinutes() + 60);
+  expires.setDate(expires.getDate() + 7);
 
   useEffect(() => {
     if (localStorage.getItem("ACCESS_TOKEN")) {

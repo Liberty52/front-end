@@ -1,6 +1,7 @@
 import axios from "../axios";
 import React, { useState, useEffect } from "react";
 import cookie from "react-cookies";
+import { useNavigate } from "react-router-dom";
 
 export default function post(dto, file) {
   const formData = new FormData();
@@ -37,16 +38,40 @@ export default function post(dto, file) {
 }
 
 export function GetCartList() {
+  const navigate = useNavigate();
   const [data, setCartList] = useState([]);
-  axios
-    .get("https://liberty52.com:444/product/carts", {
-      headers: {
-        Authorization: localStorage.getItem("ACCESS_TOKEN"),
-      },
-    })
-    .then((response) => {
-      setCartList(response.data);
-    });
+  if (localStorage.getItem("ACCESS_TOKEN")) {
+    axios
+      .get("https://liberty52.com:444/product/carts", {
+        headers: {
+          Authorization: localStorage.getItem("ACCESS_TOKEN"),
+        },
+      })
+      .then((response) => {
+        setCartList(response.data);
+        if (!response.data || response.data == "") {
+          alert("장바구니에 담긴 상품이 없습니다.");
+          return navigate("/");
+        }
+      });
+  } else if (cookie.load("guest")) {
+    axios
+      .get("https://liberty52.com:444/product/guest/carts", {
+        headers: {
+          Authorization: cookie.load("guest"),
+        },
+      })
+      .then((response) => {
+        setCartList(response.data);
+        if (!response.data || response.data == "") {
+          alert("장바구니에 담긴 상품이 없습니다.");
+          return navigate("/");
+        }
+      });
+  } else {
+    alert("잘못된 접근입니다");
+    return navigate("/");
+  }
   return data;
 }
 
