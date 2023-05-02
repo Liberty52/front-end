@@ -35,6 +35,9 @@
 
 .payment .payment-user .input-button #address1 {
   width: 80%;
+}
+
+.payment .payment-user .input-button #address1 .input {
   border-radius: 5px 0 0 5px;
 }
 
