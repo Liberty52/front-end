@@ -37,6 +37,7 @@ export default function QuestionEditor(){
   let editor;
 
   const effect = async () => {
+    const isMobile = /Mobi/i.test(window.navigator.userAgent); // "Mobi" 가 User agent에 포함되어 있으면 모바일
     const mode = location.state.mode;
     let data;
     if (mode === HTML_EDITOR_MODE.ADD) {
@@ -76,6 +77,8 @@ export default function QuestionEditor(){
         addImageBlobHook: (blob, callback) => uploadImages(blob, callback)
       }
     });
+    if(isMobile)
+      editor.setHeight("300px");
   }
   useEffect( () => {
     effect();

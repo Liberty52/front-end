@@ -199,7 +199,7 @@ export const QuestionDetailTitleWrapper = styled.div`
   width: 100%;
   padding-bottom: 10px;
   border-bottom: 1px solid rgba(0,0,0,0.2);
-  @media (max-width: 500px){
+  @media (max-width: 1080px){
     flex-direction: column;
     justify-content: flex-end;
     align-items: flex-end;
@@ -207,19 +207,21 @@ export const QuestionDetailTitleWrapper = styled.div`
 `
 export const QuestionDetailTitle = styled.div`
   overflow-wrap: break-word;
-  font-size: 30px;
+  font-size: 22px;
   width: 100%;
 
-  @media (max-width: 500px){
+  @media (max-width: 1080px){
     font-size: 18px;
   }
-  
-  
 `
 export const QuestionDetailSide = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  width: 20%;
+  @media (max-width:1080px){
+    width: 100%;
+  }
 `
 
 export const QuestionDetailSideStatus = styled.div`
