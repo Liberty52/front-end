@@ -119,7 +119,7 @@ const Preview = ({ isOpen, setIsOpen }) => {
             >
             <Block $style={{ flex: 1, alignItems: "center", justifyContent: "center", display: "flex", padding: "5rem"}}>
                     <img width="500px" height="400px" src={Frame} style={{position: "fixed", zIndex: 10}}/>
-                    {!loading && <img width="350px" height="183px" src={state.image} style={{position: "relative", zIndex: 11, top: "-65px", left: "7px", opacity: "50%"}} />}
+                    {!loading && <img width="350px" height="183px" src={state.image} style={{position: "relative", zIndex: 11, top: "-65px", left: "7px"}} />}
             </Block>
             </Block>
         </ModalBody>

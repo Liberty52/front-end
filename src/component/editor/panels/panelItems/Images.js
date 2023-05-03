@@ -13,13 +13,14 @@ const Images = () => {
   
 
   const addObject = React.useCallback(
-    (url) => {
+    async (url) => {
       if (editor) {
         const options = {
           type: "StaticImage",
           src: url,
         }
-        editor.objects.add(options)
+        await editor.objects.add(options)
+        editor.frame.background.fill === "#ffffff" ? editor.objects.update({opacity: 0.9}) : editor.objects.update({opacity: 0.65}) 
       }
     },
     [editor]

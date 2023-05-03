@@ -64,9 +64,10 @@ const Uploads = () => {
   const handleFileInput = (e) => {
     handleDropFiles(e.target.files)
   }
-
-  const addImageToCanvas = (props) => {
-    editor.objects.add(props)
+  
+  const addImageToCanvas = async (props) => {
+    await editor.objects.add(props)
+    editor.frame.background.fill === "#ffffff" ? editor.objects.update({opacity: 0.9}) : editor.objects.update({opacity: 0.65}) 
   }
   return (
     <DropZone handleDropFiles={handleDropFiles}>

@@ -17,7 +17,7 @@ import useSidebarOpen from "../../../../hooks/useSidebarOpen"
 import useDesignEditorContext from "../../../../hooks/useDesignEditorContext"
 import product_img from '../../../../image/icon/product.png';
 
-const colors = ["#ffffff", "#9B9B9B", "#4A4A4A", "#000000", "#A70C2C", "#DA9A15", "#F8E71D", "#47821A", "#4990E2"]
+const colors = ["#ffffff", "#9B9B9B"]
 
 const previewImgs = [product_img]
 
@@ -32,6 +32,7 @@ const Customize = () => {
   const changeBackgroundColor = (color) => {
     if (editor) {
       editor.frame.setBackgroundColor(color)
+      editor.frame.background.fill === "#ffffff" ? editor.objects.list().map(obj => obj.opacity = 0.9) : editor.objects.list().map(obj => obj.opacity = 0.65) 
     }
   }
   const handleChange = (type, value) => {
