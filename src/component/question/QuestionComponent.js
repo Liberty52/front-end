@@ -8,7 +8,10 @@ export const ColumnDirectionFlexBox = styled.div`
 `
 
 export const QuestionListContainer = styled(ColumnDirectionFlexBox)`
-   padding:  50px 370px;
+  padding:  50px 15%;
+  @media (max-width: 500px){
+    padding:  50px 10px;
+  }
 `
 export const QuestionListHeader = styled.div`
   font-weight: 600;
@@ -17,11 +20,28 @@ export const QuestionListHeader = styled.div`
   padding : 20px 0px;
 `
 export const QuestionListTable = styled.table`
+  table-layout: fixed;
   margin-top : 100px;
   width: 100%;
   border-top: 1px solid black;
   text-align: center;
   margin-bottom: 50px;
+  @media (max-width: 500px){
+    margin: 25px 0px;
+  }
+`
+export const QuestionListRowTitle = styled.td`
+  text-overflow:ellipsis;
+  overflow:hidden;
+  white-space:nowrap;
+  width: 250px;
+`
+
+export const QuestionListRowSmallItem = styled.td`
+  
+  @media(max-width: 700px){
+    display : none
+  }
 `
 export const QuestionListTableRow = styled.tr`
   height: 40px;
@@ -32,9 +52,15 @@ export const QuestionListTableHeader = styled(QuestionListTableRow)`
 `
 export const QuestionListTableHeaderSmallItem = styled.th`
   width: 10%;
+  @media (max-width: 700px) {
+    display: none;
+  }
 `
 export const QuestionTableHeaderMiddleItem = styled.th`
   width: 25%;
+  @media (max-width: 500px) {
+    width: 75px;
+  }
 `
 
 export const QuestionListTableBodyRow = styled(QuestionListTableRow)`
@@ -45,9 +71,14 @@ export const QuestionListTableBodyRow = styled(QuestionListTableRow)`
     
   }
 `
+
+
 export const QuestionListTableBodyWriteTimestamp = styled.td`
   font-weight: normal;
   color: rgba(0,0,0,0.6);
+  @media (max-width: 500px) {
+    width: 75px;
+  }
 `
 export const EmptyListExpression = styled.div`
   height : 300px;
@@ -82,6 +113,22 @@ export const QuestionListTablePageNumberButtonWrapper =  styled.div`
   align-items: center;
   
 `
+export const PageMoveButton = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+  font-size: 16px;
+  color : rgba(0,0,0,0.2);
+  font-weight: bold;
+  :hover{
+    cursor: pointer;
+  }
+  @media (max-width: 500px){
+    color : black;
+  }
+ 
+`
 export const PageNumberButton = styled.div`
   display: flex;
   justify-content: center;
@@ -93,6 +140,9 @@ export const PageNumberButton = styled.div`
   font-weight: bold;
   :hover{
     cursor: pointer;
+  }
+  @media (max-width: 500px){
+    display: none;
   }
 `
 

@@ -10,7 +10,7 @@ import {
   QuestionListTableHeader,
   QuestionListTableHeaderSmallItem, QuestionListTablePageNumberButtonWrapper,
   QuestionListHeader,
-  QuestionTableHeaderMiddleItem
+  QuestionTableHeaderMiddleItem, PageMoveButton, QuestionListRowSmallItem, QuestionListRowTitle
 } from "../../component/question/QuestionComponent";
 import { useNavigate } from "react-router";
 import { useEffect, useState } from "react";
@@ -18,6 +18,7 @@ import { HTML_EDITOR_MODE } from "../../global/Constants";
 import { getQuestionList } from "../../axios/question/QuestionsList";
 import { convertQuestionStatus } from "../../utils";
 import uuid from "react-uuid";
+
 
 
 export default function QuestionList() {
@@ -103,9 +104,9 @@ export default function QuestionList() {
         {data.contents?.length !== 0 ? data.contents?.map(d => {
 
           return <QuestionListTableBodyRow key={d.id} onClick={() => moveToDetailPageButtonClicked(d.id)}>
-            <td>{d.no}</td>
-            <td>{d.title}</td>
-            <td>{convertQuestionStatus(d.status)}</td>
+            <QuestionListRowSmallItem>{d.no}</QuestionListRowSmallItem>
+            <QuestionListRowTitle>{d.title}</QuestionListRowTitle>
+            <QuestionListRowSmallItem>{convertQuestionStatus(d.status)}</QuestionListRowSmallItem>
             <QuestionListTableBodyWriteTimestamp>{d.createdAt}</QuestionListTableBodyWriteTimestamp>
           </QuestionListTableBodyRow>;
         }) : <></>}
@@ -114,11 +115,11 @@ export default function QuestionList() {
       {data.contents?.length === 0 ? <EmptyListExpression key={uuid()}>등록된 문의가 없습니다</EmptyListExpression> :
 
         <QuestionListTablePageNumberButtonWrapper key={uuid()}>
-          <PageNumberButton onClick={pageNumberMinusButtonClicked}>&lt;</PageNumberButton>
+          <PageMoveButton onClick={pageNumberMinusButtonClicked}>&lt;</PageMoveButton>
           {createPageNumberButton()?.map(i =>
             <PageNumberButton key={i} isCurrentPage={i===data.currentPage} onClick={() => pageNumberButtonClicked(i)}>{i}</PageNumberButton>
           )}
-          <PageNumberButton onClick={pageNumberPlusButtonClicked}>&gt;</PageNumberButton>
+          <PageMoveButton onClick={pageNumberPlusButtonClicked}>&gt;</PageMoveButton>
         </QuestionListTablePageNumberButtonWrapper>
       }
       <QuestionPageButtonWrapper >
