@@ -8,10 +8,20 @@ import Footer from '../../component/editor/Footer';
 import { ToasterContainer, PLACEMENT } from 'baseui/toast';
 import useDesignEditorContext from '../../hooks/useDesignEditorContext';
 import Preview from '../../component/Preview';
+import { useEditor } from '@layerhub-io/react';
+import React from 'react';
 
 
 const Editor = () => {
   const { displayPreview, setDisplayPreview } = useDesignEditorContext()
+  const editor = useEditor();
+  React.useEffect(() => {
+    editor?.frame.resize({
+      width: 3840,
+      height: 2160,
+    })
+  }, [editor])
+
 
   return (
     <BaseProvider theme={LightTheme}>

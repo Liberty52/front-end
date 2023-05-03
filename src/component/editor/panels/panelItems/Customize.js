@@ -20,6 +20,7 @@ const previewImgs = [product_img]
 
 const Customize = () => {
   const editor = useEditor()
+  const frame = useFrame()
   const { setIsSidebarOpen } = useSidebarOpen()
 
   const [state, setState] = React.useState({
@@ -58,7 +59,7 @@ const Customize = () => {
         <Block padding="0 1.5rem">
           <Block>
             <ResizeTemplate />
-            <Block $style={{ fontSize: "14px", textAlign: "center", paddingTop: "0.35rem" }}>1080 x 1920px</Block>
+            <Block $style={{ fontSize: "14px", textAlign: "center", paddingTop: "0.35rem" }}>{frame.width} x {frame.height} px</Block>
           </Block>
 
           <Block paddingTop="0.5rem">
@@ -260,7 +261,7 @@ const ResizeTemplate = () => {
                   $style={{ display: "grid", gridTemplateColumns: "1fr 50px 1fr", alignItems: "end", fontSize: "14px" }}
                 >
                   <Input
-                    onChange={(e: any) => setDesiredFrame({ ...desiredFrame, width: e.target.value })}
+                    onChange={(e) => setDesiredFrame({ ...desiredFrame, width: e.target.value })}
                     value={desiredFrame.width}
                     startEnhancer="W"
                     size={SIZE.compact}
@@ -279,7 +280,7 @@ const ResizeTemplate = () => {
                     <SwapHorizontal size={24} />
                   </Button>
                   <Input
-                    onChange={(e: any) => setDesiredFrame({ ...desiredFrame, height: e.target.value })}
+                    onChange={(e) => setDesiredFrame({ ...desiredFrame, height: e.target.value })}
                     value={desiredFrame.height}
                     startEnhancer="H"
                     size={SIZE.compact}
