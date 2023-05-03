@@ -8,8 +8,8 @@ import {
   HTMLSizeLimiter,
   MoveToListButton,
   QuestEditorTitleInput,
+  QuestionContainer,
   QuestionEditorHeader,
-  QuestionEditorPageContainer,
   QuestionPageButton,
   QuestionPageButtonWrapper
 } from "../../component/question/QuestionComponent";
@@ -20,6 +20,7 @@ import { HTML_EDITOR_MODE } from "../../global/Constants";
 import { useNavigate } from "react-router";
 import { createQuestion, updateQuestion, uploadImage } from "../../axios/question/QuestionEditor";
 import { getQuestionDetail } from "../../axios/question/QuestionDetail";
+import "./QuestionEditor.css";
 
 
 export default function QuestionEditor(){
@@ -62,6 +63,12 @@ export default function QuestionEditor(){
       language: "ko-KR",
       hideModeSwitch: true,
       autofocus: false,
+      toolbarItems: [
+        ['heading', 'bold', 'italic', 'strike'],
+        ['hr', 'quote'],
+        ['ul', 'ol', 'task'],
+        ['table', 'image', 'link'],
+      ],
       events: {
         change: editorHTMLChanged
       },
@@ -70,7 +77,6 @@ export default function QuestionEditor(){
       }
     });
   }
-
   useEffect( () => {
     effect();
   },[])
@@ -173,7 +179,7 @@ export default function QuestionEditor(){
 
   return <>
     <Header/>
-    <QuestionEditorPageContainer>
+    <QuestionContainer>
       <QuestionEditorHeader>
             1:1문의
       </QuestionEditorHeader>
@@ -192,7 +198,7 @@ export default function QuestionEditor(){
           location.state.mode === HTML_EDITOR_MODE.UPDATE ? "수정하기" : "글 쓰기"
         }</QuestionPageButton>
       </QuestionPageButtonWrapper>
-    </QuestionEditorPageContainer>
+    </QuestionContainer>
     <Footer/>
   </>
 }

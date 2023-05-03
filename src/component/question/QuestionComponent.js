@@ -7,7 +7,7 @@ export const ColumnDirectionFlexBox = styled.div`
   align-items: center;
 `
 
-export const QuestionListContainer = styled(ColumnDirectionFlexBox)`
+export const QuestionContainer = styled(ColumnDirectionFlexBox)`
   padding:  50px 15%;
   @media (max-width: 500px){
     padding:  50px 10px;

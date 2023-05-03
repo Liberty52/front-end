@@ -1,16 +1,22 @@
 import Header from "../../component/Header";
 import Footer from "../../component/Footer";
-import styled from "styled-components";
 import {
-  EmptyListExpression, PageNumberButton, QuestionPageButton, QuestionPageButtonWrapper,
-  QuestionListContainer,
+  EmptyListExpression,
+  PageMoveButton,
+  PageNumberButton,
+  QuestionContainer,
+  QuestionListHeader,
+  QuestionListRowSmallItem,
+  QuestionListRowTitle,
   QuestionListTable,
   QuestionListTableBodyRow,
   QuestionListTableBodyWriteTimestamp,
   QuestionListTableHeader,
-  QuestionListTableHeaderSmallItem, QuestionListTablePageNumberButtonWrapper,
-  QuestionListHeader,
-  QuestionTableHeaderMiddleItem, PageMoveButton, QuestionListRowSmallItem, QuestionListRowTitle
+  QuestionListTableHeaderSmallItem,
+  QuestionListTablePageNumberButtonWrapper,
+  QuestionPageButton,
+  QuestionPageButtonWrapper,
+  QuestionTableHeaderMiddleItem
 } from "../../component/question/QuestionComponent";
 import { useNavigate } from "react-router";
 import { useEffect, useState } from "react";
@@ -18,7 +24,6 @@ import { HTML_EDITOR_MODE } from "../../global/Constants";
 import { getQuestionList } from "../../axios/question/QuestionsList";
 import { convertQuestionStatus } from "../../utils";
 import uuid from "react-uuid";
-
 
 
 export default function QuestionList() {
@@ -89,7 +94,7 @@ export default function QuestionList() {
 
   return <>
     <Header />
-    <QuestionListContainer>
+    <QuestionContainer>
       <QuestionListHeader>1:1문의</QuestionListHeader>
       <QuestionListTable>
         <thead>
@@ -125,7 +130,7 @@ export default function QuestionList() {
       <QuestionPageButtonWrapper >
         <QuestionPageButton onClick={moveToEditorPageButtonClicked}>문의 작성</QuestionPageButton>
       </QuestionPageButtonWrapper>
-    </QuestionListContainer>
+    </QuestionContainer>
     <Footer />
   </>;
 }
