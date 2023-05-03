@@ -1,11 +1,9 @@
 import React from "react"
-import { Modal, ModalBody, SIZE, ROLE, ModalHeader, ModalButton } from "baseui/modal"
+import { Modal, ModalBody, ModalHeader, ModalButton } from "baseui/modal"
 import { Block } from "baseui/block"
 import { useEditor } from "@layerhub-io/react"
 import { ModalFooter } from "react-bootstrap"
 import Frame from "../image/icon/frame.png"
-import { toaster } from "baseui/toast"
-import axios from "axios"
 const Preview = ({ isOpen, setIsOpen }) => {
   
   const editor = useEditor()
@@ -29,52 +27,12 @@ const Preview = ({ isOpen, setIsOpen }) => {
 
 
   const handleSave = () => {
-    // TODO separate each situations that occur success case or fail case
-    let msg = "successfully saved image";
-    let toastKey;
-    axios.post('/upload-image', {
-      image: state
-    }).then(response => {
-      toastKey = toaster.info(
-        <>
-          {msg}
-        </>,
-        {
-          onClose: () => toaster.clear(toastKey),
-          overrides: {
-            InnerContainer: {
-              style: { width: "100%" }
-            }
-          }
-        }
-      );
-    }).catch(error => {
-      msg = "failed uploading the image"
-      toastKey = toaster.info(
-        <>
-          {msg}
-        </>,
-        {
-          onClose: () => toaster.clear(toastKey),
-          overrides: {
-            InnerContainer: {
-              style: { width: "100%" }
-            }
-          }
-        }
-      );
-    })
-
-
-    toaster.update(toastKey, {
-      children: (
-        <>
-          {msg}
-        </>
-      )
-      })
-    
-      setIsOpen(false)
+    const a = document.createElement("a")
+    a.href = state.image
+    a.download = "liberty_frame_image.png"
+    a.click()
+    a.remove()
+    setIsOpen(false)
   }
 
   return (
