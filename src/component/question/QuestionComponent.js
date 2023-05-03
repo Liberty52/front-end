@@ -196,13 +196,29 @@ export const QuestionDetailTitleWrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   font-weight: bold;
+  width: 100%;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(0,0,0,0.2);
+  @media (max-width: 500px){
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-end;
+  }
 `
 export const QuestionDetailTitle = styled.div`
+  overflow-wrap: break-word;
   font-size: 30px;
+  width: 100%;
+
+  @media (max-width: 500px){
+    font-size: 18px;
+  }
+  
+  
 `
 export const QuestionDetailSide = styled.div`
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
   align-items: center;
 `
 
