@@ -16,28 +16,30 @@ import Editor from "./screen/product/Editor";
 import QuestionDetail from "./screen/question/QuestionDetail";
 import QuestionList from "./screen/question/QuestionList";
 import QuestionEditor from "./screen/question/QuestionEditor";
-import NonDetail from './screen/shopping/detail/NonDetail';
+import NonDetail from "./screen/shopping/detail/NonDetail";
+import Admin from "./screen/admin/Admin";
 export default function App() {
   return (
     <Provider>
       <BrowserRouter>
         <Routes>
-          <Route path={'/'} element={<Main />} />
-          <Route path={'/myInfo'} element={<MyInfo />} />
-          <Route path={'/login'} element={<Login />} />
-          <Route path={'/signUp'} element={<SignUp />} />
-          <Route path={'/redirect'} element={<Redirect />} />
-          <Route path={'/cart'} element={<Cart />} />
-          <Route path={'/order'} element={<Order />} />
-          <Route path={'/payment'} element={<Payment />} />
-          <Route path={'/auth/password'} element={<ChangePasswordPage />} />
-          <Route path={'/inquiry'} element={<Inquiry />} />
-          <Route path={'/detail/:orderId'} element={<Detail />} />
-          <Route path={'/editor'} element={<Editor />} />
-          <Route path={'/question'} element={<QuestionList />} />
-          <Route path={'/question/:id'} element={<QuestionDetail />} />
-          <Route path={'/question/editor'} element={<QuestionEditor />} />
-          <Route path={'/product/guest/:orderId'} element={<NonDetail/>} />
+          <Route path={"/"} element={<Main />} />
+          <Route path={"/myInfo"} element={<MyInfo />} />
+          <Route path={"/login"} element={<Login />} />
+          <Route path={"/signUp"} element={<SignUp />} />
+          <Route path={"/redirect"} element={<Redirect />} />
+          <Route path={"/cart"} element={<Cart />} />
+          <Route path={"/order"} element={<Order />} />
+          <Route path={"/payment"} element={<Payment />} />
+          <Route path={"/auth/password"} element={<ChangePasswordPage />} />
+          <Route path={"/inquiry"} element={<Inquiry />} />
+          <Route path={"/detail/:orderId"} element={<Detail />} />
+          <Route path={"/editor"} element={<Editor />} />
+          <Route path={"/question"} element={<QuestionList />} />
+          <Route path={"/question/:id"} element={<QuestionDetail />} />
+          <Route path={"/question/editor"} element={<QuestionEditor />} />
+          <Route path={"/product/guest/:orderId"} element={<NonDetail />} />
+          <Route path={"/admin"} element={<Admin />} />
         </Routes>
       </BrowserRouter>
     </Provider>
