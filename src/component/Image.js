@@ -7,6 +7,7 @@ export default function Image(props) {
       <img
         className="image-preview"
         src={props.image ? props.image : photo}
+        onClick={props.onClick ? e => props.onClick(e) : () => {}}
         alt={props.alt}
       />
     </div>
