@@ -1,9 +1,17 @@
 import Header from "../../component/Header";
 import Footer from "../../component/Footer";
 import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Editor } from "@toast-ui/editor";
+import { useNavigate } from "react-router";
+import { HTML_EDITOR_MODE } from "../../global/Constants";
+import { deleteQuestion, getQuestionDetail } from "../../axios/question/QuestionDetail";
+import { convertQuestionStatus } from "../../utils";
+import enter from "../../image/icon/arrow-enter.svg";
 import {
   EnterImage,
   MoveToListButton,
+  QuestionContainer,
   QuestionDetailActionButton,
   QuestionDetailActionDivider,
   QuestionDetailActionWrapper,
@@ -16,16 +24,8 @@ import {
   QuestionDetailTitleWrapper,
   QuestionDetailViewer,
   QuestionEditorHeader,
-  QuestionListContainer, QuestionReplyContentWrapper, QuestionReplyEnterWrapper, QuestionReplyWrapper
+  QuestionReplyContentWrapper, QuestionReplyEnterWrapper, QuestionReplyWrapper,
 } from "../../component/question/QuestionComponent";
-import { useEffect, useState } from "react";
-import { Editor } from "@toast-ui/editor";
-import { useNavigate } from "react-router";
-import { HTML_EDITOR_MODE } from "../../global/Constants";
-import { deleteQuestion, getQuestionDetail } from "../../axios/question/QuestionDetail";
-import { convertQuestionStatus } from "../../utils";
-import styled from "styled-components";
-import enter from "../../image/icon/arrow-enter.svg"
 
 
 export default function QuestionDetail(){
@@ -84,7 +84,7 @@ export default function QuestionDetail(){
   }
   return <>
     <Header/>
-    <QuestionListContainer>
+    <QuestionContainer>
       <QuestionEditorHeader>
         1:1문의
       </QuestionEditorHeader>
@@ -121,7 +121,7 @@ export default function QuestionDetail(){
       <QuestionDetailPageButtonWrapper>
         <MoveToListButton onClick={moveToListButtonClicked}>뒤로가기</MoveToListButton>
       </QuestionDetailPageButtonWrapper>
-    </QuestionListContainer>
+    </QuestionContainer>
     <Footer/>
   </>
 }
