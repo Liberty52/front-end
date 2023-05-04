@@ -3,6 +3,7 @@ import Footer from "../../component/Footer";
 import { useParams } from "react-router-dom";
 import {
   MoveToListButton,
+  QuestionContainer,
   QuestionDetailActionButton,
   QuestionDetailActionDivider,
   QuestionDetailActionWrapper,
@@ -14,8 +15,7 @@ import {
   QuestionDetailTitle,
   QuestionDetailTitleWrapper,
   QuestionDetailViewer,
-  QuestionEditorHeader,
-  QuestionListContainer
+  QuestionEditorHeader
 } from "../../component/question/QuestionComponent";
 import { useEffect, useState } from "react";
 import { Editor } from "@toast-ui/editor";
@@ -85,7 +85,7 @@ export default function QuestionDetail(){
 
   return <>
     <Header/>
-    <QuestionListContainer>
+    <QuestionContainer>
       <QuestionEditorHeader>
         1:1문의
       </QuestionEditorHeader>
@@ -115,7 +115,7 @@ export default function QuestionDetail(){
       <QuestionDetailPageButtonWrapper>
         <MoveToListButton onClick={moveToListButtonClicked}>뒤로가기</MoveToListButton>
       </QuestionDetailPageButtonWrapper>
-    </QuestionListContainer>
+    </QuestionContainer>
     <Footer/>
   </>
 }
