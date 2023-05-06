@@ -7,7 +7,9 @@ export function prepareCard(dto, file) {
     "dto",
     new Blob([JSON.stringify(dto)], { type: "application/json" })
   );
-  if (localStorage.get("ACCESS_TOKEN")) {
+  const receiverPhoneNumber = dto.destinationDto.receiverPhoneNumber;
+  console.log(receiverPhoneNumber);
+  if (localStorage.getItem("ACCESS_TOKEN")) {
     return new Promise((res) => {
       axios
         .post("/product/orders/payment/card/prepare", formData, {
@@ -30,7 +32,7 @@ export function prepareCard(dto, file) {
         .post("/product/guest/orders/payment/card/prepare", formData, {
           headers: {
             "Content-Type": `multipart/form-data`,
-            Authorization: formData.destinationDto.receiverPhoneNumber,
+            Authorization: receiverPhoneNumber,
           },
         })
         .then((response) => {
@@ -50,7 +52,8 @@ export function prepareCardCart(dto) {
     "dto",
     new Blob([JSON.stringify(dto)], { type: "application/json" })
   );
-  if (localStorage.get("ACCESS_TOKEN")) {
+  const receiverPhoneNumber = dto.destinationDto.receiverPhoneNumber;
+  if (localStorage.getItem("ACCESS_TOKEN")) {
     return new Promise((res) => {
       axios
         .post("/product/orders/payment/card/prepare/carts", formData, {
@@ -73,7 +76,7 @@ export function prepareCardCart(dto) {
         .post("/product/guest/orders/payment/card/prepare/carts", formData, {
           headers: {
             "Content-Type": `multipart/form-data`,
-            Authorization: formData.destinationDto.receiverPhoneNumber,
+            Authorization: receiverPhoneNumber,
           },
         })
         .then((response) => {
@@ -107,7 +110,8 @@ export function payByVBank(dto, file) {
     "dto",
     new Blob([JSON.stringify(dto)], { type: "application/json" })
   );
-  if (localStorage.get("ACCESS_TOKEN")) {
+  const receiverPhoneNumber = dto.destinationDto.receiverPhoneNumber;
+  if (localStorage.getItem("ACCESS_TOKEN")) {
     return new Promise((res) => {
       axios
         .post("/product/orders/payment/vbank", formData, {
@@ -132,7 +136,7 @@ export function payByVBank(dto, file) {
         .post("/product/guest/orders/payment/vbank", formData, {
           headers: {
             "Content-Type": `multipart/form-data`,
-            Authorization: formData.destinationDto.receiverPhoneNumber,
+            Authorization: receiverPhoneNumber,
           },
         })
         .then((response) => {
@@ -154,7 +158,8 @@ export function payByVBankCart(dto) {
     "dto",
     new Blob([JSON.stringify(dto)], { type: "application/json" })
   );
-  if (localStorage.get("ACCESS_TOKEN")) {
+  const receiverPhoneNumber = dto.destinationDto.receiverPhoneNumber;
+  if (localStorage.getItem("ACCESS_TOKEN")) {
     return new Promise((res) => {
       axios
         .post("/product/orders/payment/vbank/carts", formData, {
@@ -179,7 +184,7 @@ export function payByVBankCart(dto) {
         .post("/product/guest/orders/payment/vbank/carts", formData, {
           headers: {
             "Content-Type": `multipart/form-data`,
-            Authorization: formData.destinationDto.receiverPhoneNumber,
+            Authorization: receiverPhoneNumber,
           },
         })
         .then((response) => {

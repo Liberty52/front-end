@@ -363,7 +363,7 @@ function ConfirmSection(props) {
           }
         );
       };
-      if ((productIdList = "")) {
+      if (productIdList == "") {
         prepareCard(
           {
             productDto: productDto,
@@ -391,7 +391,7 @@ function ConfirmSection(props) {
         depositorName: payment.depositorName,
         isApplyCashReceipt: payment.isCashReceipt,
       };
-      if ((productIdList = "")) {
+      if (productIdList == "") {
         payByVBank(
           {
             productDto: productDto,
