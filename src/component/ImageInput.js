@@ -8,12 +8,15 @@ export default function ImageInput(props) {
 
   const reader = new FileReader();
   return (
-    <label className="image-input">
+    <label className={imgFile ? 'image-input value' : 'image-input'}>
       <input
         className="image-input-input"
         type="file"
         name="file"
         accept="image/*"
+        onClick={e => {
+          if (props.readOnly) e.preventDefault();
+        }}
         onChange={e => {
           const file = e.currentTarget.files[0];
           if (file) {
@@ -22,8 +25,6 @@ export default function ImageInput(props) {
               setImgFile(reader.result);
               const img = e.target.parentNode.children[1].children[1];
               img.src = imgFile;
-              const label = e.target.parentNode;
-              label.classList.add('value');
             };
           }
         }}
@@ -37,7 +38,6 @@ export default function ImageInput(props) {
             const input = label.children[0];
             input.value = '';
             setImgFile(undefined);
-            label.classList.remove('value');
           }}
         />
         <img

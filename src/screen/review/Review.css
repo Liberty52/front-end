@@ -116,7 +116,7 @@
 .review .modal .title,
 .review .modal .rating,
 .review .modal textarea,
-.review .modal .images {
+.review .modal .image-input-group {
   margin-bottom: 13px;
 }
 
@@ -158,15 +158,4 @@
 .review .modal textarea:focus-visible {
   outline: none;
   border: 1.5px solid gray;
-}
-
-.review .modal .images {
-  display: flex;
-}
-
-.review .modal .images .image-crop {
-  width: 70px;
-  height: 70px;
-  margin-right: 10px;
-  border-radius: 7px;
 }

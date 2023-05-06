@@ -4,8 +4,8 @@ import './Review.css';
 import React, { useState, useEffect } from 'react';
 import Checkbox from '../../component/Checkbox';
 import Image from '../../component/Image';
-import ImageInput from '../../component/ImageInput';
 import Button from '../../component/Button';
+import ImageInputGroup from '../../component/ImageInputGroup';
 import star from '../../image/icon/star.png';
 import star_filled from '../../image/icon/star_filled.png';
 import close from '../../image/icon/close.png';
@@ -21,7 +21,7 @@ export function Modal(props) {
     props.reviewInfo === undefined
       ? {
           rating: 1,
-          imageUrls: ['', '', ''],
+          imageUrls: [],
           content: '',
         }
       : props.reviewInfo;
@@ -82,11 +82,7 @@ export function Modal(props) {
               setText(e.target.value);
             }}
           />
-          <div className="images">
-            <ImageInput image={modalInfo.imageUrls[0]} />
-            <ImageInput image={modalInfo.imageUrls[1]} />
-            <ImageInput image={modalInfo.imageUrls[2]} />
-          </div>
+          <ImageInputGroup imageUrls={modalInfo.imageUrls} />
           <Button text="등록" />
         </form>
       </div>
@@ -110,9 +106,10 @@ function ReviewContent(props) {
   const reviewInfo = props.reviewInfo;
 
   const filesChildNode = [];
-  reviewInfo.imageUrls.map(imageUrl => {
+  reviewInfo.imageUrls.map((imageUrl, index) => {
     filesChildNode.push(
       <Image
+        key={index}
         image={imageUrl}
         onClick={e => {
           const img = e.target;
@@ -204,7 +201,6 @@ function Pages(props) {
 }
 
 export default function Review() {
-  const [modal, showModal] = useState(false);
   const [onlyPhoto, setOnlyPhoto] = useState(false);
   const [reviewContents, setReviewContents] = useState([]);
   const [pages, setPages] = useState({
@@ -239,7 +235,6 @@ export default function Review() {
 
   return (
     <div className="review">
-      {modal ? <Modal closeModal={() => showModal(false)} /> : <></>}
       <div className="tab">리뷰</div>
       <div className="title-div">
         <div className="title">구매평 (개수)</div>
