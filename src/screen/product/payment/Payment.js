@@ -47,13 +47,11 @@ function PaymentSection(props) {
 
   return (
     <div className="payment-section">
-      {modal ? (
+      {modal && (
         <AddressSearchModal
           setAddress={setAddress}
           closeModal={() => setModal(false)}
         />
-      ) : (
-        <></>
       )}
       <form
         onSubmit={(e) => {
@@ -144,13 +142,13 @@ function Product(props) {
   const productInfo = props.productInfo;
   return (
     <div className="confirm-product">
-      <img src={liberty52} />
+      <img src={liberty52} alt="제품 이미지" />
       <div>
         <div className="title">Liberty 52_Frame</div>
         <div>
-          <div>{productInfo.options[0]}</div>
-          <div>{productInfo.options[1]}</div>
-          <div>{productInfo.options[2]}</div>
+          <div>{productInfo.mounting_method}</div>
+          <div>{productInfo.basic_material}</div>
+          <div>{productInfo.add_material}</div>
         </div>
       </div>
       <div>{productInfo.quantity}개</div>
@@ -162,12 +160,15 @@ function Product(props) {
 }
 
 function BackgroundImage(props) {
-  const [imageSrc, setImageSrc] = useState("");
-  const reader = new FileReader();
-  const file = props.add_image;
+  const [imageSrc, setImageSrc] = useState(props.add_image);
 
-  if (file) {
-    reader.readAsDataURL(file);
+  function getType(target) {
+    return Object.prototype.toString.call(target).slice(8, -1);
+  }
+
+  if (getType(imageSrc) === "File") {
+    const reader = new FileReader();
+    reader.readAsDataURL(imageSrc);
     reader.onloadend = () => {
       setImageSrc(reader.result);
     };
@@ -175,7 +176,7 @@ function BackgroundImage(props) {
   return (
     <div className="confirm-backgroundImage">
       <div className="title">배경이미지 시안</div>
-      <img src={imageSrc} />
+      <img src={imageSrc} alt="배경 이미지" />
     </div>
   );
 }
@@ -280,8 +281,22 @@ function ConfirmSection(props) {
   const [success, setSuccess] = useState(false);
   const [isConfirmProgressing, setIsConfirmProgressing] = useState(false);
 
+  const productInfo = props.productInfo;
+  let productInfoList = productInfo;
+
+  let quantity = 0;
+  if (!Array.isArray(productInfo)) {
+    productInfoList = [productInfo];
+    quantity = productInfo.quantity;
+  } else {
+    for (var p of productInfo) {
+      quantity += p.quantity;
+    }
+  }
+  const length = productInfoList.length;
+
   const productDto = {
-    productName: `Liberty 52_Frame`,
+    productName: "Liberty 52_Frame",
     options: [
       props.productInfo.mounting_method,
       props.productInfo.basic_material,
@@ -289,6 +304,7 @@ function ConfirmSection(props) {
     ],
     quantity: props.productInfo.quantity,
   };
+
   const destinationDto = {
     receiverName: props.deliveryInfo.receiverName,
     receiverEmail: props.deliveryInfo.receiverEmail,
@@ -329,7 +345,10 @@ function ConfirmSection(props) {
             pg: "html5_inicis",
             pay_method: payment.paymentMethod,
             merchant_uid: merchantId,
-            name: productDto.productName,
+            name:
+              length === 1
+                ? productDto.productName
+                : productDto.productName + "외 " + length - 1 + "건",
             amount: amount,
             currency: "KRW",
             buyer_email: destinationDto.receiverEmail,
@@ -363,7 +382,7 @@ function ConfirmSection(props) {
           }
         );
       };
-      if (productIdList == "") {
+      if (productIdList === "") {
         prepareCard(
           {
             productDto: productDto,
@@ -373,7 +392,7 @@ function ConfirmSection(props) {
         ).then(afterRequest);
       } else {
         prepareCardCart({
-          productDto: productIdList,
+          customProductIdList: productIdList,
           destinationDto: destinationDto,
         }).then(afterRequest);
       }
@@ -391,7 +410,7 @@ function ConfirmSection(props) {
         depositorName: payment.depositorName,
         isApplyCashReceipt: payment.isCashReceipt,
       };
-      if (productIdList == "") {
+      if (productIdList === "") {
         payByVBank(
           {
             productDto: productDto,
@@ -410,7 +429,7 @@ function ConfirmSection(props) {
           });
       } else {
         payByVBankCart({
-          productDto: productIdList,
+          customProductIdList: productIdList,
           destinationDto: destinationDto,
           vbankDto: vBankDto,
         })
@@ -447,12 +466,19 @@ function ConfirmSection(props) {
         <div className="payment-title">
           입력하신 사항이 모두 정확한지 확인해주십시오.
         </div>
-        <Product productInfo={productDto} />
-        <BackgroundImage add_image={imageFile} />
+        {productInfoList.map((productInfo) => {
+          return (
+            <>
+              <Product productInfo={productInfo} />
+              <BackgroundImage add_image={productInfo.add_image} />
+            </>
+          );
+        })}
+
         <DeliveryInfo deliveryInfo={destinationDto} />
         <PaymentInfo constants={constants} setPayment={setPayment} />
         <TermsOfUse />
-        <Total quantity={productDto.quantity} deliverPrice={0} />
+        <Total quantity={quantity} deliverPrice={0} />
         <Button text="결제하기" />
         <Button
           type="button"
@@ -489,12 +515,10 @@ export default function Payment() {
     productIdList = locationData.checkedList;
   }
 
-  if (!locationData.checkedList) {
-    if (!productInfo.mounting_method) {
-      alert("주문 후에 결제 페이지를 사용할 수 있습니다.");
-      window.location.replace("/order");
-      return;
-    }
+  if (!productIdList && !productInfo.mounting_method) {
+    alert("주문 후에 결제 페이지를 사용할 수 있습니다.");
+    window.location.replace("/order");
+    return;
   }
 
   return (
