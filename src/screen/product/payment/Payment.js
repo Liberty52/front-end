@@ -47,13 +47,11 @@ function PaymentSection(props) {
 
   return (
     <div className="payment-section">
-      {modal ? (
+      {modal && (
         <AddressSearchModal
           setAddress={setAddress}
           closeModal={() => setModal(false)}
         />
-      ) : (
-        <></>
       )}
       <form
         onSubmit={(e) => {
@@ -144,7 +142,7 @@ function Product(props) {
   const productInfo = props.productInfo;
   return (
     <div className="confirm-product">
-      <img src={liberty52} />
+      <img src={liberty52} alt="제품 이미지" />
       <div>
         <div className="title">Liberty 52_Frame</div>
         <div>
@@ -163,18 +161,22 @@ function Product(props) {
 
 function BackgroundImage(props) {
   const [imageSrc, setImageSrc] = useState(props.add_image);
-  const reader = new FileReader();
 
-  // if (imageSrc) {
-  //   reader.readAsDataURL(file);
-  //   reader.onloadend = () => {
-  //     setImageSrc(reader.result);
-  //   };
-  // }
+  function getType(target) {
+    return Object.prototype.toString.call(target).slice(8, -1);
+  }
+
+  if (getType(imageSrc) === "File") {
+    const reader = new FileReader();
+    reader.readAsDataURL(imageSrc);
+    reader.onloadend = () => {
+      setImageSrc(reader.result);
+    };
+  }
   return (
     <div className="confirm-backgroundImage">
       <div className="title">배경이미지 시안</div>
-      <img src={imageSrc} />
+      <img src={imageSrc} alt="배경 이미지" />
     </div>
   );
 }
@@ -287,13 +289,14 @@ function ConfirmSection(props) {
     productInfoList = [productInfo];
     quantity = productInfo.quantity;
   } else {
-    productInfo.map((p) => {
+    for (var p of productInfo) {
       quantity += p.quantity;
-    });
+    }
   }
+  const length = productInfoList.length;
 
   const productDto = {
-    productName: `Liberty 52_Frame`,
+    productName: "Liberty 52_Frame",
     options: [
       props.productInfo.mounting_method,
       props.productInfo.basic_material,
@@ -301,6 +304,7 @@ function ConfirmSection(props) {
     ],
     quantity: props.productInfo.quantity,
   };
+
   const destinationDto = {
     receiverName: props.deliveryInfo.receiverName,
     receiverEmail: props.deliveryInfo.receiverEmail,
@@ -341,7 +345,10 @@ function ConfirmSection(props) {
             pg: "html5_inicis",
             pay_method: payment.paymentMethod,
             merchant_uid: merchantId,
-            name: productDto.productName,
+            name:
+              length === 1
+                ? productDto.productName
+                : productDto.productName + "외 " + length - 1 + "건",
             amount: amount,
             currency: "KRW",
             buyer_email: destinationDto.receiverEmail,
@@ -375,7 +382,7 @@ function ConfirmSection(props) {
           }
         );
       };
-      if (productIdList == "") {
+      if (productIdList === "") {
         prepareCard(
           {
             productDto: productDto,
@@ -385,7 +392,7 @@ function ConfirmSection(props) {
         ).then(afterRequest);
       } else {
         prepareCardCart({
-          productDto: productIdList,
+          customProductIdList: productIdList,
           destinationDto: destinationDto,
         }).then(afterRequest);
       }
@@ -403,7 +410,7 @@ function ConfirmSection(props) {
         depositorName: payment.depositorName,
         isApplyCashReceipt: payment.isCashReceipt,
       };
-      if (productIdList == "") {
+      if (productIdList === "") {
         payByVBank(
           {
             productDto: productDto,
@@ -422,7 +429,7 @@ function ConfirmSection(props) {
           });
       } else {
         payByVBankCart({
-          productDto: productIdList,
+          customProductIdList: productIdList,
           destinationDto: destinationDto,
           vbankDto: vBankDto,
         })
