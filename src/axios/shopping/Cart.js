@@ -2,6 +2,7 @@ import axios from "../axios";
 import React, { useState, useEffect } from "react";
 import cookie from "react-cookies";
 import { useNavigate } from "react-router-dom";
+import { ACCESS_TOKEN } from "../../constants/token";
 
 export default function post(dto, file) {
   const formData = new FormData();
@@ -10,11 +11,11 @@ export default function post(dto, file) {
     "dto",
     new Blob([JSON.stringify(dto)], { type: "application/json" })
   );
-  if (localStorage.getItem("ACCESS_TOKEN")) {
+  if ( sessionStorage.getItem(ACCESS_TOKEN)) {
     axios
       .post("/product/carts/custom-products", formData, {
         headers: {
-          Authorization: localStorage.getItem("ACCESS_TOKEN"),
+          Authorization:  sessionStorage.getItem(ACCESS_TOKEN),
           "Contest-Type": "multipart/form-data",
         },
       })
@@ -40,11 +41,11 @@ export default function post(dto, file) {
 export function GetCartList() {
   const navigate = useNavigate();
   const [data, setCartList] = useState([]);
-  if (localStorage.getItem("ACCESS_TOKEN")) {
+  if ( sessionStorage.getItem(ACCESS_TOKEN)) {
     axios
       .get("https://liberty52.com:444/product/carts", {
         headers: {
-          Authorization: localStorage.getItem("ACCESS_TOKEN"),
+          Authorization:  sessionStorage.getItem(ACCESS_TOKEN),
         },
       })
       .then((response) => {
@@ -81,14 +82,14 @@ export const handleDeleteClick = (checkedList) => {
     alert("체크된 항목이 없습니다");
   } else {
     if (window.confirm("정말로 삭제하시겠습니까?")) {
-      if (localStorage.getItem("ACCESS_TOKEN")) {
+      if ( sessionStorage.getItem(ACCESS_TOKEN)) {
         const customProductId = checkedList.map((id) => {
           axios
             .delete(
               `https://liberty52.com:444/product/carts/custom-products/${id}`,
               {
                 headers: {
-                  Authorization: localStorage.getItem("ACCESS_TOKEN"),
+                  Authorization:  sessionStorage.getItem(ACCESS_TOKEN),
                 },
               }
             )
@@ -125,14 +126,14 @@ export const handleEditClick = (customProductId, dto, file) => {
   );
   console.log(dto, file);
   console.log(customProductId);
-  if (localStorage.getItem("ACCESS_TOKEN")) {
+  if ( sessionStorage.getItem(ACCESS_TOKEN)) {
     axios
       .patch(
         `https://liberty52.com:444/product/carts/custom-products/${customProductId}`,
         formData,
         {
           headers: {
-            Authorization: localStorage.getItem("ACCESS_TOKEN"),
+            Authorization:  sessionStorage.getItem(ACCESS_TOKEN),
             "Contest-Type": "multipart/form-data",
           },
         }

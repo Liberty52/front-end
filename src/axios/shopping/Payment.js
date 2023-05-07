@@ -1,4 +1,5 @@
 import axios from "../axios";
+import { ACCESS_TOKEN } from "../../constants/token";
 
 export function prepareCard(dto, file) {
     const formData = new FormData();
@@ -14,7 +15,7 @@ export function prepareCard(dto, file) {
                 {
                     headers: {
                         'Content-Type': `multipart/form-data`,
-                        'Authorization': localStorage.getItem('ACCESS_TOKEN'),
+                        'Authorization':  sessionStorage.getItem(ACCESS_TOKEN),
                     }
                 }
             )
@@ -34,7 +35,7 @@ export function checkPayApproval(orderId) {
             {
                 headers: {
                     'Content-Type': `application/json`,
-                    'Authorization': localStorage.getItem('ACCESS_TOKEN')
+                    'Authorization':  sessionStorage.getItem(ACCESS_TOKEN)
                 }
             }
         );
@@ -58,7 +59,7 @@ export function payByVBank(dto, file) {
                 {
                     headers: {
                         'Content-Type': `multipart/form-data`,
-                        'Authorization': localStorage.getItem('ACCESS_TOKEN'),
+                        'Authorization':  sessionStorage.getItem(ACCESS_TOKEN),
                     }
                 }
             )
