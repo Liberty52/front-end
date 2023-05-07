@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./Cart.css";
 import "./CartPrice.css";
 import axios from "axios";
@@ -7,15 +7,10 @@ import Table from "react-bootstrap/Table";
 import { useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import LButton from "../../component/Button";
-import {
-  GetCartList,
-  handleDeleteClick,
-  handleEditClick,
-} from "../../axios/shopping/Cart";
+import { handleDeleteClick, handleEditClick } from "../../axios/shopping/Cart";
 import { addComma } from "./Comma";
 import cookie from "react-cookies";
-import { mockData } from "./MockData";
-import { colors } from "@mui/joy";
+import { ACCESS_TOKEN } from "../../constants/token";
 
 export default function CartList() {
   const navigate = useNavigate();
@@ -135,11 +130,11 @@ export default function CartList() {
 
   const [data, setCartList] = useState([]);
   useEffect(() => {
-    if (localStorage.getItem("ACCESS_TOKEN")) {
+    if (sessionStorage.getItem(ACCESS_TOKEN)) {
       axios
         .get("https://liberty52.com:444/product/carts", {
           headers: {
-            Authorization: localStorage.getItem("ACCESS_TOKEN"),
+            Authorization: sessionStorage.getItem(ACCESS_TOKEN),
           },
         })
         .then((response) => {

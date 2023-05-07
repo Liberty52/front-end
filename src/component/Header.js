@@ -1,5 +1,6 @@
 import './Header.css';
 import { useEffect, useState } from 'react';
+import { ACCESS_TOKEN, REFRESH_TOKEN } from "../constants/token";
 
 export default function Header() {
   const headerItemsLeft = [
@@ -21,7 +22,7 @@ export default function Header() {
   const [headerItemsRight, setHeaderItemsRight] = useState();
 
   useEffect(() => {
-    if (localStorage.getItem('ACCESS_TOKEN')) {
+    if (sessionStorage.getItem(ACCESS_TOKEN)) {
       setHeaderItemsRight([
         { name: '문의하기', href: 'question' },
         { name: '내정보', href: 'myInfo' },
@@ -29,8 +30,8 @@ export default function Header() {
           name: '로그아웃',
           onClick: () => {
             if (window.confirm('로그아웃하시겠습니까?')) {
-              localStorage.removeItem('ACCESS_TOKEN');
-              localStorage.removeItem('REFRESH_TOKEN');
+              sessionStorage.removeItem(ACCESS_TOKEN);
+              localStorage.removeItem(REFRESH_TOKEN);
               window.location.href = '/';
             }
           },
