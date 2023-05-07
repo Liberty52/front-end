@@ -6,9 +6,10 @@ import Footer from "../../../component/Footer";
 import { useNavigate } from "react-router-dom";
 import { Modal } from "../../review/Review";
 import Button from "../../../component/Button";
+import { ACCESS_TOKEN } from "../../../constants/token";
 
 export async function getAccessToken() {
-  return localStorage.getItem("ACCESS_TOKEN");
+  return  sessionStorage.getItem(ACCESS_TOKEN);
 }
 
 function OrderList() {

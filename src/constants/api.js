@@ -4,3 +4,5 @@ export const QUESTION_DETAIL = (id) => `/auth/questions/${id}`;
 export const CREATE_QUESTION = () => `/auth/questions`;
 export const UPDATE_QUESTION = (id) => `/auth/questions/${id}`;
 export const UPLOAD_IMAGE = ()=>`/auth/questions/img`;
+
+export const TOKEN_REFRESH = () => `/auth/refresh`;
