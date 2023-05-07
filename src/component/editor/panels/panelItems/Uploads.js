@@ -18,13 +18,9 @@ const Uploads = () => {
 
   const handleDropFiles = async (files) => {
     const file = files[0]
-    /*
-      Full HD : 1920 x 1080 
-      pixel : 2073600
-      4.147MB
-    */
+
     if(file.size < 4147000) {
-      const msg = "This Image has bad resolution, Please Select Another Image(Required 1920 x 1080 Resoultion)";
+      const msg = "This Image has bad resolution, Recommend to change the image(At least required 1920 x 1080 Resoultion)";
     
       const toastKey = toaster.warning(
         <>
@@ -46,9 +42,6 @@ const Uploads = () => {
           </>
         )
         })
-
-        setUploads([...uploads])
-      return
     }
 
     const base64 = (await toBase64(file))
@@ -71,9 +64,10 @@ const Uploads = () => {
   const handleFileInput = (e) => {
     handleDropFiles(e.target.files)
   }
-
-  const addImageToCanvas = (props) => {
-    editor.objects.add(props)
+  
+  const addImageToCanvas = async (props) => {
+    await editor.objects.add(props)
+    editor.frame.background.fill === "#ffffff" ? editor.objects.update({opacity: 0.9}) : editor.objects.update({opacity: 0.65}) 
   }
   return (
     <DropZone handleDropFiles={handleDropFiles}>

@@ -4,21 +4,22 @@ import Header from '../../../component/Header';
 import Footer from '../../../component/Footer';
 import { useParams, useLocation } from 'react-router-dom';
 import axios from '../../../axios/axios';
+import { ACCESS_TOKEN } from "../../../constants/token";
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
-
-export function InquiryDetails() {
-    const [orderDetails, setOrderDetails] = useState({});
-    const [loading, setLoading] = useState(true);
-    const { orderId } = useParams();
-    const query = useQuery();
-    const phoneNumber = query.get('phoneNumber');
+function InquiryDetails() {
+  const [orderDetails, setOrderDetails] = useState({});
+  const [loading, setLoading] = useState(true);
+  const { orderId } = useParams();
+  const accessToken = sessionStorage.getItem('ACCESS_TOKEN');
+  const phoneNumber = query.get('phoneNumber');
+  const query = useQuery();
 
     useEffect(() => {
       const getAccessToken = () => {
-        return localStorage.getItem('ACCESS_TOKEN');
+        return sessionStorage.getItem('ACCESS_TOKEN');
       };
 
       const fetchOrderDetails = async (orderId, accessToken) => {

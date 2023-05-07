@@ -1,8 +1,5 @@
 import React from "react"
 import { Button, SIZE } from "baseui/button"
-import { HexColorPicker } from "react-colorful"
-import { StatefulPopover, PLACEMENT } from "baseui/popover"
-import { Plus } from "baseui/icon"
 import { Input } from "baseui/input"
 import { useEditor, useFrame } from "@layerhub-io/react"
 import { Modal, ROLE } from "baseui/modal"
@@ -17,12 +14,13 @@ import useSidebarOpen from "../../../../hooks/useSidebarOpen"
 import useDesignEditorContext from "../../../../hooks/useDesignEditorContext"
 import product_img from '../../../../image/icon/product.png';
 
-const colors = ["#ffffff", "#9B9B9B", "#4A4A4A", "#000000", "#A70C2C", "#DA9A15", "#F8E71D", "#47821A", "#4990E2"]
+const colors = ["#ffffff", "#9B9B9B"]
 
 const previewImgs = [product_img]
 
 const Customize = () => {
   const editor = useEditor()
+  const frame = useFrame()
   const { setIsSidebarOpen } = useSidebarOpen()
 
   const [state, setState] = React.useState({
@@ -32,6 +30,7 @@ const Customize = () => {
   const changeBackgroundColor = (color) => {
     if (editor) {
       editor.frame.setBackgroundColor(color)
+      editor.frame.background.fill === "#ffffff" ? editor.objects.list().map(obj => obj.opacity = 0.9) : editor.objects.list().map(obj => obj.opacity = 0.65) 
     }
   }
   const handleChange = (type, value) => {
@@ -60,7 +59,7 @@ const Customize = () => {
         <Block padding="0 1.5rem">
           <Block>
             <ResizeTemplate />
-            <Block $style={{ fontSize: "14px", textAlign: "center", paddingTop: "0.35rem" }}>1080 x 1920px</Block>
+            <Block $style={{ fontSize: "14px", textAlign: "center", paddingTop: "0.35rem" }}>{frame.width} x {frame.height} px</Block>
           </Block>
 
           <Block paddingTop="0.5rem">
@@ -82,63 +81,6 @@ const Customize = () => {
                   paddingTop: "0.25rem",
                 }}
               >
-                <StatefulPopover
-                  placement={PLACEMENT.bottomLeft}
-                  content={
-                    <div
-                      style={{
-                        padding: "1rem",
-                        background: "#ffffff",
-                        width: "200px",
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: "1rem",
-                        textAlign: "center",
-                      }}
-                    >
-                      <HexColorPicker onChange={(v) => handleChange("backgroundColor", v)} />
-                      <Input
-                        overrides={{ Input: { style: { textAlign: "center" } } }}
-                        value={state.backgroundColor}
-                        onChange={(e) => handleChange("backgroundColor", (e.target).value)}
-                        placeholder="#000000"
-                        clearOnEscape
-                      />
-                    </div>
-                  }
-                  accessibilityType="tooltip"
-                >
-                  <div>
-                    <div
-                      style={{
-                        height: "40px",
-                        width: "40px",
-                        backgroundSize: "100% 100%",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        cursor: "pointer",
-                        backgroundImage:
-                          'url("https://static.canva.com/web/images/788ee7a68293bd0264fc31f22c31e62d.png")',
-                      }}
-                    >
-                      <div
-                        style={{
-                          height: "32px",
-                          width: "32px",
-                          background: "#ffffff",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          fontSize: "1.3rem",
-                        }}
-                      >
-                        <Plus size={24} />
-                      </div>
-                    </div>
-                  </div>
-                </StatefulPopover>
-
                 {colors.map((color) => (
                   <div
                     onClick={() => handleChange("backgroundColor", color)}
@@ -319,7 +261,7 @@ const ResizeTemplate = () => {
                   $style={{ display: "grid", gridTemplateColumns: "1fr 50px 1fr", alignItems: "end", fontSize: "14px" }}
                 >
                   <Input
-                    onChange={(e: any) => setDesiredFrame({ ...desiredFrame, width: e.target.value })}
+                    onChange={(e) => setDesiredFrame({ ...desiredFrame, width: e.target.value })}
                     value={desiredFrame.width}
                     startEnhancer="W"
                     size={SIZE.compact}
@@ -338,7 +280,7 @@ const ResizeTemplate = () => {
                     <SwapHorizontal size={24} />
                   </Button>
                   <Input
-                    onChange={(e: any) => setDesiredFrame({ ...desiredFrame, height: e.target.value })}
+                    onChange={(e) => setDesiredFrame({ ...desiredFrame, height: e.target.value })}
                     value={desiredFrame.height}
                     startEnhancer="H"
                     size={SIZE.compact}
