@@ -255,3 +255,23 @@ export const QuestionDetailActionDivider = styled.div`
 export const QuestionDetailPageButtonWrapper = styled(QuestionPageButtonWrapper)`
   margin-top: 15px;
 `
+
+export const QuestionReplyWrapper = styled.div`
+  margin-top: 10px;
+  width: 100%;
+  display: flex;
+`
+export const EnterImage = styled.img`
+  transform: scaleX(-1);
+`
+export const QuestionReplyContentWrapper = styled.pre`
+  margin-left: 10px;
+  font-size: 14px;
+  font-family: 'Open Sans', 'Helvetica Neue', 'Helvetica', 'Arial', '나눔바른고딕', 'Nanum Barun Gothic', '맑은고딕', 'Malgun Gothic', sans-serif;
+  white-space: pre-wrap;
+  overflow: auto;
+`
+export const QuestionReplyEnterWrapper = styled.div`
+  display: flex;
+  align-items: flex-start;
+`
