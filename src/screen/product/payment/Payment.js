@@ -148,9 +148,9 @@ function Product(props) {
       <div>
         <div className="title">Liberty 52_Frame</div>
         <div>
-          <div>{productInfo.options[0]}</div>
-          <div>{productInfo.options[1]}</div>
-          <div>{productInfo.options[2]}</div>
+          <div>{productInfo.mounting_method}</div>
+          <div>{productInfo.basic_material}</div>
+          <div>{productInfo.add_material}</div>
         </div>
       </div>
       <div>{productInfo.quantity}개</div>
@@ -162,16 +162,15 @@ function Product(props) {
 }
 
 function BackgroundImage(props) {
-  const [imageSrc, setImageSrc] = useState("");
+  const [imageSrc, setImageSrc] = useState(props.add_image);
   const reader = new FileReader();
-  const file = props.add_image;
 
-  if (file) {
-    reader.readAsDataURL(file);
-    reader.onloadend = () => {
-      setImageSrc(reader.result);
-    };
-  }
+  // if (imageSrc) {
+  //   reader.readAsDataURL(file);
+  //   reader.onloadend = () => {
+  //     setImageSrc(reader.result);
+  //   };
+  // }
   return (
     <div className="confirm-backgroundImage">
       <div className="title">배경이미지 시안</div>
@@ -279,6 +278,19 @@ function ConfirmSection(props) {
   const navigate = useNavigate();
   const [success, setSuccess] = useState(false);
   const [isConfirmProgressing, setIsConfirmProgressing] = useState(false);
+
+  const productInfo = props.productInfo;
+  let productInfoList = productInfo;
+
+  let quantity = 0;
+  if (!Array.isArray(productInfo)) {
+    productInfoList = [productInfo];
+    quantity = productInfo.quantity;
+  } else {
+    productInfo.map((p) => {
+      quantity += p.quantity;
+    });
+  }
 
   const productDto = {
     productName: `Liberty 52_Frame`,
@@ -447,12 +459,19 @@ function ConfirmSection(props) {
         <div className="payment-title">
           입력하신 사항이 모두 정확한지 확인해주십시오.
         </div>
-        <Product productInfo={productDto} />
-        <BackgroundImage add_image={imageFile} />
+        {productInfoList.map((productInfo) => {
+          return (
+            <>
+              <Product productInfo={productInfo} />
+              <BackgroundImage add_image={productInfo.add_image} />
+            </>
+          );
+        })}
+
         <DeliveryInfo deliveryInfo={destinationDto} />
         <PaymentInfo constants={constants} setPayment={setPayment} />
         <TermsOfUse />
-        <Total quantity={productDto.quantity} deliverPrice={0} />
+        <Total quantity={quantity} deliverPrice={0} />
         <Button text="결제하기" />
         <Button
           type="button"
@@ -489,12 +508,10 @@ export default function Payment() {
     productIdList = locationData.checkedList;
   }
 
-  if (!locationData.checkedList) {
-    if (!productInfo.mounting_method) {
-      alert("주문 후에 결제 페이지를 사용할 수 있습니다.");
-      window.location.replace("/order");
-      return;
-    }
+  if (!productIdList && !productInfo.mounting_method) {
+    alert("주문 후에 결제 페이지를 사용할 수 있습니다.");
+    window.location.replace("/order");
+    return;
   }
 
   return (
