@@ -3,6 +3,7 @@ import { Canvas as LayerhubCanvas } from "@layerhub-io/react"
 import ContextMenu from "./ContextMenu"
 
 const Canvas = () => {
+
   return (
     <div style={{ flex: 1, display: "flex", position: "relative" }}>
       <ContextMenu />
