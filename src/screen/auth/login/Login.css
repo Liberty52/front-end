@@ -85,6 +85,66 @@
   width: 100%;
 }
 
+.Nonmember-bt {
+  font-size: 13px;
+  padding: 17px;
+}
+
+.login-nav button:hover {
+  color: #0071e3;
+}
+
+.Nonmember-bt:hover {
+  color: #0071e3;
+}
+
+
+
+
+.input-wrapper {
+  position: relative;
+}
+
+.input-wrapper .input {
+  width: 100%;
+  border: 1.5px solid lightgray;
+  padding: 10px;
+  box-sizing: border-box;
+  border-radius: 5px;
+}
+
+.input-wrapper:hover .input {
+  border: 1.5px solid #0071e3;
+}
+
+.input-wrapper .input:focus {
+  outline: none;
+  border: 1.5px solid #0071e3;
+  padding: 12px 10px 8px;
+}
+
+.input-wrapper .value .input {
+  padding: 12px 10px 8px;
+}
+
+.input-wrapper .input:focus + .label,
+.input-wrapper .value .label {
+  position: absolute;
+  top: -7px;
+  transition: top 0.1s;
+}
+
+.input-wrapper .label {
+  font-size: 12px;
+  position: absolute;
+  left: 10px;
+  top: 13px;
+  padding: 0px 3px;
+  background: white;
+  color: gray;
+}
+
+
 @media screen and (min-width: 501px) {
   .modal.is-active .modal-content {
     width: 350px;

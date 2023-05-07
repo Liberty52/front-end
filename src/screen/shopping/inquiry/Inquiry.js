@@ -28,11 +28,14 @@ function OrderList() {
 
     fetchOrdersData();
   }, []);
+
   function goToDetail(orderId) {
     navigate(`/detail/${orderId}`);
   }
+  
   const [modal, showModal] = useState(false);
   const [selectedOrderId, setSelectedOrderId] = useState("");
+
   return (
     <>
       <div className="InquiryWrapper">

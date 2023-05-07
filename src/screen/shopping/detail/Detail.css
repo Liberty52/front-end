@@ -1,28 +1,41 @@
-/* Section */
-.DetailWrapper {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
+body {
+  margin: 0;
+  padding: 0;
 }
 
-.TCheck {
+.section1 {
+  background-color: aquamarine;
+
+}
+
+.section2 {
+  background-color: blue;
+}
+
+.section3 {
+  background-color: bisque;
+}
+
+.section4 {
+  background-color: blueviolet;
+}
+
+.section5 {
+  background-color: cadetblue;
+}
+
+.Text1 {
   font-size: 30px;
   padding-left: 9rem;
   padding-top: 1rem;
   padding-bottom: 0;
 }
 
-.Detailcontent {
-  padding-top: 5rem;
-  padding-bottom: 0;
-  display: flex;
-  flex-direction: column;
-}
 
-.Detailcontainer1,
-.Detailcontainer2,
-.Detailcontainer3,
-.Detailcontainer4 {
+.section1,
+.section2,
+.section3,
+.section4 {
   display: flex;
   padding-left: 3rem;
   padding-top: 1rem;
@@ -30,22 +43,10 @@
   border-bottom: 1px solid #d2d2d7;
   padding-bottom: 5px;
   margin: 1rem 9rem 0 9rem;
+  height: 200px;
 }
 
-.Detailcontainer {
-  display: flex;
-  padding-left: 3rem;
-  padding-top: 1rem;
-  align-items: center;
-  margin: 1rem 9rem 0 9rem;
-}
-
-.productRepresentUrl {
-  width: 200px;
-  height: 150px;
-}
-
-.Detailcontainer1 h5 {
+.section1 h5 {
   margin: 0;
 }
 
@@ -75,6 +76,11 @@
   width: 100%;
 }
 
+.productRepresentUrl {
+  width: 200px;
+  height: 150px;
+}
+
 .DetailProductName,
 .DetailProductQuantity,
 .DetailProductPrice {
@@ -101,20 +107,10 @@
   margin: 5px;
 }
 
-.finalDetail {
+.finalWrapper {
   display: flex;
-  border-top: 1px solid #d2d2d7;
-  padding-top: 5px;
-  justify-content: space-between;
-  width: 100%;
-  font-weight: bold;
-}
-
-.charge,
-.delivery {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
+  flex-direction: column;
+  width: 66.67%;
 }
 
 .FinalTop,
@@ -135,82 +131,26 @@
   width: 100%;
 }
 
-.finalWrapper {
+.charge,
+.delivery {
   display: flex;
-  flex-direction: column;
-  width: 66.67%;
+  justify-content: space-between;
+  width: 100%;
 }
 
-@media (max-width: 768px) {
-  .header {
-    flex-direction: column;
-    padding: 10px 0;
-  }
+.finalDetail {
+  display: flex;
+  border-top: 1px solid #d2d2d7;
+  padding-top: 5px;
+  justify-content: space-between;
+  width: 100%;
+  font-weight: bold;
+}
 
-  .header-items {
-    margin-bottom: 10px;
-  }
-
-  .header-items li {
-    margin-right: 10px;
-  }
-
-  .DetailProduct {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .DetailProductName,
-  .DetailProductQuantity,
-  .DetailProductPrice {
-    text-align: center;
-  }
-
-  .Detailcontainer1,
-  .Detailcontainer2,
-  .Detailcontainer3,
-  .Detailcontainer4,
-  .Detailcontainer {
-    display: flex;
-    flex-direction: column;
-    margin: 1rem 1rem 0 1rem;
-  }
-
-  .DetailSpacing {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .charge,
-  .delivery {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .finalWrapper {
-    display: flex;
-    flex-direction: column;
-  }
-
-  footer .inner {
-    padding: 20px 0 30px 0;
-  }
-
-  footer .menu {
-    flex-direction: column;
-  }
-
-  footer ul {
-    margin-bottom: 10px;
-  }
-
-  .DetailCName,
-  .DetailSpacing,
-  .DetailCName,
-  .delivery,
-  .finalDetail,
-  .charge {
-    text-align: center;
-  }
+.section5 {
+  display: flex;
+  padding-left: 3rem;
+  padding-top: 1rem;
+  align-items: center;
+  margin: 1rem 9rem 0 9rem;
 }
