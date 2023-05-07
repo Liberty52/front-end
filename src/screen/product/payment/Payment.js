@@ -1,29 +1,31 @@
-import './Payment.css';
-import DaumPostcode from 'react-daum-postcode';
-import Header from '../../../component/Header';
-import { useLocation, useNavigate } from 'react-router-dom';
-import Button from '../../../component/Button';
-import Input from '../../../component/Input';
-import Checkbox from '../../../component/Checkbox';
-import Modal from '../../../component/Modal';
-import liberty52 from '../../../image/icon/liberty52.jpg';
-import { useState } from 'react';
+import "./Payment.css";
+import DaumPostcode from "react-daum-postcode";
+import Header from "../../../component/Header";
+import { useLocation, useNavigate } from "react-router-dom";
+import Button from "../../../component/Button";
+import Input from "../../../component/Input";
+import Checkbox from "../../../component/Checkbox";
+import Modal from "../../../component/Modal";
+import liberty52 from "../../../image/icon/liberty52.jpg";
+import { useState } from "react";
 import {
   checkPayApproval,
   payByVBank,
   prepareCard,
-} from '../../../axios/shopping/Payment';
-import PaymentInfo from './PaymentInfo';
-import CenterCircularProgress from '../../../component/CenterCircularProgress';
+  prepareCardCart,
+  payByVBankCart,
+} from "../../../axios/shopping/Payment";
+import PaymentInfo from "./PaymentInfo";
+import CenterCircularProgress from "../../../component/CenterCircularProgress";
 
 function AddressSearchModal(props) {
   return (
     <Modal title="주소 검색" closeModal={props.closeModal}>
       <DaumPostcode
-        onComplete={data => {
+        onComplete={(data) => {
           props.setAddress({
             address1: data.buildingName
-              ? data.address + ' (' + data.buildingName + ')'
+              ? data.address + " (" + data.buildingName + ")"
               : data.address,
             zipCode: data.zonecode,
           });
@@ -38,8 +40,8 @@ function AddressSearchModal(props) {
 function PaymentSection(props) {
   const deliveryInfo = props.deliveryInfo;
   const [address, setAddress] = useState({
-    address1: '',
-    zipCode: '',
+    address1: "",
+    zipCode: "",
   });
   const [modal, setModal] = useState(false); // 주소 검색창 (react daum postcoded)
 
@@ -54,9 +56,9 @@ function PaymentSection(props) {
         <></>
       )}
       <form
-        onSubmit={e => {
+        onSubmit={(e) => {
           e.preventDefault();
-          props.setSection('confirm');
+          props.setSection("confirm");
           props.setDeliveryInfo({
             receiverName: e.target.receiverName.value,
             address1: address.address1,
@@ -91,8 +93,8 @@ function PaymentSection(props) {
                 readOnly
                 value={
                   address.address1
-                    ? '(' + address.zipCode + ') ' + address.address1
-                    : ''
+                    ? "(" + address.zipCode + ") " + address.address1
+                    : ""
                 }
               />
               <Button
@@ -153,14 +155,14 @@ function Product(props) {
       </div>
       <div>{productInfo.quantity}개</div>
       <span>
-        &#8361;{(1550000 * productInfo.quantity).toLocaleString('ko-KR')}
+        &#8361;{(1550000 * productInfo.quantity).toLocaleString("ko-KR")}
       </span>
     </div>
   );
 }
 
 function BackgroundImage(props) {
-  const [imageSrc, setImageSrc] = useState('');
+  const [imageSrc, setImageSrc] = useState("");
   const reader = new FileReader();
   const file = props.add_image;
 
@@ -187,7 +189,7 @@ function DeliveryInfo(props) {
         <div>
           <div>배송지: </div>
           <div>
-            ({deliveryInfo.zipCode}) {deliveryInfo.address1}{' '}
+            ({deliveryInfo.zipCode}) {deliveryInfo.address1}{" "}
           </div>
           <div>{deliveryInfo.address2}</div>
         </div>
@@ -195,8 +197,8 @@ function DeliveryInfo(props) {
           <div>연락처 정보:</div>
           <div>{deliveryInfo.receiverEmail}</div>
           <div>
-            {deliveryInfo.receiverPhoneNumber === ''
-              ? '휴대폰 번호 미입력'
+            {deliveryInfo.receiverPhoneNumber === ""
+              ? "휴대폰 번호 미입력"
               : deliveryInfo.receiverPhoneNumber}
           </div>
         </div>
@@ -212,8 +214,7 @@ function TermsOfUse() {
     <div className="confirm-termsOfUse">
       {modal ? (
         <Modal title="개인정보 취급방침" closeModal={() => setModal(false)}>
-          이용약관
-          입니다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다다닭
+          이용약관입니다. 추후 입력해주세요!
         </Modal>
       ) : (
         <></>
@@ -252,21 +253,21 @@ function Total(props) {
       <div className="contents">
         <div className="content">
           <span>소계</span>
-          <span>&#8361;{(1550000 * quantity).toLocaleString('ko-KR')}</span>
+          <span>&#8361;{(1550000 * quantity).toLocaleString("ko-KR")}</span>
         </div>
         <div className="content">
           <span>배송</span>
           <span>
             {deliverPrice === 0
-              ? '무료'
-              : '&#8361;' + deliverPrice.toLocaleString('ko-KOR')}
+              ? "무료"
+              : "&#8361;" + deliverPrice.toLocaleString("ko-KOR")}
           </span>
         </div>
         <div className="content">
           <span>총계</span>
           <span>
             &#8361;
-            {(1550000 * quantity + deliverPrice).toLocaleString('ko-KR')}
+            {(1550000 * quantity + deliverPrice).toLocaleString("ko-KR")}
           </span>
         </div>
       </div>
@@ -299,9 +300,9 @@ function ConfirmSection(props) {
   const imageFile = props.productInfo.add_image;
 
   const constants = {
-    PM_CARD: 'card',
-    PM_VBANK: 'vbank',
-    defaultVBankAccount: '',
+    PM_CARD: "card",
+    PM_VBANK: "vbank",
+    defaultVBankAccount: "",
     defaultDepositorName: destinationDto.receiverName,
   };
 
@@ -312,29 +313,25 @@ function ConfirmSection(props) {
     isCashReceipt: false,
   });
 
+  const productIdList = props.productIdList;
+
   /* IMP 결제 관련 코드 */
   const IMP = window.IMP;
-  IMP.init('imp07432404');
+  IMP.init("imp07432404");
 
   const requestPay = () => {
     if (payment.paymentMethod === constants.PM_CARD) {
-      prepareCard(
-        {
-          productDto: productDto,
-          destinationDto: destinationDto,
-        },
-        imageFile
-      ).then(res => {
+      const afterRequest = (res) => {
         const { merchantId, amount } = res;
 
         IMP.request_pay(
           {
-            pg: 'html5_inicis',
+            pg: "html5_inicis",
             pay_method: payment.paymentMethod,
             merchant_uid: merchantId,
             name: productDto.productName,
             amount: amount,
-            currency: 'KRW',
+            currency: "KRW",
             buyer_email: destinationDto.receiverEmail,
             buyer_name: destinationDto.receiverName,
             buyer_tel: destinationDto.receiverPhoneNumber,
@@ -359,19 +356,33 @@ function ConfirmSection(props) {
                 );
               }
             } else {
-              if (rsp.error_msg !== '사용자가 결제를 취소하셨습니다') {
+              if (rsp.error_msg !== "사용자가 결제를 취소하셨습니다") {
                 alert(`카드결제에 실패하였습니다. 에러 내용: ${rsp.error_msg}`);
               }
             }
           }
         );
-      });
+      };
+      if (productIdList == "") {
+        prepareCard(
+          {
+            productDto: productDto,
+            destinationDto: destinationDto,
+          },
+          imageFile
+        ).then(afterRequest);
+      } else {
+        prepareCardCart({
+          productDto: productIdList,
+          destinationDto: destinationDto,
+        }).then(afterRequest);
+      }
     } else if (payment.paymentMethod === constants.PM_VBANK) {
-      if (payment.vBankAccount === '') {
-        alert('가상계좌를 선택해주세요.');
+      if (payment.vBankAccount === "") {
+        alert("가상계좌를 선택해주세요.");
         return;
       }
-      if (payment.depositorName === '') {
+      if (payment.depositorName === "") {
         payment.depositorName = destinationDto.receiverName;
       }
       setIsConfirmProgressing(true);
@@ -380,37 +391,53 @@ function ConfirmSection(props) {
         depositorName: payment.depositorName,
         isApplyCashReceipt: payment.isCashReceipt,
       };
-      payByVBank(
-        {
-          productDto: productDto,
+      if (productIdList == "") {
+        payByVBank(
+          {
+            productDto: productDto,
+            destinationDto: destinationDto,
+            vbankDto: vBankDto,
+          },
+          imageFile
+        )
+          .then((res) => {
+            const { orderId } = res;
+            setSuccess(true);
+          })
+          .catch((err) => {
+            console.log(err);
+            alert("가상계좌 결제가 실패하였습니다.");
+          });
+      } else {
+        payByVBankCart({
+          productDto: productIdList,
           destinationDto: destinationDto,
           vbankDto: vBankDto,
-        },
-        imageFile
-      )
-        .then(res => {
-          const { orderId } = res;
-          setSuccess(true);
         })
-        .catch(err => {
-          console.log(err);
-          alert('가상계좌 결제가 실패하였습니다.');
-        });
+          .then((res) => {
+            const { orderId } = res;
+            setSuccess(true);
+          })
+          .catch((err) => {
+            console.log(err);
+            alert("가상계좌 결제가 실패하였습니다.");
+          });
+      }
       setIsConfirmProgressing(false);
     }
   };
 
   if (success) {
-    navigate('/inquiry');
+    navigate("/inquiry");
   }
 
   return (
     <div className="confirm-section">
       <form
-        onSubmit={e => {
+        onSubmit={(e) => {
           e.preventDefault();
           if (!e.target.termsOfUse.checked) {
-            alert('이용약관에 동의해주세요');
+            alert("이용약관에 동의해주세요");
             return;
           }
           requestPay();
@@ -430,9 +457,9 @@ function ConfirmSection(props) {
         <Button
           type="button"
           text="돌아가기"
-          onClick={e => {
+          onClick={(e) => {
             e.preventDefault();
-            props.setSection('form');
+            props.setSection("form");
           }}
         />
       </form>
@@ -441,29 +468,39 @@ function ConfirmSection(props) {
 }
 
 export default function Payment() {
-  const [section, setSection] = useState('form');
+  const [section, setSection] = useState("form");
   const [deliveryInfo, setDeliveryInfo] = useState({
-    receiverName: '',
-    address1: '',
-    address2: '',
-    zipCode: '',
-    receiverEmail: '',
-    receiverPhoneNumber: '',
+    receiverName: "",
+    address1: "",
+    address2: "",
+    zipCode: "",
+    receiverEmail: "",
+    receiverPhoneNumber: "",
   });
 
   const location = useLocation();
-  const productInfo = { ...location.state }; // mounting_method, basic_material, add_material, add_image, quantity
+  const locationData = { ...location.state }; // mounting_method, basic_material, add_material, add_image, quantity
+  let productInfo = "";
+  let productIdList = "";
+  if (!locationData.checkedList) {
+    productInfo = locationData;
+  } else {
+    productInfo = locationData.paymentValue;
+    productIdList = locationData.checkedList;
+  }
 
-  if (!productInfo.mounting_method) {
-    alert('주문 후에 결제 페이지를 사용할 수 있습니다.');
-    window.location.replace('/order');
-    return;
+  if (!locationData.checkedList) {
+    if (!productInfo.mounting_method) {
+      alert("주문 후에 결제 페이지를 사용할 수 있습니다.");
+      window.location.replace("/order");
+      return;
+    }
   }
 
   return (
     <div className="payment">
       <Header />
-      {section === 'form' ? (
+      {section === "form" ? (
         <PaymentSection
           setSection={setSection}
           deliveryInfo={deliveryInfo}
@@ -474,6 +511,7 @@ export default function Payment() {
           setSection={setSection}
           productInfo={productInfo}
           deliveryInfo={deliveryInfo}
+          productIdList={productIdList}
         />
       )}
     </div>

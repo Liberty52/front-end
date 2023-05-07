@@ -55,7 +55,7 @@ export function GetCartList() {
           return navigate("/");
         }
       });
-  } else if (cookie.load("guest")) {
+  } else {
     axios
       .get("https://liberty52.com:444/product/guest/carts", {
         headers: {
@@ -69,10 +69,11 @@ export function GetCartList() {
           return navigate("/");
         }
       });
-  } else {
-    alert("잘못된 접근입니다");
-    return navigate("/");
   }
+  //  else {
+  //   alert("잘못된 접근입니다");
+  //   return navigate("/");
+  // }
   return data;
 }
 

@@ -15,12 +15,14 @@ import {
 import { addComma } from "./Comma";
 import cookie from "react-cookies";
 import { mockData } from "./MockData";
+import { colors } from "@mui/joy";
 
 export default function CartList() {
   const navigate = useNavigate();
 
   const [checkedList, setCheckedList] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0.0);
+  const [paymentValue, setPaymentValue] = useState([]);
   const [formValue, setFormValue] = useState({
     holder: "",
     material: "",
@@ -111,12 +113,22 @@ export default function CartList() {
     });
     console.log(formValue);
   };
-  const onCheckedElement = (checked, item, price) => {
+  const onCheckedElement = (checked, item, price, options, quantity, url) => {
+    let thisValue = {
+      id: item,
+      mounting_method: options[0].detailName,
+      basic_material: options[1].detailName,
+      add_material: options[2].detailName,
+      add_image: url,
+      quantity: quantity,
+    };
     if (checked) {
       setCheckedList([...checkedList, item]);
       setTotalPrice(totalPrice + price);
+      setPaymentValue([...paymentValue, thisValue]);
     } else if (!checked) {
       setCheckedList(checkedList.filter((element) => element !== item));
+      setPaymentValue(paymentValue.filter((data) => data.id !== item));
       setTotalPrice(totalPrice - price);
     }
   };
@@ -156,7 +168,19 @@ export default function CartList() {
       return navigate("/");
     }
   }, []);
-  function pay() {}
+  function pay() {
+    if (checkedList == "") {
+      alert("체크된 장바구니 항목이 없습니다");
+    } else {
+      console.log(paymentValue);
+      navigate("/payment", {
+        state: {
+          checkedList,
+          paymentValue,
+        },
+      });
+    }
+  }
 
   const Payment = () => {
     return (
@@ -257,7 +281,10 @@ export default function CartList() {
                               onCheckedElement(
                                 e.target.checked,
                                 e.target.id,
-                                parseFloat(e.target.value)
+                                parseFloat(e.target.value),
+                                item.options,
+                                item.quantity,
+                                item.imageUrl
                               );
                             }}
                           ></input>
@@ -419,12 +446,12 @@ export default function CartList() {
                 </div>
                 <div className="shipping">
                   <p className="title">배송비</p>
-                  <p className="price">1,000 원</p>
+                  <p className="price">무료</p>
                 </div>
               </div>
               <div className="total">
                 <p className="title">총 결제 금액</p>
-                <p className="price">{addComma(totalPrice + 1000)} 원</p>
+                <p className="price">{addComma(totalPrice)} 원</p>
               </div>
             </div>
             <Payment></Payment>
