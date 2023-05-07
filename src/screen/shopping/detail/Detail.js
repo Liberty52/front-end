@@ -4,11 +4,12 @@ import Header from '../../../component/Header';
 import Footer from '../../../component/Footer';
 import { useParams } from 'react-router-dom';
 import axios from '../../../axios/axios';
+import { ACCESS_TOKEN } from "../../../constants/token";
 
 function InquiryDetails() {
   const [orderDetails, setOrderDetails] = useState({});
   const { orderId } = useParams();
-  const accessToken = localStorage.getItem('ACCESS_TOKEN');
+  const accessToken = sessionStorage.getItem(ACCESS_TOKEN);
 
   const fetchOrderDetails = (orderId, accessToken) => {
     return axios
