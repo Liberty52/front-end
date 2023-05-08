@@ -7,11 +7,10 @@ import { useNavigate } from "react-router-dom";
 import { Modal } from "../../review/Review";
 import Button from "../../../component/Button";
 import { ACCESS_TOKEN } from "../../../constants/token";
-import myImage from '../../../image/icon/liberty52.jpg';
-
+import myImage from "../../../image/icon/liberty52.jpg";
 
 export async function getAccessToken() {
-  return  sessionStorage.getItem(ACCESS_TOKEN);
+  return sessionStorage.getItem(ACCESS_TOKEN);
 }
 
 function OrderList() {
@@ -39,26 +38,26 @@ function OrderList() {
   const [selectedOrderId, setSelectedOrderId] = useState("");
   const orders = [
     {
-      orderId: '123456',
+      orderId: "123456",
       productRepresentUrl: myImage,
       products: [
         {
-          name: 'Product 1',
+          name: "Product 1",
           quantity: 2,
           price: 10000,
         },
         {
-          name: 'Product 2',
+          name: "Product 2",
           quantity: 1,
           price: 15000,
         },
       ],
-      address: '서울시 어딘가',
-      receiverEmail: 'example@example.com',
-      receiverPhoneNumber: '010-1234-5678',
-      receiverName: '홍길동',
-      orderDate: '2023-05-08',
-      orderStatus: 'ORDERED',
+      address: "서울시 어딘가",
+      receiverEmail: "example@example.com",
+      receiverPhoneNumber: "010-1234-5678",
+      receiverName: "홍길동",
+      orderDate: "2023-05-08",
+      orderStatus: "ORDERED",
     },
   ];
   return (
@@ -96,69 +95,68 @@ function OrderList() {
       </div>
     </>
   );
-function OrderImg({ orderId, productRepresentUrl, goToDetail }) {
-  return (
-    <div className="order-img-wrapper">
-      <div className="order-left">
-        <h5 onClick={() => goToDetail(orderId)}>{orderId}</h5>
-        <img
-          src={productRepresentUrl}
-          alt="representative"
-          className="productRepresentUrl"
-        />
-      </div>
-    </div>
-  );
-}
-
-function OrderInfo({ order, showModal, setSelectedOrderId }) {
-  return (
-    <div className="order-info-wrapper">
-    <div className="order-right">
-      <div className="order-right-top">
-        <ul>
-          {order.products.map((product) => (
-            <li className="product-item" key={product.name}>
-              <p>{product.name}</p>
-              <p>{product.quantity} 개</p>
-              <p>₩{product.price.toLocaleString()}</p>
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      <div className="order-right-bottom">
-        <div className="address2">
-          <p className="address1">배송지: </p>
-          <p className="address">{order.address}</p>
+  function OrderImg({ orderId, productRepresentUrl, goToDetail }) {
+    return (
+      <div className="order-img-wrapper">
+        <div className="order-left">
+          <h5 onClick={() => goToDetail(orderId)}>{orderId}</h5>
+          <img
+            src={productRepresentUrl}
+            alt="representative"
+            className="productRepresentUrl"
+          />
         </div>
-        <div className="personal-info">
-          <p>연락처 정보: </p>
-          <p className="email">{order.receiverEmail}</p>
-          <p className="phonenumber">{order.receiverPhoneNumber}</p>
-          <p className="Ordername">{order.receiverName}</p>
-        </div>
-        <div className="date">{order.orderDate}</div>
-        <div className="order-status">{order.orderStatus}</div>
-        {order.orderStatus === "ORDERED" && (
-          <>
-            <button className="cancel">취소</button>
-            <Button className="review"
-              text="리뷰 쓰기"
-              onClick={() => {
-                showModal(true);
-                setSelectedOrderId(order.orderId);
-              }}
-            />
-          </>
-        )}
-
-
       </div>
-    </div>
-    </div>
-  );
-}
+    );
+  }
+
+  function OrderInfo({ order, showModal, setSelectedOrderId }) {
+    return (
+      <div className="order-info-wrapper">
+        <div className="order-right">
+          <div className="order-right-top">
+            <ul>
+              {order.products.map((product) => (
+                <li className="product-item" key={product.name}>
+                  <p>{product.name}</p>
+                  <p>{product.quantity} 개</p>
+                  <p>₩{product.price.toLocaleString()}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="order-right-bottom">
+            <div className="address2">
+              <p className="address1">배송지: </p>
+              <p className="address">{order.address}</p>
+            </div>
+            <div className="personal-info">
+              <p>연락처 정보: </p>
+              <p className="email">{order.receiverEmail}</p>
+              <p className="phonenumber">{order.receiverPhoneNumber}</p>
+              <p className="Ordername">{order.receiverName}</p>
+            </div>
+            <div className="date">{order.orderDate}</div>
+            <div className="order-status">{order.orderStatus}</div>
+            {order.orderStatus === "ORDERED" && (
+              <>
+                <button className="cancel">취소</button>
+                <Button
+                  className="review"
+                  text="리뷰 쓰기"
+                  onClick={() => {
+                    showModal(true);
+                    setSelectedOrderId(order.orderId);
+                  }}
+                />
+              </>
+            )}
+          </div>
+        </div>
+      </div>
+    );
+  }
 }
 
 export default function inquiry() {

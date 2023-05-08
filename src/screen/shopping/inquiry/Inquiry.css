@@ -1,44 +1,41 @@
 /* Section */
-html,
-body,
 .inquiry {
   height: 100%;
 }
 
-.wrapper {
+.inquiry .wrapper {
   height: 100%;
 }
 
-.content {
+.inquiry .content {
   margin: 0 auto;
   max-width: 1500px;
 }
 
-.sectionOrder {
+.inquiry .sectionOrder {
   margin: 2rem;
   width: 100%;
   display: flex;
 }
 
-.cancel,
-.review {
+.inquiry .cancel,
+.inquiry .review {
   display: inline-block;
   margin-right: 10px;
   margin-top: 0;
   margin-bottom: 0;
 }
 
-.InquiryWrapper {
+.inquiry .InquiryWrapper {
   height: 100%;
 }
 
-
-.TCheck {
+.inquiry .TCheck {
   font-size: 30px;
   padding-left: 3rem;
 }
 
-.productRepresentUrl {
+.inquiry .productRepresentUrl {
   width: 350px !important;
   height: 350px !important;
 }
@@ -49,41 +46,39 @@ body,
   justify-content: space-between;
 }
 
-.order-left {
+.inquiry .order-left {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-.order-right {
+.inquiry .order-right {
   width: 100%;
 }
 
-.order-right-top {
+.inquiry .order-right-top {
   display: flex;
   width: 100%;
   justify-content: space-around;
   align-items: flex-start;
 }
 
-.order-right-top ul {
+.inquiry .order-right-top ul {
   margin: 0;
   padding: 0;
   margin-bottom: 1rem;
   width: 100%;
   margin-left: 5%;
-
 }
 
-.order-img-wrapper,
-.order-info-wrapper {
+.inquiry .order-img-wrapper,
+.inquiry .order-info-wrapper {
   display: inline-flex;
   vertical-align: middle;
   margin-right: 1rem;
 }
 
-
-.order-right-bottom {
+.inquiry .order-right-bottom {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   align-items: flex-start;
@@ -92,16 +87,16 @@ body,
   margin-left: 3rem;
 }
 
-.review {
+.inquiry .review {
   grid-column-start: 5;
   grid-column-end: 6;
 }
 
-.personal-info,
-.address2,
-.date,
-.order-status,
-.cancel {
+.inquiry .personal-info,
+.inquiry .address2,
+.inquiry .date,
+.inquiry .order-status,
+.inquiry .cancel {
   flex-grow: 1;
   display: flex;
   flex-wrap: wrap;
@@ -109,12 +104,12 @@ body,
   font-size: medium;
 }
 
-.address1,
-.address {
+.inquiry .address1,
+.inquiry .address {
   margin: 0;
 }
 
-.product-item {
+.inquiry .product-item {
   display: flex;
 }
 
@@ -122,10 +117,10 @@ body,
   color: black;
   width: 100%;
   justify-content: space-around;
-  font-size:x-large;
+  font-size: x-large;
 }
 
-.cancel {
+.inquiry .cancel {
   color: #0066cc;
   border: none;
   cursor: pointer;
@@ -136,10 +131,7 @@ body,
   grid-column-end: 6;
 }
 
-
-
 /* 모달 */
-
 .inquiry .modal {
   display: flex;
 }
@@ -188,7 +180,6 @@ body,
   height: 100px;
   padding: 7px;
   resize: none;
-  /* 사용자 임의 변경 불가*/
   border: 1px solid gray;
 }
 
