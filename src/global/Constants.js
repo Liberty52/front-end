@@ -9,7 +9,7 @@ const SOCIAL_LOGIN_PROVIDER = {
   },
   KAKAO: {
     img: 'https://vendor-cdn.imweb.me/images/kakao_icon.png',
-    url: SOCIAL_LOGIN_URL.KmAKAO,
+    url: SOCIAL_LOGIN_URL.KAKAO,
     css: 'kakao',
   },
   GOOGLE: {
