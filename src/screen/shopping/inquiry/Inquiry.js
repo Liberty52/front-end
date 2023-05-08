@@ -7,7 +7,6 @@ import { useNavigate } from "react-router-dom";
 import { Modal } from "../../review/Review";
 import Button from "../../../component/Button";
 import { ACCESS_TOKEN } from "../../../constants/token";
-import myImage from '../../../image/icon/liberty52.jpg';
 
 
 export async function getAccessToken() {
