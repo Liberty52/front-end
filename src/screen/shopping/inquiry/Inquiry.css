@@ -1,17 +1,37 @@
 /* Section */
+html,
+body,
+.inquiry {
+  height: 100%;
+}
+
+.wrapper {
+  height: 100%;
+}
+
+.content {
+  margin: 0 auto;
+  max-width: 1500px;
+}
+
 .sectionOrder {
-  background-color: white;
   margin: 2rem;
+  width: 100%;
+  display: flex;
+}
+
+.cancel,
+.review {
+  display: inline-block;
+  margin-right: 10px;
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 .InquiryWrapper {
   height: 100%;
 }
 
-.inquery .content {
-  padding-top: 5rem;
-  padding-bottom: 0;
-}
 
 .TCheck {
   font-size: 30px;
@@ -19,28 +39,23 @@
 }
 
 .productRepresentUrl {
-  width: 300px;
-  height: auto;
-  margin: 0 2rem 2rem 2rem;
+  width: 350px !important;
+  height: 350px !important;
 }
 
 .inquiry .order-container {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 10px 0;
-  width: 90%;
-  border-bottom: 1px solid #d2d2d7;
-  padding-bottom: 5px;
+}
+
+.order-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .order-right {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  flex-grow: 1;
-  margin-left: 10px;
-  align-items: center;
   width: 100%;
 }
 
@@ -48,7 +63,7 @@
   display: flex;
   width: 100%;
   justify-content: space-around;
-  align-items: center;
+  align-items: flex-start;
 }
 
 .order-right-top ul {
@@ -57,28 +72,41 @@
   margin-bottom: 1rem;
   width: 100%;
   margin-left: 5%;
+
 }
+
+.order-img-wrapper,
+.order-info-wrapper {
+  display: inline-flex;
+  vertical-align: middle;
+  margin-right: 1rem;
+}
+
 
 .order-right-bottom {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  width: 100%;
-  justify-content: space-around;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  align-items: flex-start;
+  gap: 1rem;
   font-size: medium;
+  margin-left: 3rem;
 }
 
-.personal-info {
+.review {
+  grid-column-start: 5;
+  grid-column-end: 6;
+}
+
+.personal-info,
+.address2,
+.date,
+.order-status,
+.cancel {
+  flex-grow: 1;
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
   flex-direction: column;
   font-size: medium;
-}
-
-.address2 {
-  display: flex;
-  flex-direction: column;
 }
 
 .address1,
@@ -94,28 +122,24 @@
   color: black;
   width: 100%;
   justify-content: space-around;
-  font-size: x-large;
-}
-
-.address2,
-.personal-info,
-.date,
-.order-status .cancel {
-  margin-right: 5%;
+  font-size:x-large;
 }
 
 .cancel {
-  background-color: white;
   color: #0066cc;
   border: none;
   cursor: pointer;
-  width: 100px;
+  width: 50px;
   height: 50px;
-  margin-bottom: 40px;
-  font-size: large;
+  font-size: medium;
+  grid-column-start: 5;
+  grid-column-end: 6;
 }
 
+
+
 /* 모달 */
+
 .inquiry .modal {
   display: flex;
 }
@@ -163,7 +187,8 @@
   width: 100%;
   height: 100px;
   padding: 7px;
-  resize: none; /* 사용자 임의 변경 불가 */
+  resize: none;
+  /* 사용자 임의 변경 불가*/
   border: 1px solid gray;
 }
 
@@ -181,63 +206,4 @@
   height: 70px;
   margin-right: 10px;
   border-radius: 7px;
-}
-
-@media screen and (max-width: 768px) {
-  /* 모바일 화면 크기에서 적용할 스타일 */
-  .header-items {
-    flex-direction: column;
-  }
-
-  .header-items li {
-    margin: 0.5rem 0;
-  }
-
-  .content {
-    padding: 1rem;
-  }
-
-  .TCheck {
-    font-size: 24px;
-    padding-left: 2rem;
-    padding-top: 0.5rem;
-  }
-
-  .order-container {
-    flex-direction: column;
-  }
-
-  .order-container h5 {
-    font-size: 24px;
-  }
-
-  .productRepresentUrl {
-    width: 100%;
-    height: auto;
-  }
-
-  .order-right-top ul {
-    margin: 0;
-    padding: 0;
-  }
-
-  .product-item {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 0.5rem;
-  }
-
-  .personal-info {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 0.5rem;
-  }
-
-  .cancel {
-    width: 100%;
-  }
-
-  .order-right-bottom {
-    flex-direction: column;
-  }
 }

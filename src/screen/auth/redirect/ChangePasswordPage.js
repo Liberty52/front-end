@@ -4,6 +4,8 @@ import { resetPassword } from '../../../axios/auth/Login.js';
 import './ChangePasswordPage.css';
 import { useSearchParams, Redirect } from "react-router-dom";
 import { useNavigate } from "react-router";
+import Input from '../../../component/Input';
+import Button from '../../../component/Button';
 
 export default function ChangePasswordPage() {
     const [newPassword, setNewPassword] = useState("");
@@ -49,7 +51,7 @@ export default function ChangePasswordPage() {
     };
 
      if (isSuccess) {
-       navigate("/Login"); //메인페이지 "/"
+       navigate("/Login"); //로그인
      }
 
     return (
@@ -58,7 +60,7 @@ export default function ChangePasswordPage() {
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="new-password">새로운 비밀번호:</label>
-          <input
+          <Input
             type="password"
             id="new-password"
             value={newPassword}
@@ -67,14 +69,14 @@ export default function ChangePasswordPage() {
         </div>
         <div>
           <label htmlFor="confirm-new-password">새로운 비밀번호 확인:</label>
-          <input
+          <Input
             type="password"
             id="confirm-new-password"
             value={confirmNewPassword}
             onChange={(e) => setConfirmNewPassword(e.target.value)}
           />
         </div>
-        <button type="submit">비밀번호 변경</button>
+        <Button text="비밀번호 변경"/>
       </form>
     </div>
   );

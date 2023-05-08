@@ -2,73 +2,114 @@ import './Detail.css';
 import React, { useState, useEffect } from 'react';
 import Header from '../../../component/Header';
 import Footer from '../../../component/Footer';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import axios from '../../../axios/axios';
 import { ACCESS_TOKEN } from "../../../constants/token";
 
+function useQuery() {
+  return new URLSearchParams(useLocation().search);
+}
 function InquiryDetails() {
   const [orderDetails, setOrderDetails] = useState({});
+  const [loading, setLoading] = useState(true);
   const { orderId } = useParams();
-  const accessToken = sessionStorage.getItem(ACCESS_TOKEN);
+  const accessToken = localStorage.getItem('ACCESS_TOKEN');
+  const phoneNumber = query.get('phoneNumber');
+  const query = useQuery();
 
-  const fetchOrderDetails = (orderId, accessToken) => {
-    return axios
-      .get(`/product/orders/${orderId}`, {
-        headers: { Authorization: accessToken },
-      })
-      .then(response => response.data);
-  };
+    useEffect(() => {
+      const getAccessToken = () => {
+        return sessionStorage.getItem('ACCESS_TOKEN');
+      };
 
-  useEffect(() => {
-    fetchOrderDetails(orderId, accessToken)
-      .then(data => {
-        console.log('Order details data:', data); // 로깅 추가
-        setOrderDetails(data);
-      })
-      .catch(error => {
-        console.error('Error fetching order details:', error);
-      });
-  }, [orderId, accessToken]);
+      const fetchOrderDetails = async (orderId, accessToken) => {
+        try {
+          const response = await axios.get(`/product/orders/${orderId}`, {
+            headers: {
+              Authorization: ` ${accessToken}`,
+            },
+          });
+          setOrderDetails(response.data);
+          setLoading(false);
+        } catch (error) {
+          console.error('Error fetching order details:', error);
+        }
+      };
 
-  if (!orderDetails.products) {
-    return <div>Loading...</div>;
-  }
+      const fetchGuestOrderDetails = async (orderId, phoneNumber) => {
+        try {
+          const response = await axios.get(`/product/guest/orders/${orderId}`, {
+            headers: {
+              Authorization: ` ${phoneNumber}`,
+            },
+          });
+          setOrderDetails(response.data);
+          setLoading(false);
+        } catch (error) {
+          console.error('Error fetching order details:', error);
+        }
+      };
 
-  return (
-    <div className="DetailWrapper">
-      <div className="Detailcontent">
-        <div className="TCheck">----확인해주십시오.</div>
+      const accessToken = getAccessToken();
+      if (accessToken) {
+        fetchOrderDetails(orderId, accessToken);
+      } else {
+        if (phoneNumber) {
+          fetchGuestOrderDetails(orderId, phoneNumber);
+        } else {
+          const enteredPhoneNumber = prompt('휴대폰 번호를 입력해주세요.');
+          fetchGuestOrderDetails(orderId, enteredPhoneNumber);
+        }
+      }
+    }, [orderId, phoneNumber]);
+    if (loading) {
+      return <div>Loading...</div>;
+    }
 
-        <div className="Detailcontainer1">
+    function OrderDetailsSection({ orderDetails }) {
+      return (
+        <div className="section">
+          <div className='Text1'>음 뭐하지</div>
+          <div className="section1">
           <h5>{orderDetails.orderId}</h5>
-          <ul className="Detailul">
-            {orderDetails.products.map(product => (
-              <li key={product.name} className="DetailProduct">
-                <img
-                  src={product.productUrl}
-                  alt={product.name}
-                  width="50"
-                  className="productRepresentUrl"
-                />
-                <p className="DetailProductName">{product.name}</p>
-                <p className="DetailProductQuantity">{product.quantity} 수량</p>
-                <p className="DetailProductPrice">
-                  ₩{product.price.toLocaleString()}
-                </p>
-              </li>
-            ))}
-          </ul>
+            <ul className="Detailul">
+              {orderDetails.products.map(product => (
+                <li key={product.name} className="DetailProduct">
+                  <img
+                    src={product.productUrl}
+                    alt={product.name}
+                    width="50"
+                    className="productRepresentUrl"
+                  />
+                  <p className="DetailProductName">{product.name}</p>
+                  <p className="DetailProductQuantity">{product.quantity} 수량</p>
+                  <p className="DetailProductPrice">
+                    ₩{product.price.toLocaleString()}
+                  </p>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
-        <div className="Detailcontainer2">
+      );
+    }
+    function ImgDetailsSection({ orderDetails }) {
+      return (
+        <div className="section2">
           <p className="DetailCName">배경이미지 시안</p>
           <img src="#" />
         </div>
-        <div className="Detailcontainer3">
+      );
+    }
+
+    function DeliveryDetailsSection({ orderDetails }) {
+      return (
+        <div className="section3">
           <p className="DetailCName">배송 상세 정보</p>
           <p className="DetailSpacing">
             <div>배송지: </div>
             <div>{orderDetails.address}</div>
-          </p>
+           </p>
           <p className="DetailSpacing">
             <div>연락처 정보: </div>
             <div>{orderDetails.receiverEmail}</div>
@@ -76,8 +117,12 @@ function InquiryDetails() {
             <div>{orderDetails.receiverName}</div>
           </p>
         </div>
+      );
+    }
 
-        <div className="Detailcontainer4">
+    function PaymentDetailsSection({ orderDetails }) {
+      return (
+        <div className="section4">
           <p className="DetailCName">결제 상세 정보</p>
           <p className="DetailSpacing">
             <div>결제 수단: </div>
@@ -89,29 +134,49 @@ function InquiryDetails() {
             <div>주소 예시</div>
           </p>
         </div>
+      );
+    }
 
-        <div className="Detailcontainer">
-          <p className="DetailCName">총계</p>
-          <div className="finalWrapper">
-            <div className="FinalTop">
-              <p className="charge">
-                <div>소계</div>
-                <div>₩{orderDetails.totalProductPrice.toLocaleString()}</div>
-              </p>
-              <p className="delivery">
-                <div>배송비</div>
-                <div>₩{orderDetails.deliveryFee.toLocaleString()}</div>
-              </p>
-            </div>
-            <div className="FinalBottom">
-              <p className="finalDetail">
-                <div>총계</div>
-                <div>₩{orderDetails.totalPrice.toLocaleString()}</div>
-              </p>
+    function ResultDetailsSection({ orderDetails }) {
+      return (
+          <div className="section5">
+            <p className="DetailCName">총계</p>
+            <div className="finalWrapper">
+              <div className="FinalTop">
+                <p className="charge">
+                  <div>소계</div>
+                  <div>₩{orderDetails.totalProductPrice.toLocaleString()}</div>
+                </p>
+                <p className="delivery">
+                  <div>배송비</div>
+                  <div>₩{orderDetails.deliveryFee.toLocaleString()}</div>
+                </p>
+              </div>
+              <div className="FinalBottom">
+                <p className="finalDetail">
+                  <div>총계</div>
+                  <div>₩{orderDetails.totalPrice.toLocaleString()}</div>
+                </p>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
+      );
+    }
+
+
+  return (
+    <div>
+      {loading ? (
+        <div>Loading...</div>
+      ) : (
+        <>
+          <OrderDetailsSection orderDetails={orderDetails} />
+          <ImgDetailsSection orderDetails={orderDetails} />
+          <DeliveryDetailsSection orderDetails={orderDetails} />
+          <PaymentDetailsSection orderDetails={orderDetails} />
+          <ResultDetailsSection orderDetails={orderDetails} />
+        </>
+      )}
     </div>
   );
 }
@@ -119,9 +184,9 @@ function InquiryDetails() {
 export default function Detail() {
   return (
     <>
-      <Header />
-      <InquiryDetails />
-      <Footer />
+      <Header/>
+      <InquiryDetails/>
+      <Footer/>
     </>
   );
 }

@@ -4,7 +4,7 @@ import post from '../../../axios/auth/Login.js';
 import {
   findEmail,
   sendPasswordResetEmail,
-  getOrderDetails
+  fetchOrderDetails
 } from '../../../axios/auth/Login.js';
 import Header from '../../../component/Header';
 import Checkbox from '../../../component/Checkbox';
@@ -12,6 +12,8 @@ import Input from '../../../component/Input';
 import Button from '../../../component/Button';
 import SocialLoginButton from '../../../component/SocialLoginButton';
 import { SOCIAL_LOGIN_PROVIDER } from '../../../global/Constants';
+
+
 function LoginInput() {
   return (
     <div className="inputs">
@@ -46,76 +48,123 @@ function LoginForm() {
 }
 
 function PasswordRecoveryModal({ showModal, closeModal }) {
+  const [emailList, setEmailList] = useState([]);
+  const [showEmailListModal, setShowEmailListModal] = useState(false);
+  const [showFindFormModal, setShowFindFormModal] = useState(true);
+
+  const handleSetEmailList = (emailList) => {
+    setEmailList(emailList || []);
+    setShowFindFormModal(false);
+    setShowEmailListModal(true);
+  };
+
+
+  const handleCloseFindFormModal = () => {
+    setShowFindFormModal(false);
+  };
+
+  const handleCloseEmailListModal = () => {
+    setEmailList([]);
+    setShowEmailListModal(false);
+    closeModal();
+  };
+
+
+  useEffect(() => {
+    setShowFindFormModal(true);
+  }, [showModal]);
+
   if (!showModal) {
     return null;
   }
 
   return (
-    <div className={`modal${showModal ? ' is-active' : ''}`}>
-      <div className="modal-content">
-        <h2>아이디/비밀번호 찾기</h2>
-        <FindForm />
-        <button onClick={closeModal}>닫기</button>
-      </div>
-    </div>
+    <>
+      {showFindFormModal && (
+        <div className={`modal${showModal ? " is-active" : ""}`}>
+          <div className="modal-content">
+            <h2>아이디/비밀번호 찾기</h2>
+            <FindForm
+              onSetEmailList={handleSetEmailList}
+            />
+            <button onClick={closeModal}>닫기</button>
+          </div>
+        </div>
+      )}
+      {showEmailListModal && emailList && (
+        <div className={`modal is-active`}>
+          <div className="modal-content">
+            <h2>아이디 찾기</h2>
+            <ul>
+              {emailList.map((email, index) => (
+                  <li key={index}>{maskEmail(email)}</li>
+              ))}
+            </ul>
+            <Button onClick={() => window.location.href ="/login" } className="Id-Login" text = "로그인"/>
+            <button onClick={handleCloseEmailListModal}>닫기</button>
+          </div>
+        </div>
+      )}
+    </>
   );
 }
 
-function FindForm() {
+//////////////////////////////////////////
+function FindForm({ onSetEmailList }) {
   const [activeTab, setActiveTab] = useState('id');
 
   const handleTabClick = e => {
     setActiveTab(e.target.value);
   };
 
-  const handleSubmit = async event => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    if (activeTab === 'id') {
+    if (activeTab === "id") {
       const name = event.target.name.value;
       const phoneNumber = event.target.phoneNumber.value;
+      console.log("name:", name);
+      console.log("phoneNumber:", phoneNumber);
       findEmail(name, phoneNumber)
-        .then(response => {
-          const email = response.data.email;
-          const maskedEmail = email.slice(0, 4) + '*'.repeat(email.length - 4);
-          alert('이메일 찾기 성공: ' + maskedEmail);
+        .then((response) => {
+          const emailList = response.data;
+          onSetEmailList(emailList);
         })
-        .catch(e => {
+        .catch((e) => {
           if (e.response && e.response.status === 400) {
-            alert('이메일 찾기 실패');
+            alert("이메일 찾기 실패");
           }
         });
-    } else if (activeTab === 'password') {
+     } else if (activeTab === "password") {
       const email = event.target.email.value;
       console.log(email);
       try {
         const response = await sendPasswordResetEmail(email);
-        // 비밀번호 찾기 성공 시 처리
-        console.log('비밀번호 찾기 메일 전송 성공', response);
+        console.log("비밀번호 찾기 메일 전송 성공", response);
       } catch (error) {
-        // 비밀번호 찾기 실패 시 처리
-        console.error('비밀번호 찾기 메일 전송 실패', error.response);
+        console.error("비밀번호 찾기 메일 전송 실패", error.response);
       }
     }
   };
-
   return (
+    <>
     <form className="login-form" onSubmit={handleSubmit}>
       <div className="tab">
         <label>
-          <input
+          <Input
             type="radio"
             name="tab"
             value="id"
-            defaultChecked
+            checked={activeTab === 'id'}
             onClick={handleTabClick}
           />{' '}
           아이디
         </label>
         <label>
-          <input
+          <Input
             type="radio"
             name="tab"
             value="password"
+            checked={activeTab === 'password'}
             onClick={handleTabClick}
           />{' '}
           비밀번호
@@ -135,42 +184,59 @@ function FindForm() {
       </div>
       <Button text="확인" />
     </form>
+
+    </>
   );
 }
 
-function IdInput() {
-  const loginItems = [
-    { type: 'text', name: 'name', required: true, label: '이름' },
-    {
-      type: 'tel',
-      name: 'phoneNumber',
-      required: true,
-      label: '휴대전화 번호',
-    },
-  ];
+function maskEmail(email) {
+  const [localPart, domain] = email.split("@");
+  const maskedLocalPart = localPart.length > 4 ? localPart.slice(0, 4) + "*".repeat(localPart.length - 4) : localPart;
+  return maskedLocalPart + "@" + domain;
+}
+
+function IdInput({ setName, setPhoneNumber }) {
   return (
     <div className="inputs">
-      <Input type="text" name="name" required={true} label="이름" />
+      <Input
+        type="text"
+        name="name"
+        label="이름"
+        required={true}
+        onChange={(e) => setName(e.target.value)}
+      />
       <Input
         type="tel"
         name="phoneNumber"
+        label="전화번호"
         required={true}
-        label="휴대전화 번호"
+        onChange={(e) => setPhoneNumber(e.target.value)}
       />
     </div>
   );
 }
 
-function PasswordInput() {
-
-  return <Input type="email" name="email" required={true} />;
+function PasswordInput({ setEmail }) {
+  return (
+    <div className="inputs">
+      <Input
+        type="email"
+        name="email"
+        label="이메일"
+        required={true}
+        onChange={(e) => setEmail(e.target.value)}
+      />
+    </div>
+  );
 }
+
 
 function CompanyLogin() {
   const [showModal, setShowModal] = useState(false);
-
+  const [showFindFormModal, setShowFindFormModal] = useState(true);
   const openModal = () => {
     setShowModal(true);
+    setShowFindFormModal(true);
   };
 
   const closeModal = () => {
@@ -187,7 +253,10 @@ function CompanyLogin() {
       <div className="login-nav">
         <a href="/signUp">회원가입</a>
         <button onClick={openModal}>아이디/비밀번호 찾기</button>
-        <PasswordRecoveryModal showModal={showModal} closeModal={closeModal} />
+        <PasswordRecoveryModal
+          showModal={showModal}
+          closeModal={closeModal}
+           />
       </div>
     </div>
   );
@@ -210,8 +279,7 @@ function SocialLogin() {
 function Border() {
   return <div className="border"></div>;
 }
-///////////////////////////////////////////////////////////////
-
+///////////// 비회원
 function NonmemberInquiry() {
   const [showModal, setShowModal] = useState(false);
 
@@ -221,6 +289,7 @@ function NonmemberInquiry() {
 
   const closeModal = () => {
     setShowModal(false);
+
   };
 
   useEffect(() => {
@@ -234,7 +303,7 @@ function NonmemberInquiry() {
     </div>
   );
 }
-// 모달창
+
 function NonmemberModal({ showModal, closeModal }) {
   if (!showModal) {
     return null;
@@ -242,7 +311,7 @@ function NonmemberModal({ showModal, closeModal }) {
 
   const handleMoveInquiry = async (orderId, phoneNumber) => {
     try {
-      const orderDetails = await getOrderDetails(orderId, phoneNumber);
+      const orderDetails = await fetchOrderDetails(orderId, null, phoneNumber);
       console.log(orderDetails)
       if (orderDetails) {
         window.location.href = `/product/guest/${orderId}?phoneNumber=${phoneNumber}`;
@@ -261,9 +330,7 @@ function NonmemberModal({ showModal, closeModal }) {
       <div className="modal-content">
         <h2>비회원 주문 조회</h2>
         <MoveInquiry onMoveInquiry={handleMoveInquiry} />
-        <button className="Nonmember-button" onClick={closeModal}>
-          닫기
-        </button>
+        <button onClick={closeModal} >닫기</button>
       </div>
     </div>
   );
@@ -282,31 +349,46 @@ function MoveInquiry({ onMoveInquiry }) {
     onMoveInquiry(orderId, phoneNumber);
   };
 
+  const checkValue = (id, value) => {
+    if (!value) {
+      document.querySelector(`#${id}`).classList.remove('value');
+    } else {
+      document.querySelector(`#${id}`).classList.add('value');
+    }
+  };
+
   return (
     <form onSubmit={handleSubmit}>
-      <label htmlFor="orderId">주문번호:</label>
-      <input
-        type="text"
-        id="orderId"
-        value={orderId}
-        onChange={(e) => setOrderId(e.target.value)}
-      />
+      <div className="input-wrapper" id="orderId">
+        <input
+          className="input"
+          type="text"
+          value={orderId}
+          onChange={(e) => {
+            setOrderId(e.target.value);
+            checkValue('orderId', e.target.value);
+          }}
+        />
+        <label htmlFor="orderId" className="label">주문번호{true ? ' (필수)' : ''}</label>
+      </div>
       <br />
-      <label htmlFor="phoneNumber">전화번호:</label>
-      <input
-        type="text"
-        id="phoneNumber"
-        value={phoneNumber}
-        onChange={(e) => setPhoneNumber(e.target.value)}
-      />
+      <div className="input-wrapper" id="phoneNumber">
+        <input
+          className="input"
+          type="text"
+          value={phoneNumber}
+          onChange={(e) => {
+            setPhoneNumber(e.target.value);
+            checkValue('phoneNumber', e.target.value);
+          }}
+        />
+        <label htmlFor="phoneNumber" className="label">전화번호{true ? ' (필수)' : ''}</label>
+      </div>
       <br />
-      <button type="submit">조회</button>
+      <Button text="조회"/>
     </form>
   );
 }
-
-
-
 export default function Login() {
   return (
     <div className="login">
