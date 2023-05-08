@@ -5,6 +5,7 @@ import { useState } from 'react';
 
 export default function ImageInput(props) {
   const [imgFile, setImgFile] = useState(props.image);
+  const { width, height } = props
 
   const reader = new FileReader();
   return (
@@ -28,7 +29,7 @@ export default function ImageInput(props) {
           }
         }}
       />
-      <div className="image-crop">
+      <div className="image-crop" style={{width: width, height: height}}>
         <Button
           type="button"
           text="삭제"

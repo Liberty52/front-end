@@ -104,6 +104,18 @@ input[type="number"]::-webkit-outer-spin-button {
   opacity: 1;
 }
 
+.add-image {
+  text-align: center;
+}
+
+.add-image .radio-btn {
+  margin-bottom: 15px;
+}
+
+.order-editor a:hover {
+  color: black
+}
+
 /* 모바일 */
 @media screen and (max-width: 500px) {
   .order-options {
