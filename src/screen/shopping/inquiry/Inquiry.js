@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
 import "./Inquiry.css";
+import React, { useState, useEffect } from "react";
 import { fetchOrders } from "../../../axios/shopping/Inquiry";
 import Header from "../../../component/Header";
 import Footer from "../../../component/Footer";
+import ReviewModal from "../../../component/review/ReviewModal";
 import { useNavigate } from "react-router-dom";
-import { Modal } from "../../review/Review";
 import Button from "../../../component/Button";
 
 export async function getAccessToken() {
@@ -37,7 +37,7 @@ function OrderList() {
     <>
       <div className="InquiryWrapper">
         {modal ? (
-          <Modal
+          <ReviewModal
             orderId={selectedOrderId}
             closeModal={() => showModal(false)}
             onClick={console.log(selectedOrderId)}
