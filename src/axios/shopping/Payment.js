@@ -48,18 +48,13 @@ export function prepareCard(dto, file) {
 }
 
 export function prepareCardCart(dto) {
-  const formData = new FormData();
-  formData.append(
-    "dto",
-    new Blob([JSON.stringify(dto)], { type: "application/json" })
-  );
   const receiverPhoneNumber = dto.destinationDto.receiverPhoneNumber;
   if (sessionStorage.getItem(ACCESS_TOKEN)) {
     return new Promise((res) => {
       axios
-        .post("/product/orders/card/carts", formData, {
+        .post("/product/orders/card/carts", JSON.stringify(dto), {
           headers: {
-            "Content-Type": `multipart/form-data`,
+            "Content-Type": 'application/json',
             Authorization: sessionStorage.getItem(ACCESS_TOKEN),
           },
         })
@@ -74,9 +69,9 @@ export function prepareCardCart(dto) {
   } else {
     return new Promise((res) => {
       axios
-        .post("/product/guest/orders/card/carts", formData, {
+        .post("/product/guest/orders/card/carts", JSON.stringify(dto), {
           headers: {
-            "Content-Type": `multipart/form-data`,
+            "Content-Type": 'application/json',
             Authorization: receiverPhoneNumber,
           },
         })
@@ -154,18 +149,13 @@ export function payByVBank(dto, file) {
 }
 
 export function payByVBankCart(dto) {
-  const formData = new FormData();
-  formData.append(
-    "dto",
-    new Blob([JSON.stringify(dto)], { type: "application/json" })
-  );
   const receiverPhoneNumber = dto.destinationDto.receiverPhoneNumber;
   if (sessionStorage.getItem(ACCESS_TOKEN)) {
     return new Promise((res) => {
       axios
-        .post("/product/orders/vbank/carts", formData, {
+        .post("/product/orders/vbank/carts", JSON.stringify(dto), {
           headers: {
-            "Content-Type": `multipart/form-data`,
+            "Content-Type": 'application/json',
             Authorization: sessionStorage.getItem(ACCESS_TOKEN),
           },
         })
@@ -182,9 +172,9 @@ export function payByVBankCart(dto) {
   } else {
     return new Promise((res) => {
       axios
-        .post("/product/guest/orders/vbank/carts", formData, {
+        .post("/product/guest/orders/vbank/carts", JSON.stringify(dto), {
           headers: {
-            "Content-Type": `multipart/form-data`,
+            "Content-Type": 'application/json',
             Authorization: receiverPhoneNumber,
           },
         })
