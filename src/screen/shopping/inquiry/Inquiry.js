@@ -16,7 +16,7 @@ export async function getAccessToken() {
 
 function OrderList() {
   const navigate = useNavigate();
-  /*const [orders, setOrders] = useState([]);
+  const [orders, setOrders] = useState([]);
  useEffect(() => {
     const fetchOrdersData = async () => {
       try {
@@ -29,7 +29,7 @@ function OrderList() {
     };
 
     fetchOrdersData();
-  }, []);*/
+  }, []);
 
   function goToDetail(orderId) {
     navigate(`/detail/${orderId}`);
@@ -37,30 +37,7 @@ function OrderList() {
 
   const [modal, showModal] = useState(false);
   const [selectedOrderId, setSelectedOrderId] = useState("");
-  const orders = [
-    {
-      orderId: '123456',
-      productRepresentUrl: myImage,
-      products: [
-        {
-          name: 'Product 1',
-          quantity: 2,
-          price: 10000,
-        },
-        {
-          name: 'Product 2',
-          quantity: 1,
-          price: 15000,
-        },
-      ],
-      address: '서울시 어딘가',
-      receiverEmail: 'example@example.com',
-      receiverPhoneNumber: '010-1234-5678',
-      receiverName: '홍길동',
-      orderDate: '2023-05-08',
-      orderStatus: 'ORDERED',
-    },
-  ];
+ 
   return (
     <>
       <div className="InquiryWrapper">
