@@ -164,10 +164,15 @@ const Order = () => {
                   </div>
                 </div>
                 <div className="add-image">
-                  <div className="order-title">나만의 개성을 추가해봐요</div>
+                  <div className="order-title">
+                    나만의 개성을 추가해봐요
+                  </div> 
                   <div className="radio-btn">
-                    <ImageInput />
+                    <ImageInput width="60px" height="60px"/>
                   </div>
+                  <div className="order-editor">
+                      <a href="/editor">개성을 추가하러 가기</a>
+                    </div>
                 </div>
                 <div className="quantity">
                   Liberty 52_frame
