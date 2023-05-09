@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
 import cookie from "react-cookies";
+import { ACCESS_TOKEN } from "../../../constants/token";
 
 export default function Cookie() {
   let navigate = useNavigate();
@@ -9,7 +10,7 @@ export default function Cookie() {
   expires.setDate(expires.getDate() + 7);
 
   useEffect(() => {
-    if (localStorage.getItem("ACCESS_TOKEN")) {
+    if (sessionStorage.getItem(ACCESS_TOKEN)) {
       //   ACCESS_TOKEN = localStorage.getItem("ACCESS_TOKEN");
     } else {
       if (cookie.load("guest")) {

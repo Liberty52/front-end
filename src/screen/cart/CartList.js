@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./Cart.css";
 import "./CartPrice.css";
 import axios from "axios";
@@ -7,22 +7,18 @@ import Table from "react-bootstrap/Table";
 import { useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import LButton from "../../component/Button";
-import {
-  GetCartList,
-  handleDeleteClick,
-  handleEditClick,
-} from "../../axios/shopping/Cart";
+import { handleDeleteClick, handleEditClick } from "../../axios/shopping/Cart";
 import { addComma } from "./Comma";
 import cookie from "react-cookies";
-import { mockData } from "./MockData";
-import { colors } from "@mui/joy";
+import { ACCESS_TOKEN } from "../../constants/token";
 
-export default function CartList() {
+export default function CartList({setEmptyMode}) {
   const navigate = useNavigate();
 
   const [checkedList, setCheckedList] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0.0);
   const [paymentValue, setPaymentValue] = useState([]);
+  const [editMode,setEditMode] = useState(false);
   const [formValue, setFormValue] = useState({
     holder: "",
     material: "",
@@ -82,6 +78,10 @@ export default function CartList() {
       quantity: Number(formValue.quantity),
     };
     editData = data;
+    if(editMode){
+      handleEditClick(customProductId, editData, imageFile);
+      setEditMode(false);
+    }
   };
   const handleRowClick = (id, idx, options, quantity) => {
     console.log(formValue);
@@ -135,16 +135,17 @@ export default function CartList() {
 
   const [data, setCartList] = useState([]);
   useEffect(() => {
-    if (localStorage.getItem("ACCESS_TOKEN")) {
+    if (sessionStorage.getItem(ACCESS_TOKEN)) {
       axios
         .get("https://liberty52.com:444/product/carts", {
           headers: {
-            Authorization: localStorage.getItem("ACCESS_TOKEN"),
+            Authorization: sessionStorage.getItem(ACCESS_TOKEN),
           },
         })
         .then((response) => {
           setCartList(response.data);
           if (!response.data || response.data == "") {
+            setEmptyMode(true);
             // alert("장바구니에 담긴 상품이 없습니다.");
             // return navigate("/");
           }
@@ -159,6 +160,7 @@ export default function CartList() {
         .then((response) => {
           setCartList(response.data);
           if (!response.data || response.data == "") {
+            setEmptyMode(true);
             // alert("장바구니에 담긴 상품이 없습니다.");
             // return navigate("/");
           }
@@ -424,7 +426,7 @@ export default function CartList() {
                 type="submit"
                 disabled={disabledBtn}
                 onClick={(e) => {
-                  handleEditClick(customProductId, editData, imageFile);
+                  setEditMode(true)
                 }}
               >
                 수정내용 저장

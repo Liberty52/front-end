@@ -1,4 +1,5 @@
 import axios from "../axios";
+import { ACCESS_TOKEN } from "../../constants/token";
 
 export function postReview(dto, file) {
   const formData = new FormData();
@@ -14,7 +15,7 @@ export function postReview(dto, file) {
   axios
     .post("/product/reviews", formData, {
       headers: {
-        Authorization: localStorage.getItem("ACCESS_TOKEN"),
+        Authorization:  sessionStorage.getItem(ACCESS_TOKEN),
         "Content-Type": "multipart/form-data",
       },
     })
@@ -36,7 +37,7 @@ export function getReview(productId, size, page, photoFilter) {
         `/product/reviews/products/${productId}?size=${size}&page=${page}&photoFilter=${photoFilter}`,
         {
           headers: {
-            Authorization: localStorage.getItem("ACCESS_TOKEN"),
+            Authorization:  sessionStorage.getItem(ACCESS_TOKEN),
           },
         }
       )
@@ -72,7 +73,7 @@ export function postImage(reviewId, files) {
   axios
     .post(`/product/reviews/${reviewId}/images`, formData, {
       headers: {
-        Authorization: localStorage.getItem("ACCESS_TOKEN"),
+        Authorization:  sessionStorage.getItem(ACCESS_TOKEN),
         "Content-Type": "multipart/form-data",
       },
     })
@@ -120,7 +121,7 @@ export function deleteReview(reviewId) {
     axios
       .delete(`/product/reviews/${reviewId}`, {
         headers: {
-          Authorization: localStorage.getItem("ACCESS_TOKEN"),
+          Authorization:  sessionStorage.getItem(ACCESS_TOKEN),
         },
       })
       .then(alert("리뷰가 삭제되었습니다."))

@@ -18,6 +18,7 @@ export default function Review() {
     return (
       <div>
         {list.length > 0 ? list : <span>작성된 구매평이 없습니다.</span>}
+
       </div>
     );
   }

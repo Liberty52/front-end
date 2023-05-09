@@ -26,6 +26,7 @@ export default function Input(props) {
         title={props.title}
         value={value}
         readOnly={props.readOnly}
+        checked={props.checked}
         onChange={e => {
           setValue(e.target.value);
         }}
