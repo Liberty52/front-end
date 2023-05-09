@@ -133,7 +133,7 @@ function InquiryDetails() {
       const { paymentType, paymentInfo } = orderDetails;
       let cardInfo;
       if(paymentType === "가상 계좌"){
-        cardInfo = `${paymentInfo?.depositorBank}`;
+        cardInfo = `${paymentInfo?.vbankInfo}`;
       }
       else{
         cardInfo = `${paymentInfo?.cardName} **** **** **** ${paymentInfo?.cardNumber?.substr(-4)}`;
