@@ -103,8 +103,6 @@ function InquiryDetails() {
 
 
 
-
-
     function ImgDetailsSection({ orderDetails }) {
       return (
         <div className="section2">
