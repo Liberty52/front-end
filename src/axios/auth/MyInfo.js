@@ -1,15 +1,17 @@
 import axios from '../axios';
+import { ACCESS_TOKEN } from "../../constants/token";
 
 export function delMyInfo() {
   if (window.confirm('정말로 탈퇴하시겠습니까?')) {
     axios
       .delete(`/auth/member`, {
         headers: {
-          Authorization: localStorage.getItem('ACCESS_TOKEN'),
+          Authorization:  sessionStorage.getItem(ACCESS_TOKEN),
         },
       })
       .then(() => {
         localStorage.clear();
+        sessionStorage.clear();
         alert('탈퇴가 성공적으로 이루어졌습니다.');
         // navigate("/");
       })
@@ -28,7 +30,7 @@ export function putMyInfo(dto, file) {
     axios
       .put('/auth/my', formData, {
         headers: {
-          Authorization: localStorage.getItem('ACCESS_TOKEN'),
+          Authorization:  sessionStorage.getItem(ACCESS_TOKEN),
           'Contest-Type': 'multipart/form-data',
         },
       })
@@ -51,7 +53,7 @@ export function getMyInfo() {
     axios
       .get('/auth/my', {
         headers: {
-          Authorization: localStorage.getItem('ACCESS_TOKEN'),
+          Authorization: sessionStorage.getItem(ACCESS_TOKEN),
         },
       })
       .then(response => {

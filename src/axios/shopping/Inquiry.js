@@ -1,7 +1,7 @@
 import axios from '../axios';
 
-export function fetchOrders(accessToken) {
+export function fetchOrders(sessionToken) {
   return axios.get('/product/orders', {
-    headers: { Authorization: accessToken },
+    headers: { Authorization: sessionToken },
   });
 }

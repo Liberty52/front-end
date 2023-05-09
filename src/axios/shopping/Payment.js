@@ -1,4 +1,6 @@
 import axios from "../axios";
+import { ACCESS_TOKEN } from "../../constants/token";
+import cookie from "react-cookies";
 
 export function prepareCard(dto, file) {
   const formData = new FormData();
@@ -9,13 +11,13 @@ export function prepareCard(dto, file) {
   );
   const receiverPhoneNumber = dto.destinationDto.receiverPhoneNumber;
   console.log(receiverPhoneNumber);
-  if (localStorage.getItem("ACCESS_TOKEN")) {
+  if (sessionStorage.getItem(ACCESS_TOKEN)) {
     return new Promise((res) => {
       axios
-        .post("/product/orders/payment/card/prepare", formData, {
+        .post("/product/orders/card", formData, {
           headers: {
             "Content-Type": `multipart/form-data`,
-            Authorization: localStorage.getItem("ACCESS_TOKEN"),
+            Authorization: sessionStorage.getItem(ACCESS_TOKEN),
           },
         })
         .then((response) => {
@@ -29,7 +31,7 @@ export function prepareCard(dto, file) {
   } else {
     return new Promise((res) => {
       axios
-        .post("/product/guest/orders/payment/card/prepare", formData, {
+        .post("/product/guest/orders/card", formData, {
           headers: {
             "Content-Type": `multipart/form-data`,
             Authorization: receiverPhoneNumber,
@@ -47,19 +49,13 @@ export function prepareCard(dto, file) {
 }
 
 export function prepareCardCart(dto) {
-  const formData = new FormData();
-  formData.append(
-    "dto",
-    new Blob([JSON.stringify(dto)], { type: "application/json" })
-  );
-  const receiverPhoneNumber = dto.destinationDto.receiverPhoneNumber;
-  if (localStorage.getItem("ACCESS_TOKEN")) {
+  if (sessionStorage.getItem(ACCESS_TOKEN)) {
     return new Promise((res) => {
       axios
-        .post("/product/orders/payment/card/prepare/carts", formData, {
+        .post("/product/orders/card/carts", JSON.stringify(dto), {
           headers: {
-            "Content-Type": `multipart/form-data`,
-            Authorization: localStorage.getItem("ACCESS_TOKEN"),
+            "Content-Type": 'application/json',
+            Authorization: sessionStorage.getItem(ACCESS_TOKEN),
           },
         })
         .then((response) => {
@@ -73,10 +69,10 @@ export function prepareCardCart(dto) {
   } else {
     return new Promise((res) => {
       axios
-        .post("/product/guest/orders/payment/card/prepare/carts", formData, {
+        .post("/product/guest/orders/card/carts", JSON.stringify(dto), {
           headers: {
-            "Content-Type": `multipart/form-data`,
-            Authorization: receiverPhoneNumber,
+            "Content-Type": 'application/json',
+            Authorization: cookie.load("guest"),
           },
         })
         .then((response) => {
@@ -90,17 +86,27 @@ export function prepareCardCart(dto) {
   }
 }
 
-export function checkPayApproval(orderId) {
-  return axios.get("/product/orders/payment/card/confirm/" + orderId, {
-    headers: {
-      "Content-Type": `application/json`,
-      Authorization: localStorage.getItem("ACCESS_TOKEN"),
-    },
-  });
+export function checkCardPayApproval(orderId, guestPhoneNum) {
+  if (sessionStorage.getItem(ACCESS_TOKEN)) {
+    return axios.get(`/product/orders/card/${orderId}/confirm`, {
+      headers: {
+        "Content-Type": `application/json`,
+        Authorization: sessionStorage.getItem(ACCESS_TOKEN),
+      },
+    });
+  } else {
+    return axios.get(`/product/guest/orders/card/${orderId}/confirm`, {
+      headers: {
+        "Content-Type": `application/json`,
+        Authorization: guestPhoneNum,
+      },
+    });
+  }
+
 }
 
 export function getVBankInfos() {
-  return axios.get("/product/orders/payment/vbank");
+  return axios.get("/product/vbanks");
 }
 
 export function payByVBank(dto, file) {
@@ -111,13 +117,13 @@ export function payByVBank(dto, file) {
     new Blob([JSON.stringify(dto)], { type: "application/json" })
   );
   const receiverPhoneNumber = dto.destinationDto.receiverPhoneNumber;
-  if (localStorage.getItem("ACCESS_TOKEN")) {
+  if (sessionStorage.getItem(ACCESS_TOKEN)) {
     return new Promise((res) => {
       axios
-        .post("/product/orders/payment/vbank", formData, {
+        .post("/product/orders/vbank", formData, {
           headers: {
             "Content-Type": `multipart/form-data`,
-            Authorization: localStorage.getItem("ACCESS_TOKEN"),
+            Authorization: sessionStorage.getItem(ACCESS_TOKEN),
           },
         })
         .then((response) => {
@@ -133,7 +139,7 @@ export function payByVBank(dto, file) {
   } else {
     return new Promise((res) => {
       axios
-        .post("/product/guest/orders/payment/vbank", formData, {
+        .post("/product/guest/orders/vbank", formData, {
           headers: {
             "Content-Type": `multipart/form-data`,
             Authorization: receiverPhoneNumber,
@@ -153,19 +159,13 @@ export function payByVBank(dto, file) {
 }
 
 export function payByVBankCart(dto) {
-  const formData = new FormData();
-  formData.append(
-    "dto",
-    new Blob([JSON.stringify(dto)], { type: "application/json" })
-  );
-  const receiverPhoneNumber = dto.destinationDto.receiverPhoneNumber;
-  if (localStorage.getItem("ACCESS_TOKEN")) {
+  if (sessionStorage.getItem(ACCESS_TOKEN)) {
     return new Promise((res) => {
       axios
-        .post("/product/orders/payment/vbank/carts", formData, {
+        .post("/product/orders/vbank/carts", JSON.stringify(dto), {
           headers: {
-            "Content-Type": `multipart/form-data`,
-            Authorization: localStorage.getItem("ACCESS_TOKEN"),
+            "Content-Type": 'application/json',
+            Authorization: sessionStorage.getItem(ACCESS_TOKEN),
           },
         })
         .then((response) => {
@@ -181,10 +181,10 @@ export function payByVBankCart(dto) {
   } else {
     return new Promise((res) => {
       axios
-        .post("/product/guest/orders/payment/vbank/carts", formData, {
+        .post("/product/guest/orders/vbank/carts", JSON.stringify(dto), {
           headers: {
-            "Content-Type": `multipart/form-data`,
-            Authorization: receiverPhoneNumber,
+            "Content-Type": 'application/json',
+            Authorization: cookie.load("guest"),
           },
         })
         .then((response) => {

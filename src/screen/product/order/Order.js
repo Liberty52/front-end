@@ -5,6 +5,7 @@ import Review from "../../../screen/review/Review";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import product_img from "../../../image/icon/product.png";
+import dummy_img from "../../../image/icon/dummy.jpg";
 import post from "../../../axios/shopping/Cart";
 import Button from "../../../component/Button";
 import ImageInput from "../../../component/ImageInput";
@@ -73,7 +74,7 @@ const Order = () => {
     setMode("buy");
   };
 
-  $(window).on("resize", function () {
+  $(".order").on("resize", function () {
     calcHeight();
   });
 
@@ -131,7 +132,8 @@ const Order = () => {
                 </div>
                 <div className="add-material">
                   <div className="order-title">
-                    추가 하고 싶은 기본소재 옵션을 선택하세요
+                    추가 하고 싶은 기본소재 옵션을 <br />
+                    선택하세요
                   </div>
                   <div className="material-group">
                     <Radio
@@ -166,7 +168,10 @@ const Order = () => {
                 <div className="add-image">
                   <div className="order-title">나만의 개성을 추가해봐요</div>
                   <div className="radio-btn">
-                    <ImageInput />
+                    <ImageInput width="60px" height="60px" />
+                  </div>
+                  <div className="order-editor">
+                    <a href="/editor">개성을 추가하러 가기</a>
                   </div>
                 </div>
                 <div className="quantity">
@@ -194,6 +199,11 @@ const Order = () => {
           </div>
         </div>
       </div>
+      <img
+        src={dummy_img}
+        alt="상품 정보"
+        style={{ width: "70%", margin: "auto", display: "block" }}
+      />
       <Review />
       <Footer />
     </div>
