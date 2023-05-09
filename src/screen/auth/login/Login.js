@@ -276,6 +276,7 @@ function SocialLogin() {
   );
 }
 
+
 function Border() {
   return <div className="border"></div>;
 }
