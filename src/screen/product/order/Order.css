@@ -1,5 +1,6 @@
 .order-container {
   padding: 0 200px;
+  margin-bottom: 100px;
 }
 .order-page {
   display: flex;
@@ -29,7 +30,7 @@
 .add-material,
 .add-image,
 .quantity {
-  margin-bottom: 200px;
+  margin-bottom: 110px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -113,7 +114,7 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 .order-editor a:hover {
-  color: black
+  color: black;
 }
 
 /* 모바일 */
