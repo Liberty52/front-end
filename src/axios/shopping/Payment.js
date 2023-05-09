@@ -1,5 +1,6 @@
 import axios from "../axios";
 import { ACCESS_TOKEN } from "../../constants/token";
+import cookie from "react-cookies";
 
 export function prepareCard(dto, file) {
   const formData = new FormData();
@@ -48,7 +49,6 @@ export function prepareCard(dto, file) {
 }
 
 export function prepareCardCart(dto) {
-  const receiverPhoneNumber = dto.destinationDto.receiverPhoneNumber;
   if (sessionStorage.getItem(ACCESS_TOKEN)) {
     return new Promise((res) => {
       axios
@@ -72,7 +72,7 @@ export function prepareCardCart(dto) {
         .post("/product/guest/orders/card/carts", JSON.stringify(dto), {
           headers: {
             "Content-Type": 'application/json',
-            Authorization: receiverPhoneNumber,
+            Authorization: cookie.load("guest"),
           },
         })
         .then((response) => {
@@ -86,13 +86,23 @@ export function prepareCardCart(dto) {
   }
 }
 
-export function checkPayApproval(orderId) {
-  return axios.get(`/product/orders/card/${orderId}/confirm`, {
-    headers: {
-      "Content-Type": `application/json`,
-      Authorization: sessionStorage.getItem(ACCESS_TOKEN),
-    },
-  });
+export function checkCardPayApproval(orderId, guestPhoneNum) {
+  if (sessionStorage.getItem(ACCESS_TOKEN)) {
+    return axios.get(`/product/orders/card/${orderId}/confirm`, {
+      headers: {
+        "Content-Type": `application/json`,
+        Authorization: sessionStorage.getItem(ACCESS_TOKEN),
+      },
+    });
+  } else {
+    return axios.get(`/product/guest/orders/card/${orderId}/confirm`, {
+      headers: {
+        "Content-Type": `application/json`,
+        Authorization: guestPhoneNum,
+      },
+    });
+  }
+
 }
 
 export function getVBankInfos() {
@@ -149,7 +159,6 @@ export function payByVBank(dto, file) {
 }
 
 export function payByVBankCart(dto) {
-  const receiverPhoneNumber = dto.destinationDto.receiverPhoneNumber;
   if (sessionStorage.getItem(ACCESS_TOKEN)) {
     return new Promise((res) => {
       axios
@@ -175,7 +184,7 @@ export function payByVBankCart(dto) {
         .post("/product/guest/orders/vbank/carts", JSON.stringify(dto), {
           headers: {
             "Content-Type": 'application/json',
-            Authorization: receiverPhoneNumber,
+            Authorization: cookie.load("guest"),
           },
         })
         .then((response) => {

@@ -9,7 +9,7 @@ import Modal from "../../../component/Modal";
 import liberty52 from "../../../image/icon/liberty52.jpg";
 import { useState } from "react";
 import {
-  checkPayApproval,
+  checkCardPayApproval,
   payByVBank,
   prepareCard,
   prepareCardCart,
@@ -17,6 +17,7 @@ import {
 } from "../../../axios/shopping/Payment";
 import PaymentInfo from "./PaymentInfo";
 import CenterCircularProgress from "../../../component/CenterCircularProgress";
+import { ACCESS_TOKEN } from "../../../constants/token";
 
 function AddressSearchModal(props) {
   return (
@@ -280,6 +281,7 @@ function ConfirmSection(props) {
   const navigate = useNavigate();
   const [success, setSuccess] = useState(false);
   const [isConfirmProgressing, setIsConfirmProgressing] = useState(false);
+  const [orderId, setOrderId] = useState('');
 
   const productInfo = props.productInfo;
   let productInfoList = productInfo;
@@ -363,7 +365,8 @@ function ConfirmSection(props) {
               console.log(rsp);
               setIsConfirmProgressing(true);
               try {
-                const response = await checkPayApproval(merchantId);
+                const response = await checkCardPayApproval(merchantId, destinationDto.receiverPhoneNumber);
+                setOrderId(response.data.orderId);
                 setIsConfirmProgressing(false);
                 setSuccess(true);
               } catch (err) {
@@ -421,6 +424,7 @@ function ConfirmSection(props) {
         )
           .then((res) => {
             const { orderId } = res;
+            setOrderId(orderId);
             setSuccess(true);
           })
           .catch((err) => {
@@ -435,6 +439,7 @@ function ConfirmSection(props) {
         })
           .then((res) => {
             const { orderId } = res;
+            setOrderId(orderId);
             setSuccess(true);
           })
           .catch((err) => {
@@ -447,7 +452,11 @@ function ConfirmSection(props) {
   };
 
   if (success) {
-    navigate("/inquiry");
+    if (sessionStorage.getItem(ACCESS_TOKEN)) {
+      navigate(`/detail/${orderId}`);
+    } else {
+      navigate(`/product/guest/${orderId}/?phoneNumber=${destinationDto.receiverPhoneNumber}`)
+    }
   }
 
   return (
