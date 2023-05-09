@@ -3,14 +3,20 @@ body {
   padding: 0;
 }
 
+.container {
+  margin: 0 auto;
+}
 
 .Text1 {
-  font-size: 30px;
+  font-size: 20px;
   padding-left: 9rem;
   padding-top: 1rem;
   padding-bottom: 0;
 }
 
+.orderId {
+  font-size: small;
+}
 
 .section1,
 .section2,
@@ -24,6 +30,7 @@ body {
   padding-bottom: 5px;
   margin: 1rem 9rem 0 9rem;
   height: 200px;
+  width: 1000px;
 }
 
 .section1 h5 {
@@ -46,14 +53,23 @@ body {
 .Detailul li p {
   margin: 0;
   margin-left: 1rem;
-  font-size: x-large;
   justify-content: space-around;
   width: 100%;
 }
 
 .DetailProduct {
   display: flex;
+  align-items: center;
   width: 100%;
+  margin-bottom: 1rem;
+  position: relative;
+}
+
+
+.DetailProduct img {
+  width: 200px;
+  height: 150px;
+  margin-right: 1rem;
 }
 
 .productRepresentUrl {
@@ -61,10 +77,24 @@ body {
   height: 150px;
 }
 
-.DetailProductName,
-.DetailProductQuantity,
-.DetailProductPrice {
-  justify-content: space-around;
+.DetailProductName {
+  font-size: 20px;
+  flex-basis: calc(100% / 2);
+  flex-grow: 1;
+  text-align: center;
+}
+
+.DetailProductPrice,
+.DetailProductQuantity {
+  font-size: 20px;
+  flex-basis: calc(100% / 4);
+  flex-grow: 1;
+  text-align: center;
+}
+
+.DetailProductOptions {
+  font-size: small;
+
 }
 
 .DetailCName {
@@ -133,4 +163,8 @@ body {
   padding-top: 1rem;
   align-items: center;
   margin: 1rem 9rem 0 9rem;
+}
+
+.DetailProductQuantity {
+  margin-right: 5px;
 }

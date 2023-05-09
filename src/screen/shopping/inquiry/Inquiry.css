@@ -9,13 +9,28 @@
 
 .inquiry .content {
   margin: 0 auto;
-  max-width: 1500px;
+  max-width: 1000px;
 }
 
 .inquiry .sectionOrder {
   margin: 2rem;
   width: 100%;
   display: flex;
+  flex-direction: column;
+}
+
+.inquiry .order-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 1rem;
+}
+
+.inquiry .buttons {
+  display: flex;
+  gap: 10px;
 }
 
 .inquiry .cancel,
@@ -27,7 +42,10 @@
 }
 
 .inquiry .InquiryWrapper {
-  height: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  position: relative;
 }
 
 .inquiry .TCheck {
@@ -36,8 +54,8 @@
 }
 
 .inquiry .productRepresentUrl {
-  width: 350px !important;
-  height: 350px !important;
+  width: 120px !important;
+  height: 120px !important;
 }
 
 .inquiry .order-container {
@@ -47,13 +65,24 @@
 }
 
 .inquiry .order-left {
-  display: flex;
+  display: inline-block;
   align-items: center;
   gap: 10px;
 }
 
+.inquiry .order-left p {
+  text-align: center;
+}
+
 .inquiry .order-right {
-  width: 100%;
+  display: inline-block;
+  width: calc(100% - 100px);
+}
+
+
+
+.inquiry .order-right-botton p {
+  font-size: 5px;
 }
 
 .inquiry .order-right-top {
@@ -73,23 +102,49 @@
 
 .inquiry .order-img-wrapper,
 .inquiry .order-info-wrapper {
-  display: inline-flex;
+  display: flex;
   vertical-align: middle;
   margin-right: 1rem;
 }
 
+.inquiry.order-img-wrapper {
+  float: left;
+  margin-right: 10px;
+}
+
+.inquiry.order-info-wrapper {
+  float: left;
+}
+
+
+
 .inquiry .order-right-bottom {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   align-items: flex-start;
   gap: 1rem;
-  font-size: medium;
   margin-left: 3rem;
 }
+
 
 .inquiry .review {
   grid-column-start: 5;
   grid-column-end: 6;
+}
+
+.inquiry .payment-info {
+  grid-column-start: 1;
+  grid-column-end: 3;
+}
+
+.inquiry .address2 {
+  grid-column-start: 3;
+  grid-column-end: 4;
+}
+
+.inquiry .personal-info {
+  grid-column-start: 4;
+  grid-column-end: 5;
 }
 
 .inquiry .personal-info,
@@ -102,6 +157,7 @@
   flex-wrap: wrap;
   flex-direction: column;
   font-size: medium;
+  font-size: 13px;
 }
 
 .inquiry .address1,
@@ -111,6 +167,32 @@
 
 .inquiry .product-item {
   display: flex;
+  font-size: 10px;
+}
+
+.inquiry .order-info-wrapper .product-item {
+  font-size: 10px;
+}
+
+.inquiry .order-status-date {
+  grid-column-start: 5;
+  grid-column-end: 6;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.inquiry .order-status {
+  margin-bottom: 1rem;
+}
+
+.inquiry .buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  grid-column-start: 6;
+  grid-column-end: 7;
 }
 
 .product-item p {
@@ -130,6 +212,7 @@
   grid-column-start: 5;
   grid-column-end: 6;
 }
+
 
 /* 모달 */
 .inquiry .modal {

@@ -14,8 +14,9 @@ function InquiryDetails() {
   const [loading, setLoading] = useState(true);
   const { orderId } = useParams();
   const accessToken = localStorage.getItem('ACCESS_TOKEN');
-  const phoneNumber = query.get('phoneNumber');
   const query = useQuery();
+  const phoneNumber = query.get('phoneNumber');
+
 
     useEffect(() => {
       const getAccessToken = () => {
@@ -37,6 +38,7 @@ function InquiryDetails() {
       };
 
       const fetchGuestOrderDetails = async (orderId, phoneNumber) => {
+
         try {
           const response = await axios.get(`/product/guest/orders/${orderId}`, {
             headers: {
@@ -68,31 +70,41 @@ function InquiryDetails() {
 
     function OrderDetailsSection({ orderDetails }) {
       return (
-        <div className="section">
-          <div className='Text1'>음 뭐하지</div>
+        <>
+          <div className="Text1">{orderDetails.orderNum}</div>
           <div className="section1">
-          <h5>{orderDetails.orderId}</h5>
             <ul className="Detailul">
               {orderDetails.products.map(product => (
                 <li key={product.name} className="DetailProduct">
                   <img
                     src={product.productUrl}
                     alt={product.name}
-                    width="50"
                     className="productRepresentUrl"
                   />
                   <p className="DetailProductName">{product.name}</p>
-                  <p className="DetailProductQuantity">{product.quantity} 수량</p>
+                  <p className="DetailProductOptions">
+                    {product.options.map(option => (
+                      <p key={option}>{option}</p>
+                    ))}
+                  </p>
+                  <p className="DetailProductQuantity">{product.quantity} 개</p>
                   <p className="DetailProductPrice">
                     ₩{product.price.toLocaleString()}
                   </p>
+
                 </li>
+
               ))}
             </ul>
           </div>
-        </div>
+        </>
       );
     }
+
+
+
+
+
     function ImgDetailsSection({ orderDetails }) {
       return (
         <div className="section2">
@@ -121,17 +133,20 @@ function InquiryDetails() {
     }
 
     function PaymentDetailsSection({ orderDetails }) {
+      const { paymentType, paymentInfo } = orderDetails;
+      const cardInfo = `${paymentInfo.cardName} **** **** **** ${paymentInfo.cardNumber.substr(-4)}`;
+
       return (
         <div className="section4">
           <p className="DetailCName">결제 상세 정보</p>
           <p className="DetailSpacing">
             <div>결제 수단: </div>
-            <div>신용카드 예시</div>
+            <div>{paymentType}: {cardInfo}</div>
             <div>{orderDetails.orderDate}</div>
           </p>
           <p className="DetailSpacing">
             <div>청구 주소: </div>
-            <div>주소 예시</div>
+            <div>{orderDetails.address}</div>
           </p>
         </div>
       );
@@ -185,7 +200,9 @@ export default function Detail() {
   return (
     <>
       <Header/>
-      <InquiryDetails/>
+      <div className="container">
+        <InquiryDetails/>
+      </div>
       <Footer/>
     </>
   );

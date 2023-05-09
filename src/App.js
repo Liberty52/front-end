@@ -31,7 +31,7 @@ export default function App() {
           <Route path={'/payment'} element={<Payment />} />
           <Route path={'/auth/password'} element={<ChangePasswordPage />} />
           <Route path={'/inquiry'} element={<Inquiry />} />
-          <Route path={'/detail/:orderId/:phoneNumber'} element={<Detail />} />
+          <Route path={'/detail/:orderId'} element={<Detail />} />
           <Route path={'/product/guest/:orderId'} element={<Detail />} />
           <Route path={'/editor'} element={<Editor />} />
           <Route path={'/question'} element={<QuestionList />} />
