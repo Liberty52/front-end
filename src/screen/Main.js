@@ -1,25 +1,26 @@
-import './Main.css';
-import liberty52_img from '../image/icon/liberty52.jpg';
-import chromaluxe_img from '../image/icon/chromaluxe.jpg';
-import speaker_img from '../image/icon/speaker.jpg';
-import Header from '../component/Header';
-import Footer from '../component/Footer';
-import $ from 'jquery';
-import { useHistory } from 'react-router-dom';
+import "./Main.css";
+import chromaluxe_img from "../image/icon/chromaluxe.jpg";
+import speaker_img from "../image/icon/speaker.jpg";
+import product_img from "../image/icon/main.jpg";
+import liberty52_img from "../image/icon/liberty52.jpg";
+import Header from "../component/Header";
+import Footer from "../component/Footer";
+import $ from "jquery";
 
 function Section() {
   return (
     <div className="section">
+      <div style={{ height: "22%" }}></div>
       <div className="text-group">
-        <div className="text2">Liberty 52_Frame</div>
-        <div className="text1">One & Only Speaker</div>
+        <div className="text1">Liberty 52_Frame</div>
+        <div className="text2">One & Only Speaker</div>
         <div className="text3">내가 만드는 세상 유일</div>
+        <a href="/order" style={{ fontSize: "20px" }}>
+          구매하기
+        </a>
       </div>
-      <div>
-        <a href="/order">구매하기</a>
-      </div>
-      <div>
-        <img className="image" src={liberty52_img} alt="Liberty52_frame"></img>
+      <div style={{ height: "33.3%" }}>
+        <img className="image" src={product_img} alt="Liberty52_frame"></img>
       </div>
     </div>
   );
@@ -30,7 +31,12 @@ function Section2() {
     <div className="section-row background">
       <div className="text-group">
         <h1>Chromaluxe</h1>
-        1mm 두께 승화전사 인쇄용 알루미늄시트
+        <p style={{ fontSize: "20px" }}>
+          1mm 두께 승화전사 인쇄용 알루미늄시트
+        </p>
+        <a href="/order" style={{ fontSize: "20px" }}>
+          구매하기
+        </a>
       </div>
       <img
         className="chromaluxe_img"
@@ -46,7 +52,25 @@ function Section3() {
       <img src={speaker_img} alt="speaker_img"></img>
       <div className="text-group">
         <h1>진동 블루투스 스피커</h1>
-        고성능 블루투스 스피커 탑재
+        <p style={{ fontSize: "20px" }}>고성능 블루투스 스피커 탑재</p>
+        <a href="/order" style={{ fontSize: "20px" }}>
+          구매하기
+        </a>
+      </div>
+    </div>
+  );
+}
+
+function Section4() {
+  return (
+    <div className="section-last">
+      <img src={liberty52_img} alt="speaker_img" style={{ width: "500px" }} />
+      <div className="text-group">
+        <h1>세계 유일</h1>
+        <p style={{ fontSize: "20px" }}>나만의 액자형 스피커</p>
+        <a href="/order" style={{ fontSize: "20px" }}>
+          구매하기
+        </a>
       </div>
     </div>
   );
@@ -55,20 +79,20 @@ function Section3() {
 export default function Main() {
   window.addEventListener(
     // 휠 기본 기능 막기
-    'wheel',
+    "wheel",
     function (e) {
       e.preventDefault();
     },
     { passive: false }
   );
 
-  var mHtml = $('html');
+  var mHtml = $("html");
   var page = 1;
 
   mHtml.animate({ scrollTop: 0 }, 10); // Y가 0이 아닐 경우 대비
 
-  $(window).on('wheel', function (e) {
-    if (mHtml.is(':animated')) return;
+  $(window).on("wheel", function (e) {
+    if (mHtml.is(":animated")) return;
     if (e.originalEvent.deltaY > 0) {
       // deltaY가 양수면 휠을 아래로 내리는 중, 음수면 위로 올리는 중
       if (page === 4) return; // 끝까지 내렸을 때 리턴함으로 휠이동 방지
@@ -88,6 +112,7 @@ export default function Main() {
       <Section />
       <Section2 />
       <Section3 />
+      <Section4 />
       <Footer />
     </div>
   );
