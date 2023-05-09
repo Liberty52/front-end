@@ -74,7 +74,7 @@ const Order = () => {
     setMode("buy");
   };
 
-  $(window).on("resize", function () {
+  $(".order").on("resize", function () {
     calcHeight();
   });
 
