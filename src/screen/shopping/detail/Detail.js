@@ -103,17 +103,14 @@ function InquiryDetails() {
 
 
 
-
-
     function ImgDetailsSection({ orderDetails }) {
       return (
         <div className="section2">
           <p className="DetailCName">배경이미지 시안</p>
-          <img src="#" />
+          <img src={orderDetails.productRepresentUrl} alt="배경이미지 시안" />
         </div>
       );
     }
-
     function DeliveryDetailsSection({ orderDetails }) {
       return (
         <div className="section3">

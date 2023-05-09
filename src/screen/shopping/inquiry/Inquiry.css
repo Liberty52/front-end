@@ -132,19 +132,55 @@
   grid-column-end: 6;
 }
 
-.inquiry .payment-info {
+.PayAdd-wrapper {
   grid-column-start: 1;
-  grid-column-end: 3;
-}
-
-.inquiry .address2 {
-  grid-column-start: 3;
   grid-column-end: 4;
 }
 
 .inquiry .personal-info {
   grid-column-start: 4;
   grid-column-end: 5;
+}
+
+.PayAdd-wrapper .address2,
+.personal-info .info-customer {
+  margin-top: 2rem;
+}
+
+.date {
+  margin-top: 3rem;
+}
+
+
+.inquiry .order-status-date {
+  grid-column-start: 5;
+  grid-column-end: 6;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.inquiry .buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  grid-column-start: 6;
+  grid-column-end: 7;
+}
+
+.inquiry .cancel {
+  color: #0066cc;
+  border: none;
+  cursor: pointer;
+  width: 50px;
+  height: 50px;
+  font-size: medium;
+  grid-column-start: 5;
+  grid-column-end: 6;
+  width: 100%;
+  padding: 10px;
+  margin: 6px 0;
 }
 
 .inquiry .personal-info,
@@ -174,26 +210,12 @@
   font-size: 10px;
 }
 
-.inquiry .order-status-date {
-  grid-column-start: 5;
-  grid-column-end: 6;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-}
+
 
 .inquiry .order-status {
   margin-bottom: 1rem;
 }
 
-.inquiry .buttons {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  grid-column-start: 6;
-  grid-column-end: 7;
-}
 
 .product-item p {
   color: black;
@@ -202,16 +224,6 @@
   font-size: x-large;
 }
 
-.inquiry .cancel {
-  color: #0066cc;
-  border: none;
-  cursor: pointer;
-  width: 50px;
-  height: 50px;
-  font-size: medium;
-  grid-column-start: 5;
-  grid-column-end: 6;
-}
 
 
 /* 모달 */
