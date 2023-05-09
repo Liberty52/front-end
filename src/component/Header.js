@@ -1,7 +1,7 @@
 import "./Header.css";
 import { useEffect, useState } from "react";
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "../constants/token";
-import logo from "../image/icon/logo.svg";
+import logo from "../image/Logo.svg";
 
 export default function Header() {
   const headerItemsLeft = [
