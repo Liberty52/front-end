@@ -34,18 +34,18 @@ export default function ReviewModal(props) {
       <form
         onSubmit={(e) => {
           e.preventDefault();
+          const content = e.target.content.value;
           if (props.reviewInfo === undefined) {
             const dto = {
               productName: "Liberty 52_Frame",
               rating: rating,
-              content: e.target.content.value,
+              content: content,
               orderId: props.orderId,
             };
             postReview(dto, imageFiles);
           } else {
             try {
               let isModified = false;
-              const content = e.target.content.value;
               if (
                 modalInfo.rating !== rating ||
                 modalInfo.content !== content

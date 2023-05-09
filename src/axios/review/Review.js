@@ -1,10 +1,9 @@
 import axios from "../axios";
 
-export function postReview(dto, file) {
+export function postReview(dto, files) {
   const formData = new FormData();
-  for (var i = 0; i < file.length; i++) {
-    if (file[i].files[0] !== undefined)
-      formData.append("images", file[i].files[0]);
+  for (var i = 0; i < files.length; i++) {
+    if (files[i] !== undefined) formData.append("images", files[i]);
   }
 
   formData.append(

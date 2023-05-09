@@ -40,7 +40,6 @@ function OrderList() {
           <ReviewModal
             orderId={selectedOrderId}
             closeModal={() => showModal(false)}
-            onClick={console.log(selectedOrderId)}
           />
         ) : (
           <></>
