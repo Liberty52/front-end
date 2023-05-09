@@ -4,9 +4,15 @@ import Modal from "../../component/Modal";
 import ImageInputGroup from "../../component/ImageInputGroup";
 import star from "../../image/icon/star.png";
 import star_filled from "../../image/icon/star_filled.png";
-import { postReview, putReview } from "../../axios/review/Review";
+import {
+  postReview,
+  patchContents,
+  postImage,
+  delImage,
+} from "../../axios/review/Review";
 
 import { useState } from "react";
+import { Url } from "url";
 
 export default function ReviewModal(props) {
   const modalInfo =
@@ -19,25 +25,56 @@ export default function ReviewModal(props) {
       : props.reviewInfo;
   const [rating, setRating] = useState(modalInfo.rating);
   const [text, setText] = useState(modalInfo.content);
+  let delImageUrls = []; // 삭제된 이미지들
+  let imageFiles = []; // 추가된 이미지 파일들
+  const onSuccess = undefined ? () => {} : props.onSuccess;
 
   return (
     <Modal title="리뷰 작성" closeModal={props.closeModal}>
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          const dto = {
-            productName: "Liberty 52_Frame",
-            rating: rating,
-            content: e.target.content.value,
-            orderId: props.orderId,
-          };
           if (props.reviewInfo === undefined) {
-            postReview(dto, e.target.file);
-            props.closeModal();
+            const dto = {
+              productName: "Liberty 52_Frame",
+              rating: rating,
+              content: e.target.content.value,
+              orderId: props.orderId,
+            };
+            postReview(dto, imageFiles);
           } else {
-            putReview(dto, e.target.file, props.reviewInfo.reviewId);
-            props.closeModal();
+            try {
+              let isModified = false;
+              const content = e.target.content.value;
+              if (
+                modalInfo.rating !== rating ||
+                modalInfo.content !== content
+              ) {
+                const dto = {
+                  rating: rating,
+                  content: content,
+                };
+                patchContents(modalInfo.reviewId, dto);
+                isModified = true;
+              }
+              if (imageFiles.length > 0) {
+                postImage(modalInfo.reviewId, imageFiles);
+                isModified = true;
+              }
+              if (delImageUrls.length > 0) {
+                const dto = {
+                  urls: delImageUrls,
+                };
+                delImage(modalInfo.reviewId, dto);
+                isModified = true;
+              }
+              alert("수정되었습니다!");
+              if (isModified) onSuccess();
+            } catch (e) {
+              // 왜 실행이 안되지?
+            }
           }
+          props.closeModal();
         }}
       >
         <div className="rating">
@@ -68,7 +105,14 @@ export default function ReviewModal(props) {
             setText(e.target.value);
           }}
         />
-        <ImageInputGroup imageUrls={modalInfo.imageUrls} />
+        <ImageInputGroup
+          imageUrls={[...modalInfo.imageUrls]}
+          addImageFile={(file) => imageFiles.push(file)}
+          deleteImageFile={(index) => imageFiles.splice(index, 1)}
+          deleteImageUrl={(url) => delImageUrls.push(url)}
+          num={5}
+          max={10}
+        />
         <Button text="등록" />
       </form>
     </Modal>
