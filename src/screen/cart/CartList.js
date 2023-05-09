@@ -12,12 +12,13 @@ import { addComma } from "./Comma";
 import cookie from "react-cookies";
 import { ACCESS_TOKEN } from "../../constants/token";
 
-export default function CartList() {
+export default function CartList({setEmptyMode}) {
   const navigate = useNavigate();
 
   const [checkedList, setCheckedList] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0.0);
   const [paymentValue, setPaymentValue] = useState([]);
+  const [editMode,setEditMode] = useState(false);
   const [formValue, setFormValue] = useState({
     holder: "",
     material: "",
@@ -77,6 +78,10 @@ export default function CartList() {
       quantity: Number(formValue.quantity),
     };
     editData = data;
+    if(editMode){
+      handleEditClick(customProductId, editData, imageFile);
+      setEditMode(false);
+    }
   };
   const handleRowClick = (id, idx, options, quantity) => {
     console.log(formValue);
@@ -140,6 +145,7 @@ export default function CartList() {
         .then((response) => {
           setCartList(response.data);
           if (!response.data || response.data == "") {
+            setEmptyMode(true);
             // alert("장바구니에 담긴 상품이 없습니다.");
             // return navigate("/");
           }
@@ -154,6 +160,7 @@ export default function CartList() {
         .then((response) => {
           setCartList(response.data);
           if (!response.data || response.data == "") {
+            setEmptyMode(true);
             // alert("장바구니에 담긴 상품이 없습니다.");
             // return navigate("/");
           }
@@ -419,7 +426,7 @@ export default function CartList() {
                 type="submit"
                 disabled={disabledBtn}
                 onClick={(e) => {
-                  handleEditClick(customProductId, editData, imageFile);
+                  setEditMode(true)
                 }}
               >
                 수정내용 저장
