@@ -131,7 +131,14 @@ function InquiryDetails() {
 
     function PaymentDetailsSection({ orderDetails }) {
       const { paymentType, paymentInfo } = orderDetails;
-      const cardInfo = `${paymentInfo.cardName} **** **** **** ${paymentInfo.cardNumber.substr(-4)}`;
+      let cardInfo;
+      if(paymentType === "가상 계좌"){
+        cardInfo = `${paymentInfo?.depositorBank}`;
+      }
+      else{
+        cardInfo = `${paymentInfo?.cardName} **** **** **** ${paymentInfo?.cardNumber?.substr(-4)}`;
+      }
+
 
       return (
         <div className="section4">
