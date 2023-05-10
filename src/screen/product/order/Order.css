@@ -30,7 +30,7 @@
 .add-material,
 .add-image,
 .quantity {
-  margin-bottom: 110px;
+  padding: 60px 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
