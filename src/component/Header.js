@@ -36,7 +36,6 @@ export default function Header() {
               window.location.href = "/";
             }
           },
-          href: "#",
         },
         { name: "장바구니", href: "cart" },
         { name: "주문조회", href: "inquiry" },
@@ -57,7 +56,11 @@ export default function Header() {
     headerRight.push(
       <li key={headerItem.name}>
         <button onClick={headerItem.onClick}>
-          <a href={"/" + headerItem.href}>{headerItem.name}</a>
+          {headerItem.href ? (
+            <a href={"/" + headerItem.href}>{headerItem.name}</a>
+          ) : (
+            headerItem.name
+          )}
         </button>
       </li>
     );
