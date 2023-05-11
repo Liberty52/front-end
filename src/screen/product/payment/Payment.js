@@ -281,7 +281,8 @@ function ConfirmSection(props) {
   const navigate = useNavigate();
   const [success, setSuccess] = useState(false);
   const [isConfirmProgressing, setIsConfirmProgressing] = useState(false);
-  const [orderId, setOrderId] = useState('');
+  const [orderId, setOrderId] = useState("");
+  const [orderNum, setOrderNum] = useState("");
 
   const productInfo = props.productInfo;
   let productInfoList = productInfo;
@@ -367,6 +368,7 @@ function ConfirmSection(props) {
               try {
                 const response = await checkCardPayApproval(merchantId, destinationDto.receiverPhoneNumber);
                 setOrderId(response.data.orderId);
+                setOrderNum(response.data.orderNum);
                 setIsConfirmProgressing(false);
                 setSuccess(true);
               } catch (err) {
@@ -423,8 +425,9 @@ function ConfirmSection(props) {
           imageFile
         )
           .then((res) => {
-            const { orderId } = res;
+            const { orderId, orderNum } = res;
             setOrderId(orderId);
+            setOrderNum(orderNum);
             setSuccess(true);
           })
           .catch((err) => {
@@ -438,8 +441,9 @@ function ConfirmSection(props) {
           vbankDto: vBankDto,
         })
           .then((res) => {
-            const { orderId } = res;
+            const { orderId, orderNum } = res;
             setOrderId(orderId);
+            setOrderNum(orderNum);
             setSuccess(true);
           })
           .catch((err) => {
@@ -455,7 +459,7 @@ function ConfirmSection(props) {
     if (sessionStorage.getItem(ACCESS_TOKEN)) {
       navigate(`/detail/${orderId}`);
     } else {
-      navigate(`/product/guest/${orderId}/?phoneNumber=${destinationDto.receiverPhoneNumber}`)
+      navigate(`/product/guest/${orderNum}?phoneNumber=${destinationDto.receiverPhoneNumber}`)
     }
   }
 
