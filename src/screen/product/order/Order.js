@@ -13,11 +13,12 @@ import Radio from "../../../component/Radio";
 import Cookie from "../../auth/redirect/Cookie";
 import $ from "jquery";
 import useAppContext from "../../../hooks/useAppContext";
+import { ADDITIONAL_MATERIAL, BASIC_MATERIAL, MOUNTING_METHOD } from "../../../global/Constants";
 
 const Order = () => {
   const [mode, setMode] = useState("");
   const {frameOption, setFrameOption} = useAppContext()
-  console.log(frameOption)
+
   let dto = {};
   let imageFile = "";
   const navigate = useNavigate();
@@ -118,28 +119,31 @@ const Order = () => {
               <div className="order-inputs-selects">
                 <div id="mounting-method" className="mounting-method">
                   <div className="order-title">거치 방식을 선택하세요</div>
-                  <Radio
+                  {MOUNTING_METHOD.map((item, idx) => {
+                    return (<Radio
+                    key={idx}
                     style={{ marginBottom: "10px" }}
                     name="mountingMethod"
-                    text="이젤 거치형"
+                    text={item}
                     onChange={onHandleChange}
+                    checked={item === frameOption.mountingMethod}
                     required
-                  />
-                  <Radio
-                    name="mountingMethod"
-                    text="벽걸이형"
-                    onChange={onHandleChange}
-                    required
-                  />
+                  />)  
+                  })}
                 </div>
                 <div id="basic-material" className="basic-material">
                   <div className="order-title">기본소재를 선택하세요</div>
-                  <Radio
+                  {BASIC_MATERIAL.map((item, idx) => {
+                    return (<Radio
+                    key={idx}
+                    style={{ marginBottom: "10px" }}
                     name="basicMaterial"
-                    text="1mm 두께 승화전사 인쇄용 알루미늄시트"
+                    text={item}
                     onChange={onHandleChange}
+                    checked={item === frameOption.basicMaterial}
                     required
-                  />
+                  />)  
+                  })}
                 </div>
                 <div id="add-material" className="add-material">
                   <div className="order-title">
@@ -147,33 +151,17 @@ const Order = () => {
                     선택하세요
                   </div>
                   <div className="material-group">
-                    <Radio
+                    {ADDITIONAL_MATERIAL.map((item, idx) => {
+                      return (<Radio
+                      key={idx}
                       style={{ marginBottom: "10px" }}
                       name="additionalMaterial"
-                      text="유광실버"
+                      text={item}
                       onChange={onHandleChange}
+                      checked={item === frameOption.additionalMaterial}
                       required
-                    />
-                    <Radio
-                      style={{ marginBottom: "10px" }}
-                      name="additionalMaterial"
-                      text="무광실버"
-                      onChange={onHandleChange}
-                      required
-                    />
-                    <Radio
-                      style={{ marginBottom: "10px" }}
-                      name="additionalMaterial"
-                      text="유광백색"
-                      onChange={onHandleChange}
-                      required
-                    />
-                    <Radio
-                      name="additionalMaterial"
-                      text="무광백색"
-                      onChange={onHandleChange}
-                      required
-                    />
+                    />)  
+                    })}
                   </div>
                 </div>
                 <div id="add-image" className="add-image">
