@@ -53,15 +53,29 @@ const Order = () => {
         post(dto, imageFile);
         break;
       case "buy":
-        navigate("/payment", {
-          state: {
-            mounting_method: `${formValue.mounting_method}`,
-            basic_material: `${formValue.basic_material}`,
-            add_material: `${formValue.add_material}`,
-            add_image: imageFile,
-            quantity: `${formValue.quantity}`,
-          },
-        });
+        if (!formValue.mounting_method) {
+          alert("거치 방식을 입력해주세요");
+          window.location.href = "#mounting-method";
+        } else if (!formValue.basic_material) {
+          alert("기본소재를 입력해주세요");
+          window.location.href = "#basic-material";
+        } else if (!formValue.add_material) {
+          alert("기본 소재 옵션을 입력해주세요");
+          window.location.href = "#add-material";
+        } else if (!imageFile) {
+          alert("이미지를 입력해주세요");
+          window.location.href = "#add-image";
+        } else {
+          navigate("/payment", {
+            state: {
+              mounting_method: `${formValue.mounting_method}`,
+              basic_material: `${formValue.basic_material}`,
+              add_material: `${formValue.add_material}`,
+              add_image: imageFile,
+              quantity: `${formValue.quantity}`,
+            },
+          });
+        }
         break;
     }
   };
@@ -105,7 +119,7 @@ const Order = () => {
           <div className="order-options">
             <form className="order-inputs" onSubmit={onHandleSubmit}>
               <div className="order-inputs-selects">
-                <div className="mounting-method">
+                <div id="mounting-method" className="mounting-method">
                   <div className="order-title">거치 방식을 선택하세요</div>
                   <Radio
                     style={{ marginBottom: "10px" }}
@@ -121,7 +135,7 @@ const Order = () => {
                     required
                   />
                 </div>
-                <div className="basic-material">
+                <div id="basic-material" className="basic-material">
                   <div className="order-title">기본소재를 선택하세요</div>
                   <Radio
                     name="basic_material"
@@ -130,7 +144,7 @@ const Order = () => {
                     required
                   />
                 </div>
-                <div className="add-material">
+                <div id="add-material" className="add-material">
                   <div className="order-title">
                     추가 하고 싶은 기본소재 옵션을 <br />
                     선택하세요
@@ -165,7 +179,7 @@ const Order = () => {
                     />
                   </div>
                 </div>
-                <div className="add-image">
+                <div id="add-image" className="add-image">
                   <div className="order-title">나만의 개성을 추가해봐요</div>
                   <div className="radio-btn">
                     <ImageInput width="60px" height="60px" />
