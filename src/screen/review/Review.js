@@ -4,207 +4,129 @@ import "./Review.css";
 import React, { useState, useEffect } from "react";
 import Checkbox from "../../component/Checkbox";
 import Image from "../../component/Image";
-import ImageInput from "../../component/ImageInput";
-import Button from "../../component/Button";
+import ReviewModal from "../../component/review/ReviewModal";
 import star from "../../image/icon/star.png";
 import star_filled from "../../image/icon/star_filled.png";
-import close from "../../image/icon/close.png";
-import {
-  deleteReview,
-  getReview,
-  postReview,
-  putReview,
-} from "../../axios/review/Review";
+import { deleteReview, getReview } from "../../axios/review/Review";
 
-export function Modal(props) {
-  const modalInfo =
-    props.reviewInfo === undefined
-      ? {
-          rating: 1,
-          imageUrls: ["", "", ""],
-          content: "",
-        }
-      : props.reviewInfo;
-  const [rating, setRating] = useState(modalInfo.rating);
-  const [text, setText] = useState(modalInfo.content);
+export default function Review() {
+  function ReviewContents() {
+    let list = [];
+    for (var i = 0; i < reviewContents.length; i++) {
+      list.push(<ReviewContent key={i} reviewInfo={reviewContents[i]} />);
+    }
+    return (
+      <div>
+        {list.length > 0 ? list : <span>작성된 구매평이 없습니다.</span>}
 
-  return (
-    <div className="modal">
-      <div className="modal-content">
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            const dto = {
-              productName: "Liberty 52_Frame",
-              rating: rating,
-              content: e.target.content.value,
-              orderId: props.orderId,
-            };
-            if (props.reviewInfo === undefined) {
-              postReview(dto, e.target.file);
-              props.closeModal();
+      </div>
+    );
+  }
+
+  function ReviewContent(props) {
+    const [modal, showModal] = useState(false);
+    const reviewInfo = props.reviewInfo;
+
+    const filesChildNode = [];
+    reviewInfo.imageUrls.map((imageUrl, index) => {
+      filesChildNode.push(
+        <Image
+          key={index}
+          image={imageUrl}
+          onClick={(e) => {
+            const img = e.target;
+            const imageCrop = img.parentNode;
+            if (imageCrop.style.width === "auto") {
+              imageCrop.style.width = "100px";
+              imageCrop.style.height = "100px";
+              img.style.width = "100%";
             } else {
-              putReview(dto, e.target.file, props.reviewInfo.reviewId);
-              props.closeModal();
+              imageCrop.style.width = "auto";
+              imageCrop.style.height = "auto";
+              img.style.width = "300px";
             }
           }}
-        >
-          <div className="title">
-            <span></span>
-            <span>리뷰 작성</span>
-            <img src={close} onClick={props.closeModal} />
-          </div>
-          <div className="rating">
-            <img src={star_filled} onClick={() => setRating(1)} />
-            <img
-              src={rating < 2 ? star : star_filled}
-              onClick={() => setRating(2)}
-            />
-            <img
-              src={rating < 3 ? star : star_filled}
-              onClick={() => setRating(3)}
-            />
-            <img
-              src={rating < 4 ? star : star_filled}
-              onClick={() => setRating(4)}
-            />
-            <img
-              src={rating < 5 ? star : star_filled}
-              onClick={() => setRating(5)}
-            />
-          </div>
-          <textarea
-            name="content"
-            value={text}
-            required
-            maxLength={1000}
-            onChange={(e) => {
-              setText(e.target.value);
+        />
+      );
+    });
+
+    return (
+      <div className="review-content">
+        {modal ? (
+          <ReviewModal
+            closeModal={() => showModal(false)}
+            reviewInfo={reviewInfo}
+            onSuccess={() => {
+              getReviewFromServer();
             }}
           />
-          <div className="images">
-            <ImageInput image={modalInfo.imageUrls[0]} />
-            <ImageInput image={modalInfo.imageUrls[1]} />
-            <ImageInput image={modalInfo.imageUrls[2]} />
-          </div>
-          <Button text="등록" />
-        </form>
-      </div>
-    </div>
-  );
-}
-
-function ReviewContents(props) {
-  const reviewContents = props.reviewContents;
-  let list = [];
-  for (var i = 0; i < reviewContents.length; i++) {
-    list.push(<ReviewContent key={i} reviewInfo={reviewContents[i]} />);
-  }
-  return (
-    <div>{list.length > 0 ? list : <span>작성된 구매평이 없습니다.</span>}</div>
-  );
-}
-
-function ReviewContent(props) {
-  const [modal, showModal] = useState(false);
-  const reviewInfo = props.reviewInfo;
-
-  const filesChildNode = [];
-  reviewInfo.imageUrls.map((imageUrl) => {
-    filesChildNode.push(
-      <Image
-        image={imageUrl}
-        onClick={(e) => {
-          const img = e.target;
-          const imageCrop = img.parentNode;
-          if (imageCrop.style.width === "auto") {
-            imageCrop.style.width = "100px";
-            imageCrop.style.height = "100px";
-            img.style.width = "100%";
-          } else {
-            imageCrop.style.width = "auto";
-            imageCrop.style.height = "auto";
-            img.style.width = "300px";
-          }
-        }}
-      />
-    );
-  });
-
-  return (
-    <div className="review-content">
-      {modal ? (
-        <Modal closeModal={() => showModal(false)} reviewInfo={reviewInfo} />
-      ) : (
-        <></>
-      )}
-      <div className="review-header">
-        <div className="user">
-          <Image
-            image={
-              reviewInfo.authorProfileUrl === null
-                ? ""
-                : reviewInfo.authorProfileUrl
-            }
-          />
-          <div className="name">{reviewInfo.authorName}</div>
-          <div className="rating">
-            <img src={star_filled} />
-            <img src={reviewInfo.rating < 2 ? star : star_filled} />
-            <img src={reviewInfo.rating < 3 ? star : star_filled} />
-            <img src={reviewInfo.rating < 4 ? star : star_filled} />
-            <img src={reviewInfo.rating < 5 ? star : star_filled} />
-          </div>
-        </div>
-        {reviewInfo.isYours ? (
-          <div className="content-buttons">
-            <span>
-              <a
-                onClick={() => {
-                  showModal(true);
-                }}
-              >
-                수정
-              </a>
-            </span>
-            <span>|</span>
-            <span>
-              <a
-                onClick={() => {
-                  deleteReview(reviewInfo.reviewId);
-                }}
-              >
-                삭제
-              </a>
-            </span>
-          </div>
         ) : (
           <></>
         )}
+        <div className="review-header">
+          <div className="user">
+            <Image
+              image={
+                reviewInfo.authorProfileUrl === null
+                  ? ""
+                  : reviewInfo.authorProfileUrl
+              }
+            />
+            <div className="name">{reviewInfo.authorName}</div>
+            <div className="rating">
+              <img src={star_filled} />
+              <img src={reviewInfo.rating < 2 ? star : star_filled} />
+              <img src={reviewInfo.rating < 3 ? star : star_filled} />
+              <img src={reviewInfo.rating < 4 ? star : star_filled} />
+              <img src={reviewInfo.rating < 5 ? star : star_filled} />
+            </div>
+          </div>
+          {reviewInfo.isYours ? (
+            <div className="content-buttons">
+              <span>
+                <a
+                  onClick={() => {
+                    showModal(true);
+                  }}
+                >
+                  수정
+                </a>
+              </span>
+              <span>|</span>
+              <span>
+                <a
+                  onClick={() => {
+                    deleteReview(reviewInfo.reviewId);
+                  }}
+                >
+                  삭제
+                </a>
+              </span>
+            </div>
+          ) : (
+            <></>
+          )}
+        </div>
+        <div className="content">{reviewInfo.content}</div>
+        <div className="files">{filesChildNode}</div>
       </div>
-      <div className="content">{reviewInfo.content}</div>
-      <div className="files">{filesChildNode}</div>
-    </div>
-  );
-}
-
-function Pages(props) {
-  const pages = props.pages;
-  const list = [];
-  for (var i = pages.startPage; i <= pages.lastPage; i++) {
-    if (i === pages.currentPage)
-      list.push(
-        <span key={i} className="active">
-          {i}
-        </span>
-      );
-    else list.push(<span key={i}>{i}</span>);
+    );
   }
-  return <div className="pages">{list}</div>;
-}
 
-export default function Review() {
-  const [modal, showModal] = useState(false);
+  function Pages(props) {
+    const pages = props.pages;
+    const list = [];
+    for (var i = pages.startPage; i <= pages.lastPage; i++) {
+      if (i === pages.currentPage)
+        list.push(
+          <span key={i} className="active">
+            {i}
+          </span>
+        );
+      else list.push(<span key={i}>{i}</span>);
+    }
+    return <div className="pages">{list}</div>;
+  }
   const [onlyPhoto, setOnlyPhoto] = useState(false);
   const [reviewContents, setReviewContents] = useState([]);
   const [pages, setPages] = useState({
@@ -213,7 +135,7 @@ export default function Review() {
     currentPage: 1,
   });
 
-  useEffect(() => {
+  function getReviewFromServer() {
     getReview("LIB-001", 11, 0, onlyPhoto).then((res) => {
       const contents = res.contents;
       setReviewContents([]);
@@ -235,11 +157,14 @@ export default function Review() {
         currentPage: res.currentPage,
       });
     });
+  }
+
+  useEffect(() => {
+    getReviewFromServer();
   }, [onlyPhoto]);
 
   return (
     <div className="review">
-      {modal ? <Modal closeModal={() => showModal(false)} /> : <></>}
       <div className="tab">리뷰</div>
       <div className="title-div">
         <div className="title">구매평 (개수)</div>

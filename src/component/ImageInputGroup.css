@@ -1,0 +1,19 @@
+.image-input-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.image-input-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.image-input-group .image-crop {
+  width: 80px;
+  height: 80px;
+  border-radius: 7px;
+}
+
+.hidden {
+  visibility: hidden;
+}
