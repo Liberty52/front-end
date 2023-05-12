@@ -24,6 +24,7 @@ import { HTML_EDITOR_MODE } from "../../global/Constants";
 import { getQuestionList } from "../../axios/question/QuestionsList";
 import { convertQuestionStatus } from "../../utils";
 import uuid from "react-uuid";
+import { QUESTION_EDITOR } from "../../constants/path";
 
 
 export default function QuestionList() {
@@ -58,7 +59,7 @@ export default function QuestionList() {
 
 
   const moveToEditorPageButtonClicked = () => {
-    navigate(`/question/editor`, {
+    navigate(QUESTION_EDITOR, {
       state: {
         mode: HTML_EDITOR_MODE.ADD
       }

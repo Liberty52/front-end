@@ -26,6 +26,7 @@ import {
   QuestionEditorHeader,
   QuestionReplyContentWrapper, QuestionReplyEnterWrapper, QuestionReplyWrapper,
 } from "../../component/question/QuestionComponent";
+import { QUESTION, QUESTION_EDITOR } from "../../constants/path";
 
 
 export default function QuestionDetail(){
@@ -57,7 +58,7 @@ export default function QuestionDetail(){
   },[])
 
   const updateButtonClicked = () => {
-    navigate('/question/editor',{
+    navigate(QUESTION_EDITOR,{
       replace : true,
       state : {
         id,
@@ -69,7 +70,7 @@ export default function QuestionDetail(){
 
     if(window.confirm("정말로 삭제하시겠습니까?")){
       deleteQuestion(id).then(() => {
-        navigate('/question',{
+        navigate(QUESTION,{
           replace : true
         })
       }).catch(err => console.error(err));
@@ -78,7 +79,7 @@ export default function QuestionDetail(){
 
   }
   const moveToListButtonClicked = () => {
-    navigate('/question', {
+    navigate(QUESTION, {
       replace : true
     })
   }

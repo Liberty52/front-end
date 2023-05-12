@@ -21,6 +21,7 @@ import { useNavigate } from "react-router";
 import { createQuestion, updateQuestion, uploadImage } from "../../axios/question/QuestionEditor";
 import { getQuestionDetail } from "../../axios/question/QuestionDetail";
 import "./QuestionEditor.css";
+import { QUESTION } from "../../constants/path";
 
 
 export default function QuestionEditor(){
@@ -99,7 +100,7 @@ export default function QuestionEditor(){
     setExceed(editor.getHTML().length > MAX_HTML_SIZE)
   }
   const moveToListButtonClicked = () => {
-    navigate('/question', {
+    navigate(QUESTION, {
       replace : true
     })
   }
