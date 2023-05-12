@@ -13,7 +13,7 @@ import {
   QuestionListTableBodyWriteTimestamp,
   QuestionListTableHeader,
   QuestionListTableHeaderSmallItem,
-  QuestionListTablePageNumberButtonWrapper,
+  PageNumberButtonWrapper,
   QuestionPageButton,
   QuestionPageButtonWrapper,
   QuestionTableHeaderMiddleItem
@@ -119,13 +119,13 @@ export default function QuestionList() {
       </QuestionListTable>
       {data.contents?.length === 0 ? <EmptyListExpression key={uuid()}>등록된 문의가 없습니다</EmptyListExpression> :
 
-        <QuestionListTablePageNumberButtonWrapper key={uuid()}>
+        <PageNumberButtonWrapper key={uuid()}>
           <PageMoveButton onClick={pageNumberMinusButtonClicked}>&lt;</PageMoveButton>
           {createPageNumberButton()?.map(i =>
             <PageNumberButton key={i} isCurrentPage={i===data.currentPage} onClick={() => pageNumberButtonClicked(i)}>{i}</PageNumberButton>
           )}
           <PageMoveButton onClick={pageNumberPlusButtonClicked}>&gt;</PageMoveButton>
-        </QuestionListTablePageNumberButtonWrapper>
+        </PageNumberButtonWrapper>
       }
       <QuestionPageButtonWrapper >
         <QuestionPageButton onClick={moveToEditorPageButtonClicked}>문의 작성</QuestionPageButton>

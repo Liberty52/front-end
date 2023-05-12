@@ -22,7 +22,7 @@ import {
   QuestionDetailSideStatus,
   QuestionDetailTitle,
   QuestionDetailTitleWrapper,
-  QuestionDetailViewer,
+  Viewer,
   QuestionEditorHeader,
   QuestionReplyContentWrapper, QuestionReplyEnterWrapper, QuestionReplyWrapper,
 } from "../../component/question/QuestionComponent";
@@ -99,7 +99,7 @@ export default function QuestionDetail(){
           </QuestionDetailTitleWrapper>
 
       </> : <></>}
-      <QuestionDetailViewer id={"viewer"}></QuestionDetailViewer>
+      <Viewer id={"viewer"}></Viewer>
         <QuestionDetailActionWrapper>
           <QuestionDetailActionButton onClick={updateButtonClicked}>수정</QuestionDetailActionButton>
           <QuestionDetailActionDivider>/</QuestionDetailActionDivider>
