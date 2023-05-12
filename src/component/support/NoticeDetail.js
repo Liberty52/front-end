@@ -4,16 +4,16 @@ import { retrieveNoticeDetail } from "../../axios/support/Notice";
 import {
   MoveToListButton,
   QuestionDetailActionButton,
-  QuestionDetailPageButtonWrapper,
+  DetailPageButtonWrapper,
   Viewer
-} from "../../component/question/QuestionComponent";
+} from "../question/QuestionComponent";
 import { Editor } from "@toast-ui/editor";
 import {
   MoveListAnchor,
   NoticeDetailCreatedAt,
   NoticeDetailHeader,
   NoticeDetailTitle
-} from "../../component/support/notice";
+} from "./style/Notice";
 
 
 
@@ -52,11 +52,12 @@ export default function NoticeDetail({noticeId, clearNoticeId}){
       </NoticeDetailHeader>
       <Viewer id={"viewer"}></Viewer>
 
-    {/*  TODO 댓글 작성 필드 넘어오는 속성 값에 따라서 댓글 창 On/Off를 해 주어야 한다.*/}
-    {/*  TODO 댓글 리스트 조회 필드*/}
-      <QuestionDetailPageButtonWrapper>
+      {/*  TODO 댓글 작성 필드 넘어오는 속성 값에 따라서 댓글 창 On/Off를 해 주어야 한다.*/}
+      {/*  TODO 댓글 리스트 조회 필드*/}
+      {data ? <DetailPageButtonWrapper>
         <MoveToListButton onClick={clearNoticeId}>목록</MoveToListButton>
-      </QuestionDetailPageButtonWrapper>
+      </DetailPageButtonWrapper> : <></>}
+
     </>
   )
 }

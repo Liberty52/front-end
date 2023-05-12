@@ -1,9 +1,9 @@
 import Header from "../../component/Header";
 import styled from 'styled-components'
 import { useState } from "react";
-import Faq from "./Faq";
-import Warranty from "./Warranty";
-import NoticeList from "./NoticeList";
+import Faq from "../../component/support/Faq";
+import Warranty from "../../component/support/Warranty";
+import NoticeList from "../../component/support/NoticeList";
 import {
   SupportBodyWrapper,
   SupportHeaderItem,
@@ -11,8 +11,10 @@ import {
   SupportHeaderTitle,
   SupportHeaderWrapper,
   Container
-} from "../../component/support/support";
-import NoticeDetail from "./NoticeDetail";
+} from "../../component/support/style/Support";
+import NoticeDetail from "../../component/support/NoticeDetail";
+import uuid from "react-uuid";
+import Footer from "../../component/Footer";
 
 
 
@@ -59,13 +61,14 @@ export default function Support(){
           <SupportHeaderTitle>고객 지원</SupportHeaderTitle>
           <SupportHeaderItemList>
             {HeaderItems.map(i =>
-              <SupportHeaderItem name={i.name} mode={mode} onClick={i.onClick}>{i.name}</SupportHeaderItem>)}
+              <SupportHeaderItem key={uuid()} name={i.name} mode={mode} onClick={i.onClick}>{i.name}</SupportHeaderItem>)}
           </SupportHeaderItemList>
         </SupportHeaderWrapper>
         <SupportBodyWrapper>
           {createBody()}
         </SupportBodyWrapper>
       </Container>
+      <Footer/>
     </>
   )
 }

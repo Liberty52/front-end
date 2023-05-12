@@ -16,7 +16,7 @@ import {
   QuestionDetailActionDivider,
   QuestionDetailActionWrapper,
   QuestionDetailContentWrapper,
-  QuestionDetailPageButtonWrapper,
+  DetailPageButtonWrapper,
   QuestionDetailSide,
   QuestionDetailSideCreatedAt,
   QuestionDetailSideStatus,
@@ -118,9 +118,9 @@ export default function QuestionDetail(){
           </QuestionReplyContentWrapper>
         </QuestionReplyWrapper>
         :  ""}
-      <QuestionDetailPageButtonWrapper>
+      <DetailPageButtonWrapper>
         <MoveToListButton onClick={moveToListButtonClicked}>뒤로가기</MoveToListButton>
-      </QuestionDetailPageButtonWrapper>
+      </DetailPageButtonWrapper>
     </QuestionContainer>
     <Footer/>
   </>

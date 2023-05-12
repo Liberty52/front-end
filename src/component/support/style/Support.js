@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   margin: 5% 10%;
+  min-height: 50vh;
 `
 export const SupportHeaderWrapper = styled.div`
   display: flex;

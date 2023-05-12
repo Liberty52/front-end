@@ -4,15 +4,13 @@ import { retrieveNoticeList } from "../../axios/support/Notice";
 import {
    PageMoveButton, PageNumberButton,
   PageNumberButtonWrapper
-} from "../../component/question/QuestionComponent";
+} from "../question/QuestionComponent";
 import uuid from "react-uuid";
-import { NoticeItem, NoticeItemDate, NoticeListWrapper, NoticeTitle } from "../../component/support/notice";
-import { useNavigate } from "react-router-dom";
+import { NoticeItem, NoticeItemDate, NoticeListWrapper, NoticeTitle } from "./style/Notice";
 
 export default function NoticeList({setNoticeId}){
   const [pageNum, setPageNum] = useState(0);
   const [data,setData] = useState([]);
-  const navigate = useNavigate();
   const effect = async () => {
     try{
       const res = await retrieveNoticeList(10,pageNum);
@@ -55,7 +53,7 @@ export default function NoticeList({setNoticeId}){
     <>
       <NoticeListWrapper>
         {data?.contents?.map(c => {
-          return <NoticeItem onClick={() => noticeItemClicked(c.noticeId)}>
+          return <NoticeItem key={uuid()} onClick={() => noticeItemClicked(c.noticeId)}>
             <NoticeTitle>{c.title}</NoticeTitle>
             <NoticeItemDate>{c.createdAt}</NoticeItemDate>
           </NoticeItem>
