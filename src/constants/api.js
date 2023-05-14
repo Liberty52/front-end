@@ -6,3 +6,6 @@ export const UPDATE_QUESTION = (id) => `/auth/questions/${id}`;
 export const UPLOAD_IMAGE = ()=>`/auth/questions/img`;
 
 export const TOKEN_REFRESH = () => `/auth/refresh`;
+
+export const NOTICE_LIST = (size,page) => `/auth/notices?size=${size}&page=${page}`;
+export const NOTICE_DETAIL = (noticeId) => `/auth/notices/${noticeId}`;

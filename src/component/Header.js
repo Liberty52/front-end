@@ -8,6 +8,7 @@ export default function Header() {
     { name: "제품소개", href: "#" },
     { name: "사업소개", href: "#" },
     { name: "지점소개(쇼룸)", href: "#" },
+    { name: "고객지원", href: "support"}
   ];
 
   const headerLeft = [];
