@@ -16,6 +16,8 @@ export const AppContext = createContext({
   setActiveSubMenu: (value) => {},
   currentTemplate: {},
   setCurrentTemplate: {},
+  frameOption: {},
+  setFrameOption: () => {},
 })
 
 export const AppProvider = ({ children }) => {
@@ -26,6 +28,13 @@ export const AppProvider = ({ children }) => {
   const [activePanel, setActivePanel] = useState("Images")
   const [activeSubMenu, setActiveSubMenu] = useState(null)
   const [currentTemplate, setCurrentTemplate] = useState(null)
+  const [frameOption, setFrameOption] = useState({
+    mountingMethod: "",
+    basicMaterial: "",
+    additionalMaterial: "",
+    addImage: "",
+    quantity: 1,
+  });
   const context = {
     isMobile,
     setIsMobile,
@@ -41,6 +50,8 @@ export const AppProvider = ({ children }) => {
     setUploads,
     currentTemplate,
     setCurrentTemplate,
+    frameOption,
+    setFrameOption
   }
   return <AppContext.Provider value={context}>{children}</AppContext.Provider>
 }

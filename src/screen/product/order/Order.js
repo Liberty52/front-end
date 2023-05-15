@@ -12,22 +12,19 @@ import ImageInput from "../../../component/ImageInput";
 import Radio from "../../../component/Radio";
 import Cookie from "../../auth/redirect/Cookie";
 import $ from "jquery";
+import useAppContext from "../../../hooks/useAppContext";
+import { ADDITIONAL_MATERIAL, BASIC_MATERIAL, MOUNTING_METHOD } from "../../../global/Constants";
 
 const Order = () => {
   const [mode, setMode] = useState("");
-  const [formValue, setFormValue] = useState({
-    mounting_method: "",
-    basic_material: "",
-    add_material: "",
-    add_image: "",
-    quantity: 1,
-  });
+  const {frameOption, setFrameOption} = useAppContext()
+
   let dto = {};
   let imageFile = "";
   const navigate = useNavigate();
   const onHandleChange = (e) => {
-    setFormValue({
-      ...formValue,
+    setFrameOption({
+      ...frameOption,
       [e.target.name]: e.target.value,
     });
   };
@@ -35,11 +32,11 @@ const Order = () => {
     e.preventDefault();
     const productName = "Liberty 52_Frame";
     const options = [
-      `${formValue.mounting_method}`,
-      `${formValue.basic_material}`,
-      `${formValue.add_material}`,
+      `${frameOption}`,
+      `${frameOption.basicMaterial}`,
+      `${frameOption.additionalMaterial}`,
     ];
-    const quantity = `${formValue.quantity}`;
+    const quantity = `${frameOption.quantity}`;
     const image = e.target.file.files[0];
     const data = {
       productName: productName,
@@ -48,18 +45,19 @@ const Order = () => {
     };
     dto = data;
     imageFile = image;
+    // eslint-disable-next-line default-case
     switch (mode) {
       case "cart":
         post(dto, imageFile);
         break;
       case "buy":
-        if (!formValue.mounting_method) {
+        if (!frameOption.mountingMethod) {
           alert("거치 방식을 입력해주세요");
           window.location.href = "#mounting-method";
-        } else if (!formValue.basic_material) {
+        } else if (!frameOption.basicMaterial) {
           alert("기본소재를 입력해주세요");
           window.location.href = "#basic-material";
-        } else if (!formValue.add_material) {
+        } else if (!frameOption.additionalMaterial) {
           alert("기본 소재 옵션을 입력해주세요");
           window.location.href = "#add-material";
         } else if (!imageFile) {
@@ -68,11 +66,11 @@ const Order = () => {
         } else {
           navigate("/payment", {
             state: {
-              mounting_method: `${formValue.mounting_method}`,
-              basic_material: `${formValue.basic_material}`,
-              add_material: `${formValue.add_material}`,
-              add_image: imageFile,
-              quantity: `${formValue.quantity}`,
+              mountingMethod: `${frameOption.mountingMethod}`,
+              basicMaterial: `${frameOption.basicMaterial}`,
+              additionalMaterial: `${frameOption.additionalMaterial}`,
+              addImage: imageFile,
+              quantity: `${frameOption.quantity}`,
             },
           });
         }
@@ -121,28 +119,31 @@ const Order = () => {
               <div className="order-inputs-selects">
                 <div id="mounting-method" className="mounting-method">
                   <div className="order-title">거치 방식을 선택하세요</div>
-                  <Radio
+                  {MOUNTING_METHOD.map((item, idx) => {
+                    return (<Radio
+                    key={idx}
                     style={{ marginBottom: "10px" }}
-                    name="mounting_method"
-                    text="이젤 거치형"
+                    name="mountingMethod"
+                    text={item}
                     onChange={onHandleChange}
+                    checked={item === frameOption.mountingMethod}
                     required
-                  />
-                  <Radio
-                    name="mounting_method"
-                    text="벽걸이형"
-                    onChange={onHandleChange}
-                    required
-                  />
+                  />)  
+                  })}
                 </div>
                 <div id="basic-material" className="basic-material">
                   <div className="order-title">기본소재를 선택하세요</div>
-                  <Radio
-                    name="basic_material"
-                    text="1mm 두께 승화전사 인쇄용 알루미늄시트"
+                  {BASIC_MATERIAL.map((item, idx) => {
+                    return (<Radio
+                    key={idx}
+                    style={{ marginBottom: "10px" }}
+                    name="basicMaterial"
+                    text={item}
                     onChange={onHandleChange}
+                    checked={item === frameOption.basicMaterial}
                     required
-                  />
+                  />)  
+                  })}
                 </div>
                 <div id="add-material" className="add-material">
                   <div className="order-title">
@@ -150,33 +151,17 @@ const Order = () => {
                     선택하세요
                   </div>
                   <div className="material-group">
-                    <Radio
+                    {ADDITIONAL_MATERIAL.map((item, idx) => {
+                      return (<Radio
+                      key={idx}
                       style={{ marginBottom: "10px" }}
-                      name="add_material"
-                      text="유광실버"
+                      name="additionalMaterial"
+                      text={item}
                       onChange={onHandleChange}
+                      checked={item === frameOption.additionalMaterial}
                       required
-                    />
-                    <Radio
-                      style={{ marginBottom: "10px" }}
-                      name="add_material"
-                      text="무광실버"
-                      onChange={onHandleChange}
-                      required
-                    />
-                    <Radio
-                      style={{ marginBottom: "10px" }}
-                      name="add_material"
-                      text="유광백색"
-                      onChange={onHandleChange}
-                      required
-                    />
-                    <Radio
-                      name="add_material"
-                      text="무광백색"
-                      onChange={onHandleChange}
-                      required
-                    />
+                    />)  
+                    })}
                   </div>
                 </div>
                 <div id="add-image" className="add-image">
@@ -185,7 +170,7 @@ const Order = () => {
                     <ImageInput width="60px" height="60px" />
                   </div>
                   <div className="order-editor">
-                    <a href="/editor">개성을 추가하러 가기</a>
+                    <div onClick={(e) => {e.preventDefault() ?? navigate("/editor")}}>개성을 추가하러 가기</div>
                   </div>
                 </div>
                 <div className="quantity">
@@ -193,7 +178,7 @@ const Order = () => {
                   <input
                     type="number"
                     name="quantity"
-                    value={formValue.quantity}
+                    value={frameOption.quantity}
                     required
                     onChange={(e) => {
                       onHandleChange(e);

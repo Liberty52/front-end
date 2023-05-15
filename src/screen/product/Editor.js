@@ -10,16 +10,21 @@ import useDesignEditorContext from '../../hooks/useDesignEditorContext';
 import Preview from '../../component/Preview';
 import { useEditor } from '@layerhub-io/react';
 import React from 'react';
+import useAppContext from '../../hooks/useAppContext';
 
 
 const Editor = () => {
   const { displayPreview, setDisplayPreview } = useDesignEditorContext()
   const editor = useEditor();
+  const {frameOption} = useAppContext();
+  
   React.useEffect(() => {
     editor?.frame.resize({
       width: 3840,
       height: 2160,
     })
+
+    frameOption.additionalMaterial.includes("실버") ? editor?.frame.setBackgroundColor("#9B9B9B") : editor?.frame.setBackgroundColor("#ffffff")
   }, [editor])
 
 
