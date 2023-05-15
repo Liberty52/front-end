@@ -32,7 +32,7 @@ const Order = () => {
     e.preventDefault();
     const productName = "Liberty 52_Frame";
     const options = [
-      `${frameOption}`,
+      `${frameOption.mountingMethod}`,
       `${frameOption.basicMaterial}`,
       `${frameOption.additionalMaterial}`,
     ];
