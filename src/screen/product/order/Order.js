@@ -170,7 +170,7 @@ const Order = () => {
                     <ImageInput width="60px" height="60px" />
                   </div>
                   <div className="order-editor">
-                    <div onClick={(e) => {e.preventDefault() ?? navigate("/editor")}}>개성을 추가하러 가기</div>
+                    <div onClick={(e) => e.preventDefault() ?? ((frameOption.mountingMethod !== '' && frameOption.basicMaterial !== '' && frameOption.additionalMaterial !== '') ? navigate("/editor") : alert("모든 옵션을 선택해주세요."))}>개성을 추가하러 가기</div>
                   </div>
                 </div>
                 <div className="quantity">
