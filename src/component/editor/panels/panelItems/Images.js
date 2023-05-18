@@ -20,7 +20,6 @@ const Images = () => {
           src: url,
         }
         await editor.objects.add(options)
-        editor.frame.background.fill === "#ffffff" ? editor.objects.update({opacity: 0.9}) : editor.objects.update({opacity: 0.65}) 
       }
     },
     [editor]
