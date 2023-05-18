@@ -5,6 +5,7 @@ import { useEditor } from "@layerhub-io/react"
 import { ModalFooter } from "react-bootstrap"
 import Frame from "../../image/icon/frame.png"
 import useAppContext from "../../hooks/useAppContext"
+import cvi_glossy from "../../utils/glossy"
 // import { clone } from "../../utils"
 
 const Preview = ({ isOpen, setIsOpen }) => {
@@ -29,7 +30,6 @@ const Preview = ({ isOpen, setIsOpen }) => {
 
   const makePreview = React.useCallback(async () => {
     if (!editor) return
-
     // set frame background by options
     frameOption.additionalMaterial.includes("실버") ? editor?.frame.setBackgroundColor("#9B9B9B") : editor?.frame.setBackgroundColor("#ffffff")
     // set opacity of objects
@@ -59,6 +59,11 @@ const Preview = ({ isOpen, setIsOpen }) => {
     a.remove()
     setIsOpen(false)
   }, [editor])
+
+  const addGlossyEffect = (e) => {
+    console.dir(e.target)
+    cvi_glossy.add(e.target,{noshadow:true,noradius:true,nogradient:true,angle:100})
+  }
 
   return (
         <Modal
@@ -102,7 +107,7 @@ const Preview = ({ isOpen, setIsOpen }) => {
             >
             <Block $style={{ flex: 1, alignItems: "center", justifyContent: "center", display: "flex", padding: "5rem"}}>
                     <img width="500px" height="400px" src={Frame} style={{position: "fixed", zIndex: 10}}/>
-                    {!loading && <img width="350px" height="183px" src={state.image} style={{position: "relative", zIndex: 11, top: "-65px", left: "7px"}} />}
+                    {!loading && <img width="350px" height="187px" src={state.image} style={{position: "relative", zIndex: 11, top: "-65px", left: "7px"}} onLoad={(e) => addGlossyEffect(e)} />}
             </Block>
             </Block>
         </ModalBody>
