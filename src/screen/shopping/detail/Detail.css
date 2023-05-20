@@ -111,11 +111,15 @@
 }
 
 .DetailSpacing {
-  width: 30%;
-  margin-right: 25px;
+  width: 50%;
 }
 
-.finalWrapper {
+.content {
+  display: flex;
+  width: 66.67%;
+}
+
+.content-col {
   display: flex;
   flex-direction: column;
   width: 66.67%;

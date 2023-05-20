@@ -115,7 +115,9 @@ function InquiryDetails() {
     return (
       <div className="section2">
         <p className="DetailCName">배경이미지 시안</p>
-        <img src={orderDetails.productRepresentUrl} alt="배경이미지 시안" />
+        <div className="content">
+          <img src={orderDetails.productRepresentUrl} alt="배경이미지 시안" />
+        </div>
       </div>
     );
   }
@@ -123,16 +125,18 @@ function InquiryDetails() {
     return (
       <div className="section3">
         <p className="DetailCName">배송 상세 정보</p>
-        <p className="DetailSpacing">
-          <div>배송지: </div>
-          <div>{orderDetails.address}</div>
-        </p>
-        <p className="DetailSpacing">
-          <div>연락처 정보: </div>
-          <div>{orderDetails.receiverEmail}</div>
-          <div>{orderDetails.receiverPhoneNumber}</div>
-          <div>{orderDetails.receiverName}</div>
-        </p>
+        <div className="content">
+          <p className="DetailSpacing">
+            <div>배송지: </div>
+            <div>{orderDetails.address}</div>
+          </p>
+          <p className="DetailSpacing">
+            <div>연락처 정보: </div>
+            <div>{orderDetails.receiverEmail}</div>
+            <div>{orderDetails.receiverPhoneNumber}</div>
+            <div>{orderDetails.receiverName}</div>
+          </p>
+        </div>
       </div>
     );
   }
@@ -151,17 +155,19 @@ function InquiryDetails() {
     return (
       <div className="section4">
         <p className="DetailCName">결제 상세 정보</p>
-        <p className="DetailSpacing">
-          <div>결제 수단: </div>
-          <div>
-            {paymentType}: {cardInfo}
-          </div>
-          <div>{orderDetails.orderDate}</div>
-        </p>
-        <p className="DetailSpacing">
-          <div>청구 주소: </div>
-          <div>{orderDetails.address}</div>
-        </p>
+        <div className="content">
+          <p className="DetailSpacing">
+            <div>결제 수단: </div>
+            <div>
+              {paymentType}: {cardInfo}
+            </div>
+            <div>{orderDetails.orderDate}</div>
+          </p>
+          <p className="DetailSpacing">
+            <div>청구 주소: </div>
+            <div>{orderDetails.address}</div>
+          </p>
+        </div>
       </div>
     );
   }
@@ -170,7 +176,7 @@ function InquiryDetails() {
     return (
       <div className="section5">
         <p className="DetailCName">총계</p>
-        <div className="finalWrapper">
+        <div className="content-col">
           <div className="FinalTop">
             <p className="charge">
               <div>소계</div>
