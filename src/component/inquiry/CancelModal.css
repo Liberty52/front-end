@@ -1,0 +1,24 @@
+.cancel-form .reason-title,
+.cancel-form .reason-textarea,
+.cancel-form .refund-title,
+.cancel-form .input {
+  margin-bottom: 13px;
+}
+
+.cancel-form .reason-title,
+.cancel-form .refund-title {
+  font-size: 14px;
+}
+
+.cancel-form textarea {
+  width: 100%;
+  height: 100px;
+  padding: 7px;
+  resize: none; /* 사용자 임의 변경 불가 */
+  border: 1px solid gray;
+}
+
+.cancel-form textarea:focus-visible {
+  outline: none;
+  border: 1.5px solid gray;
+}
