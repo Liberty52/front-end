@@ -17,7 +17,9 @@ function PaymentMethod(props) {
     <RadioGroup
       defaultValue="card"
       size="sm"
-      sx={{ justifyContent: 'space-around' }}
+      sx={{
+        justifyContent: 'space-around'
+    }}
       orientation="horizontal"
     >
       {[
@@ -46,7 +48,7 @@ function PaymentMethod(props) {
               label: ({ checked }) => ({
                 sx: {
                   fontWeight: 'md',
-                  fontSize: 'sm',
+                  fontSize: 'md',
                   color: checked ? 'text.primary' : 'text.secondary',
                 },
               }),
@@ -113,6 +115,7 @@ function VBankContent(props) {
               transform: 'rotate(-180deg)',
             },
           },
+          fontFamily: 'inherit',
           fontSize: 13,
           minHeight: '34px',
         }}
@@ -124,6 +127,7 @@ function VBankContent(props) {
             key={vBank.account}
             value={vBank.account}
             sx={{
+              fontFamily: 'inherit',
               fontSize: 13,
             }}
           >
@@ -140,6 +144,7 @@ function VBankContent(props) {
       >
         <Input
           sx={{
+            fontFamily: 'inherit',
             fontSize: 13,
             minHeight: '34px',
             '--Input-focusedThickness': '1px',
