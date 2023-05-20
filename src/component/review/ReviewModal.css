@@ -1,46 +1,20 @@
-/* 모달 */
-.review .modal,
-.inquiry .modal {
-  display: flex;
-}
-
-.review .modal .modal-content,
-.inquiry .modal .modal-content {
-  margin: 0 35%;
-}
-
-.review .modal .rating,
-.review .modal textarea,
-.review .modal .image-input-group,
-.inquiry .modal .rating,
-.inquiry .modal textarea,
-.inquiry .modal .image-input-group {
+.review-form .rating,
+.review-form textarea,
+.review-form .image-input-group {
   margin-bottom: 13px;
 }
 
-/* .review .modal .title,
-.inquiry .modal .title {
-  display: flex;
-  font-weight: bold;
-  border-bottom: 1px solid gray;
-  padding: 10px 0;
-  align-items: center;
-} */
-
-.review .modal .rating,
-.inquiry .modal .rating {
+.review-form .rating {
   display: flex;
   justify-content: center;
 }
 
-.review .modal .rating img,
-.inquiry .modal .rating img {
+.review-form .rating img {
   width: 33px;
   margin: 0 3px;
 }
 
-.review .modal textarea,
-.inquiry .modal textarea {
+.review-form textarea {
   width: 100%;
   height: 100px;
   padding: 7px;
@@ -48,8 +22,7 @@
   border: 1px solid gray;
 }
 
-.review .modal textarea:focus-visible,
-.inquiry .modal textarea:focus-visible {
+.review-form textarea:focus-visible {
   outline: none;
   border: 1.5px solid gray;
 }
