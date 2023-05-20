@@ -67,7 +67,7 @@ export default function CancelModal({ order, closeModal }) {
             />
           </>
         )}
-        <Button text="주문 취소"></Button>
+        <Button text="확인"></Button>
       </form>
     </Modal>
   );
