@@ -8,8 +8,6 @@ export function fetchOrders(sessionToken) {
 }
 
 export function cancelOrder(dto) {
-  console.log("결제 취소 정보");
-  console.log(dto);
   axios
     .post("/product/orders/cancel", JSON.stringify(dto), {
       headers: {
@@ -18,7 +16,7 @@ export function cancelOrder(dto) {
       },
     })
     .then((response) => {
-      alert(response.data);
+      alert(response.data.message);
     })
     .catch((e) => {
       if (e.response) {
