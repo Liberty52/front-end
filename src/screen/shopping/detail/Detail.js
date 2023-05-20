@@ -69,7 +69,6 @@ function InquiryDetails() {
 
   function OrderDetailsSection({ orderDetails }) {
     const [modal, showModal] = useState(false);
-    console.log(orderDetails);
     return (
       <>
         {modal && (
