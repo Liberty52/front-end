@@ -47,9 +47,7 @@ export default function Review() {
         />
       );
     });
-    const replies = reviewInfo.replies.map((reply) => {
-      <div key={reply.replyId}>{reply.content}</div>;
-    });
+
     return (
       <div className="review-content">
         {modal ? (
@@ -108,7 +106,11 @@ export default function Review() {
           )}
         </div>
         <div className="content">{reviewInfo.content}</div>
-        <div className="reply">{replies}</div>
+        <div className="reply">
+          {reviewInfo.replies.map((reply) => {
+            return <div key={reply.replyId}>{reply.content}</div>;
+          })}
+        </div>
         <div className="files">{filesChildNode}</div>
       </div>
     );
