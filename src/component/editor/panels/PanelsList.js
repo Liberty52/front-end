@@ -29,6 +29,10 @@ const BASE_ITEMS = [
       id: "layers",
       name: "Layers",
     },
+    {
+      id: "ai",
+      name: "AI"
+    }
   ]
 
 const PanelsList = () => {
