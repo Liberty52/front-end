@@ -13,11 +13,15 @@ import Radio from "../../../component/Radio";
 import Cookie from "../../auth/redirect/Cookie";
 import $ from "jquery";
 import useAppContext from "../../../hooks/useAppContext";
-import { ADDITIONAL_MATERIAL, BASIC_MATERIAL, MOUNTING_METHOD } from "../../../global/Constants";
+import {
+  ADDITIONAL_MATERIAL,
+  BASIC_MATERIAL,
+  MOUNTING_METHOD,
+} from "../../../global/Constants";
 
 const Order = () => {
   const [mode, setMode] = useState("");
-  const {frameOption, setFrameOption} = useAppContext()
+  const { frameOption, setFrameOption } = useAppContext();
 
   let dto = {};
   let imageFile = "";
@@ -66,10 +70,10 @@ const Order = () => {
         } else {
           navigate("/payment", {
             state: {
-              mountingMethod: `${frameOption.mountingMethod}`,
-              basicMaterial: `${frameOption.basicMaterial}`,
-              additionalMaterial: `${frameOption.additionalMaterial}`,
-              addImage: imageFile,
+              mounting_method: `${frameOption.mountingMethod}`,
+              basic_material: `${frameOption.basicMaterial}`,
+              add_material: `${frameOption.additionalMaterial}`,
+              add_image: imageFile,
               quantity: `${frameOption.quantity}`,
             },
           });
@@ -120,29 +124,33 @@ const Order = () => {
                 <div id="mounting-method" className="mounting-method">
                   <div className="order-title">거치 방식을 선택하세요</div>
                   {MOUNTING_METHOD.map((item, idx) => {
-                    return (<Radio
-                    key={idx}
-                    style={{ marginBottom: "10px" }}
-                    name="mountingMethod"
-                    text={item}
-                    onChange={onHandleChange}
-                    checked={item === frameOption.mountingMethod}
-                    required
-                  />)  
+                    return (
+                      <Radio
+                        key={idx}
+                        style={{ marginBottom: "10px" }}
+                        name="mountingMethod"
+                        text={item}
+                        onChange={onHandleChange}
+                        checked={item === frameOption.mountingMethod}
+                        required
+                      />
+                    );
                   })}
                 </div>
                 <div id="basic-material" className="basic-material">
                   <div className="order-title">기본소재를 선택하세요</div>
                   {BASIC_MATERIAL.map((item, idx) => {
-                    return (<Radio
-                    key={idx}
-                    style={{ marginBottom: "10px" }}
-                    name="basicMaterial"
-                    text={item}
-                    onChange={onHandleChange}
-                    checked={item === frameOption.basicMaterial}
-                    required
-                  />)  
+                    return (
+                      <Radio
+                        key={idx}
+                        style={{ marginBottom: "10px" }}
+                        name="basicMaterial"
+                        text={item}
+                        onChange={onHandleChange}
+                        checked={item === frameOption.basicMaterial}
+                        required
+                      />
+                    );
                   })}
                 </div>
                 <div id="add-material" className="add-material">
@@ -152,15 +160,17 @@ const Order = () => {
                   </div>
                   <div className="material-group">
                     {ADDITIONAL_MATERIAL.map((item, idx) => {
-                      return (<Radio
-                      key={idx}
-                      style={{ marginBottom: "10px" }}
-                      name="additionalMaterial"
-                      text={item}
-                      onChange={onHandleChange}
-                      checked={item === frameOption.additionalMaterial}
-                      required
-                    />)  
+                      return (
+                        <Radio
+                          key={idx}
+                          style={{ marginBottom: "10px" }}
+                          name="additionalMaterial"
+                          text={item}
+                          onChange={onHandleChange}
+                          checked={item === frameOption.additionalMaterial}
+                          required
+                        />
+                      );
                     })}
                   </div>
                 </div>

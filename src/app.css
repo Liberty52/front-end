@@ -23,11 +23,7 @@ a {
   text-decoration: none;
 }
 
-div,
-span,
-a,
-button,
-input {
+* {
   font-family: "GmarketSansMedium";
   font-size: 13px;
 }
