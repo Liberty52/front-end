@@ -18,11 +18,9 @@ export default function Review() {
     return (
       <div>
         {list.length > 0 ? list : <span>작성된 구매평이 없습니다.</span>}
-
       </div>
     );
   }
-
   function ReviewContent(props) {
     const [modal, showModal] = useState(false);
     const reviewInfo = props.reviewInfo;
@@ -49,7 +47,9 @@ export default function Review() {
         />
       );
     });
-
+    const replies = reviewInfo.replies.map((reply) => {
+      <div key={reply.replyId}>{reply.content}</div>;
+    });
     return (
       <div className="review-content">
         {modal ? (
@@ -108,6 +108,7 @@ export default function Review() {
           )}
         </div>
         <div className="content">{reviewInfo.content}</div>
+        <div className="reply">{replies}</div>
         <div className="files">{filesChildNode}</div>
       </div>
     );
@@ -148,6 +149,7 @@ export default function Review() {
           authorProfileUrl: contents[i].authorProfileUrl,
           authorName: contents[i].authorName,
           isYours: contents[i].isYours,
+          replies: contents[i].replies,
         };
         setReviewContents((reviewContents) => [...reviewContents, reviewInfo]);
       }
