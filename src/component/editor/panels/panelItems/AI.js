@@ -9,6 +9,7 @@ import { useEditor } from '@layerhub-io/react'
 import { useStyletron } from 'baseui'
 import { postImageGeneration } from '../../../../axios/shopping/AI'
 import CenterCircularProgress from '../../../CenterCircularProgress'
+import { ACCESS_TOKEN } from '../../../../constants/token'
 
 export default function AI() {
   const editor = useEditor()
@@ -55,31 +56,37 @@ export default function AI() {
           <AngleDoubleLeft size={18} />
         </Block>
       </Block>
-      <Scrollable>
-        <Block padding="0 1.5rem">
-          <AITemplate addImages={addImages} setIsLoading={setIsLoading} />
+      {sessionStorage.getItem(ACCESS_TOKEN) ? (
+        <Scrollable>
+          <Block padding="0 1.5rem">
+            <AITemplate addImages={addImages} setIsLoading={setIsLoading} />
+          </Block>
+          <Block padding="0 1.5rem">
+            <div
+              style={{
+                display: 'grid',
+                gap: '8px',
+                gridTemplateColumns: '1fr 1fr',
+                marginTop: '10px',
+              }}
+            >
+              {images.map((image, index) => {
+                return (
+                  <ImageItem
+                    key={index}
+                    onClick={() => addObject(image)}
+                    preview={image}
+                  />
+                )
+              })}
+            </div>
+          </Block>
+        </Scrollable>
+      ) : (
+        <Block style={{ alignSelf: 'center' }}>
+          로그인 후 사용 가능합니다.
         </Block>
-        <Block padding="0 1.5rem">
-          <div
-            style={{
-              display: 'grid',
-              gap: '8px',
-              gridTemplateColumns: '1fr 1fr',
-              marginTop: '10px',
-            }}
-          >
-            {images.map((image, index) => {
-              return (
-                <ImageItem
-                  key={index}
-                  onClick={() => addObject(image)}
-                  preview={image}
-                />
-              )
-            })}
-          </div>
-        </Block>
-      </Scrollable>
+      )}
     </Block>
   )
 }
