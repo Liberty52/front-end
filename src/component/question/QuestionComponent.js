@@ -106,7 +106,7 @@ export const QuestionPageButton = styled.div`
   }
 `
 
-export const QuestionListTablePageNumberButtonWrapper =  styled.div`
+export const PageNumberButtonWrapper =  styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
@@ -232,7 +232,7 @@ export const QuestionDetailSideCreatedAt = styled.div`
   color: rgba(0,0,0,0.4)
 `
 
-export const QuestionDetailViewer = styled.div`
+export const Viewer = styled.div`
   margin: 20px 0px;
 `
 
@@ -252,7 +252,7 @@ export const QuestionDetailActionDivider = styled.div`
   margin : 0px 5px;
 `
 
-export const QuestionDetailPageButtonWrapper = styled(QuestionPageButtonWrapper)`
+export const DetailPageButtonWrapper = styled(QuestionPageButtonWrapper)`
   margin-top: 15px;
 `
 

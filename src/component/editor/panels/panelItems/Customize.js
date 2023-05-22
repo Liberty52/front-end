@@ -14,29 +14,11 @@ import useSidebarOpen from "../../../../hooks/useSidebarOpen"
 import useDesignEditorContext from "../../../../hooks/useDesignEditorContext"
 import product_img from '../../../../image/icon/product.png';
 
-const colors = ["#ffffff", "#9B9B9B"]
-
 const previewImgs = [product_img]
 
 const Customize = () => {
-  const editor = useEditor()
   const frame = useFrame()
   const { setIsSidebarOpen } = useSidebarOpen()
-
-  const [state, setState] = React.useState({
-    backgroundColor: "#000000",
-  })
-
-  const changeBackgroundColor = (color) => {
-    if (editor) {
-      editor.frame.setBackgroundColor(color)
-      editor.frame.background.fill === "#ffffff" ? editor.objects.list().map(obj => obj.opacity = 0.9) : editor.objects.list().map(obj => obj.opacity = 0.65) 
-    }
-  }
-  const handleChange = (type, value) => {
-    setState({ ...state, [type]: value })
-    changeBackgroundColor(value)
-  }
 
   return (
     <Block $style={{ flex: 1, display: "flex", flexDirection: "column" }}>
@@ -72,29 +54,6 @@ const Customize = () => {
                 fontSize: "14px",
               }}
             >
-              <div>Background color</div>
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "repeat(5, 1fr)",
-                  gap: "0.5rem",
-                  paddingTop: "0.25rem",
-                }}
-              >
-                {colors.map((color) => (
-                  <div
-                    onClick={() => handleChange("backgroundColor", color)}
-                    key={color}
-                    style={{
-                      background: color,
-                      borderRadius: "4px",
-                      border: "1px solid #d7d8e3",
-                      height: "34px",
-                      cursor: "pointer",
-                    }}
-                  />
-                ))}
-              </div>
             </div>
           </Block>
         </Block>

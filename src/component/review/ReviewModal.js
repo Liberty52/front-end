@@ -32,6 +32,7 @@ export default function ReviewModal(props) {
   return (
     <Modal title="리뷰 작성" closeModal={props.closeModal}>
       <form
+        className="review-form"
         onSubmit={(e) => {
           e.preventDefault();
           const content = e.target.content.value;
