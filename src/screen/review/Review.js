@@ -108,7 +108,12 @@ export default function Review() {
         <div className="content">{reviewInfo.content}</div>
         <div className="reply">
           {reviewInfo.replies.map((reply) => {
-            return <div key={reply.replyId}>{reply.content}</div>;
+            return (
+              <div key={reply.replyId}>
+                {reply.authorName} <br />
+                {reply.content}
+              </div>
+            );
           })}
         </div>
         <div className="files">{filesChildNode}</div>
