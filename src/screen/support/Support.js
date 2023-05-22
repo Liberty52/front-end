@@ -1,4 +1,4 @@
-import Header from "../../component/Header";
+import Header from "../../component/common/Header";
 import styled from 'styled-components'
 import { useState } from "react";
 import Faq from "../../component/support/Faq";
@@ -14,7 +14,7 @@ import {
 } from "../../component/support/style/Support";
 import NoticeDetail from "../../component/support/NoticeDetail";
 import uuid from "react-uuid";
-import Footer from "../../component/Footer";
+import Footer from "../../component/common/Footer";
 
 
 

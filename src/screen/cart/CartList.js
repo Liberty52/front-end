@@ -6,19 +6,19 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Table from "react-bootstrap/Table";
 import { useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
-import LButton from "../../component/Button";
-import { handleDeleteClick, handleEditClick } from "../../axios/shopping/Cart";
+import LButton from "../../component/common/Button";
+import { handleDeleteClick, handleEditClick } from "../../axios/cart/Cart";
 import { addComma } from "./Comma";
 import cookie from "react-cookies";
 import { ACCESS_TOKEN } from "../../constants/token";
 
-export default function CartList({setEmptyMode}) {
+export default function CartList({ setEmptyMode }) {
   const navigate = useNavigate();
 
   const [checkedList, setCheckedList] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0.0);
   const [paymentValue, setPaymentValue] = useState([]);
-  const [editMode,setEditMode] = useState(false);
+  const [editMode, setEditMode] = useState(false);
   const [formValue, setFormValue] = useState({
     holder: "",
     material: "",
@@ -78,7 +78,7 @@ export default function CartList({setEmptyMode}) {
       quantity: Number(formValue.quantity),
     };
     editData = data;
-    if(editMode){
+    if (editMode) {
       handleEditClick(customProductId, editData, imageFile);
       setEditMode(false);
     }
@@ -426,7 +426,7 @@ export default function CartList({setEmptyMode}) {
                 type="submit"
                 disabled={disabledBtn}
                 onClick={(e) => {
-                  setEditMode(true)
+                  setEditMode(true);
                 }}
               >
                 수정내용 저장
