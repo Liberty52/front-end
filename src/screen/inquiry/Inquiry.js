@@ -159,7 +159,8 @@ function OrderList() {
                   type="button"
                   className="review"
                   text="리뷰 쓰기"
-                  onClick={() => {
+                  onClick={(e) => {
+                    e.stopPropagation();
                     showReviewModal(true);
                     setSelectedOrder(order);
                   }}
