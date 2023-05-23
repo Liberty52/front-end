@@ -147,7 +147,8 @@ function OrderList() {
                 <button
                   type="button"
                   className="cancel"
-                  onClick={() => {
+                  onClick={(e) => {
+                    e.stopPropagation();
                     showCancelModal(true);
                     setSelectedOrder(order);
                   }}

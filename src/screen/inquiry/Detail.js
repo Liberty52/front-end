@@ -13,7 +13,6 @@ function InquiryDetails() {
   const [orderDetails, setOrderDetails] = useState({});
   const [loading, setLoading] = useState(true);
   const { orderId } = useParams();
-  const accessToken = localStorage.getItem("ACCESS_TOKEN");
   const query = useQuery();
   const phoneNumber = query.get("phoneNumber");
 
