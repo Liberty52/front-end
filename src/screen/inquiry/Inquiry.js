@@ -1,6 +1,6 @@
 import "./Inquiry.css";
 import React, { useState, useEffect } from "react";
-import { fetchOrders } from "../../axios/product/Inquiry";
+import { fetchOrders } from "../../axios/inquiry/Inquiry";
 import Header from "../../component/common/Header";
 import Footer from "../../component/common/Footer";
 import ReviewModal from "../../component/order/review/ReviewModal";
