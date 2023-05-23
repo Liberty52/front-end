@@ -83,39 +83,42 @@ function InquiryDetails() {
             주문 취소
           </button>
         </div>
-        <div className="section1">
-          <ul className="Detailul">
-            {orderDetails.products.map((product) => (
-              <li key={product.name} className="DetailProduct">
-                <img
-                  src={product.productUrl}
-                  alt={product.name}
-                  className="productRepresentUrl"
-                />
-                <p className="DetailProductName">{product.name}</p>
-                <p className="DetailProductOptions">
-                  {product.options.map((option) => (
-                    <p key={option}>{option}</p>
-                  ))}
-                </p>
-                <p className="DetailProductQuantity">{product.quantity} 개</p>
-                <p className="DetailProductPrice">
-                  ₩{product.price.toLocaleString()}
-                </p>
-              </li>
-            ))}
-          </ul>
-        </div>
+        {orderDetails.products.map((product) => (
+          <>
+            <div className="section1">
+              <ul className="Detailul">
+                <li key={product.name} className="DetailProduct">
+                  <img
+                    src={orderDetails.productRepresentUrl}
+                    alt={product.name}
+                    className="productRepresentUrl"
+                  />
+                  <p className="DetailProductName">{product.name}</p>
+                  <p className="DetailProductOptions">
+                    {product.options.map((option) => (
+                      <p key={option}>{option}</p>
+                    ))}
+                  </p>
+                  <p className="DetailProductQuantity">{product.quantity} 개</p>
+                  <p className="DetailProductPrice">
+                    ₩{product.price.toLocaleString()}
+                  </p>
+                </li>
+              </ul>
+            </div>
+            <ImgDetailsSection productUrl={product.productUrl} />
+          </>
+        ))}
       </>
     );
   }
 
-  function ImgDetailsSection({ orderDetails }) {
+  function ImgDetailsSection({ productUrl }) {
     return (
       <div className="section2">
         <p className="DetailCName">배경이미지 시안</p>
         <div className="content">
-          <img src={orderDetails.productRepresentUrl} alt="배경이미지 시안" />
+          <img src={productUrl} alt="배경이미지 시안" />
         </div>
       </div>
     );
@@ -204,7 +207,6 @@ function InquiryDetails() {
       ) : (
         <>
           <OrderDetailsSection orderDetails={orderDetails} />
-          <ImgDetailsSection orderDetails={orderDetails} />
           <DeliveryDetailsSection orderDetails={orderDetails} />
           <PaymentDetailsSection orderDetails={orderDetails} />
           <ResultDetailsSection orderDetails={orderDetails} />

@@ -114,12 +114,12 @@
   width: 50%;
 }
 
-.content {
+.detail .content {
   display: flex;
   width: 66.67%;
 }
 
-.content-col {
+.detail .content-col {
   display: flex;
   flex-direction: column;
   width: 66.67%;

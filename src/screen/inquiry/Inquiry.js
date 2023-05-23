@@ -137,7 +137,8 @@ function OrderList() {
               </div>
               <div className="date">주문 날짜 : {order.orderDate}</div>
             </div>
-            {order.orderStatus === "ORDERED" && (
+            {(order.orderStatus === "ORDERED" ||
+              order.orderStatus === "WAITING_DEPOSIT") && (
               <div className="buttons">
                 <button
                   type="button"
