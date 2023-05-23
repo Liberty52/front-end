@@ -5,7 +5,6 @@ import Footer from "../../component/common/Footer";
 import CancelModal from "../../component/inquiry/CancelModal";
 import { useParams, useLocation } from "react-router-dom";
 import axios from "../../axios/axios";
-import { ACCESS_TOKEN } from "../../constants/token";
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
