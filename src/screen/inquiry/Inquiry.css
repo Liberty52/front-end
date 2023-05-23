@@ -23,9 +23,10 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 2rem;
   border-bottom: 1px solid #ccc;
-  padding-bottom: 1rem;
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+  cursor: pointer;
 }
 
 .inquiry .buttons {
@@ -79,8 +80,6 @@
   width: calc(100% - 100px);
 }
 
-
-
 .inquiry .order-right-botton p {
   font-size: 5px;
 }
@@ -116,8 +115,6 @@
   float: left;
 }
 
-
-
 .inquiry .order-right-bottom {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
@@ -125,7 +122,6 @@
   gap: 1rem;
   margin-left: 3rem;
 }
-
 
 .inquiry .review {
   grid-column-start: 5;
@@ -150,7 +146,6 @@
 .date {
   margin-top: 3rem;
 }
-
 
 .inquiry .order-status-date {
   grid-column-start: 5;
@@ -181,6 +176,7 @@
   width: 100%;
   padding: 10px;
   margin: 6px 0;
+  align-items: center;
 }
 
 .inquiry .personal-info,
@@ -210,12 +206,9 @@
   font-size: 10px;
 }
 
-
-
 .inquiry .order-status {
   margin-bottom: 1rem;
 }
-
 
 .product-item p {
   color: black;

@@ -58,7 +58,11 @@ function OrderList() {
           <div className="TCheck">주문조회</div>
           <div className="sectionOrder">
             {orders.map((order) => (
-              <div key={order.orderId} className="order-item">
+              <div
+                key={order.orderId}
+                className="order-item"
+                onClick={() => goToDetail(order.orderId)}
+              >
                 <OrderImg
                   orderId={order.orderId}
                   orderNum={order.orderNum}
@@ -82,7 +86,7 @@ function OrderList() {
     return (
       <div className="order-img-wrapper">
         <div className="order-left">
-          <p onClick={() => goToDetail(orderId)}>{orderNum}</p>
+          <p>{orderNum}</p>
           <img
             src={productRepresentUrl}
             alt="representative"
