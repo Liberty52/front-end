@@ -73,3 +73,7 @@ export const resizedataURL = (imgTag, canvasTag, datas, wantedWidth, wantedHeigh
       imgTag.src = datas;
   });
 }
+
+export const detectMobByWindowWidth = () => {
+  return ( ( window.innerWidth <= 800 ));
+}
