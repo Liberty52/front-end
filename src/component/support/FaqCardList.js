@@ -5,7 +5,7 @@ import LocalShippingOutlinedIcon from "@mui/icons-material/LocalShippingOutlined
 import ChangeCircleOutlinedIcon from "@mui/icons-material/ChangeCircleOutlined";
 import GppGoodOutlinedIcon from "@mui/icons-material/GppGoodOutlined";
 import ListAltOutlinedIcon from "@mui/icons-material/ListAltOutlined";
-import { FaqBody, FaqCard, FaqTitle } from "./style/Faq";
+import { FaqBody, FaqCard, FaqListWrapper, FaqTitle } from "./style/Faq";
 import { Stack } from "@mui/joy";
 import { useNavigate } from "react-router-dom";
 
@@ -84,9 +84,9 @@ export default function FaqCardList(){
 
   return (
     <>
-      <Stack flexDirection={"row"} spacing={2} useFlexGap flexWrap="wrap">
+      <FaqListWrapper flexDirection={"row"} spacing={2} useFlexGap flexWrap="wrap">
         {createFAQ().map(f => f)}
-      </Stack>
+      </FaqListWrapper>
     </>
   )
 }

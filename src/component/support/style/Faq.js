@@ -1,16 +1,23 @@
 import styled, { keyframes , css} from "styled-components";
 import { Card, Stack } from "@mui/joy";
 
+export const FaqListWrapper = styled(Stack)`
+  
+  @media(max-width: 1080px){
+    justify-content: center;
+  }
+
+`
 
 export const FaqCard = styled(Card)`
-  width: 32%;
+  width: calc(33% - 16px);
 
   @media (max-width: 1080px) {
-    width: 45%;
+    width: calc(50% - 16px);
   }
 
   @media (max-width: 500px) {
-    width: 95%;
+    width: calc(100% - 16px);
   }
 `;
 
