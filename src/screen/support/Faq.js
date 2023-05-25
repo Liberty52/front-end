@@ -1,6 +1,5 @@
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
-import Header from "../../component/Header";
 import {
   Container,
   SupportBodyWrapper,
@@ -10,17 +9,19 @@ import {
   SupportHeaderWrapper
 } from "../../component/support/style/Support";
 import uuid from "react-uuid";
-import Footer from "../../component/Footer";
+
 import { FAQ_MODE } from "../../constants/mode";
 import Accordion from "../../component/support/Accordion";
 import { changeFaq, deliveryFaq, etcFaq, orderPayFaq, ProductGuideFaq, warrantyFaq } from "../../constants/faq";
+import Footer from "../../component/common/Footer";
+import Header from "../../component/common/Header";
 
 
 export default function Faq() {
 
   const [mode, setMode] = useState("");
   const [currentTitle, setCurrentTitle] = useState("");
-  const HeaderItems = [
+  const FaqHeaderItems = [
     { name: "제품 가이드", value: FAQ_MODE.PRODUCT_GUIDE, onClick: () => onModeChanged(FAQ_MODE.PRODUCT_GUIDE) },
     { name: "주문 / 결제", value: FAQ_MODE.ORDER_PAY, onClick: () => onModeChanged(FAQ_MODE.ORDER_PAY) },
     { name: "배송", value: FAQ_MODE.DELIVERY, onClick: () => onModeChanged(FAQ_MODE.DELIVERY) },
@@ -82,7 +83,7 @@ export default function Faq() {
         <SupportHeaderWrapper>
           <SupportHeaderTitle>FAQ</SupportHeaderTitle>
           <SupportHeaderItemList>
-            {HeaderItems.map(i =>
+            {FaqHeaderItems.map(i =>
               <SupportHeaderItem key={uuid()} name={i.value} mode={mode}
                                  onClick={i.onClick}>{i.name}</SupportHeaderItem>)}
           </SupportHeaderItemList>

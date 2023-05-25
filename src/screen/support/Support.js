@@ -1,4 +1,3 @@
-import Header from "../../component/Header";
 import { useState } from "react";
 import Warranty from "../../component/support/Warranty";
 import NoticeList from "../../component/support/NoticeList";
@@ -12,8 +11,9 @@ import {
 } from "../../component/support/style/Support";
 import NoticeDetail from "../../component/support/NoticeDetail";
 import uuid from "react-uuid";
-import Footer from "../../component/Footer";
+import Footer from "../../component/common/Footer";
 import FaqCardList from "../../component/support/FaqCardList";
+import Header from "../../component/common/Header";
 
 
 export default function Support(){

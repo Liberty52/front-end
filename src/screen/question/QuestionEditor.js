@@ -1,5 +1,5 @@
-import Header from "../../component/Header";
-import Footer from "../../component/Footer";
+import Header from "../../component/common/Header";
+import Footer from "../../component/common/Footer";
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import {

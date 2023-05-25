@@ -1,14 +1,14 @@
 import "./CancelModal.css";
-import Modal from "../../component/Modal";
-import Button from "../../component/Button";
-import Input from "../../component/Input";
-import { cancelOrder } from "../../axios/shopping/Inquiry";
+import Modal from "../common/Modal";
+import Button from "../common/Button";
+import Input from "../common/Input";
+import { cancelOrder } from "../../axios/product/Inquiry";
 
 import { useState } from "react";
 
 export default function CancelModal({ order, closeModal }) {
   const [text, setText] = useState("");
-  const isAccount = order.paymentType == "가상 계좌";
+  const isAccount = order.paymentType === "가상 계좌";
 
   return (
     <Modal title="주문 취소" closeModal={closeModal}>
