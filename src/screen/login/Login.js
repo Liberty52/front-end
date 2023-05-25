@@ -136,7 +136,7 @@ function FindForm({ onSetEmailList }) {
         });
      } else if (activeTab === "password") {
       const email = event.target.email.value;
-      console.log(email);
+      
       try {
         const response = await sendPasswordResetEmail(email);
         console.log("비밀번호 찾기 메일 전송 성공", response);

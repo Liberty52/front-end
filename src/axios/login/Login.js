@@ -50,7 +50,7 @@ export function sendPasswordResetEmail(email) {
   const data = {
     email: email,
   };
-  console.log(email);
+  
   return axios.post('/auth/password/send-mail', data, {
     headers: {
       'Content-Type': 'application/json',

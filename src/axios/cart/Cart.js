@@ -78,7 +78,7 @@ export function GetCartList() {
 }
 
 export const handleDeleteClick = (checkedList) => {
-  console.log(checkedList);
+  
   if (checkedList == 0) {
     alert("체크된 항목이 없습니다");
   } else {
@@ -126,7 +126,7 @@ export const handleEditClick = (customProductId, dto, file) => {
     new Blob([JSON.stringify(dto)], { type: "application/json" })
   );
   console.log(dto, file);
-  console.log(customProductId);
+  
   if ( sessionStorage.getItem(ACCESS_TOKEN)) {
     axios
       .patch(
