@@ -1,21 +1,19 @@
 import Header from "../../component/Header";
-import styled from 'styled-components'
 import { useState } from "react";
-import Faq from "../../component/support/Faq";
 import Warranty from "../../component/support/Warranty";
 import NoticeList from "../../component/support/NoticeList";
 import {
+  Container,
   SupportBodyWrapper,
   SupportHeaderItem,
   SupportHeaderItemList,
   SupportHeaderTitle,
-  SupportHeaderWrapper,
-  Container
+  SupportHeaderWrapper
 } from "../../component/support/style/Support";
 import NoticeDetail from "../../component/support/NoticeDetail";
 import uuid from "react-uuid";
 import Footer from "../../component/Footer";
-
+import FaqCardList from "../../component/support/FaqCardList";
 
 
 export default function Support(){
@@ -23,7 +21,7 @@ export default function Support(){
   const [noticeId,setNoticeId] = useState("");
   const HeaderItems = [
     {name : "FAQ", onClick : () => changeMode("FAQ")},
-    {name : "제품 보증", onClick : () => changeMode("제품 보증")},
+    // {name : "제품 보증", onClick : () => changeMode("제품 보증")},
     {name : "공지사항", onClick : () => changeMode("공지사항")},
   ]
 
@@ -35,7 +33,7 @@ export default function Support(){
   const createBody = () =>{
     switch (mode){
       case "FAQ" : 
-        return <Faq/>
+        return <FaqCardList/>
       case "제품 보증" : 
         return <Warranty/>
       case "공지사항" : 

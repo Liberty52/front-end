@@ -17,7 +17,8 @@ import QuestionDetail from "./screen/question/QuestionDetail";
 import QuestionList from "./screen/question/QuestionList";
 import QuestionEditor from "./screen/question/QuestionEditor";
 import Support from "./screen/support/Support";
-import { QUESTION, QUESTION_DETAIL, QUESTION_EDITOR, SUPPORT } from "./constants/path";
+import { FAQ, QUESTION, QUESTION_DETAIL, QUESTION_EDITOR, SUPPORT } from "./constants/path";
+import Faq from "./screen/support/Faq";
 export default function App() {
   return (
     <Provider>
@@ -40,6 +41,7 @@ export default function App() {
           <Route path={QUESTION_DETAIL} element={<QuestionDetail />} />
           <Route path={QUESTION_EDITOR} element={<QuestionEditor />} />
           <Route path={SUPPORT} element={<Support/>}/>
+          <Route path={FAQ} element={<Faq/>}/>
         </Routes>
       </BrowserRouter>
     </Provider>
