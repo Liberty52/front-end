@@ -61,9 +61,13 @@ export const AccordionArrow = styled.div`
 
 export const AccordionWrapper = styled.div`
   border-bottom: 1px solid #e5e8eb;
-  padding: 3% 0;
+  padding: 20px 0;
   width: 100%;
   transition: 0.4s ease;
+  
+  @media (max-width: 800px){
+    padding: 3% 0;
+  }
 `
 export const AccordionContentWrapper = styled.div`
   overflow: hidden;
