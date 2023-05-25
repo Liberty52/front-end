@@ -5,8 +5,6 @@ import { useEditor } from "@layerhub-io/react"
 import { ModalFooter } from "react-bootstrap"
 import Frame from "../../../image/icon/frame.png"
 import useAppContext from "../../../hooks/useAppContext"
-import cvi_glossy from "../../../utils/glossy"
-// import { clone } from "../../utils"
 
 const Preview = ({ isOpen, setIsOpen }) => {
   const {frameOption} = useAppContext();
@@ -60,11 +58,6 @@ const Preview = ({ isOpen, setIsOpen }) => {
     setIsOpen(false)
   }, [editor])
 
-  const addGlossyEffect = (e) => {
-    console.dir(e.target)
-    cvi_glossy.add(e.target,{noshadow:true,noradius:true,nogradient:true,angle:100})
-  }
-
   return (
         <Modal
         onClose={() => setIsOpen(false) & rollbackPreview()}
@@ -107,7 +100,7 @@ const Preview = ({ isOpen, setIsOpen }) => {
             >
             <Block $style={{ flex: 1, alignItems: "center", justifyContent: "center", display: "flex", padding: "5rem"}}>
                     <img width="500px" height="400px" src={Frame} style={{position: "fixed", zIndex: 10}}/>
-                    {!loading && <img width="350px" height="187px" src={state.image} style={{position: "relative", zIndex: 11, top: "-65px", left: "7px"}} onLoad={(e) => addGlossyEffect(e)} />}
+                    {!loading && <img width="350px" height="187px" src={state.image} style={{position: "relative", zIndex: 11, top: "-65px", left: "7px"}} />}
             </Block>
             </Block>
         </ModalBody>
