@@ -38,9 +38,7 @@ export default function ChangePassword() {
       try {
         const emailToken = searchParams.get("emailToken");
 
-        const response = await resetPassword(emailToken, newPassword);
-
-        console.log(response.data);
+        await resetPassword(emailToken, newPassword);
         // 비밀번호 변경 성공 메시지 처리
         setIsSuccess(true);
       } catch (error) {

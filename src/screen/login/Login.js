@@ -122,8 +122,8 @@ function FindForm({ onSetEmailList }) {
     if (activeTab === "id") {
       const name = event.target.name.value;
       const phoneNumber = event.target.phoneNumber.value;
-      console.log("name:", name);
-      console.log("phoneNumber:", phoneNumber);
+
+
       findEmail(name, phoneNumber)
         .then((response) => {
           const emailList = response.data;
@@ -138,8 +138,7 @@ function FindForm({ onSetEmailList }) {
       const email = event.target.email.value;
       
       try {
-        const response = await sendPasswordResetEmail(email);
-        console.log("비밀번호 찾기 메일 전송 성공", response);
+        await sendPasswordResetEmail(email);
       } catch (error) {
         console.error("비밀번호 찾기 메일 전송 실패", error.response);
       }
@@ -313,7 +312,7 @@ function NonmemberModal({ showModal, closeModal }) {
   const handleMoveInquiry = async (orderId, phoneNumber) => {
     try {
       const orderDetails = await fetchOrderDetails(orderId, null, phoneNumber);
-      console.log(orderDetails)
+      
       if (orderDetails) {
         window.location.href = `/product/guest/${orderId}?phoneNumber=${phoneNumber}`;
       } else {

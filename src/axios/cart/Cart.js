@@ -125,7 +125,7 @@ export const handleEditClick = (customProductId, dto, file) => {
     "dto",
     new Blob([JSON.stringify(dto)], { type: "application/json" })
   );
-  console.log(dto, file);
+
   
   if ( sessionStorage.getItem(ACCESS_TOKEN)) {
     axios
