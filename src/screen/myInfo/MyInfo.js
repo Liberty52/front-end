@@ -1,12 +1,12 @@
-import './MyInfo.css';
-import React from 'react';
-import Button from '../../component/common/Button';
-import Image from '../../component/common/Image';
-import ImageInput from '../../component/common/ImageInput';
-import Input from '../../component/common/Input';
-import { delMyInfo, putMyInfo, getMyInfo } from '../../axios/myInfo/MyInfo';
-import Header from '../../component/common/Header';
-import { useState, useEffect } from 'react';
+import "./MyInfo.css";
+import React from "react";
+import Button from "../../component/common/Button";
+import Image from "../../component/common/Image";
+import ImageInput from "../../component/common/ImageInput";
+import Input from "../../component/common/Input";
+import { delMyInfo, putMyInfo, getMyInfo } from "../../axios/myInfo/MyInfo";
+import Header from "../../component/common/Header";
+import { useState, useEffect } from "react";
 
 function UpdateInfo(props) {
   const myInfo = props.myInfo;
@@ -21,7 +21,7 @@ function UpdateInfo(props) {
             label="이름"
             required={true}
             maxLength={25}
-            value={myInfo === undefined ? '' : myInfo.name}
+            value={myInfo === undefined ? "" : myInfo.name}
           />
         </td>
       </tr>
@@ -35,7 +35,7 @@ function UpdateInfo(props) {
             pattern="01[0,1][0-9]{6,8}"
             maxLength={11}
             title="ex) 01012341234"
-            value={myInfo === undefined ? '' : myInfo.phoneNumber}
+            value={myInfo === undefined ? "" : myInfo.phoneNumber}
           />
         </td>
       </tr>
@@ -71,7 +71,7 @@ function CurrentInfo(props) {
         <th>이름</th>
         <td>
           <span className="info-value">
-            {myInfo === undefined ? '' : myInfo.name}
+            {myInfo === undefined ? "" : myInfo.name}
           </span>
         </td>
       </tr>
@@ -79,7 +79,7 @@ function CurrentInfo(props) {
         <th>이메일</th>
         <td>
           <span className="info-value">
-            {myInfo === undefined ? '' : myInfo.email}
+            {myInfo === undefined ? "" : myInfo.email}
           </span>
         </td>
       </tr>
@@ -87,7 +87,7 @@ function CurrentInfo(props) {
         <th>휴대폰번호</th>
         <td>
           <span className="info-value">
-            {myInfo === undefined ? '' : myInfo.phoneNumber}
+            {myInfo === undefined ? "" : myInfo.phoneNumber}
           </span>
         </td>
       </tr>
@@ -98,7 +98,7 @@ function CurrentInfo(props) {
 function InfoGroup(props) {
   const updateMode = props.updateMode;
   const myInfo = props.myInfo;
-  const image = myInfo === undefined ? '' : myInfo.profileUrl;
+  const image = myInfo === undefined ? "" : myInfo.profileUrl;
 
   return (
     <div className="myInfo-info-group">
@@ -134,7 +134,7 @@ function ButtonGroup(props) {
 
 function MyInfoForm() {
   useEffect(() => {
-    getMyInfo().then(res => {
+    getMyInfo().then((res) => {
       setMyInfo(res);
     });
   }, []);
@@ -144,7 +144,7 @@ function MyInfoForm() {
 
   return (
     <form
-      onSubmit={event => {
+      onSubmit={(event) => {
         event.preventDefault();
         if (!updateMode) return;
         const name = event.target.name.value;
@@ -160,9 +160,9 @@ function MyInfoForm() {
           phoneNumber: phoneNumber,
         };
         if (confirm === updatePassword) {
-          putMyInfo(dto, file).then(res => setMyInfo(res));
+          putMyInfo(dto, file).then((res) => setMyInfo(res));
           setUpdateMode(false);
-        } else alert('비밀번호와 비밀번호 확인이 일치하지 않습니다.');
+        } else alert("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
       }}
       className="myInfo-input-group"
     >
@@ -191,7 +191,7 @@ function Section() {
 export default function MyInfo() {
   return (
     <div className="myInfo">
-      <Header />
+      <Header fixed />
       <Section />
     </div>
   );

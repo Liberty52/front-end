@@ -10,10 +10,6 @@
   align-items: center;
 }
 
-.login .header {
-  position: fixed;
-}
-
 .company-login,
 .social-login {
   width: 350px;
@@ -61,7 +57,6 @@
   width: 380px;
 }
 
-
 .modal {
   display: none;
   justify-content: center;
@@ -99,9 +94,6 @@
   color: #0071e3;
 }
 
-
-
-
 .input-wrapper {
   position: relative;
 }
@@ -128,7 +120,7 @@
   padding: 12px 10px 8px;
 }
 
-.input-wrapper .input:focus+.label,
+.input-wrapper .input:focus + .label,
 .input-wrapper .value .label {
   position: absolute;
   top: -7px;
@@ -144,7 +136,6 @@
   background: white;
   color: gray;
 }
-
 
 @media screen and (min-width: 501px) {
   .modal.is-active .modal-content {
