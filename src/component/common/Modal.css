@@ -1,10 +1,19 @@
 .modal {
-  display: flex;
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
 }
 
 .modal-content {
-  width: 80%;
-  margin: 0 35%;
+  width: 400px !important;
+  margin: 0 auto;
   background-color: white;
   padding: 20px;
   border-radius: 10px;
@@ -25,6 +34,16 @@
 }
 
 .modal .title img {
-  width: 25px;
-  height: 25px;
+  width: 20px;
+  height: 20px;
+}
+
+@media (max-width: 450px) {
+  .modal-content {
+    width: 300px !important;
+    margin: 0 auto;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+  }
 }
