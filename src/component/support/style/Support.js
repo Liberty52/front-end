@@ -23,6 +23,7 @@ export const SupportHeaderTitle = styled.div`
 export const SupportHeaderItemList = styled.div`
   display: flex;
   justify-content: flex-start;
+  flex-wrap: wrap;
 
 `
 export const SupportHeaderItem = styled.div`
