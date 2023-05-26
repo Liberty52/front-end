@@ -98,9 +98,6 @@ const AITemplate = ({ addImages, setIsLoading: setGenerationIsLoading }) => {
   const [prompt, setPrompt] = React.useState('')
   const [isTranslationLoading, setTranslationIsLoading] = React.useState(false)
   const [translated, setTranslated] = React.useState('')
-  // const [translationTimeout, setTranslationTimeout] = React.useState(
-  //   window.setTimeout(() => {}, 0)
-  // )
   const [isGenerationButtonDisabled, setIsGenerationButtonDisabled] =
     React.useState(true)
   const [generationDisabledCause, setGenerationDisabledCause] =
@@ -118,22 +115,22 @@ const AITemplate = ({ addImages, setIsLoading: setGenerationIsLoading }) => {
       } else {
         setSourceLang(source)
         setTranslated(translatedText)
+        setIsGenerationButtonDisabled(false)
       }
       setTranslationIsLoading(false)
     }
     window.clearTimeout(translationTimeout)
+    setIsGenerationButtonDisabled(true)
     if (prompt.length < 10 || prompt.length > 5000) {
-      setIsGenerationButtonDisabled(true)
       if (prompt.length < 10) {
         setGenerationDisabledCause('10 자 이상 입력해주세요.')
       } else {
         setGenerationDisabledCause('5000 자 이하로 입력해주세요.')
       }
     } else {
-      setIsGenerationButtonDisabled(false)
+      setGenerationDisabledCause('')
       const newt = window.setTimeout(doTranslate, 700)
       translationTimeout = newt
-      console.log(newt)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [prompt])
