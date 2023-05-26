@@ -1,11 +1,5 @@
 import facebookLogo from '../image/icon/facebook-logo.png';
-
-export const SOCIAL_LOGIN_URL = {
-  NAVER: '/auth/naver',
-  KAKAO: '/auth/kakao',
-  GOOGLE: '/auth/google',
-  FACEBOOK: '/auth/facebook',
-};
+import { SOCIAL_LOGIN_URL } from "./url";
 
 export const SOCIAL_LOGIN_PROVIDER = {
   NAVER: {
