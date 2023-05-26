@@ -103,21 +103,20 @@ const AITemplate = ({ addImages, setIsLoading: setGenerationIsLoading }) => {
   const [generationDisabledCause, setGenerationDisabledCause] = React.useState('')
   const [sourceLang, setSourceLang] = React.useState('감지')
 
-  const doTranslate = async () => {
-    setTranslationIsLoading(true)
-    const [{source, translatedText}, err] = await postTranslation(prompt)
-    if(err) {
-      setTranslated('')
-      setIsGenerationButtonDisabled(true)
-      setGenerationDisabledCause('서버와의 연결이 원활하지 않습니다.')
-    } else {
-      setSourceLang(source)
-      setTranslated(translatedText)
-    }
-    setTranslationIsLoading(false)
-  }
-
   React.useEffect(() => {
+    const doTranslate = async () => {
+      setTranslationIsLoading(true)
+      const [{source, translatedText}, err] = await postTranslation(prompt)
+      if(err) {
+        setTranslated('')
+        setIsGenerationButtonDisabled(true)
+        setGenerationDisabledCause('서버와의 연결이 원활하지 않습니다.')
+      } else {
+        setSourceLang(source)
+        setTranslated(translatedText)
+      }
+      setTranslationIsLoading(false)
+    }
     window.clearTimeout(translationTimeout)
     if(prompt.length < 10 || prompt.length > 5000) {
       setIsGenerationButtonDisabled(true)
@@ -128,8 +127,9 @@ const AITemplate = ({ addImages, setIsLoading: setGenerationIsLoading }) => {
       }
     } else {
       setIsGenerationButtonDisabled(false)
-      setTranslationTimeout(window.setTimeout(doTranslate, 500))
+      setTranslationTimeout(window.setTimeout(doTranslate, 700))
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [prompt])
 
   React.useEffect(() => {
