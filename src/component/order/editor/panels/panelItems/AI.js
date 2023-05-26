@@ -92,22 +92,26 @@ export default function AI() {
     </Block>
   )
 }
-
+let translationTimeout = 1234
 const AITemplate = ({ addImages, setIsLoading: setGenerationIsLoading }) => {
   const [isOpen, setIsOpen] = React.useState(false)
   const [prompt, setPrompt] = React.useState('')
   const [isTranslationLoading, setTranslationIsLoading] = React.useState(false)
   const [translated, setTranslated] = React.useState('')
-  const [translationTimeout, setTranslationTimeout] = React.useState(window.setTimeout(() => {}, 0))
-  const [isGenerationButtonDisabled, setIsGenerationButtonDisabled] = React.useState(true)
-  const [generationDisabledCause, setGenerationDisabledCause] = React.useState('')
+  // const [translationTimeout, setTranslationTimeout] = React.useState(
+  //   window.setTimeout(() => {}, 0)
+  // )
+  const [isGenerationButtonDisabled, setIsGenerationButtonDisabled] =
+    React.useState(true)
+  const [generationDisabledCause, setGenerationDisabledCause] =
+    React.useState('')
   const [sourceLang, setSourceLang] = React.useState('감지')
 
   React.useEffect(() => {
     const doTranslate = async () => {
       setTranslationIsLoading(true)
-      const [{source, translatedText}, err] = await postTranslation(prompt)
-      if(err) {
+      const [{ source, translatedText }, err] = await postTranslation(prompt)
+      if (err) {
         setTranslated('')
         setIsGenerationButtonDisabled(true)
         setGenerationDisabledCause('서버와의 연결이 원활하지 않습니다.')
@@ -118,18 +122,20 @@ const AITemplate = ({ addImages, setIsLoading: setGenerationIsLoading }) => {
       setTranslationIsLoading(false)
     }
     window.clearTimeout(translationTimeout)
-    if(prompt.length < 10 || prompt.length > 5000) {
+    if (prompt.length < 10 || prompt.length > 5000) {
       setIsGenerationButtonDisabled(true)
-      if(prompt.length < 10) {
+      if (prompt.length < 10) {
         setGenerationDisabledCause('10 자 이상 입력해주세요.')
       } else {
         setGenerationDisabledCause('5000 자 이하로 입력해주세요.')
       }
     } else {
       setIsGenerationButtonDisabled(false)
-      setTranslationTimeout(window.setTimeout(doTranslate, 700))
+      const newt = window.setTimeout(doTranslate, 700)
+      translationTimeout = newt
+      console.log(newt)
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [prompt])
 
   React.useEffect(() => {
@@ -198,7 +204,8 @@ const AITemplate = ({ addImages, setIsLoading: setGenerationIsLoading }) => {
         >
           <h1 style={{ alignSelf: 'center' }}>AI 이미지 생성</h1>
           <p>
-            나만의 이미지를 텍스트로 표현해보세요. AI가 이미지를 생성해줍니다. ({sourceLang})
+            나만의 이미지를 텍스트로 표현해보세요. AI가 이미지를 생성해줍니다. (
+            {sourceLang})
           </p>
           <input
             type="text"
@@ -208,29 +215,36 @@ const AITemplate = ({ addImages, setIsLoading: setGenerationIsLoading }) => {
           <br />
           <p>다음과 같이 번역되어 이미지가 생성됩니다.</p>
           <p>번역: {translated}</p>
-          <div style={{
+          <div
+            style={{
               alignSelf: 'end',
               marginTop: '20px',
-            }}>
+            }}
+          >
             {isTranslationLoading ? (
               <CircularProgress style={{ alignSelf: 'flex-end' }} />
             ) : (
               <>
-                <span 
-                hidden= {!isGenerationButtonDisabled}
-                style={{
-                  marginRight: '10px',
-                  color: 'red',
-                }}>{generationDisabledCause}</span>
+                <span
+                  hidden={!isGenerationButtonDisabled}
+                  style={{
+                    marginRight: '10px',
+                    color: 'red',
+                  }}
+                >
+                  {generationDisabledCause}
+                </span>
                 <button
-                disabled= {isGenerationButtonDisabled}
-                style={{
-                  padding: '10px',
-                  borderRadius: '10px ',
-                  color: 'white',
-                  backgroundColor: isGenerationButtonDisabled ? 'lightgray' : 'black',
-                }}
-                onClick={onGenerationButtonClicked}
+                  disabled={isGenerationButtonDisabled}
+                  style={{
+                    padding: '10px',
+                    borderRadius: '10px ',
+                    color: 'white',
+                    backgroundColor: isGenerationButtonDisabled
+                      ? 'lightgray'
+                      : 'black',
+                  }}
+                  onClick={onGenerationButtonClicked}
                 >
                   생성하기
                 </button>
