@@ -10,11 +10,13 @@ import { useStyletron } from 'baseui'
 import { postImageGeneration } from '../../../../../axios/order/AI'
 import CenterCircularProgress from '../../../../common/CenterCircularProgress'
 import { ACCESS_TOKEN } from '../../../../../constants/token'
+import { CircularProgress } from '@mui/joy'
+import { postTranslation } from '../../../../../axios/order/Translation'
 
 export default function AI() {
   const editor = useEditor()
   const [images, setImages] = React.useState([])
-  const [isLoading, setIsLoading] = React.useState(false)
+  const [generationIsLoading, setGenerationIsLoading] = React.useState(false)
   const { setIsSidebarOpen } = useSidebarOpen()
   const addObject = React.useCallback(
     async (url) => {
@@ -33,7 +35,7 @@ export default function AI() {
   }
   return (
     <Block $style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-      <CenterCircularProgress isConfirmProgressing={isLoading} />
+      <CenterCircularProgress isConfirmProgressing={generationIsLoading} />
 
       <Block
         $style={{
@@ -56,7 +58,10 @@ export default function AI() {
       {sessionStorage.getItem(ACCESS_TOKEN) ? (
         <Scrollable>
           <Block padding="0 1.5rem">
-            <AITemplate addImages={addImages} setIsLoading={setIsLoading} />
+            <AITemplate
+              addImages={addImages}
+              setIsLoading={setGenerationIsLoading}
+            />
           </Block>
           <Block padding="0 1.5rem">
             <div
@@ -88,16 +93,60 @@ export default function AI() {
   )
 }
 
-const AITemplate = ({ addImages, setIsLoading }) => {
+const AITemplate = ({ addImages, setIsLoading: setGenerationIsLoading }) => {
   const [isOpen, setIsOpen] = React.useState(false)
   const [prompt, setPrompt] = React.useState('')
+  const [isTranslationLoading, setTranslationIsLoading] = React.useState(false)
+  const [translated, setTranslated] = React.useState('')
+  const [translationTimeout, setTranslationTimeout] = React.useState(window.setTimeout(() => {}, 0))
+  const [isGenerationButtonDisabled, setIsGenerationButtonDisabled] = React.useState(true)
+  const [generationDisabledCause, setGenerationDisabledCause] = React.useState('')
+  const [sourceLang, setSourceLang] = React.useState('감지')
+
+  const doTranslate = async () => {
+    setTranslationIsLoading(true)
+    const [{source, translatedText}, err] = await postTranslation(prompt)
+    if(err) {
+      setTranslated('')
+      setIsGenerationButtonDisabled(true)
+      setGenerationDisabledCause('서버와의 연결이 원활하지 않습니다.')
+    } else {
+      setSourceLang(source)
+      setTranslated(translatedText)
+    }
+    setTranslationIsLoading(false)
+  }
+
+  React.useEffect(() => {
+    window.clearTimeout(translationTimeout)
+    if(prompt.length < 10 || prompt.length > 5000) {
+      setIsGenerationButtonDisabled(true)
+      if(prompt.length < 10) {
+        setGenerationDisabledCause('10 자 이상 입력해주세요.')
+      } else {
+        setGenerationDisabledCause('5000 자 이하로 입력해주세요.')
+      }
+    } else {
+      setIsGenerationButtonDisabled(false)
+      setTranslationTimeout(window.setTimeout(doTranslate, 500))
+    }
+  }, [prompt])
+
+  React.useEffect(() => {
+    if (translated.length < 10 || translated.length > 1000) {
+      setIsGenerationButtonDisabled(true)
+    } else {
+      setIsGenerationButtonDisabled(false)
+    }
+  }, [translated])
+
   const onGenerationButtonClicked = async () => {
     try {
-      setIsLoading(true)
-      const urls = await postImageGeneration(prompt)
+      setGenerationIsLoading(true)
+      const urls = await postImageGeneration(translated)
       addImages(urls)
     } finally {
-      setIsLoading(false)
+      setGenerationIsLoading(false)
       setIsOpen(false)
     }
   }
@@ -149,27 +198,45 @@ const AITemplate = ({ addImages, setIsLoading }) => {
         >
           <h1 style={{ alignSelf: 'center' }}>AI 이미지 생성</h1>
           <p>
-            나만의 이미지를 텍스트로 표현해보세요. AI가 이미지를 생성해줍니다.
+            나만의 이미지를 텍스트로 표현해보세요. AI가 이미지를 생성해줍니다. ({sourceLang})
           </p>
           <input
             type="text"
             onChange={(e) => setPrompt(e.target.value)}
             value={prompt}
           />
-          <button
-            style={{
+          <br />
+          <p>다음과 같이 번역되어 이미지가 생성됩니다.</p>
+          <p>번역: {translated}</p>
+          <div style={{
               alignSelf: 'end',
               marginTop: '20px',
-              padding: '10px',
-              borderRadius: '10px ',
-              border: '1px solid black',
-              color: 'white',
-              backgroundColor: 'black',
-            }}
-            onClick={onGenerationButtonClicked}
-          >
-            생성하기
-          </button>
+            }}>
+            {isTranslationLoading ? (
+              <CircularProgress style={{ alignSelf: 'flex-end' }} />
+            ) : (
+              <>
+                <span 
+                hidden= {!isGenerationButtonDisabled}
+                style={{
+                  marginRight: '10px',
+                  color: 'red',
+                }}>{generationDisabledCause}</span>
+                <button
+                disabled= {isGenerationButtonDisabled}
+                style={{
+                  padding: '10px',
+                  borderRadius: '10px ',
+                  color: 'white',
+                  backgroundColor: isGenerationButtonDisabled ? 'lightgray' : 'black',
+                }}
+                onClick={onGenerationButtonClicked}
+                >
+                  생성하기
+                </button>
+              </>
+            )}
+          </div>
         </div>
       </Modal>
     </>
