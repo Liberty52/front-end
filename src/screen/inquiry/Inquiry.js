@@ -1,6 +1,6 @@
 import "./Inquiry.css";
 import React, { useState, useEffect } from "react";
-import { fetchOrders } from "../../axios/product/Inquiry";
+import { fetchOrders } from "../../axios/inquiry/Inquiry";
 import Header from "../../component/common/Header";
 import Footer from "../../component/common/Footer";
 import ReviewModal from "../../component/order/review/ReviewModal";
@@ -58,7 +58,11 @@ function OrderList() {
           <div className="TCheck">주문조회</div>
           <div className="sectionOrder">
             {orders.map((order) => (
-              <div key={order.orderId} className="order-item">
+              <div
+                key={order.orderId}
+                className="order-item"
+                onClick={() => goToDetail(order.orderId)}
+              >
                 <OrderImg
                   orderId={order.orderId}
                   orderNum={order.orderNum}
@@ -82,7 +86,7 @@ function OrderList() {
     return (
       <div className="order-img-wrapper">
         <div className="order-left">
-          <p onClick={() => goToDetail(orderId)}>{orderNum}</p>
+          <p>{orderNum}</p>
           <img
             src={productRepresentUrl}
             alt="representative"
@@ -137,12 +141,14 @@ function OrderList() {
               </div>
               <div className="date">주문 날짜 : {order.orderDate}</div>
             </div>
-            {order.orderStatus === "ORDERED" && (
+            {(order.orderStatus === "ORDERED" ||
+              order.orderStatus === "WAITING_DEPOSIT") && (
               <div className="buttons">
                 <button
                   type="button"
                   className="cancel"
-                  onClick={() => {
+                  onClick={(e) => {
+                    e.stopPropagation();
                     showCancelModal(true);
                     setSelectedOrder(order);
                   }}
@@ -153,7 +159,8 @@ function OrderList() {
                   type="button"
                   className="review"
                   text="리뷰 쓰기"
-                  onClick={() => {
+                  onClick={(e) => {
+                    e.stopPropagation();
                     showReviewModal(true);
                     setSelectedOrder(order);
                   }}
