@@ -1,0 +1,163 @@
+.detail .container {
+  width: 67%;
+  margin: 30px auto 0;
+}
+
+.detail .title,
+.detail .section1,
+.detail .section2,
+.detail .section3,
+.detail .section4,
+.detail .section5 {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 15px 0;
+}
+
+.title span {
+  font-size: 20px;
+}
+
+.orderId {
+  font-size: small;
+}
+
+.detail .section1,
+.detail .section2,
+.detail .section3,
+.detail .section4,
+.detail .section5 {
+  border-bottom: 1px solid #d2d2d7;
+}
+
+.detail .cancel {
+  color: #0066cc;
+  border: none;
+  cursor: pointer;
+  font-size: medium;
+  grid-column-start: 5;
+  grid-column-end: 6;
+}
+
+.Detailul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.Detailul li {
+  display: flex;
+  align-items: center;
+}
+
+.Detailul li p {
+  justify-content: space-around;
+  width: 100%;
+}
+
+.DetailProduct {
+  display: flex;
+  width: 100%;
+  position: relative;
+}
+
+.DetailProduct img {
+  max-width: 100px;
+  max-height: 100px;
+}
+
+.productRepresentUrl {
+  width: 200px;
+  object-fit: contain;
+  max-height: 150px;
+}
+
+.section2 img {
+  width: 450px;
+  height: 200px;
+}
+
+.DetailProductName {
+  font-size: 20px;
+  flex-basis: calc(100% / 2);
+  flex-grow: 1;
+  text-align: center;
+  align-self: center;
+}
+
+.DetailProductPrice,
+.DetailProductQuantity {
+  font-size: 20px;
+  flex-basis: calc(100% / 4);
+  flex-grow: 1;
+  text-align: center;
+}
+
+.DetailProductOptions {
+  font-size: small;
+}
+
+.DetailCName {
+  font-size: large;
+  width: 33.33%;
+}
+
+.Detailcontainer3,
+.Detailcontainer4 {
+  display: flex;
+}
+
+.DetailSpacing {
+  width: 50%;
+}
+
+.detail .content {
+  display: flex;
+  width: 66.67%;
+}
+
+.detail .content-col {
+  display: flex;
+  flex-direction: column;
+  width: 66.67%;
+}
+
+.FinalTop,
+.FinalBottom {
+  display: flex;
+  flex-direction: column;
+}
+
+.FinalTop {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.FinalBottom {
+  width: 100%;
+}
+
+.charge,
+.delivery {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.finalDetail {
+  display: flex;
+  border-top: 1px solid #d2d2d7;
+  justify-content: space-between;
+  width: 100%;
+  font-weight: bold;
+  padding: 1rem 0;
+}
+
+.section5 {
+  display: flex;
+  align-items: center;
+}

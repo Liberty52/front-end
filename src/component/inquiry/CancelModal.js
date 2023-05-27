@@ -1,14 +1,15 @@
 import "./CancelModal.css";
-import Modal from "../../component/Modal";
-import Button from "../../component/Button";
-import Input from "../../component/Input";
-import { cancelOrder } from "../../axios/shopping/Inquiry";
+import Modal from "../common/Modal";
+import Button from "../common/Button";
+import Input from "../common/Input";
+import { cancelOrder } from "../../axios/inquiry/Inquiry";
 
 import { useState } from "react";
 
 export default function CancelModal({ order, closeModal }) {
   const [text, setText] = useState("");
-  const isAccount = order.paymentType == "가상 계좌";
+  const showAccountInputGroup =
+    order.paymentType === "가상 계좌" && order.orderStatus === "ORDERED";
 
   return (
     <Modal title="주문 취소" closeModal={closeModal}>
@@ -20,7 +21,7 @@ export default function CancelModal({ order, closeModal }) {
             orderId: order.orderId,
             reason: e.target.reason.value,
           };
-          if (isAccount) {
+          if (showAccountInputGroup) {
             dto["refundBank"] = e.target.refundBank.value;
             dto["refundHolder"] = e.target.refundHolder.value;
             dto["refundAccount"] = e.target.refundAccount.value;
@@ -41,7 +42,7 @@ export default function CancelModal({ order, closeModal }) {
             setText(e.target.value);
           }}
         />
-        {isAccount && (
+        {showAccountInputGroup && (
           <>
             <div className="refund-title">
               환불받을 계좌 정보를 입력해주세요
