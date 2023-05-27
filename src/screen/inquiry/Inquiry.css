@@ -128,7 +128,7 @@
 .inquiry .Ordername,
 .inquiry .order-date,
 .inquiry .order-status-value {
-  margin-top: 1rem;
+  margin-top: 0.5rem;
 }
 
 .inquiry .payment-info div {
@@ -163,4 +163,46 @@
   width: 100%;
   justify-content: space-around;
   font-size: x-large;
+}
+
+
+
+
+@media only screen and (max-width: 600px) {
+  .inquiry .order-info-wrapper {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .inquiry .order-info-wrapper .order-right-top ul li {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .inquiry .sectionOrder {
+    margin-right: 5rem;
+    margin-left: 5rem;
+  }
+
+  .inquiry .TCheck {
+    margin-top: 2.5rem;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+
+  .inquiry .order-info-wrapper {
+    margin-left: 3rem;
+  }
+
+
+
+
+
+
+
+
+  /*/////////////////////////////////////////////////*/
+  .inquiry .order-info-wrapper>*:not(.order-right-top) {
+    display: none;
+  }
 }

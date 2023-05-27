@@ -1,7 +1,7 @@
 import "./Inquiry.css";
 import React, { useState, useEffect } from "react";
 import { fetchOrders } from "../../axios/inquiry/Inquiry";
-import Header from "../../component/common/Header";
+//import Header from "../../component/common/Header";
 import Footer from "../../component/common/Footer";
 import ReviewModal from "../../component/order/review/ReviewModal";
 import CancelModal from "../../component/inquiry/CancelModal";
@@ -119,6 +119,9 @@ function OrderList() {
             </ul>
           </div>
 
+
+
+
           <div className="order-right-bottom">
 
             <div className="PayAdd-wrapper">
@@ -189,7 +192,7 @@ function OrderList() {
 export default function inquiry() {
   return (
     <div className="inquiry">
-      <Header />
+      {/*<Header />*/}
       <OrderList />
       <Footer />
     </div>
