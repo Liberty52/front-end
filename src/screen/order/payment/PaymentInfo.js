@@ -81,7 +81,6 @@ function VBankContent(props) {
       try {
         const vbankList = await getVBankInfos();
         setVbankInfos(vbankList.data);
-        console.log(vbankList.data);
       } catch (e) {
         console.log(e);
         alert('가상계좌 정보를 가져오는데 실패했습니다. 다시 시도해주세요.');
