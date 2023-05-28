@@ -73,7 +73,7 @@ function PaymentMethod(props) {
 
 function VBankContent(props) {
   const [vbankInfos, setVbankInfos] = useState({
-    vbankInfos: [{ account: '' }],
+    vbanks: [{ vbank: '' }],
   });
 
   useEffect(() => {
@@ -81,6 +81,7 @@ function VBankContent(props) {
       try {
         const vbankList = await getVBankInfos();
         setVbankInfos(vbankList.data);
+        console.log(vbankList.data);
       } catch (e) {
         console.log(e);
         alert('가상계좌 정보를 가져오는데 실패했습니다. 다시 시도해주세요.');
@@ -122,16 +123,16 @@ function VBankContent(props) {
         onChange={onAccountChange}
         placeholder={'가상계좌를 선택해주세요.'}
       >
-        {vbankInfos.vbankInfos.map(vBank => (
+        {vbankInfos.vbanks.map(data => (
           <Option
-            key={vBank.account}
-            value={vBank.account}
+            key={data.vbank}
+            value={data.vbank}
             sx={{
               fontFamily: 'inherit',
               fontSize: 13,
             }}
           >
-            {vBank.account}
+            {data.vbank}
           </Option>
         ))}
       </Select>
