@@ -36,8 +36,7 @@
   border: none;
   cursor: pointer;
   font-size: medium;
-  grid-column-start: 5;
-  grid-column-end: 6;
+  align-items: end;
 }
 
 .Detailul {
@@ -46,6 +45,7 @@
   display: flex;
   flex-direction: column;
   width: 100%;
+  background-color: #0066cc;
 }
 
 .Detailul li {
@@ -160,4 +160,64 @@
 .section5 {
   display: flex;
   align-items: center;
+}
+
+@media only screen and (max-width: 768px) {
+  .detail .container {
+    width: 100%;
+    margin: 15px auto 0;
+  }
+
+  .detail .title,
+  .detail .section1,
+  .detail .section2,
+  .detail .section3,
+  .detail .section4,
+  .detail .section5 {
+    flex-direction: column;
+  }
+
+  .DetailProductName {
+    background-color: #d2d2d7;
+    order: -1;
+    text-align: start;
+  }
+
+  .Detailul li {
+    flex-direction: column;
+  }
+
+  .DetailProduct {
+    flex-direction: column;
+  }
+  .Detail-product-bottom {
+    display: flex;
+    flex-direction: row;
+
+  }
+
+  .detail .content,
+  .detail .content-col {
+    width: 100%;
+  }
+
+  .DetailCName {
+    text-align: center;
+  }
+
+  .DetailSpacing {
+    flex-direction: column;
+  }
+
+  .FinalTop,
+  .charge,
+  .delivery {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .title span {
+    display: none;
+  }
+
 }
