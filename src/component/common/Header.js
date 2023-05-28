@@ -2,13 +2,86 @@ import "./Header.css";
 import { useEffect, useState } from "react";
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "../../constants/token";
 import logo from "../../image/Logo.svg";
+import menuImg from "../../image/icon/menu.png";
+import menuImgActive from "../../image/icon/menu-active.png";
+import userMenuImg from "../../image/icon/user-menu.png";
+import userMenuImgActive from "../../image/icon/user-menu-active.png";
+import ImageButton from "./ImageButton";
 
-export default function Header() {
+function LargeHeader({ headerLeft, headerRight, fixed }) {
+  return (
+    <header
+      className={fixed ? "header header-lg header-fixed" : "header header-lg"}
+    >
+      <ul className="header-items">
+        <li>
+          <a href={"/"}>
+            <img className="logo-img" src={logo} />
+          </a>
+        </li>
+        {headerLeft}
+      </ul>
+      <ul className="header-items">{headerRight}</ul>
+    </header>
+  );
+}
+
+function SmallHeader({ headerLeft, headerRight, fixed }) {
+  const [isMenuActive, setMenuActive] = useState(false);
+  const [isUserActive, setUserActive] = useState(false);
+  return (
+    <div className={fixed ? "header-fixed" : "header-block"}>
+      <header className={"header header-sm"}>
+        <ImageButton
+          width={"23px"}
+          src={isMenuActive ? menuImgActive : menuImg}
+          onClick={() => {
+            if (!isMenuActive) {
+              setUserActive(false);
+            }
+            setMenuActive(!isMenuActive);
+          }}
+        />
+        <a href={"/"}>
+          <img className="logo-img" src={logo} />
+        </a>
+        <ImageButton
+          width={"23px"}
+          src={isUserActive ? userMenuImgActive : userMenuImg}
+          onClick={() => {
+            if (!isUserActive) {
+              setMenuActive(false);
+            }
+            setUserActive(!isUserActive);
+          }}
+        />
+      </header>
+      <div className="header-items-group">
+        <ul
+          className={
+            isMenuActive ? "header-items bar bar-active" : "header-items bar"
+          }
+        >
+          {headerLeft}
+        </ul>
+        <ul
+          className={
+            isUserActive ? "header-items bar bar-active" : "header-items bar"
+          }
+        >
+          {headerRight}
+        </ul>
+      </div>
+    </div>
+  );
+}
+
+export default function Header({ fixed }) {
   const headerItemsLeft = [
     { name: "제품소개", href: "#" },
     { name: "사업소개", href: "#" },
     { name: "지점소개(쇼룸)", href: "#" },
-    { name: "고객지원", href: "support"}
+    { name: "고객지원", href: "support" },
   ];
 
   const headerLeft = [];
@@ -67,16 +140,17 @@ export default function Header() {
     );
   }
   return (
-    <header className="header">
-      <ul className="header-items">
-        <li>
-          <a href={"/"}>
-            <img className="logo-img" src={logo} />
-          </a>
-        </li>
-        {headerLeft}
-      </ul>
-      <ul className="header-items">{headerRight}</ul>
-    </header>
+    <>
+      <LargeHeader
+        headerLeft={headerLeft}
+        headerRight={headerRight}
+        fixed={fixed ? fixed : false}
+      />
+      <SmallHeader
+        headerLeft={headerLeft}
+        headerRight={headerRight}
+        fixed={fixed ? fixed : false}
+      />
+    </>
   );
 }

@@ -108,7 +108,7 @@ export default function Main() {
 
   return (
     <div className="main">
-      <Header />
+      <Header fixed />
       <Section />
       <Section2 />
       <Section3 />
