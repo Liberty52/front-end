@@ -54,7 +54,7 @@ export function getReview(productId, size, page, photoFilter) {
 export function patchContents(reviewId, dto) {
   return axios.patch(`/product/reviews/${reviewId}`, JSON.stringify(dto), {
     headers: {
-      Authorization: localStorage.getItem("ACCESS_TOKEN"),
+      Authorization: sessionStorage.getItem("ACCESS_TOKEN"),
       "Content-Type": "application/json",
     },
   });
@@ -98,7 +98,7 @@ export function delImage(reviewId, dto) {
     .delete(`/product/reviews/${reviewId}/images`, {
       data: JSON.stringify(dto),
       headers: {
-        Authorization: localStorage.getItem("ACCESS_TOKEN"),
+        Authorization: sessionStorage.getItem("ACCESS_TOKEN"),
         "Content-Type": "application/json",
       },
     })
