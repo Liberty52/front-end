@@ -56,15 +56,14 @@
   gap: 10px;
 }
 
-
 .inquiry .cancel,
 .inquiry .review {
   display: inline-block;
   margin-right: 10px;
   margin-top: 0;
   margin-bottom: 0;
-}
 
+}
 
 .inquiry .TCheck {
   font-size: 30px;
@@ -182,6 +181,7 @@
   .inquiry .sectionOrder {
     margin-right: 5rem;
     margin-left: 5rem;
+    margin-bottom: 1.8rem;
   }
 
   .inquiry .TCheck {

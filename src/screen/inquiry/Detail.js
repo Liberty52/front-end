@@ -84,8 +84,6 @@ function InquiryDetails() {
         {orderDetails.products.map((product) => (
           <>
             <div className="section1">
-
-
               <ul className="Detailul">
                 <li key={product.name} className="DetailProduct">
                   <img
@@ -93,23 +91,22 @@ function InquiryDetails() {
                     alt={product.name}
                     className="productRepresentUrl"
                   />
-                  <p className="DetailProductName">{product.name}</p>
-                  <p className="DetailProductOptions">
-                    {product.options.map((option) => (
-                      <p key={option}>{option}</p>
-                    ))}
-                  </p>
-                  <div className="Detail-product-bottom">
-                  <p className="DetailProductQuantity">{product.quantity} 개</p>
-                  <p className="DetailProductPrice">
-                    ₩{product.price.toLocaleString()}
-                  </p>
+                 <div className="productInfo">
+                    <p className="DetailProductName">{product.name}</p>
+                    <p className="DetailProductOptions">
+                      {product.options.map((option) => (
+                        <p key={option}>{option}</p>
+                      ))}
+                    </p>
+                    <div className="Detail-product-bottom">
+                      <p className="DetailProductQuantity">{product.quantity} 개</p>
+                      <p className="DetailProductPrice">
+                        ₩{product.price.toLocaleString()}
+                      </p>
+                    </div>
                   </div>
                 </li>
               </ul>
-
-
-
             </div>
             <ImgDetailsSection productUrl={product.productUrl} />
           </>

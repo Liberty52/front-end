@@ -156,7 +156,6 @@ function OrderList() {
             </div>
 
 
-
             {(order.orderStatus === "ORDERED" ||
               order.orderStatus === "WAITING_DEPOSIT") && (
               <div className="buttons">
@@ -183,9 +182,8 @@ function OrderList() {
                 />
               </div>
             )}
-          </div>
         </div>
-
+        </div>
     );
   }
 }
