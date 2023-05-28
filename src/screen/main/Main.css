@@ -81,15 +81,10 @@ ul {
 }
 
 .image {
-  height: 100%;
+  width: 100%;
 }
 
 .chromaluxe_img {
   width: 500px;
   height: 400px;
-}
-
-/* Header */
-.main .header {
-  position: fixed;
 }
