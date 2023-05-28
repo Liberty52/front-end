@@ -120,7 +120,7 @@ function InquiryDetails() {
       <div className="section2">
         <p className="DetailCName">배경이미지 시안</p>
         <div className="content">
-          <img src={productUrl} alt="배경이미지 시안" />
+          <img src={productUrl} alt="배경이미지 시안"  className="Detail-Img"/>
         </div>
       </div>
     );
@@ -160,13 +160,16 @@ function InquiryDetails() {
       <div className="section4">
         <p className="DetailCName">결제 상세 정보</p>
         <div className="content">
-          <p className="DetailSpacing">
-            <div>결제 수단: </div>
-            <div>
-              {paymentType}: {cardInfo}
-            </div>
-            <div>{orderDetails.orderDate}</div>
-          </p>
+
+            <p className="DetailSpacing">
+              <div>결제 수단: </div>
+              <div className="detail-card">
+                <p>{paymentType} </p>
+                <p className="detail-cardInfo">{cardInfo}</p>
+              </div>
+              <div>{orderDetails.orderDate}</div>
+            </p>
+
           <p className="DetailSpacing">
             <div>청구 주소: </div>
             <div>{orderDetails.address}</div>
