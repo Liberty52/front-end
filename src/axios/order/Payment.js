@@ -1,5 +1,4 @@
 import axios from "../axios";
-import localAxios from "axios";
 import { ACCESS_TOKEN } from "../../constants/token";
 import cookie from "react-cookies";
 
@@ -107,7 +106,7 @@ export function checkCardPayApproval(orderId, guestPhoneNum) {
 }
 
 export function getVBankInfos() {
-  return localAxios.get("http://localhost:8080/vbanks");
+  return axios.get("/product/vbanks");
 }
 
 export function payByVBank(dto, file) {
