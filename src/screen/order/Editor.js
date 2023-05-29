@@ -5,17 +5,48 @@ import Canvas from '../../component/order/editor/canvas/Canvas';
 import { BaseProvider, LightTheme } from "baseui"
 import Toolbox from '../../component/order/editor/toolbax';
 import Footer from '../../component/order/editor/Footer';
-import { ToasterContainer, PLACEMENT } from 'baseui/toast';
 import useDesignEditorContext from '../../hooks/useDesignEditorContext';
 import Preview from '../../component/order/editor/Preview';
 import { useEditor } from '@layerhub-io/react';
 import React from 'react';
+import { detectMobByWindowWidth } from '../../utils';
+import { useNavigate } from 'react-router';
+import { toaster } from "baseui/toast"
 
 
 const Editor = () => {
   const { displayPreview, setDisplayPreview } = useDesignEditorContext()
   const editor = useEditor();
+  const navigate = useNavigate();
   
+  React.useEffect(() => {
+    if(detectMobByWindowWidth()) {
+      const msg = "You cannot access the editor page with your current device. Please switch to a wider device for better compatibility.";
+    
+      const toastKey = toaster.warning(
+        <>
+          {msg}
+        </>,
+        {
+          onClose: () => toaster.clear(toastKey),
+          overrides: {
+            InnerContainer: {
+              style: { width: "100%" }
+            }
+          }
+        }
+      );
+      toaster.update(toastKey, {
+        children: (
+          <>
+            {msg}
+          </>
+        )
+        })
+      navigate(-1)
+    }
+  }, [])
+
   React.useEffect(() => {
     editor?.frame.resize({
       width: 3840,
@@ -26,7 +57,6 @@ const Editor = () => {
 
   return (
     <BaseProvider theme={LightTheme}>
-        <ToasterContainer placement={PLACEMENT.bottomRight}>
           {displayPreview && <Preview isOpen={displayPreview} setIsOpen={setDisplayPreview} />}
           <EditorContainer>
             <div style={{ display: "flex", flex: 1 }}>
@@ -38,7 +68,6 @@ const Editor = () => {
               </div>
             </div>
           </EditorContainer>
-        </ToasterContainer>
       </BaseProvider>
     );
 }

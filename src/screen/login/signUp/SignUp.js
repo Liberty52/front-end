@@ -32,7 +32,6 @@ function Form() {
           name: name,
           recommender: recommender,
         };
-        console.log(dto, file);
         post(dto, file);
       }}
     >

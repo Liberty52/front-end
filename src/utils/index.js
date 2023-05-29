@@ -53,3 +53,27 @@ export const convertQuestionStatus = (status) => {
     else
         return "완료"
 }
+
+export const resizedataURL = (imgTag, canvasTag, datas, wantedWidth, wantedHeight) => {
+  return new Promise(async function(resolve, reject){
+    imgTag.onload = () =>
+      {        
+          const ctx = canvasTag.getContext('2d');
+
+          canvasTag.width = wantedWidth;
+          canvasTag.height = wantedHeight;
+
+          ctx.drawImage(imgTag, 0, 0, wantedWidth, wantedHeight);
+
+          const dataURI = canvasTag.toDataURL();
+
+          resolve(dataURI);
+      };
+
+      imgTag.src = datas;
+  });
+}
+
+export const detectMobByWindowWidth = () => {
+  return ( ( window.innerWidth <= 800 ));
+}

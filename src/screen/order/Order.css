@@ -119,22 +119,33 @@ input[type="number"]::-webkit-outer-spin-button {
 
 /* 모바일 */
 @media screen and (max-width: 500px) {
-  .order-options {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  .order {
+    width: 100%;
+    align-content: center;
+  }
+  
+  .order-container {
+    padding: 0 20px;
+    margin-bottom: 100px;
   }
 
-  .order-title {
+  .order-page {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .order .order-options {
+    display: flex;
+    justify-content: flex-end;
+    width: 90%;
+    margin-left: 20px;
+  }
+
+  .product-title {
     text-align: center;
   }
 
-  .order-image {
-    width: 85%;
-  }
-
-  .order-inputs {
-    width: 85%;
+  .product-image {
+    align-items: center;
   }
 }
