@@ -73,7 +73,7 @@ function PaymentMethod(props) {
 
 function VBankContent(props) {
   const [vbankInfos, setVbankInfos] = useState({
-    vbankInfos: [{ account: '' }],
+    vbanks: [{ vbank: '' }],
   });
 
   useEffect(() => {
@@ -122,16 +122,16 @@ function VBankContent(props) {
         onChange={onAccountChange}
         placeholder={'가상계좌를 선택해주세요.'}
       >
-        {vbankInfos.vbankInfos.map(vBank => (
+        {vbankInfos.vbanks.map(data => (
           <Option
-            key={vBank.account}
-            value={vBank.account}
+            key={data.vbank}
+            value={data.vbank}
             sx={{
               fontFamily: 'inherit',
               fontSize: 13,
             }}
           >
-            {vBank.account}
+            {data.vbank}
           </Option>
         ))}
       </Select>
