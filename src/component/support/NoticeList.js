@@ -16,7 +16,7 @@ export default function NoticeList({setNoticeId}){
       const res = await retrieveNoticeList(10,pageNum);
       setData(res.data);
     }catch (e){
-      console.log(e);
+      
     }
   }
   useEffect(() => {

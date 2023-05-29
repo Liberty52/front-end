@@ -23,7 +23,7 @@ function OrderList() {
         const response = await fetchOrders(accessToken);
         setOrders(response.data);
       } catch (error) {
-        console.log(error);
+        
       }
     };
 

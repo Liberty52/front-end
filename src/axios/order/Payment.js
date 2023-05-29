@@ -10,7 +10,7 @@ export function prepareCard(dto, file) {
     new Blob([JSON.stringify(dto)], { type: "application/json" })
   );
   const receiverPhoneNumber = dto.destinationDto.receiverPhoneNumber;
-  console.log(receiverPhoneNumber);
+  
   if (sessionStorage.getItem(ACCESS_TOKEN)) {
     return new Promise((res) => {
       axios
@@ -24,7 +24,7 @@ export function prepareCard(dto, file) {
           res(response.data);
         })
         .catch((e) => {
-          console.log(e);
+          
           alert("카드결제 요청에 실패했습니다.");
         });
     });
@@ -41,7 +41,7 @@ export function prepareCard(dto, file) {
           res(response.data);
         })
         .catch((e) => {
-          console.log(e);
+          
           alert("카드결제 요청에 실패했습니다.");
         });
     });
@@ -62,7 +62,7 @@ export function prepareCardCart(dto) {
           res(response.data);
         })
         .catch((e) => {
-          console.log(e);
+          
           alert("카드결제 요청에 실패했습니다.");
         });
     });
@@ -79,7 +79,7 @@ export function prepareCardCart(dto) {
           res(response.data);
         })
         .catch((e) => {
-          console.log(e);
+          
           alert("카드결제 요청에 실패했습니다.");
         });
     });
