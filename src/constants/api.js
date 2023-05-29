@@ -12,4 +12,4 @@ export const NOTICE_LIST = (size, page) =>
   `/auth/notices?size=${size}&page=${page}`;
 export const NOTICE_DETAIL = (noticeId) => `/auth/notices/${noticeId}`;
 
-export const PRODUCT_INFO = (id) => ``;
+export const PRODUCT_INFO = () => `/product/products/LIB-001`;

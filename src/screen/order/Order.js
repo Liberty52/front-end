@@ -2,7 +2,7 @@ import "./Order.css";
 import Header from "../../component/common/Header";
 import Footer from "../../component/common/Footer";
 import Review from "./review/Review";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import product_img from "../../image/icon/product.png";
 import dummy_img from "../../image/icon/dummy.jpg";
@@ -13,15 +13,25 @@ import Radio from "../../component/common/Radio";
 import Cookie from "../redirect/Cookie";
 import $ from "jquery";
 import useAppContext from "../../hooks/useAppContext";
-import {
-  ADDITIONAL_MATERIAL,
-  BASIC_MATERIAL,
-  MOUNTING_METHOD,
-} from "../../global/Constants";
+import { getProductInfo } from "../../axios/order/Order";
 
 const Order = () => {
-  const [mode, setMode] = useState("");
   const { frameOption, setFrameOption } = useAppContext();
+  const [mode, setMode] = useState("");
+  const [productData, setProductData] = useState();
+  const [price, setPrice] = useState(productData?.price);
+
+  const retriveProductInfo = () => {
+    getProductInfo().then((res) => {
+      setProductData(res.data);
+      setPrice(res.data.price);
+      console.log(res.data);
+    });
+  };
+
+  useEffect(() => {
+    retriveProductInfo();
+  }, []);
 
   let dto = {};
   let imageFile = "";
@@ -34,7 +44,6 @@ const Order = () => {
   };
   const onHandleSubmit = (e) => {
     e.preventDefault();
-    const productName = "Liberty 52_Frame";
     const options = [
       `${frameOption.mountingMethod}`,
       `${frameOption.basicMaterial}`,
@@ -43,7 +52,7 @@ const Order = () => {
     const quantity = `${frameOption.quantity}`;
     const image = e.target.file.files[0];
     const data = {
-      productName: productName,
+      productName: productData?.name,
       options: options,
       quantity: parseInt(quantity),
     };
@@ -103,15 +112,12 @@ const Order = () => {
     productImage.style.top = top + "px";
   }
 
-  const defaultPrice = 1550000;
-  const [price, setPrice] = useState(defaultPrice);
-
   return (
     <div className="order">
       <Cookie />
       <Header />
       <div className="order-container">
-        <h1 className="product-title">Liberty 52_frame</h1>
+        <h1 className="product-title">{productData?.name}</h1>
         <div className="order-page">
           <div className="product">
             <div className="product-image">
@@ -123,15 +129,15 @@ const Order = () => {
               <div className="order-inputs-selects">
                 <div id="mounting-method" className="mounting-method">
                   <div className="order-title">거치 방식을 선택하세요</div>
-                  {MOUNTING_METHOD.map((item, idx) => {
+                  {productData?.options[0].optionItems.map((item) => {
                     return (
                       <Radio
-                        key={idx}
+                        key={item.id}
                         style={{ marginBottom: "10px" }}
                         name="mountingMethod"
-                        text={item}
+                        text={item.name}
                         onChange={onHandleChange}
-                        checked={item === frameOption.mountingMethod}
+                        checked={item.name === frameOption.mountingMethod}
                         required
                       />
                     );
@@ -139,15 +145,15 @@ const Order = () => {
                 </div>
                 <div id="basic-material" className="basic-material">
                   <div className="order-title">기본소재를 선택하세요</div>
-                  {BASIC_MATERIAL.map((item, idx) => {
+                  {productData?.options[1].optionItems.map((item, idx) => {
                     return (
                       <Radio
-                        key={idx}
+                        key={item.id}
                         style={{ marginBottom: "10px" }}
                         name="basicMaterial"
-                        text={item}
+                        text={item.name}
                         onChange={onHandleChange}
-                        checked={item === frameOption.basicMaterial}
+                        checked={item.name === frameOption.basicMaterial}
                         required
                       />
                     );
@@ -159,15 +165,15 @@ const Order = () => {
                     선택하세요
                   </div>
                   <div className="material-group">
-                    {ADDITIONAL_MATERIAL.map((item, idx) => {
+                    {productData?.options[2].optionItems.map((item, idx) => {
                       return (
                         <Radio
-                          key={idx}
+                          key={item.id}
                           style={{ marginBottom: "10px" }}
                           name="additionalMaterial"
-                          text={item}
+                          text={item.name}
                           onChange={onHandleChange}
-                          checked={item === frameOption.additionalMaterial}
+                          checked={item.name === frameOption.additionalMaterial}
                           required
                         />
                       );
@@ -180,23 +186,50 @@ const Order = () => {
                     <ImageInput width="60px" height="60px" />
                   </div>
                   <div className="order-editor">
-                    <div onClick={(e) => e.preventDefault() ?? ((frameOption.mountingMethod !== '' && frameOption.basicMaterial !== '' && frameOption.additionalMaterial !== '') ? navigate("/editor") : alert("모든 옵션을 선택해주세요."))}>개성을 추가하러 가기</div>
+                    <div
+                      onClick={(e) =>
+                        e.preventDefault() ??
+                        (frameOption.mountingMethod !== "" &&
+                        frameOption.basicMaterial !== "" &&
+                        frameOption.additionalMaterial !== ""
+                          ? navigate("/editor")
+                          : alert("모든 옵션을 선택해주세요."))
+                      }
+                    >
+                      개성을 추가하러 가기
+                    </div>
                   </div>
                 </div>
+                <div>
+                  {productData?.options[3].optionItems.map((item, idx) => {
+                    return (
+                      <Radio
+                        key={item.id}
+                        style={{ marginBottom: "10px" }}
+                        name="delivery"
+                        text={item.name}
+                        onChange={onHandleChange}
+                        checked={item.name === frameOption.delivery}
+                        required
+                      />
+                    );
+                  })}
+                </div>
                 <div className="quantity">
-                  Liberty 52_frame
+                  {productData?.name}
                   <input
                     type="number"
                     name="quantity"
                     value={frameOption.quantity}
                     required
+                    min={0}
                     onChange={(e) => {
                       onHandleChange(e);
-                      setPrice(defaultPrice * e.target.value);
+                      setPrice(productData?.price * e.target.value);
                     }}
                   />
                   <span className="price">
-                    &#8361;{price.toLocaleString("ko-KR")}
+                    &#8361;{price?.toLocaleString("ko-KR")}
                   </span>
                 </div>
                 <div className="order-btn-group">
