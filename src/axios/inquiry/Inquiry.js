@@ -17,6 +17,7 @@ export function cancelOrder(dto) {
     })
     .then((response) => {
       alert(response.data.message);
+      window.location.href = "/inquiry";
     })
     .catch((e) => {
       if (e.response) {
