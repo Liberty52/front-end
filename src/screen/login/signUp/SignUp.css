@@ -2,10 +2,6 @@
   height: 100%;
 }
 
-.signUp .header {
-  position: fixed;
-}
-
 .signUp .section {
   display: flex;
   flex-direction: column;

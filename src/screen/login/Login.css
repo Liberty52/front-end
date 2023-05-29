@@ -10,10 +10,6 @@
   align-items: center;
 }
 
-.login .header {
-  position: fixed;
-}
-
 .company-login,
 .social-login {
   width: 350px;
@@ -61,29 +57,12 @@
   width: 380px;
 }
 
-
-.modal {
+.login .modal {
   display: none;
-  justify-content: center;
-  align-items: center;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 999;
 }
 
-.modal.is-active {
+.login .modal .is-active {
   display: flex;
-}
-
-.modal-content {
-  background-color: white;
-  padding: 20px;
-  border-radius: 10px;
-  width: 100%;
 }
 
 .Nonmember-bt {
@@ -98,9 +77,6 @@
 .Nonmember-bt:hover {
   color: #0071e3;
 }
-
-
-
 
 .input-wrapper {
   position: relative;
@@ -128,7 +104,7 @@
   padding: 12px 10px 8px;
 }
 
-.input-wrapper .input:focus+.label,
+.input-wrapper .input:focus + .label,
 .input-wrapper .value .label {
   position: absolute;
   top: -7px;
@@ -143,11 +119,4 @@
   padding: 0px 3px;
   background: white;
   color: gray;
-}
-
-
-@media screen and (min-width: 501px) {
-  .modal.is-active .modal-content {
-    width: 350px;
-  }
 }

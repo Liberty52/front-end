@@ -14,7 +14,6 @@ export default function Cookie() {
       //   ACCESS_TOKEN = localStorage.getItem("ACCESS_TOKEN");
     } else {
       if (cookie.load("guest")) {
-        console.log(cookie.load("guest"));
         //   cookie.remove("guest", { path: "/" });
       } else {
         if (

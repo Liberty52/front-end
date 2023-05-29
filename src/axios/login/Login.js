@@ -35,8 +35,8 @@ export function findEmail(name, phoneNumber) {
     },
   })
   .then(response => {
-    console.log('서버에서 받은 응답:', response);
-    console.log('서버에서 받은 응답 값:', response.data);
+
+
     return response;
   })
     .catch(error => {
@@ -50,7 +50,7 @@ export function sendPasswordResetEmail(email) {
   const data = {
     email: email,
   };
-  console.log(email);
+  
   return axios.post('/auth/password/send-mail', data, {
     headers: {
       'Content-Type': 'application/json',

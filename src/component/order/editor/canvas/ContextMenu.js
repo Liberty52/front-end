@@ -13,14 +13,6 @@ const ContextMenu = () => {
   const contextMenuRequest = useContextMenuRequest()
   const editor = useEditor()
   const activeObject = useActiveObject()
-  const handleAsComponentHandler = async () => {
-    if (editor) {
-      const component = await editor.scene.exportAsComponent()
-      if (component) {
-        console.log({ component })
-      }
-    }
-  }
   if (!contextMenuRequest || !contextMenuRequest.target) {
     return <></>
   }
@@ -146,7 +138,6 @@ const ContextMenu = () => {
           </ContextMenuItem>
           <ContextMenuItem
             onClick={() => {
-              handleAsComponentHandler()
               editor.cancelContextMenuRequest()
             }}
             icon="Elements"
@@ -168,7 +159,6 @@ const ContextMenu = () => {
           {activeObject?.type === "StaticImage" && (
             <ContextMenuItem
               onClick={() => {
-                // handleAsComponentHandler()
                 editor.objects.setAsBackgroundImage()
                 editor.cancelContextMenuRequest()
               }}
