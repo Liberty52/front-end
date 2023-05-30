@@ -1,0 +1,215 @@
+/* Section */
+.inquiry {
+  height: 100%;
+}
+
+.inquiry .wrapper {
+  height: 100%;
+}
+
+.inquiry .content {
+  margin: 0 auto;
+  max-width: 900px;
+}
+
+
+.inquiry .order-item {
+  display: grid;
+  grid-template-columns: 1fr 7fr;
+  align-items: center;
+  border-bottom: 1px solid #ccc;
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+  cursor: pointer;
+
+}
+
+.inquiry .order-img-wrapper,
+.inquiry .order-info-wrapper {
+  width: 100%;
+}
+
+.inquiry .order-right-top ul {
+  margin: 0;
+  padding: 0;
+  margin-bottom: 1rem;
+  width: 100%;
+  margin-left: 5%;
+}
+
+
+.inquiry .order-right-bottom {
+  display: grid;
+  grid-template-columns: 3.5fr 2.5fr 1fr;
+  gap: 1rem;
+  justify-content: start;
+  margin-left: 3rem;
+}
+
+.inquiry.order-img-wrapper {
+  float: left;
+  margin-right: 10px;
+}
+
+
+.inquiry .buttons {
+  margin-right: 3rem;
+  margin-bottom: 1rem;
+}
+
+
+.inquiry .cancel,
+.inquiry .review {
+  display: inline-block;
+  margin-right: 10px;
+  margin-top: 0;
+  margin-bottom: 0;
+
+}
+
+.inquiry .TCheck {
+  font-size: 30px;
+}
+
+.inquiry .productRepresentUrl {
+  width: 120px !important;
+  height: 120px !important;
+}
+
+
+.inquiry .order-left p {
+  text-align: center;
+}
+
+.inquiry .order-right-botton p {
+  font-size: 5px;
+}
+
+
+.PayAdd-wrapper .address2,
+.personal-info .info-customer {
+  margin-top: 2rem;
+}
+
+.date {
+  margin-top: 3rem;
+}
+
+
+.inquiry .cancel {
+  color: #0066cc;
+  border: none;
+  cursor: pointer;
+  width: 50px;
+  height: 50px;
+  font-size: medium;
+  grid-column-start: 5;
+  grid-column-end: 6;
+  width: 100%;
+  padding: 10px;
+  margin: 6px 0;
+  align-items: center;
+}
+
+.inquiry .personal-info,
+.inquiry .address2,
+.inquiry .date,
+.inquiry .order-status,
+.cancel {
+  flex-grow: 1;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  font-size: 13px;
+}
+
+.inquiry .order-card,
+.inquiry .inquiry-address2,
+.inquiry .email,
+.inquiry .Ordername,
+.inquiry .order-date,
+.inquiry .order-status-value {
+  margin-top: 0.5rem;
+}
+
+.inquiry .payment-info div {
+  background-color: #0066cc;
+}
+
+
+.inquiry .address1,
+.inquiry .address {
+  margin: 0;
+}
+
+.inquiry .product-item {
+  display: grid;
+  grid-template-columns: 2fr 2fr 1fr 1fr;
+}
+
+.inquiry .product-item p {
+  text-align: left;
+  display: flex;
+  align-items: center;
+}
+
+.inquiry .order-info-wrapper .product-item {
+  font-size: 10px;
+}
+
+.inquiry .order-status {
+  margin-bottom: 1rem;
+}
+
+
+.product-item p {
+  color: black;
+  width: 100%;
+  justify-content: space-around;
+  font-size: x-large;
+}
+
+
+
+
+@media only screen and (max-width: 768px) {
+  .inquiry .order-info-wrapper {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .inquiry .order-info-wrapper .order-right-top ul li {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .inquiry .sectionOrder {
+    margin-right: 5rem;
+    margin-left: 5rem;
+    margin-bottom: 1.8rem;
+  }
+
+  .inquiry .product-item p {
+    justify-content: left;
+  }
+
+  .inquiry .TCheck {
+    margin-top: 2.5rem;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+
+  .inquiry .order-info-wrapper {
+    margin-left: 3rem;
+  }
+
+
+  .inquiry .buttons {
+    display: none;
+  }
+
+
+  .inquiry .order-info-wrapper>*:not(.order-right-top) {
+    display: none;
+  }
+}
