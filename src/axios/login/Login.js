@@ -1,5 +1,7 @@
 import axios from '../axios';
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "../../constants/token";
+import request from "../axios";
+import { TOKEN_REFRESH } from "../../constants/api";
 
 export default function post(dto, checked) {
   axios
@@ -89,4 +91,14 @@ export async function fetchOrderDetails(orderId, accessToken, phoneNumber) {
     console.error('Error fetching order details:', error);
     throw error;
   }
+}
+export function refreshToken(){
+  return request.get(
+    TOKEN_REFRESH(), // token refresh api
+    {
+      headers: {
+        "LB-RefreshToken": localStorage.getItem(REFRESH_TOKEN)
+      }
+    }
+  );
 }
