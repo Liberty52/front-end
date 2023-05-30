@@ -1,28 +1,32 @@
-import Header from "../../component/Header";
-import Footer from "../../component/Footer";
+import Header from "../../component/common/Header";
+import Footer from "../../component/common/Footer";
 import { useParams } from "react-router-dom";
-import {
-  MoveToListButton,
-  QuestionDetailActionButton,
-  QuestionDetailActionDivider,
-  QuestionDetailActionWrapper,
-  QuestionDetailContentWrapper,
-  QuestionDetailPageButtonWrapper,
-  QuestionDetailSide,
-  QuestionDetailSideCreatedAt,
-  QuestionDetailSideStatus,
-  QuestionDetailTitle,
-  QuestionDetailTitleWrapper,
-  QuestionDetailViewer,
-  QuestionEditorHeader,
-  QuestionListContainer
-} from "../../component/question/QuestionComponent";
 import { useEffect, useState } from "react";
 import { Editor } from "@toast-ui/editor";
 import { useNavigate } from "react-router";
 import { HTML_EDITOR_MODE } from "../../global/Constants";
 import { deleteQuestion, getQuestionDetail } from "../../axios/question/QuestionDetail";
 import { convertQuestionStatus } from "../../utils";
+import enter from "../../image/icon/arrow-enter.svg";
+import {
+  EnterImage,
+  MoveToListButton,
+  QuestionContainer,
+  QuestionDetailActionButton,
+  QuestionDetailActionDivider,
+  QuestionDetailActionWrapper,
+  QuestionDetailContentWrapper,
+  DetailPageButtonWrapper,
+  QuestionDetailSide,
+  QuestionDetailSideCreatedAt,
+  QuestionDetailSideStatus,
+  QuestionDetailTitle,
+  QuestionDetailTitleWrapper,
+  Viewer,
+  QuestionEditorHeader,
+  QuestionReplyContentWrapper, QuestionReplyEnterWrapper, QuestionReplyWrapper,
+} from "../../component/question/QuestionComponent";
+import { QUESTION, QUESTION_EDITOR } from "../../constants/path";
 
 
 export default function QuestionDetail(){
@@ -32,7 +36,7 @@ export default function QuestionDetail(){
   const [data,setData] = useState();
 
   useEffect(() => {
-    let  prevData
+    let prevData;
     try{
       getQuestionDetail(id)
         .then(res => {
@@ -47,17 +51,14 @@ export default function QuestionDetail(){
             viewer : true
           });
         });
-
-
     }catch (err){
       console.error(err)
     }
     setData(prevData)
-
   },[])
 
   const updateButtonClicked = () => {
-    navigate('/question/editor',{
+    navigate(QUESTION_EDITOR,{
       replace : true,
       state : {
         id,
@@ -69,7 +70,7 @@ export default function QuestionDetail(){
 
     if(window.confirm("정말로 삭제하시겠습니까?")){
       deleteQuestion(id).then(() => {
-        navigate('/question',{
+        navigate(QUESTION,{
           replace : true
         })
       }).catch(err => console.error(err));
@@ -78,20 +79,18 @@ export default function QuestionDetail(){
 
   }
   const moveToListButtonClicked = () => {
-    navigate('/question', {
+    navigate(QUESTION, {
       replace : true
     })
   }
-
   return <>
     <Header/>
-    <QuestionListContainer>
+    <QuestionContainer>
       <QuestionEditorHeader>
         1:1문의
       </QuestionEditorHeader>
       <QuestionDetailContentWrapper>
       {data !== undefined ? <>
-
           <QuestionDetailTitleWrapper>
             <QuestionDetailTitle>{data.title}</QuestionDetailTitle>
             <QuestionDetailSide>
@@ -101,21 +100,29 @@ export default function QuestionDetail(){
           </QuestionDetailTitleWrapper>
 
       </> : <></>}
-      <QuestionDetailViewer id={"viewer"}></QuestionDetailViewer>
+      <Viewer id={"viewer"}></Viewer>
         <QuestionDetailActionWrapper>
           <QuestionDetailActionButton onClick={updateButtonClicked}>수정</QuestionDetailActionButton>
           <QuestionDetailActionDivider>/</QuestionDetailActionDivider>
           <QuestionDetailActionButton onClick={deleteButtonClicked}>지우기</QuestionDetailActionButton>
         </QuestionDetailActionWrapper>
 
-
-      {/*  TODO 답장 필드 추가해야 함.*/}
-
       </QuestionDetailContentWrapper>
-      <QuestionDetailPageButtonWrapper>
+
+      {data?.questionReplyResponse !== null ?
+        <QuestionReplyWrapper>
+          <QuestionReplyEnterWrapper>
+          <EnterImage src={enter}/>
+          </QuestionReplyEnterWrapper>
+          <QuestionReplyContentWrapper>
+            {data?.questionReplyResponse.replyContent}
+          </QuestionReplyContentWrapper>
+        </QuestionReplyWrapper>
+        :  ""}
+      <DetailPageButtonWrapper>
         <MoveToListButton onClick={moveToListButtonClicked}>뒤로가기</MoveToListButton>
-      </QuestionDetailPageButtonWrapper>
-    </QuestionListContainer>
+      </DetailPageButtonWrapper>
+    </QuestionContainer>
     <Footer/>
   </>
 }

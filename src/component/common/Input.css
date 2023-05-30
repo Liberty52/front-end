@@ -1,0 +1,46 @@
+.input-block {
+  position: relative;
+}
+
+.input-block .input {
+  width: 100%;
+  border: 1.5px solid lightgray;
+  padding: 10px;
+  box-sizing: border-box;
+  border-radius: 5px;
+}
+
+.inputs .input-block {
+  margin: 10px 0;
+}
+
+.input:hover {
+  border: 1.5px solid #0071e3;
+}
+
+.input-block .input:focus-visible {
+  outline: none;
+  border: 1.5px solid #0071e3;
+  padding: 12px 10px 8px;
+}
+
+.value .input {
+  padding: 12px 10px 8px;
+}
+
+.input-block .input:focus-visible + .label,
+.value .input + .label {
+  position: absolute;
+  top: -7px;
+  transition: top 0.1s;
+}
+
+.label {
+  font-size: 12px;
+  position: absolute;
+  left: 10px;
+  top: 13px;
+  padding: 0px 3px;
+  background: white;
+  color: gray;
+}

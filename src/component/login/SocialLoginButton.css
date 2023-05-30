@@ -1,0 +1,28 @@
+.social-login-button {
+  border-radius: 50%;
+  padding: 10px;
+}
+
+.social-login-button:hover {
+  filter: brightness(0.9);
+}
+
+.social-login-button img {
+  width: 20px;
+}
+
+.naver {
+  background-color: #19ce60;
+}
+
+.kakao {
+  background-color: #fae100;
+}
+
+.google {
+  background-color: #ffffff;
+}
+
+.facebook {
+  background-color: #475993;
+}

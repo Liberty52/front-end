@@ -1,0 +1,28 @@
+.review-form .rating,
+.review-form textarea,
+.review-form .image-input-group {
+  margin-bottom: 13px;
+}
+
+.review-form .rating {
+  display: flex;
+  justify-content: center;
+}
+
+.review-form .rating img {
+  width: 33px;
+  margin: 0 3px;
+}
+
+.review-form textarea {
+  width: 100%;
+  height: 100px;
+  padding: 7px;
+  resize: none; /* 사용자 임의 변경 불가 */
+  border: 1px solid gray;
+}
+
+.review-form textarea:focus-visible {
+  outline: none;
+  border: 1.5px solid gray;
+}

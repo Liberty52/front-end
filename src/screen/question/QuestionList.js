@@ -1,15 +1,21 @@
-import Header from "../../component/Header";
-import Footer from "../../component/Footer";
-import styled from "styled-components";
+import Header from "../../component/common/Header";
+import Footer from "../../component/common/Footer";
 import {
-  EmptyListExpression, PageNumberButton, QuestionPageButton, QuestionPageButtonWrapper,
-  QuestionListContainer,
+  EmptyListExpression,
+  PageMoveButton,
+  PageNumberButton,
+  QuestionContainer,
+  QuestionListHeader,
+  QuestionListRowSmallItem,
+  QuestionListRowTitle,
   QuestionListTable,
   QuestionListTableBodyRow,
   QuestionListTableBodyWriteTimestamp,
   QuestionListTableHeader,
-  QuestionListTableHeaderSmallItem, QuestionListTablePageNumberButtonWrapper,
-  QuestionListHeader,
+  QuestionListTableHeaderSmallItem,
+  PageNumberButtonWrapper,
+  QuestionPageButton,
+  QuestionPageButtonWrapper,
   QuestionTableHeaderMiddleItem
 } from "../../component/question/QuestionComponent";
 import { useNavigate } from "react-router";
@@ -18,6 +24,7 @@ import { HTML_EDITOR_MODE } from "../../global/Constants";
 import { getQuestionList } from "../../axios/question/QuestionsList";
 import { convertQuestionStatus } from "../../utils";
 import uuid from "react-uuid";
+import { QUESTION_EDITOR } from "../../constants/path";
 
 
 export default function QuestionList() {
@@ -52,7 +59,7 @@ export default function QuestionList() {
 
 
   const moveToEditorPageButtonClicked = () => {
-    navigate(`/question/editor`, {
+    navigate(QUESTION_EDITOR, {
       state: {
         mode: HTML_EDITOR_MODE.ADD
       }
@@ -88,7 +95,7 @@ export default function QuestionList() {
 
   return <>
     <Header />
-    <QuestionListContainer>
+    <QuestionContainer>
       <QuestionListHeader>1:1문의</QuestionListHeader>
       <QuestionListTable>
         <thead>
@@ -103,9 +110,9 @@ export default function QuestionList() {
         {data.contents?.length !== 0 ? data.contents?.map(d => {
 
           return <QuestionListTableBodyRow key={d.id} onClick={() => moveToDetailPageButtonClicked(d.id)}>
-            <td>{d.no}</td>
-            <td>{d.title}</td>
-            <td>{convertQuestionStatus(d.status)}</td>
+            <QuestionListRowSmallItem>{d.no}</QuestionListRowSmallItem>
+            <QuestionListRowTitle>{d.title}</QuestionListRowTitle>
+            <QuestionListRowSmallItem>{convertQuestionStatus(d.status)}</QuestionListRowSmallItem>
             <QuestionListTableBodyWriteTimestamp>{d.createdAt}</QuestionListTableBodyWriteTimestamp>
           </QuestionListTableBodyRow>;
         }) : <></>}
@@ -113,18 +120,18 @@ export default function QuestionList() {
       </QuestionListTable>
       {data.contents?.length === 0 ? <EmptyListExpression key={uuid()}>등록된 문의가 없습니다</EmptyListExpression> :
 
-        <QuestionListTablePageNumberButtonWrapper key={uuid()}>
-          <PageNumberButton onClick={pageNumberMinusButtonClicked}>&lt;</PageNumberButton>
+        <PageNumberButtonWrapper key={uuid()}>
+          <PageMoveButton onClick={pageNumberMinusButtonClicked}>&lt;</PageMoveButton>
           {createPageNumberButton()?.map(i =>
             <PageNumberButton key={i} isCurrentPage={i===data.currentPage} onClick={() => pageNumberButtonClicked(i)}>{i}</PageNumberButton>
           )}
-          <PageNumberButton onClick={pageNumberPlusButtonClicked}>&gt;</PageNumberButton>
-        </QuestionListTablePageNumberButtonWrapper>
+          <PageMoveButton onClick={pageNumberPlusButtonClicked}>&gt;</PageMoveButton>
+        </PageNumberButtonWrapper>
       }
       <QuestionPageButtonWrapper >
         <QuestionPageButton onClick={moveToEditorPageButtonClicked}>문의 작성</QuestionPageButton>
       </QuestionPageButtonWrapper>
-    </QuestionListContainer>
+    </QuestionContainer>
     <Footer />
   </>;
 }

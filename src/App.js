@@ -1,22 +1,24 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Main from "./screen/Main";
-import Login from "./screen/auth/login/Login";
-import SignUp from "./screen/auth/signUp/SignUp";
-import MyInfo from "./screen/auth/myInfo/MyInfo";
-import Redirect from "./screen/auth/redirect/Redirect";
+import Main from "./screen/main/Main";
+import Login from "./screen/login/Login";
+import SignUp from "./screen/login/signUp/SignUp";
+import MyInfo from "./screen/myInfo/MyInfo";
+import Redirect from "./screen/redirect/Redirect";
 import Cart from "./screen/cart/Cart";
-import Order from "./screen/product/order/Order";
-import Payment from "./screen/product/payment/Payment";
-import ChangePasswordPage from "./screen/auth/redirect/ChangePasswordPage";
-import Inquiry from "./screen/shopping/inquiry/Inquiry";
-import Detail from "./screen/shopping/detail/Detail";
+import Order from "./screen/order/Order";
+import Payment from "./screen/order/payment/Payment";
+import ChangePassword from "./screen/login/changePassword/ChangePassword";
+import Inquiry from "./screen/inquiry/Inquiry";
+import Detail from "./screen/inquiry/Detail";
 import Provider from "./Provider";
 import "./app.css";
-import Editor from "./screen/product/Editor";
+import Editor from "./screen/order/Editor";
 import QuestionDetail from "./screen/question/QuestionDetail";
 import QuestionList from "./screen/question/QuestionList";
 import QuestionEditor from "./screen/question/QuestionEditor";
-
+import Support from "./screen/support/Support";
+import { FAQ, QUESTION, QUESTION_DETAIL, QUESTION_EDITOR, SUPPORT } from "./constants/path";
+import Faq from "./screen/support/Faq";
 export default function App() {
   return (
     <Provider>
@@ -30,13 +32,16 @@ export default function App() {
           <Route path={"/cart"} element={<Cart />} />
           <Route path={"/order"} element={<Order />} />
           <Route path={"/payment"} element={<Payment />} />
-          <Route path={"/auth/password"} element={<ChangePasswordPage />} />
+          <Route path={"/auth/password"} element={<ChangePassword />} />
           <Route path={"/inquiry"} element={<Inquiry />} />
           <Route path={"/detail/:orderId"} element={<Detail />} />
+          <Route path={"/product/guest/:orderId"} element={<Detail />} />
           <Route path={"/editor"} element={<Editor />} />
-          <Route path={"/question"} element={<QuestionList />} />
-          <Route path={"/question/:id"} element={<QuestionDetail />} />
-          <Route path={"/question/editor"} element={<QuestionEditor />} />
+          <Route path={QUESTION} element={<QuestionList />} />
+          <Route path={QUESTION_DETAIL} element={<QuestionDetail />} />
+          <Route path={QUESTION_EDITOR} element={<QuestionEditor />} />
+          <Route path={SUPPORT} element={<Support/>}/>
+          <Route path={FAQ} element={<Faq/>}/>
         </Routes>
       </BrowserRouter>
     </Provider>

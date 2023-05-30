@@ -1,0 +1,151 @@
+.order-container {
+  padding: 0 200px;
+  margin-bottom: 100px;
+}
+.order-page {
+  display: flex;
+}
+.order-container .product-title {
+  font-weight: 1000;
+  margin-top: 30px;
+  margin-bottom: 60px;
+}
+.order .product {
+  width: 100%;
+}
+
+.order .product-image {
+  display: flex;
+  position: sticky;
+  flex-direction: column;
+}
+
+.order .product-image img {
+  width: 90%;
+  border-radius: 20px;
+}
+
+.mounting-method,
+.basic-material,
+.add-material,
+.add-image,
+.quantity {
+  padding: 60px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.order .order-options {
+  display: flex;
+  justify-content: flex-end;
+  width: 550px;
+  margin-left: 30px;
+}
+
+.order .order-options .order-title {
+  text-align: center;
+  margin-bottom: 10px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.order .order-options .material-group {
+  text-align: center;
+}
+
+.order-inputs {
+  display: flex;
+}
+
+.order-inputs-selects {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.order-inputs-select {
+  margin: 20px;
+}
+
+.order-inputs-buttons {
+  display: flex;
+  justify-content: center;
+}
+
+.order-inputs-button {
+  width: 45%;
+  margin: 0 2.5%;
+}
+
+.add-image input {
+  display: none;
+}
+.order-btn-group {
+  display: flex;
+  justify-content: space-between;
+}
+
+.order-btn-group .button {
+  width: 47%;
+}
+
+.quantity {
+  flex-direction: row;
+}
+.quantity input {
+  margin: 0 5px;
+  width: 50px;
+}
+.quantity .price {
+  font-weight: bold;
+}
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  opacity: 1;
+}
+
+.add-image {
+  text-align: center;
+}
+
+.add-image .radio-btn {
+  margin-bottom: 15px;
+}
+
+.order-editor div:hover {
+  cursor: pointer;
+}
+
+/* 모바일 */
+@media screen and (max-width: 500px) {
+  .order {
+    width: 100%;
+    align-content: center;
+  }
+  
+  .order-container {
+    padding: 0 20px;
+    margin-bottom: 100px;
+  }
+
+  .order-page {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .order .order-options {
+    display: flex;
+    justify-content: flex-end;
+    width: 90%;
+    margin-left: 20px;
+  }
+
+  .product-title {
+    text-align: center;
+  }
+
+  .product-image {
+    align-items: center;
+  }
+}

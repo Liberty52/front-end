@@ -1,5 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Gothic+A1&display=swap');
-
+/* @import url("https://fonts.googleapis.com/css2?family=Gothic+A1&display=swap"); */
+@font-face {
+  font-family: "GmarketSansMedium";
+  src: url("/src/global/fonts/OTF/GmarketSansMedium.otf") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
 html {
   height: 100%;
 }
@@ -18,11 +23,7 @@ a {
   text-decoration: none;
 }
 
-div,
-span,
-a,
-button,
-input {
-  font-family: 'Gothic A1', sans-serif;
+* {
+  font-family: "GmarketSansMedium";
   font-size: 13px;
 }
