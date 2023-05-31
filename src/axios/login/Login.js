@@ -1,5 +1,7 @@
 import axios from '../axios';
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "../../constants/token";
+import request from "../axios";
+import { TOKEN_REFRESH } from "../../constants/api";
 
 export default function post(dto, checked) {
   axios
@@ -35,8 +37,8 @@ export function findEmail(name, phoneNumber) {
     },
   })
   .then(response => {
-    console.log('서버에서 받은 응답:', response);
-    console.log('서버에서 받은 응답 값:', response.data);
+
+
     return response;
   })
     .catch(error => {
@@ -50,7 +52,7 @@ export function sendPasswordResetEmail(email) {
   const data = {
     email: email,
   };
-  console.log(email);
+  
   return axios.post('/auth/password/send-mail', data, {
     headers: {
       'Content-Type': 'application/json',
@@ -89,4 +91,14 @@ export async function fetchOrderDetails(orderId, accessToken, phoneNumber) {
     console.error('Error fetching order details:', error);
     throw error;
   }
+}
+export function refreshToken(){
+  return request.get(
+    TOKEN_REFRESH(), // token refresh api
+    {
+      headers: {
+        "LB-RefreshToken": localStorage.getItem(REFRESH_TOKEN)
+      }
+    }
+  );
 }

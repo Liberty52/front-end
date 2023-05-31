@@ -41,10 +41,9 @@ export function getReview(productId, size, page, photoFilter) {
         }
       )
       .then((response) => {
-        console.log(response.data);
         res(response.data);
       })
-      .catch((e) => console.log(e));
+      .catch((e) => console.error(e));
   });
 }
 
@@ -54,7 +53,7 @@ export function getReview(productId, size, page, photoFilter) {
 export function patchContents(reviewId, dto) {
   return axios.patch(`/product/reviews/${reviewId}`, JSON.stringify(dto), {
     headers: {
-      Authorization: localStorage.getItem("ACCESS_TOKEN"),
+      Authorization: sessionStorage.getItem("ACCESS_TOKEN"),
       "Content-Type": "application/json",
     },
   });
@@ -81,10 +80,10 @@ export function postImage(reviewId, files) {
     })
     .catch((response) => {
       if (response.status === 400)
-        console.log("추가할 이미지에 문제가 있습니다.");
-      else if (response.status === 403) console.log("당신의 리뷰가 아닙니다.");
+        console.error("추가할 이미지에 문제가 있습니다.");
+      else if (response.status === 403) console.error("당신의 리뷰가 아닙니다.");
       else if (response.status === 404)
-        console.log("해당 리뷰가 존재하지 않습니다.");
+        console.error("해당 리뷰가 존재하지 않습니다.");
     });
   return false;
 }
@@ -98,7 +97,7 @@ export function delImage(reviewId, dto) {
     .delete(`/product/reviews/${reviewId}/images`, {
       data: JSON.stringify(dto),
       headers: {
-        Authorization: localStorage.getItem("ACCESS_TOKEN"),
+        Authorization: sessionStorage.getItem("ACCESS_TOKEN"),
         "Content-Type": "application/json",
       },
     })
@@ -107,10 +106,10 @@ export function delImage(reviewId, dto) {
     })
     .catch((response) => {
       if (response.status === 400)
-        console.log("제거할 이미지에 문제가 있습니다.");
-      else if (response.status === 403) console.log("당신의 리뷰가 아닙니다.");
+        console.error("제거할 이미지에 문제가 있습니다.");
+      else if (response.status === 403) console.error("당신의 리뷰가 아닙니다.");
       else if (response.status === 404)
-        console.log("해당 리뷰가 존재하지 않습니다.");
+        console.error("해당 리뷰가 존재하지 않습니다.");
     });
   return false;
 }

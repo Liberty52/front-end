@@ -363,7 +363,7 @@ function ConfirmSection(props) {
           async function (rsp) {
             // callback
             if (rsp.success) {
-              console.log(rsp);
+              
               setIsConfirmProgressing(true);
               try {
                 const response = await checkCardPayApproval(merchantId, destinationDto.receiverPhoneNumber);
@@ -431,7 +431,7 @@ function ConfirmSection(props) {
             setSuccess(true);
           })
           .catch((err) => {
-            console.log(err);
+            
             alert("가상계좌 결제가 실패하였습니다.");
           });
       } else {
@@ -447,7 +447,7 @@ function ConfirmSection(props) {
             setSuccess(true);
           })
           .catch((err) => {
-            console.log(err);
+            
             alert("가상계좌 결제가 실패하였습니다.");
           });
       }

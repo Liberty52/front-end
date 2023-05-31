@@ -1,9 +1,9 @@
-import './SignUp.css';
-import post from '../../../axios/login/SignUp.js';
-import Input from '../../../component/common/Input';
-import ImageInput from '../../../component/common/ImageInput';
-import Button from '../../../component/common/Button';
-import Header from '../../../component/common/Header';
+import "./SignUp.css";
+import post from "../../../axios/login/SignUp.js";
+import Input from "../../../component/common/Input";
+import ImageInput from "../../../component/common/ImageInput";
+import Button from "../../../component/common/Button";
+import Header from "../../../component/common/Header";
 
 function Section() {
   return (
@@ -17,7 +17,7 @@ function Form() {
   return (
     <form
       className="signUp-form"
-      onSubmit={event => {
+      onSubmit={(event) => {
         event.preventDefault();
         const email = event.target.email.value;
         const password = event.target.password.value;
@@ -32,7 +32,6 @@ function Form() {
           name: name,
           recommender: recommender,
         };
-        console.log(dto, file);
         post(dto, file);
       }}
     >
@@ -87,7 +86,7 @@ function SignUpInput() {
 export default function SignUp() {
   return (
     <div className="signUp">
-      <Header />
+      <Header fixed />
       <Section />
     </div>
   );

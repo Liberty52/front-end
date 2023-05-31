@@ -102,3 +102,11 @@
   color: black;
   font-weight: bold;
 }
+.pages span:hover{
+  cursor: pointer;
+}
+@media screen and (max-width: 500px) {
+  .review {
+    padding: 4px 20px 1px;
+  }
+}

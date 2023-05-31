@@ -1,17 +1,34 @@
 import React from "react"
 import { Modal, ModalBody, ModalHeader, ModalButton } from "baseui/modal"
 import { Block } from "baseui/block"
+import { Radio, RadioGroup, ALIGN } from "baseui/radio"
+import { LabelSmall, HeadingXSmall } from 'baseui/typography';
 import { useEditor } from "@layerhub-io/react"
 import { ModalFooter } from "react-bootstrap"
 import Frame from "../../../image/icon/frame.png"
 import useAppContext from "../../../hooks/useAppContext"
-import cvi_glossy from "../../../utils/glossy"
-// import { clone } from "../../utils"
+import mergeImages from "merge-images"
+import { resizedataURL } from "../../../utils"
+import { ADDITIONAL_MATERIAL } from "../../../global/Constants"
+
+const generateMergedImageURL = async (plainImageURL) => {
+  const img = document.createElement('img')
+  const canvas = document.createElement('canvas')
+  const resizedImageURL = await resizedataURL(img, canvas, plainImageURL, 1750, 1010).finally(() => img.remove() && canvas.remove())
+  
+  const meregedImage = await mergeImages([
+    {src: Frame},
+    {src: resizedImageURL, x: 412, y: 238}
+  ])
+
+  return meregedImage
+}
 
 const Preview = ({ isOpen, setIsOpen }) => {
-  const {frameOption} = useAppContext();
+  const {frameOption, setFrameOption} = useAppContext();
   const editor = useEditor()
   const [loading, setLoading] = React.useState(true)
+  const [additionalOption, setAdditionalOption] = React.useState(frameOption.additionalMaterial)
   const [state, setState] = React.useState({
     image: "",
   })
@@ -26,24 +43,26 @@ const Preview = ({ isOpen, setIsOpen }) => {
     editor.objects.list().map((obj) => frameOption.additionalMaterial.includes("실버") ? obj.opacity /= 0.65 : obj.opacity /= 0.9)
 
     setLoading(false)
-  }, [editor])
+  }, [editor, frameOption])
 
-  const makePreview = React.useCallback(async () => {
+  const makePreview = async () => {
     if (!editor) return
     // set frame background by options
-    frameOption.additionalMaterial.includes("실버") ? editor?.frame.setBackgroundColor("#9B9B9B") : editor?.frame.setBackgroundColor("#ffffff")
+    frameOption.additionalMaterial.includes("실버") ? editor.frame.setBackgroundColor("#9B9B9B") : editor.frame.setBackgroundColor("#ffffff")
     // set opacity of objects
     editor.objects.list().map((obj) => frameOption.additionalMaterial.includes("실버") ? obj.opacity *= 0.65 : obj.opacity *= 0.9)
-    
+
     const template = editor.scene.exportToJSON()
-    const image = (await editor.renderer.render(template))
+    const imageURL = await editor.renderer.render(template)
+    const image = await generateMergedImageURL(imageURL)
+    
     setState({ image })
     setLoading(false)
-  }, [editor])
+  }
 
   React.useEffect(() => {
     makePreview()
-  }, [editor])
+  }, [editor, frameOption])
 
 
   const handleSave = React.useCallback(async () => {
@@ -60,9 +79,15 @@ const Preview = ({ isOpen, setIsOpen }) => {
     setIsOpen(false)
   }, [editor])
 
-  const addGlossyEffect = (e) => {
-    console.dir(e.target)
-    cvi_glossy.add(e.target,{noshadow:true,noradius:true,nogradient:true,angle:100})
+  const handleChangeRadio = async (e) => {
+    const currentTargetValue = e.currentTarget.value
+    await rollbackPreview()
+    setAdditionalOption(currentTargetValue) 
+                      
+    setFrameOption({
+      ...frameOption,
+      "additionalMaterial": currentTargetValue,
+    })
   }
 
   return (
@@ -73,6 +98,11 @@ const Preview = ({ isOpen, setIsOpen }) => {
         autoFocus
         isOpen={isOpen}
         overrides={{
+          DialogContainer: {
+            style: {
+              backdropFilter: 'blur(8px)'
+            }
+          },
           Dialog: {
             style: {
               width: '80vw',
@@ -105,10 +135,22 @@ const Preview = ({ isOpen, setIsOpen }) => {
                 display: "flex",
             }}
             >
-            <Block $style={{ flex: 1, alignItems: "center", justifyContent: "center", display: "flex", padding: "5rem"}}>
-                    <img width="500px" height="400px" src={Frame} style={{position: "fixed", zIndex: 10}}/>
-                    {!loading && <img width="350px" height="187px" src={state.image} style={{position: "relative", zIndex: 11, top: "-65px", left: "7px"}} onLoad={(e) => addGlossyEffect(e)} />}
-            </Block>
+              <Block $style={{width: "25%", padding: "2rem"}}>
+              <Block $style={{marginBottom: "2rem"}}>
+                <HeadingXSmall>기본소재 옵션</HeadingXSmall>
+                <LabelSmall>옵션 적용은 주문페이지에서 해주세요</LabelSmall>
+              </Block>
+              <RadioGroup
+                value={additionalOption}
+                onChange={handleChangeRadio}
+                align={ALIGN.vertical}
+              >
+                {ADDITIONAL_MATERIAL.map((option, idx) => <Radio key={idx} value={option}>{option}</Radio>)}
+              </RadioGroup>
+              </Block>
+              <Block $style={{ flex: 1, alignItems: "center", justifyContent: "center", display: "flex", padding: "2rem"}}>
+                      {!loading && <img width="100%" height="100%" src={state.image}/>}
+              </Block>
             </Block>
         </ModalBody>
         <ModalFooter style={{padding: '12px 0', margin: '24px 20px 0'}}>

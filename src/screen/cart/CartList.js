@@ -64,7 +64,7 @@ export default function CartList({ setEmptyMode }) {
   const onImageChange = (e) => {
     const img = e.target.files[0];
     setImageFile(img);
-    console.log(imageFile);
+    
   };
   const onHandleSubmit = (e) => {
     e.preventDefault();
@@ -84,7 +84,7 @@ export default function CartList({ setEmptyMode }) {
     }
   };
   const handleRowClick = (id, idx, options, quantity) => {
-    console.log(formValue);
+    
     let newHidden = [...hidden];
     if (newHidden.indexOf(false) == idx) {
       //수정옵션 열려있을 때
@@ -111,7 +111,7 @@ export default function CartList({ setEmptyMode }) {
       ...formValue,
       [e.target.name]: e.target.value,
     });
-    console.log(formValue);
+    
   };
   const onCheckedElement = (checked, item, price, options, quantity, url) => {
     let thisValue = {
@@ -174,7 +174,7 @@ export default function CartList({ setEmptyMode }) {
     if (checkedList == "") {
       alert("체크된 장바구니 항목이 없습니다");
     } else {
-      console.log(paymentValue);
+      
       navigate("/payment", {
         state: {
           checkedList,
