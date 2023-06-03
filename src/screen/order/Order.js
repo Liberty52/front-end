@@ -51,7 +51,7 @@ const Order = () => {
         return item;
       }),
     ];
-    // const quantity = `${frameOption.quantity}`;
+
     const image = e.target.file.files[0];
     const data = {
       productName: productInfo?.name,
@@ -163,7 +163,9 @@ const Order = () => {
                       onClick={(e) => {
                         e.preventDefault() ??
                           Object.values(frameOption).map((option) => {
-                            (option !== "") ? navigate("/editor") : alert("모든 옵션을 선택해주세요.");
+                            option !== ""
+                              ? navigate("/editor")
+                              : alert("모든 옵션을 선택해주세요.");
                           });
                       }}
                     >
@@ -177,7 +179,7 @@ const Order = () => {
                     type="number"
                     name="quantity"
                     value={quantity}
-                    min={0}
+                    min={1}
                     required
                     onChange={(e) => {
                       setQuantity(e.target.value);

@@ -141,7 +141,7 @@ function PaymentSection(props) {
 
 function Product(props) {
   const productInfo = props.productInfo;
-  console.log(productInfo);
+
   return (
     <div className="confirm-product">
       <img src={liberty52} alt="제품 이미지" />
@@ -251,7 +251,6 @@ function Total(props) {
   const deliverPrice = props.deliverPrice;
   const quantity = props.quantity;
   const price = props.price;
-  console.log(props);
 
   return (
     <div className="confirm-total">
@@ -301,7 +300,6 @@ function ConfirmSection(props) {
     }
   }
   const length = productInfoList.length;
-  console.log(props.productInfo.frameOption);
   const productDto = {
     productName: "Liberty 52_Frame",
     options: Object.values(props.productInfo.frameOption).map((option) => {
@@ -309,7 +307,7 @@ function ConfirmSection(props) {
     }),
     quantity: props.productInfo.quantity,
   };
-  console.log(productDto);
+
   const destinationDto = {
     receiverName: props.deliveryInfo.receiverName,
     receiverEmail: props.deliveryInfo.receiverEmail,
@@ -531,12 +529,6 @@ export default function Payment() {
     productInfo = locationData.paymentValue;
     productIdList = locationData.checkedList;
   }
-
-  // if (!productIdList && !productInfo.mounting_method) {
-  //   alert("주문 후에 결제 페이지를 사용할 수 있습니다.");
-  //   window.location.replace("/order");
-  //   return;
-  // }
 
   return (
     <div className="payment">
