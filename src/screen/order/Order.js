@@ -51,7 +51,7 @@ const Order = () => {
         return item;
       }),
     ];
-    const quantity = `${frameOption.quantity}`;
+    // const quantity = `${frameOption.quantity}`;
     const image = e.target.file.files[0];
     const data = {
       productName: productInfo?.name,
@@ -90,7 +90,6 @@ const Order = () => {
             });
           }
         });
-
         break;
     }
   };

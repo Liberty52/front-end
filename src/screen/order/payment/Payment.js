@@ -156,7 +156,7 @@ function Product(props) {
       <div>{productInfo?.quantity}개</div>
       <span>
         &#8361;
-        {(productInfo?.price * productInfo.quantity).toLocaleString("ko-KR")}
+        {(productInfo?.price * productInfo?.quantity).toLocaleString("ko-KR")}
       </span>
     </div>
   );
@@ -250,6 +250,8 @@ function TermsOfUse() {
 function Total(props) {
   const deliverPrice = props.deliverPrice;
   const quantity = props.quantity;
+  const price = props.price;
+  console.log(props);
 
   return (
     <div className="confirm-total">
@@ -257,7 +259,7 @@ function Total(props) {
       <div className="contents">
         <div className="content">
           <span>소계</span>
-          <span>&#8361;{(1550000 * quantity).toLocaleString("ko-KR")}</span>
+          <span>&#8361;{(price * quantity).toLocaleString("ko-KR")}</span>
         </div>
         <div className="content">
           <span>배송</span>
@@ -271,7 +273,7 @@ function Total(props) {
           <span>총계</span>
           <span>
             &#8361;
-            {(1550000 * quantity + deliverPrice).toLocaleString("ko-KR")}
+            {(price * quantity + deliverPrice).toLocaleString("ko-KR")}
           </span>
         </div>
       </div>
@@ -299,17 +301,15 @@ function ConfirmSection(props) {
     }
   }
   const length = productInfoList.length;
-
+  console.log(props.productInfo.frameOption);
   const productDto = {
     productName: "Liberty 52_Frame",
-    options: [
-      props.productInfo.mounting_method,
-      props.productInfo.basic_material,
-      props.productInfo.add_material,
-    ],
+    options: Object.values(props.productInfo.frameOption).map((option) => {
+      return option;
+    }),
     quantity: props.productInfo.quantity,
   };
-
+  console.log(productDto);
   const destinationDto = {
     receiverName: props.deliveryInfo.receiverName,
     receiverEmail: props.deliveryInfo.receiverEmail,
@@ -495,7 +495,7 @@ function ConfirmSection(props) {
         <DeliveryInfo deliveryInfo={destinationDto} />
         <PaymentInfo constants={constants} setPayment={setPayment} />
         <TermsOfUse />
-        <Total quantity={quantity} deliverPrice={0} />
+        <Total quantity={quantity} deliverPrice={0} price={productInfo.price} />
         <Button text="결제하기" />
         <Button
           type="button"
