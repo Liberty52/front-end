@@ -27,7 +27,7 @@ export default function CancelModal({ order, closeModal }) {
             dto["refundAccount"] = e.target.refundAccount.value;
             dto["refundPhoneNum"] = e.target.refundPhoneNum.value;
           }
-          cancelOrder(dto);
+          cancelOrder(dto, order.receiverPhoneNumber);
           closeModal();
         }}
       >
