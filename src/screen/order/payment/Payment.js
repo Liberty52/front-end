@@ -141,20 +141,22 @@ function PaymentSection(props) {
 
 function Product(props) {
   const productInfo = props.productInfo;
+  console.log(productInfo);
   return (
     <div className="confirm-product">
       <img src={liberty52} alt="제품 이미지" />
       <div>
         <div className="title">Liberty 52_Frame</div>
         <div>
-          <div>{productInfo.mounting_method}</div>
-          <div>{productInfo.basic_material}</div>
-          <div>{productInfo.add_material}</div>
+          {Object.values(productInfo.frameOption).map((option, idx) => {
+            return <div key={idx}>{option}</div>;
+          })}
         </div>
       </div>
-      <div>{productInfo.quantity}개</div>
+      <div>{productInfo?.quantity}개</div>
       <span>
-        &#8361;{(1550000 * productInfo.quantity).toLocaleString("ko-KR")}
+        &#8361;
+        {(productInfo?.price * productInfo?.quantity).toLocaleString("ko-KR")}
       </span>
     </div>
   );
@@ -248,6 +250,8 @@ function TermsOfUse() {
 function Total(props) {
   const deliverPrice = props.deliverPrice;
   const quantity = props.quantity;
+  const price = props.price;
+  console.log(props);
 
   return (
     <div className="confirm-total">
@@ -255,7 +259,7 @@ function Total(props) {
       <div className="contents">
         <div className="content">
           <span>소계</span>
-          <span>&#8361;{(1550000 * quantity).toLocaleString("ko-KR")}</span>
+          <span>&#8361;{(price * quantity).toLocaleString("ko-KR")}</span>
         </div>
         <div className="content">
           <span>배송</span>
@@ -269,7 +273,7 @@ function Total(props) {
           <span>총계</span>
           <span>
             &#8361;
-            {(1550000 * quantity + deliverPrice).toLocaleString("ko-KR")}
+            {(price * quantity + deliverPrice).toLocaleString("ko-KR")}
           </span>
         </div>
       </div>
@@ -297,17 +301,15 @@ function ConfirmSection(props) {
     }
   }
   const length = productInfoList.length;
-
+  console.log(props.productInfo.frameOption);
   const productDto = {
     productName: "Liberty 52_Frame",
-    options: [
-      props.productInfo.mounting_method,
-      props.productInfo.basic_material,
-      props.productInfo.add_material,
-    ],
+    options: Object.values(props.productInfo.frameOption).map((option) => {
+      return option;
+    }),
     quantity: props.productInfo.quantity,
   };
-
+  console.log(productDto);
   const destinationDto = {
     receiverName: props.deliveryInfo.receiverName,
     receiverEmail: props.deliveryInfo.receiverEmail,
@@ -363,10 +365,12 @@ function ConfirmSection(props) {
           async function (rsp) {
             // callback
             if (rsp.success) {
-              
               setIsConfirmProgressing(true);
               try {
-                const response = await checkCardPayApproval(merchantId, destinationDto.receiverPhoneNumber);
+                const response = await checkCardPayApproval(
+                  merchantId,
+                  destinationDto.receiverPhoneNumber
+                );
                 setOrderId(response.data.orderId);
                 setOrderNum(response.data.orderNum);
                 setIsConfirmProgressing(false);
@@ -431,7 +435,6 @@ function ConfirmSection(props) {
             setSuccess(true);
           })
           .catch((err) => {
-            
             alert("가상계좌 결제가 실패하였습니다.");
           });
       } else {
@@ -447,7 +450,6 @@ function ConfirmSection(props) {
             setSuccess(true);
           })
           .catch((err) => {
-            
             alert("가상계좌 결제가 실패하였습니다.");
           });
       }
@@ -459,7 +461,9 @@ function ConfirmSection(props) {
     if (sessionStorage.getItem(ACCESS_TOKEN)) {
       navigate(`/detail/${orderId}`);
     } else {
-      navigate(`/product/guest/${orderNum}?phoneNumber=${destinationDto.receiverPhoneNumber}`)
+      navigate(
+        `/product/guest/${orderNum}?phoneNumber=${destinationDto.receiverPhoneNumber}`
+      );
     }
   }
 
@@ -491,7 +495,7 @@ function ConfirmSection(props) {
         <DeliveryInfo deliveryInfo={destinationDto} />
         <PaymentInfo constants={constants} setPayment={setPayment} />
         <TermsOfUse />
-        <Total quantity={quantity} deliverPrice={0} />
+        <Total quantity={quantity} deliverPrice={0} price={productInfo.price} />
         <Button text="결제하기" />
         <Button
           type="button"
@@ -528,11 +532,11 @@ export default function Payment() {
     productIdList = locationData.checkedList;
   }
 
-  if (!productIdList && !productInfo.mounting_method) {
-    alert("주문 후에 결제 페이지를 사용할 수 있습니다.");
-    window.location.replace("/order");
-    return;
-  }
+  // if (!productIdList && !productInfo.mounting_method) {
+  //   alert("주문 후에 결제 페이지를 사용할 수 있습니다.");
+  //   window.location.replace("/order");
+  //   return;
+  // }
 
   return (
     <div className="payment">

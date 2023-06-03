@@ -6,6 +6,11 @@ import liberty52_img from "../../image/icon/liberty52.jpg";
 import Header from "../../component/common/Header";
 import Footer from "../../component/common/Footer";
 import $ from "jquery";
+import { TOKEN_REFRESH } from "../../constants/api";
+import { ACCESS_TOKEN, REFRESH_TOKEN } from "../../constants/token";
+import request from "../../axios/axios";
+import { useEffect } from "react";
+import { refreshToken } from "../../axios/login/Login";
 
 function Section() {
   return (
@@ -46,6 +51,7 @@ function Section2() {
     </div>
   );
 }
+
 function Section3() {
   return (
     <div className="section-row">
@@ -77,10 +83,29 @@ function Section4() {
 }
 
 export default function Main() {
+  async function tokenRefresh() {
+    let savedRefreshToken = localStorage.getItem(REFRESH_TOKEN);
+    if (savedRefreshToken === null || savedRefreshToken === undefined)
+      return;
+    if (sessionStorage.getItem(ACCESS_TOKEN))
+      return;
+    try {
+      const response = await refreshToken();
+      sessionStorage.setItem(ACCESS_TOKEN, response.headers.access);
+      localStorage.setItem(REFRESH_TOKEN, response.headers.refresh);
+      window.location.href = "/";
+    } catch (e) {
+    }
+  }
+
+  useEffect(() => {
+    tokenRefresh();
+  }, []);
+
   window.addEventListener(
     // 휠 기본 기능 막기
     "wheel",
-    function (e) {
+    function(e) {
       e.preventDefault();
     },
     { passive: false }
@@ -91,7 +116,7 @@ export default function Main() {
 
   mHtml.animate({ scrollTop: 0 }, 10); // Y가 0이 아닐 경우 대비
 
-  $(window).on("wheel", function (e) {
+  $(window).on("wheel", function(e) {
     if (mHtml.is(":animated")) return;
     if (e.originalEvent.deltaY > 0) {
       // deltaY가 양수면 휠을 아래로 내리는 중, 음수면 위로 올리는 중

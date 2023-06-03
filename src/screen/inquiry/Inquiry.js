@@ -40,7 +40,7 @@ function OrderList() {
 
   return (
     <>
-      <div className="InquiryWrapper">
+     <>
         {reviewModal && (
           <ReviewModal
             orderId={selectedOrder.orderId}
@@ -79,7 +79,7 @@ function OrderList() {
             ))}
           </div>
         </div>
-      </div>
+        </>
     </>
   );
   function OrderImg({ orderId, orderNum, productRepresentUrl, goToDetail }) {
@@ -96,6 +96,8 @@ function OrderList() {
       </div>
     );
   }
+
+
   function OrderInfo({
     order,
     showReviewModal,
@@ -104,7 +106,7 @@ function OrderList() {
   }) {
     return (
       <div className="order-info-wrapper">
-        <div className="order-right">
+
           <div className="order-right-top">
             <ul>
               {order.products.map((product) => (
@@ -117,16 +119,22 @@ function OrderList() {
             </ul>
           </div>
 
+
+
+
           <div className="order-right-bottom">
+
             <div className="PayAdd-wrapper">
               <div className="payment-info">결제 : </div>
-              <div>
+              <div className="inquiry-card">
                 {order.paymentType} {order.paymentInfo.cardName}{" "}
                 {order.paymentInfo.cardNumber}
               </div>
               <div className="address2">배송지 :</div>
-              <div>{order.address}</div>
+              <div className="inquiry-address2">{order.address}</div>
             </div>
+
+
             <div className="personal-info">
               <div className="info-phone">연락처 정보: </div>
               <div className="email">{order.receiverEmail}</div>
@@ -134,13 +142,20 @@ function OrderList() {
               <div className="info-customer">주문자명 : </div>
               <div className="Ordername">{order.receiverName}</div>
             </div>
+
+
             <div className="order-status-wrapper">
               <div className="order-status">
-                {" "}
-                주문 상태 : {order.orderStatus}
-              </div>
-              <div className="date">주문 날짜 : {order.orderDate}</div>
+
+                주문 상태 : </div>
+                <div className="order-status-value">
+                  {order.orderStatus}
+                </div>
+              <div className="date">주문 날짜 : </div>
+              <div className="order-date">{order.orderDate}</div>
             </div>
+
+
             {(order.orderStatus === "ORDERED" ||
               order.orderStatus === "WAITING_DEPOSIT") && (
               <div className="buttons">
@@ -167,9 +182,8 @@ function OrderList() {
                 />
               </div>
             )}
-          </div>
         </div>
-      </div>
+        </div>
     );
   }
 }
