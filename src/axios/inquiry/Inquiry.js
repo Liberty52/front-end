@@ -7,20 +7,24 @@ export function fetchOrders(sessionToken) {
   });
 }
 
+
 export function cancelOrder(dto) {
-  axios
+
+  return axios
     .post("/product/orders/cancel", JSON.stringify(dto), {
       headers: {
         Authorization: sessionStorage.getItem(ACCESS_TOKEN),
-        "Content-Type": `application/json`,
+        "Content-Type": "application/json",
       },
     })
     .then((response) => {
+      console.log('Response:', response.data);
       alert(response.data.message);
       window.location.href = "/inquiry";
     })
     .catch((e) => {
       if (e.response) {
+        console.log('Error:', e.response.data);
         if (e.response.status === 400)
           alert(
             "DTO 문제 또는 이미 주문 취소한 경우 또는 주문 상태가 ORDERED 이상입니다"
@@ -31,6 +35,8 @@ export function cancelOrder(dto) {
         else if (e.response.status === 404)
           alert("요청 주문이 존재하지 않습니다");
         else if (e.response.status === 500) alert("서버 내부 오류");
+
       }
     });
 }
+

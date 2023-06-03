@@ -8,8 +8,8 @@ import { useState } from "react";
 
 export default function CancelModal({ order, closeModal }) {
   const [text, setText] = useState("");
-  const showAccountInputGroup =
-    order.paymentType === "가상 계좌" && order.orderStatus === "ORDERED";
+ const showAccountInputGroup =
+  order.paymentType === "가상 계좌" && order.orderStatus === "주문완료";
 
   return (
     <Modal title="주문 취소" closeModal={closeModal}>
@@ -27,6 +27,7 @@ export default function CancelModal({ order, closeModal }) {
             dto["refundAccount"] = e.target.refundAccount.value;
             dto["refundPhoneNum"] = e.target.refundPhoneNum.value;
           }
+          console.log(dto);
           cancelOrder(dto);
           closeModal();
         }}
