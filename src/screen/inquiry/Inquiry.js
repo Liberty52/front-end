@@ -23,7 +23,7 @@ function OrderList() {
         const response = await fetchOrders(accessToken);
         setOrders(response.data);
       } catch (error) {
-        
+
       }
     };
 
@@ -68,6 +68,9 @@ function OrderList() {
                   orderNum={order.orderNum}
                   productRepresentUrl={order.productRepresentUrl}
                   goToDetail={goToDetail}
+                  showCancelModal={showCancelModal}
+                  setSelectedOrder={setSelectedOrder}
+                  orderStatus={order.orderStatus}
                 />
                 <OrderInfo
                   order={order}
@@ -82,7 +85,7 @@ function OrderList() {
         </>
     </>
   );
-  function OrderImg({ orderId, orderNum, productRepresentUrl, goToDetail }) {
+  function OrderImg({ orderId, orderNum, productRepresentUrl, goToDetail, showCancelModal, setSelectedOrder, orderStatus }) {
     return (
       <div className="order-img-wrapper">
         <div className="order-left">
@@ -91,6 +94,11 @@ function OrderList() {
             src={productRepresentUrl}
             alt="representative"
             className="productRepresentUrl"
+          />
+          <CancelOrderButton
+            order={{orderId, orderStatus}}
+            showCancelModal={showCancelModal}
+            setSelectedOrder={setSelectedOrder}
           />
         </div>
       </div>
@@ -106,7 +114,6 @@ function OrderList() {
   }) {
     return (
       <div className="order-info-wrapper">
-
           <div className="order-right-top">
             <ul>
               {order.products.map((product) => (
@@ -114,14 +121,24 @@ function OrderList() {
                   <p>{product.name}</p>
                   <p>{product.quantity} 개</p>
                   <p>₩{product.price.toLocaleString()}</p>
+                  {(order.orderStatus === "ORDERED" || order.orderStatus === "WAITING_DEPOSIT") && (
+                    <div className="buttons">
+                      <Button
+                        type="button"
+                        className="review"
+                        text="리뷰 쓰기"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          showReviewModal(true);
+                          setSelectedOrder(product);
+                        }}
+                      />
+                    </div>
+                  )}
                 </li>
               ))}
             </ul>
           </div>
-
-
-
-
           <div className="order-right-bottom">
 
             <div className="PayAdd-wrapper">
@@ -134,7 +151,6 @@ function OrderList() {
               <div className="inquiry-address2">{order.address}</div>
             </div>
 
-
             <div className="personal-info">
               <div className="info-phone">연락처 정보: </div>
               <div className="email">{order.receiverEmail}</div>
@@ -142,7 +158,6 @@ function OrderList() {
               <div className="info-customer">주문자명 : </div>
               <div className="Ordername">{order.receiverName}</div>
             </div>
-
 
             <div className="order-status-wrapper">
               <div className="order-status">
@@ -154,39 +169,33 @@ function OrderList() {
               <div className="date">주문 날짜 : </div>
               <div className="order-date">{order.orderDate}</div>
             </div>
-
-
-            {(order.orderStatus === "ORDERED" ||
-              order.orderStatus === "WAITING_DEPOSIT") && (
-              <div className="buttons">
-                <button
-                  type="button"
-                  className="cancel"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    showCancelModal(true);
-                    setSelectedOrder(order);
-                  }}
-                >
-                  주문 취소
-                </button>
-                <Button
-                  type="button"
-                  className="review"
-                  text="리뷰 쓰기"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    showReviewModal(true);
-                    setSelectedOrder(order);
-                  }}
-                />
-              </div>
-            )}
         </div>
-        </div>
+      </div>
     );
   }
 }
+
+function CancelOrderButton({ order, showCancelModal, setSelectedOrder }) {
+  return (
+    (order.orderStatus === "ORDERED" || order.orderStatus === "WAITING_DEPOSIT") && (
+      <div className="cancel-button">
+        <button
+          type="button"
+          className="cancel"
+          onClick={(e) => {
+            e.stopPropagation();
+            showCancelModal(true);
+            setSelectedOrder(order);
+          }}
+        >
+          주문 취소
+        </button>
+      </div>
+    )
+  );
+}
+
+
 export default function inquiry() {
   return (
     <div className="inquiry">
