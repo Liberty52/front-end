@@ -12,4 +12,8 @@ export const NOTICE_LIST = (size, page) =>
   `/auth/notices?size=${size}&page=${page}`;
 export const NOTICE_DETAIL = (noticeId) => `/auth/notices/${noticeId}`;
 
+<<<<<<< HEAD
 export const PRODUCT_INFO = (id) => `/product/products/${id}`;
+=======
+export const PRODUCT_INFO = () => `/product/products/LIB-001`;
+>>>>>>> 5c5afa79ec84d34c95fe90b03c887b2b6109bda1

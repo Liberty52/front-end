@@ -155,15 +155,15 @@ const Order = () => {
                   })}
                 {/* <div id="mounting-method" className="mounting-method">
                   <div className="order-title">거치 방식을 선택하세요</div>
-                  {MOUNTING_METHOD.map((item, idx) => {
+                  {productData?.options[0].optionItems.map((item) => {
                     return (
                       <Radio
-                        key={idx}
+                        key={item.id}
                         style={{ marginBottom: "10px" }}
                         name="mountingMethod"
-                        text={item}
+                        text={item.name}
                         onChange={onHandleChange}
-                        checked={item === frameOption.mountingMethod}
+                        checked={item.name === frameOption.mountingMethod}
                         required
                       />
                     );
@@ -171,15 +171,15 @@ const Order = () => {
                 </div>
                 <div id="basic-material" className="basic-material">
                   <div className="order-title">기본소재를 선택하세요</div>
-                  {BASIC_MATERIAL.map((item, idx) => {
+                  {productData?.options[1].optionItems.map((item, idx) => {
                     return (
                       <Radio
-                        key={idx}
+                        key={item.id}
                         style={{ marginBottom: "10px" }}
                         name="basicMaterial"
-                        text={item}
+                        text={item.name}
                         onChange={onHandleChange}
-                        checked={item === frameOption.basicMaterial}
+                        checked={item.name === frameOption.basicMaterial}
                         required
                       />
                     );
@@ -191,15 +191,15 @@ const Order = () => {
                     선택하세요
                   </div>
                   <div className="material-group">
-                    {ADDITIONAL_MATERIAL.map((item, idx) => {
+                    {productData?.options[2].optionItems.map((item, idx) => {
                       return (
                         <Radio
-                          key={idx}
+                          key={item.id}
                           style={{ marginBottom: "10px" }}
                           name="additionalMaterial"
-                          text={item}
+                          text={item.name}
                           onChange={onHandleChange}
-                          checked={item === frameOption.additionalMaterial}
+                          checked={item.name === frameOption.additionalMaterial}
                           required
                         />
                       );
