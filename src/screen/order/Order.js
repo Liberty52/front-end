@@ -163,8 +163,7 @@ const Order = () => {
                       onClick={(e) => {
                         e.preventDefault() ??
                           Object.values(frameOption).map((option) => {
-                            if (option !== "") navigate("/editor");
-                            else alert("모든 옵션을 선택해주세요.");
+                            (option !== "") ? navigate("/editor") : alert("모든 옵션을 선택해주세요.");
                           });
                       }}
                     >
