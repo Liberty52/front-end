@@ -20,6 +20,7 @@ const Order = () => {
   const { frameOption, setFrameOption } = useAppContext();
   const [mode, setMode] = useState("");
   const [price, setPrice] = useState();
+  const [quantity, setQuantity] = useState(1);
   const [productInfo, setProductInfo] = useState({});
   const productId = "LIB-001";
 
@@ -82,7 +83,7 @@ const Order = () => {
             navigate("/payment", {
               state: {
                 frameOption: frameOption,
-                price: this.price,
+                price: price,
                 quantity: quantity,
                 add_image: imageFile,
               },
@@ -153,59 +154,6 @@ const Order = () => {
                       </div>
                     );
                   })}
-                {/* <div id="mounting-method" className="mounting-method">
-                  <div className="order-title">거치 방식을 선택하세요</div>
-                  {productData?.options[0].optionItems.map((item) => {
-                    return (
-                      <Radio
-                        key={item.id}
-                        style={{ marginBottom: "10px" }}
-                        name="mountingMethod"
-                        text={item.name}
-                        onChange={onHandleChange}
-                        checked={item.name === frameOption.mountingMethod}
-                        required
-                      />
-                    );
-                  })}
-                </div>
-                <div id="basic-material" className="basic-material">
-                  <div className="order-title">기본소재를 선택하세요</div>
-                  {productData?.options[1].optionItems.map((item, idx) => {
-                    return (
-                      <Radio
-                        key={item.id}
-                        style={{ marginBottom: "10px" }}
-                        name="basicMaterial"
-                        text={item.name}
-                        onChange={onHandleChange}
-                        checked={item.name === frameOption.basicMaterial}
-                        required
-                      />
-                    );
-                  })}
-                </div>
-                <div id="add-material" className="add-material">
-                  <div className="order-title">
-                    추가 하고 싶은 기본소재 옵션을 <br />
-                    선택하세요
-                  </div>
-                  <div className="material-group">
-                    {productData?.options[2].optionItems.map((item, idx) => {
-                      return (
-                        <Radio
-                          key={item.id}
-                          style={{ marginBottom: "10px" }}
-                          name="additionalMaterial"
-                          text={item.name}
-                          onChange={onHandleChange}
-                          checked={item.name === frameOption.additionalMaterial}
-                          required
-                        />
-                      );
-                    })}
-                  </div>
-                </div> */}
                 <div id="add-image" className="add-image">
                   <div className="order-title">나만의 개성을 추가해봐요</div>
                   <div className="radio-btn">
@@ -230,11 +178,11 @@ const Order = () => {
                   <input
                     type="number"
                     name="quantity"
-                    value={frameOption.quantity}
+                    value={quantity}
                     min={0}
                     required
                     onChange={(e) => {
-                      onHandleChange(e);
+                      setQuantity(e.target.value);
                       setPrice(productInfo?.price * e.target.value);
                     }}
                   />

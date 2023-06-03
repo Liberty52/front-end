@@ -32,3 +32,10 @@ export const HTML_EDITOR_MODE = {
 export const API_LOGIN_GOOGLE = `${SOCIAL_LOGIN_URL.GOOGLE}/google`;
 export const API_LOGIN_FACEBOOK = `${SOCIAL_LOGIN_URL.FACEBOOK}/facebook`;
 export const API_LOGIN_NAVER = `${SOCIAL_LOGIN_URL.NAVER}/naver`;
+
+export const ADDITIONAL_MATERIAL = [
+  "유광실버",
+  "무광실버",
+  "유광백색",
+  "무광백색",
+];

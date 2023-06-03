@@ -153,10 +153,10 @@ function Product(props) {
           })}
         </div>
       </div>
-      <div>{productInfo.frameOption.quantity}개</div>
+      <div>{productInfo?.quantity}개</div>
       <span>
         &#8361;
-        {(1550000 * productInfo.frameOption.quantity).toLocaleString("ko-KR")}
+        {(productInfo?.price * productInfo.quantity).toLocaleString("ko-KR")}
       </span>
     </div>
   );
