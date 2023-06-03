@@ -141,20 +141,22 @@ function PaymentSection(props) {
 
 function Product(props) {
   const productInfo = props.productInfo;
+  console.log(productInfo);
   return (
     <div className="confirm-product">
       <img src={liberty52} alt="제품 이미지" />
       <div>
         <div className="title">Liberty 52_Frame</div>
         <div>
-          <div>{productInfo.mounting_method}</div>
-          <div>{productInfo.basic_material}</div>
-          <div>{productInfo.add_material}</div>
+          {Object.values(productInfo.frameOption).map((option, idx) => {
+            return <div key={idx}>{option}</div>;
+          })}
         </div>
       </div>
-      <div>{productInfo.quantity}개</div>
+      <div>{productInfo.frameOption.quantity}개</div>
       <span>
-        &#8361;{(1550000 * productInfo.quantity).toLocaleString("ko-KR")}
+        &#8361;
+        {(1550000 * productInfo.frameOption.quantity).toLocaleString("ko-KR")}
       </span>
     </div>
   );
@@ -363,10 +365,12 @@ function ConfirmSection(props) {
           async function (rsp) {
             // callback
             if (rsp.success) {
-              
               setIsConfirmProgressing(true);
               try {
-                const response = await checkCardPayApproval(merchantId, destinationDto.receiverPhoneNumber);
+                const response = await checkCardPayApproval(
+                  merchantId,
+                  destinationDto.receiverPhoneNumber
+                );
                 setOrderId(response.data.orderId);
                 setOrderNum(response.data.orderNum);
                 setIsConfirmProgressing(false);
@@ -431,7 +435,6 @@ function ConfirmSection(props) {
             setSuccess(true);
           })
           .catch((err) => {
-            
             alert("가상계좌 결제가 실패하였습니다.");
           });
       } else {
@@ -447,7 +450,6 @@ function ConfirmSection(props) {
             setSuccess(true);
           })
           .catch((err) => {
-            
             alert("가상계좌 결제가 실패하였습니다.");
           });
       }
@@ -459,7 +461,9 @@ function ConfirmSection(props) {
     if (sessionStorage.getItem(ACCESS_TOKEN)) {
       navigate(`/detail/${orderId}`);
     } else {
-      navigate(`/product/guest/${orderNum}?phoneNumber=${destinationDto.receiverPhoneNumber}`)
+      navigate(
+        `/product/guest/${orderNum}?phoneNumber=${destinationDto.receiverPhoneNumber}`
+      );
     }
   }
 
@@ -528,11 +532,11 @@ export default function Payment() {
     productIdList = locationData.checkedList;
   }
 
-  if (!productIdList && !productInfo.mounting_method) {
-    alert("주문 후에 결제 페이지를 사용할 수 있습니다.");
-    window.location.replace("/order");
-    return;
-  }
+  // if (!productIdList && !productInfo.mounting_method) {
+  //   alert("주문 후에 결제 페이지를 사용할 수 있습니다.");
+  //   window.location.replace("/order");
+  //   return;
+  // }
 
   return (
     <div className="payment">

@@ -25,11 +25,7 @@
   border-radius: 20px;
 }
 
-.mounting-method,
-.basic-material,
-.add-material,
-.add-image,
-.quantity {
+.option {
   padding: 60px 0;
   display: flex;
   flex-direction: column;
@@ -123,7 +119,7 @@ input[type="number"]::-webkit-outer-spin-button {
     width: 100%;
     align-content: center;
   }
-  
+
   .order-container {
     padding: 0 20px;
     margin-bottom: 100px;
