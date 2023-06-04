@@ -270,9 +270,9 @@ export default function CartList({ setEmptyMode }) {
                 ></input> */}
                 </th>
                 <th width="15%">제품명</th>
-                <th width="15%">제품가격</th>
-                <th width="25%">옵션</th>
-                <th width="15%">첨부사진</th>
+                <th width="12%">제품가격</th>
+                <th width="33%">옵션</th>
+                <th width="10%">첨부사진</th>
                 <th width="10%">수량</th>
                 <th width="15%">주문금액</th>
               </tr>
@@ -401,7 +401,9 @@ export default function CartList({ setEmptyMode }) {
                         </th>
                         <th>
                           <input
-                            onChange={onHandleChange}
+                            onChange={(e) =>
+                              onHandleChange(e.target.value, e.target.name)
+                            }
                             className="quantityInput"
                             type="number"
                             id="quantity"
