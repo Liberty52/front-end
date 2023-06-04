@@ -45,7 +45,6 @@ function LoginForm() {
         };
         post(dto)
           .then((response) => {
-            alert(response.data.name + "님 환영합니다!");
             if (checked) {
               localStorage.setItem(REFRESH_TOKEN, response.headers.refresh);
             }
