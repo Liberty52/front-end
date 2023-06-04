@@ -1,28 +1,14 @@
 import axios from "../axios";
-import { ACCESS_TOKEN, REFRESH_TOKEN } from "../../constants/token";
+import { REFRESH_TOKEN } from "../../constants/token";
 import request from "../axios";
 import { TOKEN_REFRESH } from "../../constants/api";
 
-export default function post(dto) {
-  axios
-    .post("/auth/login", JSON.stringify(dto), {
-      headers: {
-        "Content-Type": `application/json`,
-      },
-    })
-    .then((response) => {
-      alert(response.data.name + "님 환영합니다!");
-      if (dto.checked) {
-        localStorage.setItem(REFRESH_TOKEN, response.headers.refresh);
-      }
-      sessionStorage.setItem(ACCESS_TOKEN, response.headers.access);
-      window.location.replace("/");
-    })
-    .catch((e) => {
-      if (e.response) {
-        if (e.response.status === 401) alert("로그인 실패.");
-      }
-    });
+export function post(dto) {
+  return axios.post("/auth/login", JSON.stringify(dto), {
+    headers: {
+      "Content-Type": `application/json`,
+    },
+  });
 }
 
 export function findEmail(name, phoneNumber) {

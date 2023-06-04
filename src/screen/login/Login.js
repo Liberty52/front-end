@@ -1,18 +1,23 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router";
+// css
 import "./Login.css";
-import post from "../../axios/login/Login.js";
+// axios
 import {
+  post,
   findEmail,
   sendPasswordResetEmail,
   fetchOrderDetails,
 } from "../../axios/login/Login.js";
+// component
 import Header from "../../component/common/Header";
 import Checkbox from "../../component/common/Checkbox";
 import Input from "../../component/common/Input";
 import Button from "../../component/common/Button";
 import SocialLoginButton from "../../component/login/SocialLoginButton";
+// constants
 import { SOCIAL_LOGIN_PROVIDER } from "../../global/Constants";
-import { useNavigate } from "react-router";
+import { ACCESS_TOKEN, REFRESH_TOKEN } from "../../constants/token";
 
 function LoginInput() {
   return (
@@ -24,6 +29,7 @@ function LoginInput() {
 }
 
 function LoginForm() {
+  const navigate = useNavigate();
   return (
     <form
       className="login-form"
@@ -37,7 +43,20 @@ function LoginForm() {
           password: password,
           checked: checked,
         };
-        post(dto);
+        post(dto)
+          .then((response) => {
+            alert(response.data.name + "님 환영합니다!");
+            if (checked) {
+              localStorage.setItem(REFRESH_TOKEN, response.headers.refresh);
+            }
+            sessionStorage.setItem(ACCESS_TOKEN, response.headers.access);
+            navigate("/");
+          })
+          .catch((e) => {
+            if (e.response) {
+              if (e.response.status === 401) alert("로그인 실패.");
+            }
+          });
       }}
     >
       <div className="login-title">로그인</div>
@@ -48,11 +67,11 @@ function LoginForm() {
   );
 }
 
+//////////////////////////////////
 function PasswordRecoveryModal({ showModal, closeModal }) {
   const [emailList, setEmailList] = useState([]);
   const [showEmailListModal, setShowEmailListModal] = useState(false);
   const [showFindFormModal, setShowFindFormModal] = useState(true);
-  const navigate = useNavigate();
 
   const handleSetEmailList = (emailList) => {
     setEmailList(emailList || []);
@@ -102,7 +121,6 @@ function PasswordRecoveryModal({ showModal, closeModal }) {
   );
 }
 
-//////////////////////////////////////////
 function FindForm({ onSetEmailList }) {
   const [activeTab, setActiveTab] = useState("id");
 
