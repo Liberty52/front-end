@@ -7,11 +7,11 @@ export function fetchOrders(sessionToken) {
   });
 }
 
-export function cancelOrder(dto) {
+export function cancelOrder(dto, receiverPhoneNumber) {
   axios
     .post("/product/orders/cancel", JSON.stringify(dto), {
       headers: {
-        Authorization: sessionStorage.getItem(ACCESS_TOKEN),
+        Authorization: sessionStorage.getItem(ACCESS_TOKEN) ?  sessionStorage.getItem(ACCESS_TOKEN) : receiverPhoneNumber,
         "Content-Type": `application/json`,
       },
     })
