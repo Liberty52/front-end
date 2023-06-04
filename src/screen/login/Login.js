@@ -34,8 +34,9 @@ function LoginForm() {
         const dto = {
           email: email,
           password: password,
+          checked: checked,
         };
-        post(dto, checked);
+        post(dto);
       }}
     >
       <div className="login-title">로그인</div>
@@ -122,7 +123,6 @@ function FindForm({ onSetEmailList }) {
       const name = event.target.name.value;
       const phoneNumber = event.target.phoneNumber.value;
 
-
       findEmail(name, phoneNumber)
         .then((response) => {
           const emailList = response.data;
@@ -135,7 +135,7 @@ function FindForm({ onSetEmailList }) {
         });
     } else if (activeTab === "password") {
       const email = event.target.email.value;
-      
+
       try {
         await sendPasswordResetEmail(email);
       } catch (error) {
