@@ -12,6 +12,7 @@ import { addComma } from "./Comma";
 import cookie from "react-cookies";
 import { ACCESS_TOKEN } from "../../constants/token";
 import { useMediaQuery } from "react-responsive";
+import Select from "react-select";
 
 export default function CartList({ setEmptyMode }) {
   const isDesktopOrMobile = useMediaQuery({ query: "(max-width:768px)" });
@@ -21,15 +22,15 @@ export default function CartList({ setEmptyMode }) {
   const [totalPrice, setTotalPrice] = useState(0.0);
   const [paymentValue, setPaymentValue] = useState([]);
   const [editMode, setEditMode] = useState(false);
+  const [selectValue, setSelectValue] = useState("");
   const [formValue, setFormValue] = useState({
-    // holder: "",
-    // material: "",
-    // color: "",
-    // quantity: "",
-    "거치 방식": "",
-    기본소재: "",
-    "기본소재 옵션": "",
+    holder: "",
+    material: "",
+    color: "",
     quantity: "",
+    // "거치 방식": "",
+    // 기본소재: "",
+    // "기본소재 옵션": "",
   });
   const [hidden, setHidden] = useState([
     true,
@@ -48,14 +49,13 @@ export default function CartList({ setEmptyMode }) {
   let [customProductId, setCustomProductId] = useState("");
   let editData = "";
   let basicFormValue = {
-    // holder: "",
-    // material: "",
-    // color: "",
-    // quantity: 1,
-    "거치 방식": "",
-    기본소재: "",
-    "기본소재 옵션": "",
+    holder: "",
+    material: "",
+    color: "",
     quantity: 1,
+    // "거치 방식": "",
+    // 기본소재: "",
+    // "기본소재 옵션": "",
   };
   const onImageChange = (e) => {
     const img = e.target.files[0];
@@ -79,6 +79,7 @@ export default function CartList({ setEmptyMode }) {
     }
   };
   const handleRowClick = (id, idx, options, quantity) => {
+    console.log(options);
     let newHidden = [...hidden];
     if (newHidden.indexOf(false) == idx) {
       //수정옵션 열려있을 때
@@ -91,24 +92,26 @@ export default function CartList({ setEmptyMode }) {
       setHidden(newHidden);
       setDisabledBtn(false);
       basicFormValue = {
-        // holder: options[0].detailName,
-        // material: options[1].detailName,
-        // color: options[2].detailName,
-        // quantity: quantity,
-        "거치 방식": options[0].detailName,
-        기본소재: options[1].detailName,
-        "기본소재 옵션": options[2].detailName,
+        holder: options[0].detailName,
+        material: options[1].detailName,
+        color: options[2].detailName,
         quantity: quantity,
+        // "거치 방식": options[0].detailName,
+        // 기본소재: options[1].detailName,
+        // "기본소재 옵션": options[2].detailName,
       };
     }
     setCustomProductId(id);
     setFormValue(basicFormValue);
   };
-  const onHandleChange = (e) => {
+  const onHandleChange = (value, name) => {
     setFormValue({
       ...formValue,
-      [e.target.name]: e.target.value,
+      [name]: value,
     });
+    setSelectValue(value);
+    console.log(selectValue);
+    console.log(formValue);
   };
   const onCheckedElement = (checked, item, price, options, quantity, url) => {
     let thisValue = {
@@ -278,12 +281,11 @@ export default function CartList({ setEmptyMode }) {
               {data.length > 0 &&
                 data.map((item, idx) => {
                   let orderAmount = 0.0;
-                  orderAmount =
-                    (item.price +
-                      item.options[0].price +
-                      item.options[1].price +
-                      item.options[2].price) *
-                    item.quantity;
+                  let totalOptionPrice = 0.0;
+                  item.options.map(
+                    (option) => (totalOptionPrice += option.price)
+                  );
+                  orderAmount = (item.price + totalOptionPrice) * item.quantity;
                   return (
                     <>
                       <tr
@@ -344,30 +346,50 @@ export default function CartList({ setEmptyMode }) {
                         <th></th>
                         <th></th>
                         <th>
-                          {productOption.map((option) => (
-                            <select
-                              onChange={onHandleChange}
-                              // value={formValue.holder}
-                              name={option.optionName}
-                            >
-                              <option
-                                value={option.optionId}
-                                key={option.optionId}
-                                disabled
-                              >
-                                "{option.optionName}"을(를) 선택해주세요
-                              </option>
-                              {option.optionDetailList.map((optionDetail) => (
-                                <option
-                                  value={optionDetail.optionDetailName}
-                                  key={optionDetail.optionDetailId}
-                                >
-                                  {optionDetail.optionDetailName} (+
-                                  {addComma(optionDetail.price)}원)
-                                </option>
-                              ))}
-                            </select>
-                          ))}
+                          <div
+                            style={{
+                              display: "flex",
+                              flexDirection: "column",
+                            }}
+                          >
+                            {productOption.map((option) => {
+                              let selectName = "";
+                              const selectOptionName = option.optionName;
+                              let placeholderContent = `"${selectOptionName}"을(를) 선택해주세요`;
+
+                              if (option.optionName === "거치 방식") {
+                                selectName = "holder";
+                              } else if (option.optionName === "기본소재") {
+                                selectName = "material";
+                              } else if (
+                                option.optionName === "기본소재 옵션"
+                              ) {
+                                selectName = "color";
+                              } else {
+                                selectName = "택배";
+                              }
+
+                              const options = option.optionDetailList.map(
+                                (optionDetail) => ({
+                                  value: optionDetail.optionDetailName,
+                                  label: optionDetail.optionDetailName,
+                                })
+                              );
+
+                              return (
+                                <th key={option.optionId}>
+                                  <Select
+                                    style={{ width: "200px", fontSize: "12px" }}
+                                    onChange={(e) =>
+                                      onHandleChange(e.value, selectName)
+                                    }
+                                    placeholder={placeholderContent}
+                                    options={options}
+                                  />
+                                </th>
+                              );
+                            })}
+                          </div>
                         </th>
                         <th>
                           <input
