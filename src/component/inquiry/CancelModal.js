@@ -3,13 +3,15 @@ import Modal from "../common/Modal";
 import Button from "../common/Button";
 import Input from "../common/Input";
 import { cancelOrder } from "../../axios/inquiry/Inquiry";
+import { PAYMENT_TYPE, ORDER_STATUS } from "../../constants/order-info";
 
 import { useState } from "react";
 
 export default function CancelModal({ order, closeModal }) {
   const [text, setText] = useState("");
   const showAccountInputGroup =
-    order.paymentType === "가상 계좌" && order.orderStatus === "ORDERED";
+    order.paymentType === PAYMENT_TYPE.VBANK &&
+    order.orderStatus === ORDER_STATUS.ORDERED;
 
   return (
     <Modal title="주문 취소" closeModal={closeModal}>
