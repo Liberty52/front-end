@@ -12,6 +12,7 @@ import Input from "../../component/common/Input";
 import Button from "../../component/common/Button";
 import SocialLoginButton from "../../component/login/SocialLoginButton";
 import { SOCIAL_LOGIN_PROVIDER } from "../../global/Constants";
+import { useNavigate } from "react-router";
 
 function LoginInput() {
   return (
@@ -51,15 +52,12 @@ function PasswordRecoveryModal({ showModal, closeModal }) {
   const [emailList, setEmailList] = useState([]);
   const [showEmailListModal, setShowEmailListModal] = useState(false);
   const [showFindFormModal, setShowFindFormModal] = useState(true);
+  const navigate = useNavigate();
 
   const handleSetEmailList = (emailList) => {
     setEmailList(emailList || []);
     setShowFindFormModal(false);
     setShowEmailListModal(true);
-  };
-
-  const handleCloseFindFormModal = () => {
-    setShowFindFormModal(false);
   };
 
   const handleCloseEmailListModal = () => {
@@ -96,12 +94,7 @@ function PasswordRecoveryModal({ showModal, closeModal }) {
                 <li key={index}>{maskEmail(email)}</li>
               ))}
             </ul>
-            <Button
-              onClick={() => (window.location.href = "/login")}
-              className="Id-Login"
-              text="로그인"
-            />
-            <button onClick={handleCloseEmailListModal}>닫기</button>
+            <Button onClick={handleCloseEmailListModal} text="닫기" />
           </div>
         </div>
       )}
@@ -134,7 +127,7 @@ function FindForm({ onSetEmailList }) {
           }
         });
     } else if (activeTab === "password") {
-      const email = event.target.email.value;
+      const email = event.target.email2.value;
 
       try {
         await sendPasswordResetEmail(email);
@@ -221,7 +214,7 @@ function PasswordInput({ setEmail }) {
     <div className="inputs">
       <Input
         type="email"
-        name="email"
+        name="email2"
         label="이메일"
         required={true}
         onChange={(e) => setEmail(e.target.value)}
