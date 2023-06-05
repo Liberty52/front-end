@@ -1,5 +1,6 @@
 import axios from "../axios";
 import { ACCESS_TOKEN } from "../../constants/token";
+import { CREATE_REVIEW } from "../../constants/api";
 
 export function postReview(dto, files) {
   const formData = new FormData();
@@ -12,9 +13,9 @@ export function postReview(dto, files) {
     new Blob([JSON.stringify(dto)], { type: "application/json" })
   );
   axios
-    .post("/product/reviews", formData, {
+    .post(CREATE_REVIEW(), formData, {
       headers: {
-        Authorization:  sessionStorage.getItem(ACCESS_TOKEN),
+        Authorization: sessionStorage.getItem(ACCESS_TOKEN),
         "Content-Type": "multipart/form-data",
       },
     })
@@ -36,7 +37,7 @@ export function getReview(productId, size, page, photoFilter) {
         `/product/reviews/products/${productId}?size=${size}&page=${page}&photoFilter=${photoFilter}`,
         {
           headers: {
-            Authorization:  sessionStorage.getItem(ACCESS_TOKEN),
+            Authorization: sessionStorage.getItem(ACCESS_TOKEN),
           },
         }
       )
@@ -71,7 +72,7 @@ export function postImage(reviewId, files) {
   axios
     .post(`/product/reviews/${reviewId}/images`, formData, {
       headers: {
-        Authorization:  sessionStorage.getItem(ACCESS_TOKEN),
+        Authorization: sessionStorage.getItem(ACCESS_TOKEN),
         "Content-Type": "multipart/form-data",
       },
     })
@@ -81,7 +82,8 @@ export function postImage(reviewId, files) {
     .catch((response) => {
       if (response.status === 400)
         console.error("추가할 이미지에 문제가 있습니다.");
-      else if (response.status === 403) console.error("당신의 리뷰가 아닙니다.");
+      else if (response.status === 403)
+        console.error("당신의 리뷰가 아닙니다.");
       else if (response.status === 404)
         console.error("해당 리뷰가 존재하지 않습니다.");
     });
@@ -107,7 +109,8 @@ export function delImage(reviewId, dto) {
     .catch((response) => {
       if (response.status === 400)
         console.error("제거할 이미지에 문제가 있습니다.");
-      else if (response.status === 403) console.error("당신의 리뷰가 아닙니다.");
+      else if (response.status === 403)
+        console.error("당신의 리뷰가 아닙니다.");
       else if (response.status === 404)
         console.error("해당 리뷰가 존재하지 않습니다.");
     });
@@ -119,7 +122,7 @@ export function deleteReview(reviewId) {
     axios
       .delete(`/product/reviews/${reviewId}`, {
         headers: {
-          Authorization:  sessionStorage.getItem(ACCESS_TOKEN),
+          Authorization: sessionStorage.getItem(ACCESS_TOKEN),
         },
       })
       .then(alert("리뷰가 삭제되었습니다."))
