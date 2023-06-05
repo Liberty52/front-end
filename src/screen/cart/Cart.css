@@ -25,6 +25,13 @@
   margin-top: 6%;
 }
 
+.cart-mobile {
+  flex-direction: column;
+  justify-content: center;
+  box-sizing: border-box;
+  margin-top: 5%;
+}
+
 th {
   text-align: center;
   vertical-align: middle;
@@ -46,6 +53,11 @@ th {
 .payBtn {
   width: 50%;
   margin-left: 30px;
+}
+
+.payBtn-mobile {
+  width: 100%;
+  margin-right: 40px;
 }
 
 .UDBtn {
