@@ -1,5 +1,4 @@
-import React, { createContext, useState } from "react"
-
+import React, { createContext, useState } from "react";
 
 export const AppContext = createContext({
   isMobile: false,
@@ -18,23 +17,17 @@ export const AppContext = createContext({
   setCurrentTemplate: {},
   frameOption: {},
   setFrameOption: () => {},
-})
+});
 
 export const AppProvider = ({ children }) => {
-  const [isMobile, setIsMobile] = useState(undefined)
-  const [templates, setTemplates] = useState([])
-  const [uploads, setUploads] = useState([])
-  const [shapes, setShapes] = useState([])
-  const [activePanel, setActivePanel] = useState("Images")
-  const [activeSubMenu, setActiveSubMenu] = useState(null)
-  const [currentTemplate, setCurrentTemplate] = useState(null)
-  const [frameOption, setFrameOption] = useState({
-    mountingMethod: "",
-    basicMaterial: "",
-    additionalMaterial: "",
-    addImage: "",
-    quantity: 1,
-  });
+  const [isMobile, setIsMobile] = useState(undefined);
+  const [templates, setTemplates] = useState([]);
+  const [uploads, setUploads] = useState([]);
+  const [shapes, setShapes] = useState([]);
+  const [activePanel, setActivePanel] = useState("Images");
+  const [activeSubMenu, setActiveSubMenu] = useState(null);
+  const [currentTemplate, setCurrentTemplate] = useState(null);
+  const [frameOption, setFrameOption] = useState({});
   const context = {
     isMobile,
     setIsMobile,
@@ -51,7 +44,7 @@ export const AppProvider = ({ children }) => {
     currentTemplate,
     setCurrentTemplate,
     frameOption,
-    setFrameOption
-  }
-  return <AppContext.Provider value={context}>{children}</AppContext.Provider>
-}
+    setFrameOption,
+  };
+  return <AppContext.Provider value={context}>{children}</AppContext.Provider>;
+};
