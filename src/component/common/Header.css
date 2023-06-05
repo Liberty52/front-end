@@ -59,7 +59,7 @@
   display: none;
 }
 
-@media (max-width: 925px) {
+@media (max-width: 1200px) {
   .header-lg {
     display: none;
   }

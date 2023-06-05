@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./Cart.css";
 import "./CartPrice.css";
-import axios from "axios";
+import axios from "../../axios/axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Table from "react-bootstrap/Table";
 import { useNavigate } from "react-router-dom";
@@ -11,19 +11,26 @@ import { handleDeleteClick, handleEditClick } from "../../axios/cart/Cart";
 import { addComma } from "./Comma";
 import cookie from "react-cookies";
 import { ACCESS_TOKEN } from "../../constants/token";
+import { useMediaQuery } from "react-responsive";
+import Select from "react-select";
 
 export default function CartList({ setEmptyMode }) {
+  const isDesktopOrMobile = useMediaQuery({ query: "(max-width:768px)" });
   const navigate = useNavigate();
 
   const [checkedList, setCheckedList] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0.0);
   const [paymentValue, setPaymentValue] = useState([]);
   const [editMode, setEditMode] = useState(false);
+  const [selectValue, setSelectValue] = useState("");
   const [formValue, setFormValue] = useState({
     holder: "",
     material: "",
     color: "",
     quantity: "",
+    // "거치 방식": "",
+    // 기본소재: "",
+    // "기본소재 옵션": "",
   });
   const [hidden, setHidden] = useState([
     true,
@@ -46,25 +53,13 @@ export default function CartList({ setEmptyMode }) {
     material: "",
     color: "",
     quantity: 1,
-  };
-  const selectList = {
-    holder: ["거치 방식을 선택해주세요.", "이젤 거치형", "벽걸이형"],
-    material: [
-      "기본 소재를 선택해주세요.",
-      "1mm 두께 승화전사 인쇄용 알루미늄시트",
-    ],
-    color: [
-      "색상을 선택해주세요.",
-      "유광실버",
-      "무광실버",
-      "유광백색",
-      "무광백색",
-    ],
+    // "거치 방식": "",
+    // 기본소재: "",
+    // "기본소재 옵션": "",
   };
   const onImageChange = (e) => {
     const img = e.target.files[0];
     setImageFile(img);
-    
   };
   const onHandleSubmit = (e) => {
     e.preventDefault();
@@ -84,7 +79,7 @@ export default function CartList({ setEmptyMode }) {
     }
   };
   const handleRowClick = (id, idx, options, quantity) => {
-    
+    console.log(options);
     let newHidden = [...hidden];
     if (newHidden.indexOf(false) == idx) {
       //수정옵션 열려있을 때
@@ -101,17 +96,22 @@ export default function CartList({ setEmptyMode }) {
         material: options[1].detailName,
         color: options[2].detailName,
         quantity: quantity,
+        // "거치 방식": options[0].detailName,
+        // 기본소재: options[1].detailName,
+        // "기본소재 옵션": options[2].detailName,
       };
     }
     setCustomProductId(id);
     setFormValue(basicFormValue);
   };
-  const onHandleChange = (e) => {
+  const onHandleChange = (value, name) => {
     setFormValue({
       ...formValue,
-      [e.target.name]: e.target.value,
+      [name]: value,
     });
-    
+    setSelectValue(value);
+    console.log(selectValue);
+    console.log(formValue);
   };
   const onCheckedElement = (checked, item, price, options, quantity, url) => {
     let thisValue = {
@@ -134,10 +134,12 @@ export default function CartList({ setEmptyMode }) {
   };
 
   const [data, setCartList] = useState([]);
+  const [productOption, setProductOption] = useState([]);
+
   useEffect(() => {
     if (sessionStorage.getItem(ACCESS_TOKEN)) {
       axios
-        .get("https://liberty52.com:444/product/carts", {
+        .get("/product/carts", {
           headers: {
             Authorization: sessionStorage.getItem(ACCESS_TOKEN),
           },
@@ -148,11 +150,21 @@ export default function CartList({ setEmptyMode }) {
             setEmptyMode(true);
             // alert("장바구니에 담긴 상품이 없습니다.");
             // return navigate("/");
+          } else {
+            axios
+              .get("/product/carts/productOptionInfo", {
+                headers: {
+                  Authorization: sessionStorage.getItem(ACCESS_TOKEN),
+                },
+              })
+              .then((response) => {
+                setProductOption(response.data);
+              });
           }
         });
     } else if (cookie.load("guest")) {
       axios
-        .get("https://liberty52.com:444/product/guest/carts", {
+        .get("/product/guest/carts", {
           headers: {
             Authorization: cookie.load("guest"),
           },
@@ -163,18 +175,29 @@ export default function CartList({ setEmptyMode }) {
             setEmptyMode(true);
             // alert("장바구니에 담긴 상품이 없습니다.");
             // return navigate("/");
+          } else {
+            axios
+              .get("/product/carts/productOptionInfo", {
+                headers: {
+                  Authorization: cookie.load("guest"),
+                },
+              })
+              .then((response) => {
+                setProductOption(response.data[0].productOptionList);
+                console.log(response.data[0].productOptionList);
+              });
           }
         });
     } else {
       alert("잘못된 접근입니다");
       return navigate("/");
     }
+    console.log(productOption);
   }, []);
   function pay() {
     if (checkedList == "") {
       alert("체크된 장바구니 항목이 없습니다");
     } else {
-      
       navigate("/payment", {
         state: {
           checkedList,
@@ -186,7 +209,7 @@ export default function CartList({ setEmptyMode }) {
 
   const Payment = () => {
     return (
-      <div className="payBtn">
+      <div className={isDesktopOrMobile !== true ? "payBtn" : "payBtn-mobile"}>
         <LButton onClick={pay} text="선택 상품 주문" />
       </div>
     );
@@ -229,7 +252,10 @@ export default function CartList({ setEmptyMode }) {
   } else {
     return (
       <div>
-        <div id="cartTable" className="cart-left">
+        <div
+          id="cartTable"
+          className={isDesktopOrMobile !== true ? "cart-left" : "cart-mobile"}
+        >
           <div className="cart-header">
             <h1>장바구니 / Shopping cart</h1>
           </div>
@@ -244,9 +270,9 @@ export default function CartList({ setEmptyMode }) {
                 ></input> */}
                 </th>
                 <th width="15%">제품명</th>
-                <th width="15%">제품가격</th>
-                <th width="25%">옵션</th>
-                <th width="15%">첨부사진</th>
+                <th width="12%">제품가격</th>
+                <th width="33%">옵션</th>
+                <th width="10%">첨부사진</th>
                 <th width="10%">수량</th>
                 <th width="15%">주문금액</th>
               </tr>
@@ -255,12 +281,11 @@ export default function CartList({ setEmptyMode }) {
               {data.length > 0 &&
                 data.map((item, idx) => {
                   let orderAmount = 0.0;
-                  orderAmount =
-                    (item.price +
-                      item.options[0].price +
-                      item.options[1].price +
-                      item.options[2].price) *
-                    item.quantity;
+                  let totalOptionPrice = 0.0;
+                  item.options.map(
+                    (option) => (totalOptionPrice += option.price)
+                  );
+                  orderAmount = (item.price + totalOptionPrice) * item.quantity;
                   return (
                     <>
                       <tr
@@ -279,6 +304,7 @@ export default function CartList({ setEmptyMode }) {
                             type="checkbox"
                             id={item.id}
                             value={orderAmount}
+                            onClick={(e) => e.stopPropagation()}
                             onChange={(e) => {
                               onCheckedElement(
                                 e.target.checked,
@@ -320,69 +346,50 @@ export default function CartList({ setEmptyMode }) {
                         <th></th>
                         <th></th>
                         <th>
-                          <select
-                            onChange={onHandleChange}
-                            value={formValue.holder}
-                            name="holder"
+                          <div
+                            style={{
+                              display: "flex",
+                              flexDirection: "column",
+                            }}
                           >
-                            {selectList.holder.map((item, idx) => {
-                              if (idx == 0) {
-                                return (
-                                  <option value={item} key={item} disabled>
-                                    {item}
-                                  </option>
-                                );
+                            {productOption.map((option) => {
+                              let selectName = "";
+                              const selectOptionName = option.optionName;
+                              let placeholderContent = `"${selectOptionName}"을(를) 선택해주세요`;
+
+                              if (option.optionName === "거치 방식") {
+                                selectName = "holder";
+                              } else if (option.optionName === "기본소재") {
+                                selectName = "material";
+                              } else if (
+                                option.optionName === "기본소재 옵션"
+                              ) {
+                                selectName = "color";
                               } else {
-                                return (
-                                  <option value={item} key={item}>
-                                    {item}
-                                  </option>
-                                );
+                                selectName = "택배";
                               }
+
+                              const options = option.optionDetailList.map(
+                                (optionDetail) => ({
+                                  value: optionDetail.optionDetailName,
+                                  label: optionDetail.optionDetailName,
+                                })
+                              );
+
+                              return (
+                                <th key={option.optionId}>
+                                  <Select
+                                    style={{ width: "200px", fontSize: "12px" }}
+                                    onChange={(e) =>
+                                      onHandleChange(e.value, selectName)
+                                    }
+                                    placeholder={placeholderContent}
+                                    options={options}
+                                  />
+                                </th>
+                              );
                             })}
-                          </select>
-                          <select
-                            onChange={onHandleChange}
-                            value={formValue.material}
-                            name="material"
-                          >
-                            {selectList.material.map((item, idx) => {
-                              if (idx == 0) {
-                                return (
-                                  <option value={item} key={item} disabled>
-                                    {item}
-                                  </option>
-                                );
-                              } else {
-                                return (
-                                  <option value={item} key={item}>
-                                    {item}
-                                  </option>
-                                );
-                              }
-                            })}
-                          </select>
-                          <select
-                            onChange={onHandleChange}
-                            value={formValue.color}
-                            name="color"
-                          >
-                            {selectList.color.map((item, idx) => {
-                              if (idx == 0) {
-                                return (
-                                  <option value={item} key={item} disabled>
-                                    {item}
-                                  </option>
-                                );
-                              } else {
-                                return (
-                                  <option value={item} key={item}>
-                                    {item}
-                                  </option>
-                                );
-                              }
-                            })}
-                          </select>
+                          </div>
                         </th>
                         <th>
                           <input
@@ -394,7 +401,9 @@ export default function CartList({ setEmptyMode }) {
                         </th>
                         <th>
                           <input
-                            onChange={onHandleChange}
+                            onChange={(e) =>
+                              onHandleChange(e.target.value, e.target.name)
+                            }
                             className="quantityInput"
                             type="number"
                             id="quantity"
@@ -434,9 +443,15 @@ export default function CartList({ setEmptyMode }) {
             </div>
           </form>
         </div>
-        <div className="cart-right">
+        <div
+          className={isDesktopOrMobile !== true ? "cart-right" : "cart-mobile"}
+        >
           <div>
-            <div className="cartprice">
+            <div
+              className={
+                isDesktopOrMobile !== true ? "cartprice" : "cartprice-mobile"
+              }
+            >
               <div className="calcwrap">
                 <div className="orderprice">
                   <p className="title">총 주문 금액</p>

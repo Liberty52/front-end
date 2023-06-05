@@ -124,14 +124,14 @@ export default function Review() {
   function Pages(props) {
     const pages = props.pages;
     const list = [];
-    for (var i = pages.startPage; i <= pages.lastPage; i++) {
+    for (let i = pages.startPage; i <= pages.lastPage; i++) {
       if (i === pages.currentPage)
         list.push(
-          <span key={i} className="active">
+          <span key={i} className="active" onClick={() => {setPageNum(i-1)}}>
             {i}
           </span>
         );
-      else list.push(<span key={i}>{i}</span>);
+      else list.push(<span key={i} onClick={() => {setPageNum(i-1)}}>{i}</span>);
     }
     return <div className="pages">{list}</div>;
   }
@@ -142,9 +142,10 @@ export default function Review() {
     lastPage: 1,
     currentPage: 1,
   });
+  const [pageNum,setPageNum] = useState(0);
 
   function getReviewFromServer() {
-    getReview("LIB-001", 11, 0, onlyPhoto).then((res) => {
+    getReview("LIB-001", 10, pageNum, onlyPhoto).then((res) => {
       const contents = res.contents;
       setReviewContents([]);
       for (var i = 0; i < contents.length; i++) {
@@ -170,7 +171,7 @@ export default function Review() {
 
   useEffect(() => {
     getReviewFromServer();
-  }, [onlyPhoto]);
+  }, [onlyPhoto,pageNum]);
 
   return (
     <div className="review">
