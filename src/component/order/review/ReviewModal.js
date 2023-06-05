@@ -38,12 +38,12 @@ export default function ReviewModal(props) {
           const content = e.target.content.value;
           if (props.reviewInfo === undefined) {
             const dto = {
-              productName: "Liberty 52_Frame",
               rating: rating,
               content: content,
-              orderId: props.orderId,
+              customProductId: props.customProductId,
             };
             postReview(dto, imageFiles);
+            console.log(dto);
           } else {
             try {
               let isModified = false;
