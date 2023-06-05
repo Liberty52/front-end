@@ -14,8 +14,10 @@ export async function getAccessToken() {
 }
 
 function OrderList() {
+
   const navigate = useNavigate();
   const [orders, setOrders] = useState([]);
+
   useEffect(() => {
     const fetchOrdersData = async () => {
       try {
@@ -38,9 +40,15 @@ function OrderList() {
   const [cancelModal, showCancelModal] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState({});
 
+  const handleCancelModalOpen = (order) => {
+    const updatedOrder = { ...order, paymentType: order.paymentType };
+    setSelectedOrder(updatedOrder);
+    showCancelModal(true);
+
+  };
+
   return (
     <>
-     <>
         {reviewModal && (
           <ReviewModal
             orderId={selectedOrder.orderId}
@@ -67,6 +75,7 @@ function OrderList() {
                   orderId={order.orderId}
                   orderNum={order.orderNum}
                   productRepresentUrl={order.productRepresentUrl}
+                  paymentType={order.paymentType}
                   goToDetail={goToDetail}
                   showCancelModal={showCancelModal}
                   setSelectedOrder={setSelectedOrder}
@@ -82,10 +91,10 @@ function OrderList() {
             ))}
           </div>
         </div>
-        </>
+
     </>
   );
-  function OrderImg({ orderId, orderNum, productRepresentUrl, goToDetail, showCancelModal, setSelectedOrder, orderStatus }) {
+  function OrderImg({ orderId, orderNum, productRepresentUrl, paymentType, goToDetail, showCancelModal, setSelectedOrder, orderStatus }) {
     return (
       <div className="order-img-wrapper">
         <div className="order-left">
@@ -96,7 +105,7 @@ function OrderList() {
             className="productRepresentUrl"
           />
           <CancelOrderButton
-            order={{orderId, orderStatus}}
+            order={{orderId, orderStatus, paymentType}}
             showCancelModal={showCancelModal}
             setSelectedOrder={setSelectedOrder}
           />
@@ -121,7 +130,7 @@ function OrderList() {
                   <p>{product.name}</p>
                   <p>{product.quantity} 개</p>
                   <p>₩{product.price.toLocaleString()}</p>
-                  {(order.orderStatus === "ORDERED" || order.orderStatus === "WAITING_DEPOSIT") && (
+                  {(order.orderStatus === "주문완료" || order.orderStatus === "입금대기") && (
                     <div className="buttons">
                       <Button
                         type="button"
@@ -130,7 +139,7 @@ function OrderList() {
                         onClick={(e) => {
                           e.stopPropagation();
                           showReviewModal(true);
-                          setSelectedOrder(product);
+                          setSelectedOrder({ ...product, paymentType: order.paymentType });
                         }}
                       />
                     </div>
@@ -176,16 +185,18 @@ function OrderList() {
 }
 
 function CancelOrderButton({ order, showCancelModal, setSelectedOrder }) {
+
   return (
-    (order.orderStatus === "ORDERED" || order.orderStatus === "WAITING_DEPOSIT") && (
+    (order.orderStatus === "주문완료") && (
       <div className="cancel-button">
         <button
           type="button"
           className="cancel"
           onClick={(e) => {
             e.stopPropagation();
+            console.log("paymentType:", order.paymentType);
             showCancelModal(true);
-            setSelectedOrder(order);
+            setSelectedOrder({ ...order, paymentType: order.paymentType });
           }}
         >
           주문 취소
