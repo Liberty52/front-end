@@ -133,8 +133,8 @@ const Order = () => {
                 {productInfo.options &&
                   productInfo.options.map((option, idx) => {
                     return (
-                      <div className="option">
-                        <div key={idx} id={idx} className="order-title">
+                      <div key={idx} className="option">
+                        <div id={idx} className="order-title">
                           {option.name}을 선택하세요
                         </div>
                         {option.optionItems &&
@@ -143,7 +143,7 @@ const Order = () => {
                               <Radio
                                 key={idx}
                                 style={{ marginBottom: "10px" }}
-                                name={`"${option.name}"`}
+                                name={option.name}
                                 text={
                                   item.name +
                                   "₩" +
