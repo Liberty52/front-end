@@ -144,8 +144,15 @@ const Order = () => {
                                 key={idx}
                                 style={{ marginBottom: "10px" }}
                                 name={`"${option.name}"`}
-                                text={item.name}
-                                onChange={onHandleChange}
+                                text={
+                                  item.name +
+                                  "₩" +
+                                  item.price.toLocaleString("ko-KR")
+                                }
+                                onChange={(e) => {
+                                  onHandleChange(e);
+                                  setPrice(price + item.price);
+                                }}
                                 required
                               />
                             );
