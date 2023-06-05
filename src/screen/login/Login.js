@@ -41,7 +41,7 @@ function LoginForm() {
         const dto = {
           email: email,
           password: password,
-          checked: checked,
+          isAutoLogin: checked,
         };
         post(dto)
           .then((response) => {
