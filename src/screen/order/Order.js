@@ -67,7 +67,7 @@ const Order = () => {
         break;
       case "buy":
         Object.values(productInfo.options).map((option, idx) => {
-          if (!frameOption[`"${option.name}"`]) {
+          if (!frameOption[`${option.name}`]) {
             Swal.fire({
               title: option.name + "를 선택해주세요",
               icon: "warning",
@@ -133,8 +133,8 @@ const Order = () => {
                 {productInfo.options &&
                   productInfo.options.map((option, idx) => {
                     return (
-                      <div className="option">
-                        <div key={idx} id={idx} className="order-title">
+                      <div key={idx} className="option">
+                        <div id={idx} className="order-title">
                           {option.name}을 선택하세요
                         </div>
                         {option.optionItems &&
@@ -143,12 +143,8 @@ const Order = () => {
                               <Radio
                                 key={idx}
                                 style={{ marginBottom: "10px" }}
-                                name={`"${option.name}"`}
-                                text={
-                                  item.name +
-                                  "₩" +
-                                  item.price.toLocaleString("ko-KR")
-                                }
+                                name={option.name}
+                                text={item.name}
                                 onChange={(e) => {
                                   onHandleChange(e);
                                   setPrice(price + item.price);
