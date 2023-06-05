@@ -3,6 +3,10 @@
   margin-left: 30px;
   padding-top: 30px;
 }
+.cartprice-mobile {
+  width: 100vw;
+  justify-content: center;
+}
 .calcwrap {
   padding: 15px 0;
   border: 1px solid lightgray;

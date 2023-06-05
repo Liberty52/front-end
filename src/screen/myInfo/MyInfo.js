@@ -7,6 +7,7 @@ import Input from "../../component/common/Input";
 import { delMyInfo, putMyInfo, getMyInfo } from "../../axios/myInfo/MyInfo";
 import Header from "../../component/common/Header";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router";
 
 function UpdateInfo(props) {
   const myInfo = props.myInfo;
@@ -119,6 +120,8 @@ function InfoGroup(props) {
 }
 
 function ButtonGroup(props) {
+  const navigate = useNavigate();
+
   return props.updateMode ? (
     <div className="myInfo-button-group">
       <Button text="수정" />
@@ -127,7 +130,22 @@ function ButtonGroup(props) {
   ) : (
     <div className="myInfo-button-group">
       <Button text="정보 수정" onClick={props.setUpdateMode} />
-      <Button text="회원 탈퇴" onClick={delMyInfo} />
+      <Button
+        text="회원 탈퇴"
+        onClick={() => {
+          const dmi = delMyInfo();
+          if (dmi) {
+            dmi
+              .then(() => {
+                localStorage.clear();
+                sessionStorage.clear();
+                alert("탈퇴가 성공적으로 이루어졌습니다.");
+                navigate("/");
+              })
+              .catch((err) => alert(err.response.data.message));
+          }
+        }}
+      />
     </div>
   );
 }
