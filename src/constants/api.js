@@ -13,3 +13,7 @@ export const NOTICE_LIST = (size, page) =>
 export const NOTICE_DETAIL = (noticeId) => `/auth/notices/${noticeId}`;
 
 export const PRODUCT_INFO = (id) => `/product/products/${id}`;
+
+// review
+export const CREATE_REVIEW = () => `/product/reviews;`;
+

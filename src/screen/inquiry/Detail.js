@@ -28,6 +28,7 @@ function InquiryDetails() {
             Authorization: ` ${accessToken}`,
           },
         });
+        console.log("Order Details:", response.data);
         setOrderDetails(response.data);
         setLoading(false);
       } catch (error) {
