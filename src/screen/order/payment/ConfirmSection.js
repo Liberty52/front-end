@@ -1,13 +1,4 @@
-import "./Payment.css";
-import DaumPostcode from "react-daum-postcode";
-import Header from "../../../component/common/Header";
-import { useLocation, useNavigate } from "react-router-dom";
-import Button from "../../../component/common/Button";
-import Input from "../../../component/common/Input";
-import Checkbox from "../../../component/common/Checkbox";
-import Modal from "../../../component/common/Modal";
-import liberty52 from "../../../image/icon/liberty52.jpg";
-import { useState } from "react";
+// axios
 import {
   checkCardPayApproval,
   payByVBank,
@@ -15,148 +6,37 @@ import {
   prepareCardCart,
   payByVBankCart,
 } from "../../../axios/order/Payment";
-import PaymentInfo from "./PaymentInfo";
-import CenterCircularProgress from "../../../component/common/CenterCircularProgress";
+// constants
 import { ACCESS_TOKEN } from "../../../constants/token";
-
-function AddressSearchModal(props) {
-  return (
-    <Modal title="주소 검색" closeModal={props.closeModal}>
-      <DaumPostcode
-        onComplete={(data) => {
-          props.setAddress({
-            address1: data.buildingName
-              ? data.address + " (" + data.buildingName + ")"
-              : data.address,
-            zipCode: data.zonecode,
-          });
-          props.closeModal();
-        }}
-        autoClose={false}
-      />
-    </Modal>
-  );
-}
-
-function PaymentSection(props) {
-  const deliveryInfo = props.deliveryInfo;
-  const [address, setAddress] = useState({
-    address1: "",
-    zipCode: "",
-  });
-  const [modal, setModal] = useState(false); // 주소 검색창 (react daum postcoded)
-
-  return (
-    <div className="payment-section">
-      {modal && (
-        <AddressSearchModal
-          setAddress={setAddress}
-          closeModal={() => setModal(false)}
-        />
-      )}
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          props.setSection("confirm");
-          props.setDeliveryInfo({
-            receiverName: e.target.receiverName.value,
-            address1: address.address1,
-            address2: e.target.address2.value,
-            receiverEmail: e.target.receiverEmail.value,
-            zipCode: address.zipCode,
-            receiverPhoneNumber: e.target.receiverPhoneNumber.value,
-          });
-        }}
-      >
-        <div className="payment-title">
-          어디로 주문하신 제품이 배송되길 원하십니까?
-        </div>
-        <div className="payment-user">
-          <div className="input-title">이름 및 주소 입력:</div>
-          <div className="inputs">
-            <Input
-              type="text"
-              name="receiverName"
-              label="이름"
-              required
-              maxLength={25}
-              value={deliveryInfo.receiverName}
-            />
-            <div className="input-button">
-              <Input
-                type="text"
-                name="address1"
-                label="주소"
-                required
-                maxLength={25}
-                readOnly
-                value={
-                  address.address1
-                    ? "(" + address.zipCode + ") " + address.address1
-                    : ""
-                }
-              />
-              <Button
-                type="button"
-                text="주소 검색"
-                onClick={() => setModal(true)}
-              />
-            </div>
-            <Input
-              type="text"
-              name="address2"
-              label="상세 주소"
-              required
-              value={deliveryInfo.address2}
-            />
-          </div>
-        </div>
-        <div className="payment-contact">
-          <div className="input-title">연락처 정보:</div>
-          <div className="inputs">
-            <Input
-              type="email"
-              name="receiverEmail"
-              label="이메일"
-              required
-              value={deliveryInfo.receiverEmail}
-            />
-            <Input
-              type="text"
-              name="receiverPhoneNumber"
-              label="휴대폰 번호"
-              required
-              pattern="01[0,1][0-9]{6,8}"
-              maxLength={11}
-              title="ex) 01012341234"
-              value={deliveryInfo.receiverPhoneNumber}
-            />
-          </div>
-        </div>
-        <Button text="결제 페이지로 이동" />
-      </form>
-    </div>
-  );
-}
+// component
+import Checkbox from "../../../component/common/Checkbox";
+import Modal from "../../../component/common/Modal";
+import Button from "../../../component/common/Button";
+import CenterCircularProgress from "../../../component/common/CenterCircularProgress";
+// screen
+import PaymentInfo from "./PaymentInfo";
+// image
+import liberty52 from "../../../image/icon/liberty52.jpg";
+// react
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Product(props) {
   const productInfo = props.productInfo;
-
   return (
     <div className="confirm-product">
       <img src={liberty52} alt="제품 이미지" />
       <div>
         <div className="title">Liberty 52_Frame</div>
         <div>
-          {Object.values(productInfo.frameOption).map((option, idx) => {
-            return <div key={idx}>{option}</div>;
-          })}
+          <div>{productInfo.mounting_method}</div>
+          <div>{productInfo.basic_material}</div>
+          <div>{productInfo.add_material}</div>
         </div>
       </div>
-      <div>{productInfo?.quantity}개</div>
+      <div>{productInfo.quantity}개</div>
       <span>
-        &#8361;
-        {(productInfo?.price * productInfo?.quantity).toLocaleString("ko-KR")}
+        &#8361;{(1550000 * productInfo.quantity).toLocaleString("ko-KR")}
       </span>
     </div>
   );
@@ -238,9 +118,9 @@ function TermsOfUse() {
             </button>
           }
           text="
-              에 따라 개인정보를 수집하고, 사용하고, 제3자에 제공하고,
-              처리한다는 점에 동의합니다.
-          "
+                에 따라 개인정보를 수집하고, 사용하고, 제3자에 제공하고,
+                처리한다는 점에 동의합니다.
+            "
         />
       </div>
     </div>
@@ -250,7 +130,6 @@ function TermsOfUse() {
 function Total(props) {
   const deliverPrice = props.deliverPrice;
   const quantity = props.quantity;
-  const price = props.price;
 
   return (
     <div className="confirm-total">
@@ -258,7 +137,7 @@ function Total(props) {
       <div className="contents">
         <div className="content">
           <span>소계</span>
-          <span>&#8361;{(price * quantity).toLocaleString("ko-KR")}</span>
+          <span>&#8361;{(1550000 * quantity).toLocaleString("ko-KR")}</span>
         </div>
         <div className="content">
           <span>배송</span>
@@ -272,7 +151,7 @@ function Total(props) {
           <span>총계</span>
           <span>
             &#8361;
-            {(price * quantity + deliverPrice).toLocaleString("ko-KR")}
+            {(1550000 * quantity + deliverPrice).toLocaleString("ko-KR")}
           </span>
         </div>
       </div>
@@ -280,7 +159,7 @@ function Total(props) {
   );
 }
 
-function ConfirmSection(props) {
+export default function ConfirmSection(props) {
   const navigate = useNavigate();
   const [success, setSuccess] = useState(false);
   const [isConfirmProgressing, setIsConfirmProgressing] = useState(false);
@@ -300,11 +179,14 @@ function ConfirmSection(props) {
     }
   }
   const length = productInfoList.length;
+
   const productDto = {
     productName: "Liberty 52_Frame",
-    options: Object.values(props.productInfo.frameOption).map((option) => {
-      return option;
-    }),
+    options: [
+      props.productInfo.mounting_method,
+      props.productInfo.basic_material,
+      props.productInfo.add_material,
+    ],
     quantity: props.productInfo.quantity,
   };
 
@@ -493,7 +375,7 @@ function ConfirmSection(props) {
         <DeliveryInfo deliveryInfo={destinationDto} />
         <PaymentInfo constants={constants} setPayment={setPayment} />
         <TermsOfUse />
-        <Total quantity={quantity} deliverPrice={0} price={productInfo.price} />
+        <Total quantity={quantity} deliverPrice={0} />
         <Button text="결제하기" />
         <Button
           type="button"
@@ -504,49 +386,6 @@ function ConfirmSection(props) {
           }}
         />
       </form>
-    </div>
-  );
-}
-
-export default function Payment() {
-  const [section, setSection] = useState("form");
-  const [deliveryInfo, setDeliveryInfo] = useState({
-    receiverName: "",
-    address1: "",
-    address2: "",
-    zipCode: "",
-    receiverEmail: "",
-    receiverPhoneNumber: "",
-  });
-
-  const location = useLocation();
-  const locationData = { ...location.state }; // mounting_method, basic_material, add_material, add_image, quantity
-  let productInfo = "";
-  let productIdList = "";
-  if (!locationData.checkedList) {
-    productInfo = locationData;
-  } else {
-    productInfo = locationData.paymentValue;
-    productIdList = locationData.checkedList;
-  }
-
-  return (
-    <div className="payment">
-      <Header />
-      {section === "form" ? (
-        <PaymentSection
-          setSection={setSection}
-          deliveryInfo={deliveryInfo}
-          setDeliveryInfo={setDeliveryInfo}
-        />
-      ) : (
-        <ConfirmSection
-          setSection={setSection}
-          productInfo={productInfo}
-          deliveryInfo={deliveryInfo}
-          productIdList={productIdList}
-        />
-      )}
     </div>
   );
 }

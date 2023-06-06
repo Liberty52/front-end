@@ -73,10 +73,12 @@
     display: flex;
     opacity: 0;
     height: 30px;
+    visibility: hidden;
   }
 
   .header-items-group .bar-active {
     opacity: 100%;
+    visibility: visible;
   }
 
   .header-fixed .header-items-group .bar {
