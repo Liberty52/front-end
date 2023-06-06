@@ -91,6 +91,7 @@ export default function CartList({ setEmptyMode }) {
       newHidden[idx] = !newHidden[idx];
       setHidden(newHidden);
       setDisabledBtn(false);
+      // TODO key를 option.optionName으로, value를 그대로 detailName으로 하면 음..
       basicFormValue = {
         holder: options[0].detailName,
         material: options[1].detailName,
@@ -158,7 +159,7 @@ export default function CartList({ setEmptyMode }) {
                 },
               })
               .then((response) => {
-                setProductOption(response.data);
+                setProductOption(response.data[0].productOptionList);
               });
           }
         });
