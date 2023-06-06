@@ -16,3 +16,4 @@ export const PRODUCT_INFO = (id) => `/product/products/${id}`;
 
 // review
 export const CREATE_REVIEW = () => `/product/reviews;`;
+
