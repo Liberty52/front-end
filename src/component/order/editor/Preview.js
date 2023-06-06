@@ -134,7 +134,7 @@ const Preview = ({ isOpen, setIsOpen }) => {
         },
       }}
     >
-      <ModalHeader>Preview</ModalHeader>
+      <ModalHeader>미리보기</ModalHeader>
       <ModalBody
         $style={{
           display: "flex",
@@ -188,9 +188,9 @@ const Preview = ({ isOpen, setIsOpen }) => {
       </ModalBody>
       <ModalFooter style={{ padding: "12px 0", margin: "24px 20px 0" }}>
         <ModalButton kind="tertiary" onClick={() => setIsOpen(false)}>
-          Cancel
+          취소
         </ModalButton>
-        <ModalButton onClick={() => handleSave()}>Save</ModalButton>
+        <ModalButton onClick={() => handleSave()}>저장하기</ModalButton>
       </ModalFooter>
     </Modal>
   );

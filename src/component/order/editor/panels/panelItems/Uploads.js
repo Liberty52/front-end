@@ -20,7 +20,7 @@ const Uploads = () => {
     const file = files[0]
 
     if(file.size < 4147000) {
-      const msg = "This Image has bad resolution, Recommend to change the image(At least required 1920 x 1080 Resoultion)";
+      const msg = "업로드하신 이미지는 저해상도 이미지입니다. 선명한 상품 제작을 위해 고해상도(최소 1920 x 1080 이상)의 이미지를 업로드 해주세요.";
     
       const toastKey = toaster.warning(
         <>
@@ -81,7 +81,7 @@ const Uploads = () => {
             padding: "1.5rem",
           }}
         >
-          <Block>Uploads</Block>
+          <Block>업로드</Block>
 
           <Block onClick={() => setIsSidebarOpen(false)} $style={{ cursor: "pointer", display: "flex" }}>
             <AngleDoubleLeft size={18} />
@@ -100,7 +100,7 @@ const Uploads = () => {
                 },
               }}
             >
-              Computer
+              내 컴퓨터에서 찾기
             </Button>
             <input onChange={handleFileInput} type="file" id="file" ref={inputFileRef} style={{ display: "none" }} />
 
