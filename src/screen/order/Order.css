@@ -114,7 +114,7 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 /* 모바일 */
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 768px) {
   .order {
     width: 100%;
     align-content: center;
@@ -132,7 +132,7 @@ input[type="number"]::-webkit-outer-spin-button {
 
   .order .order-options {
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
     width: 90%;
     margin-left: 20px;
   }
