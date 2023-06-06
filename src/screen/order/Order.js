@@ -22,7 +22,7 @@ const Order = () => {
   const [price, setPrice] = useState();
   const [quantity, setQuantity] = useState(1);
   const [productInfo, setProductInfo] = useState({});
-  const additionalFee = [];
+  const [additionalPrice, setAdditionalPrice] = useState({});
   const productId = "LIB-001";
 
   const retriveProductData = () => {
@@ -36,15 +36,29 @@ const Order = () => {
     retriveProductData();
   }, []);
 
+  useEffect(() => {
+    let pricePerProduct = productInfo?.price;
+    Object.values(additionalPrice).map((add) => {
+      pricePerProduct += add;
+    });
+    setPrice(pricePerProduct);
+  }, [additionalPrice]);
+
   let dto = {};
   let imageFile = "";
   const navigate = useNavigate();
-  const onHandleChange = (e) => {
+
+  const onHandleChange = (e, itemPrice) => {
     setFrameOption({
       ...frameOption,
       [e.target.name]: e.target.value,
     });
+    setAdditionalPrice({
+      ...additionalPrice,
+      [e.target.name]: itemPrice,
+    });
   };
+
   const onHandleSubmit = (e) => {
     e.preventDefault();
     const options = Object.values(frameOption).map((item) => {
@@ -144,8 +158,7 @@ const Order = () => {
                                 name={option.name}
                                 text={item.name}
                                 onChange={(e) => {
-                                  onHandleChange(e);
-                                  setPrice(price + item.price);
+                                  onHandleChange(e, item.price);
                                 }}
                                 required
                               />
@@ -184,11 +197,10 @@ const Order = () => {
                     required
                     onChange={(e) => {
                       setQuantity(e.target.value);
-                      setPrice(productInfo?.price * e.target.value);
                     }}
                   />
                   <span className="price">
-                    &#8361;{price?.toLocaleString("ko-KR")}
+                    &#8361;{(price * quantity).toLocaleString("ko-KR")}
                   </span>
                 </div>
                 <div className="order-btn-group">
