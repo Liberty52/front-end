@@ -2,7 +2,7 @@ import "./Radio.css";
 
 export default function Radio(props) {
   const radioButtons = document.querySelectorAll(
-    'input[type="radio"][name=' + props.name + "]"
+    `input[type="radio"][name="${props.name}"]`
   );
   return (
     <div className="radio" style={props.style}>
