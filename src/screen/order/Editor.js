@@ -62,7 +62,7 @@ const Editor = () => {
             <div style={{ display: "flex", flex: 1 }}>
               <Panels/>
               <div style={{ flex: 1, display: "flex", flexDirection: "column", position: "relative" }}>
-                <Toolbox />
+                <Toolbox /> 
                 <Canvas />
                 <Footer />
               </div>
