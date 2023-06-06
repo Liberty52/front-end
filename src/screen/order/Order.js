@@ -22,6 +22,7 @@ const Order = () => {
   const [price, setPrice] = useState();
   const [quantity, setQuantity] = useState(1);
   const [productInfo, setProductInfo] = useState({});
+  const additionalFee = [];
   const productId = "LIB-001";
 
   const retriveProductData = () => {
@@ -46,12 +47,9 @@ const Order = () => {
   };
   const onHandleSubmit = (e) => {
     e.preventDefault();
-    const options = [
-      Object.values(frameOption).map((item) => {
-        return item;
-      }),
-    ];
-
+    const options = Object.values(frameOption).map((item) => {
+      return item;
+    });
     const image = e.target.file.files[0];
     const data = {
       productName: productInfo?.name,

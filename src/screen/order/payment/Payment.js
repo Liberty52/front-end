@@ -156,7 +156,7 @@ function Product(props) {
       <div>{productInfo?.quantity}개</div>
       <span>
         &#8361;
-        {(productInfo?.price * productInfo?.quantity).toLocaleString("ko-KR")}
+        {(productInfo?.price).toLocaleString("ko-KR")}
       </span>
     </div>
   );
@@ -258,7 +258,7 @@ function Total(props) {
       <div className="contents">
         <div className="content">
           <span>소계</span>
-          <span>&#8361;{(price * quantity).toLocaleString("ko-KR")}</span>
+          <span>&#8361;{price.toLocaleString("ko-KR")}</span>
         </div>
         <div className="content">
           <span>배송</span>
@@ -272,7 +272,7 @@ function Total(props) {
           <span>총계</span>
           <span>
             &#8361;
-            {(price * quantity + deliverPrice).toLocaleString("ko-KR")}
+            {(price + deliverPrice).toLocaleString("ko-KR")}
           </span>
         </div>
       </div>
@@ -302,7 +302,7 @@ function ConfirmSection(props) {
   const length = productInfoList.length;
   const productDto = {
     productName: "Liberty 52_Frame",
-    options: Object.values(props.productInfo.frameOption).map((option) => {
+    options: Object.values(productInfoList[0].frameOption).map((option) => {
       return option;
     }),
     quantity: props.productInfo.quantity,
@@ -418,6 +418,7 @@ function ConfirmSection(props) {
         isApplyCashReceipt: payment.isCashReceipt,
       };
       if (productIdList === "") {
+        // 주문 결제
         payByVBank(
           {
             productDto: productDto,
@@ -436,6 +437,7 @@ function ConfirmSection(props) {
             alert("가상계좌 결제가 실패하였습니다.");
           });
       } else {
+        // 장바구니 결제
         payByVBankCart({
           customProductIdList: productIdList,
           destinationDto: destinationDto,
@@ -464,6 +466,7 @@ function ConfirmSection(props) {
       );
     }
   }
+  let totalPrice = 0;
 
   return (
     <div className="confirm-section">
@@ -482,6 +485,8 @@ function ConfirmSection(props) {
           입력하신 사항이 모두 정확한지 확인해주십시오.
         </div>
         {productInfoList.map((productInfo) => {
+          totalPrice += productInfo.price;
+          console.log(totalPrice);
           return (
             <>
               <Product productInfo={productInfo} />
@@ -493,7 +498,7 @@ function ConfirmSection(props) {
         <DeliveryInfo deliveryInfo={destinationDto} />
         <PaymentInfo constants={constants} setPayment={setPayment} />
         <TermsOfUse />
-        <Total quantity={quantity} deliverPrice={0} price={productInfo.price} />
+        <Total quantity={quantity} deliverPrice={0} price={totalPrice} />
         <Button text="결제하기" />
         <Button
           type="button"

@@ -115,13 +115,17 @@ export default function CartList({ setEmptyMode }) {
     console.log(formValue);
   };
   const onCheckedElement = (checked, item, price, options, quantity, url) => {
+    const frameOption = {};
+    options.map((option) => {
+      frameOption[option.optionName] = option.detailName;
+    });
+    console.log(price);
     let thisValue = {
       id: item,
-      mounting_method: options[0].detailName,
-      basic_material: options[1].detailName,
-      add_material: options[2].detailName,
+      frameOption: frameOption,
       add_image: url,
       quantity: quantity,
+      price: price,
     };
     if (checked) {
       setCheckedList([...checkedList, item]);
