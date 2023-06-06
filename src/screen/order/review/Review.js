@@ -94,7 +94,7 @@ export default function Review() {
               <span>
                 <a
                   onClick={() => {
-                    deleteReview(reviewInfo.reviewId);
+                    deleteReview(reviewInfo.reviewId, getReviewFromServer);
                   }}
                 >
                   삭제
@@ -127,11 +127,27 @@ export default function Review() {
     for (let i = pages.startPage; i <= pages.lastPage; i++) {
       if (i === pages.currentPage)
         list.push(
-          <span key={i} className="active" onClick={() => {setPageNum(i-1)}}>
+          <span
+            key={i}
+            className="active"
+            onClick={() => {
+              setPageNum(i - 1);
+            }}
+          >
             {i}
           </span>
         );
-      else list.push(<span key={i} onClick={() => {setPageNum(i-1)}}>{i}</span>);
+      else
+        list.push(
+          <span
+            key={i}
+            onClick={() => {
+              setPageNum(i - 1);
+            }}
+          >
+            {i}
+          </span>
+        );
     }
     return <div className="pages">{list}</div>;
   }
@@ -142,7 +158,7 @@ export default function Review() {
     lastPage: 1,
     currentPage: 1,
   });
-  const [pageNum,setPageNum] = useState(0);
+  const [pageNum, setPageNum] = useState(0);
 
   function getReviewFromServer() {
     getReview("LIB-001", 10, pageNum, onlyPhoto).then((res) => {
@@ -171,7 +187,7 @@ export default function Review() {
 
   useEffect(() => {
     getReviewFromServer();
-  }, [onlyPhoto,pageNum]);
+  }, [onlyPhoto, pageNum]);
 
   return (
     <div className="review">

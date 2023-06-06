@@ -117,7 +117,7 @@ export function delImage(reviewId, dto) {
   return false;
 }
 
-export function deleteReview(reviewId) {
+export function deleteReview(reviewId, onSuccess) {
   if (window.confirm("리뷰를 삭제하시겠습니까?")) {
     axios
       .delete(`/product/reviews/${reviewId}`, {
@@ -125,7 +125,10 @@ export function deleteReview(reviewId) {
           Authorization: sessionStorage.getItem(ACCESS_TOKEN),
         },
       })
-      .then(alert("리뷰가 삭제되었습니다."))
+      .then(() => {
+        alert("리뷰가 삭제되었습니다.");
+        onSuccess();
+      })
       .catch((response) => {
         if (response.status === 404) alert("해당 리뷰가 존재하지 않습니다.");
       });
