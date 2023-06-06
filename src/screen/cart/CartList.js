@@ -79,7 +79,6 @@ export default function CartList({ setEmptyMode }) {
     }
   };
   const handleRowClick = (id, idx, options, quantity) => {
-    console.log(options);
     let newHidden = [...hidden];
     if (newHidden.indexOf(false) == idx) {
       //수정옵션 열려있을 때
@@ -111,17 +110,18 @@ export default function CartList({ setEmptyMode }) {
       [name]: value,
     });
     setSelectValue(value);
-    console.log(selectValue);
-    console.log(formValue);
   };
   const onCheckedElement = (checked, item, price, options, quantity, url) => {
+    const frameOption = {};
+    options.map((option) => {
+      frameOption[option.optionName] = option.detailName;
+    });
     let thisValue = {
       id: item,
-      mounting_method: options[0].detailName,
-      basic_material: options[1].detailName,
-      add_material: options[2].detailName,
+      frameOption: frameOption,
       add_image: url,
       quantity: quantity,
+      price: price,
     };
     if (checked) {
       setCheckedList([...checkedList, item]);
@@ -185,7 +185,6 @@ export default function CartList({ setEmptyMode }) {
               })
               .then((response) => {
                 setProductOption(response.data[0].productOptionList);
-                console.log(response.data[0].productOptionList);
               });
           }
         });
@@ -193,7 +192,6 @@ export default function CartList({ setEmptyMode }) {
       alert("잘못된 접근입니다");
       return navigate("/");
     }
-    console.log(productOption);
   }, []);
   function pay() {
     if (checkedList == "") {
