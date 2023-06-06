@@ -78,6 +78,7 @@ const Order = () => {
         post(dto, imageFile);
         break;
       case "buy":
+        let pass = true;
         Object.values(productInfo.options).map((option, idx) => {
           if (!frameOption[`${option.name}`]) {
             Swal.fire({
@@ -85,24 +86,27 @@ const Order = () => {
               icon: "warning",
             });
             window.location.href = `#${idx}`;
-          } else if (!imageFile) {
-            Swal.fire({
-              title: "이미지를 입력해주세요",
-              icon: "warning",
-            });
-            window.location.href = "#add-image";
-          } else {
-            navigate("/payment", {
-              state: {
-                frameOption: frameOption,
-                price: price,
-                quantity: quantity,
-                add_image: imageFile,
-              },
-            });
+            pass = false;
           }
         });
-        break;
+        if (!imageFile) {
+          Swal.fire({
+            title: "이미지를 입력해주세요",
+            icon: "warning",
+          });
+          window.location.href = "#add-image";
+          pass = false;
+        }
+        if(!pass)
+          break
+        navigate("/payment", {
+          state: {
+            frameOption: frameOption,
+            price: price,
+            quantity: quantity,
+            add_image: imageFile,
+          },
+        })
     }
   };
 
@@ -175,7 +179,7 @@ const Order = () => {
                   <div className="order-editor">
                     <div
                       onClick={(e) => {
-                        e.preventDefault() ??
+                        e.preventDefault()
                           Object.values(frameOption).map((option) => {
                             option !== ""
                               ? navigate("/editor")
