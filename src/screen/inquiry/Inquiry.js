@@ -139,7 +139,8 @@ function OrderList() {
                   <Button
                     type="button"
                     className="review"
-                    text="리뷰 쓰기"
+                    text={product.hasReview ? "리뷰 완료" : "리뷰 쓰기"}
+                    disabled={product.hasReview}
                     onClick={(e) => {
                       e.stopPropagation();
                       console.log(order.orderStatus);

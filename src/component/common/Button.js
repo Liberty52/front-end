@@ -6,6 +6,7 @@ export default function Button(props) {
       type={props.type ? props.type : 'submit'}
       className="button"
       onClick={props.onClick}
+      disabled={props.disabled}
     >
       {props.href ? <a href={props.href}>{props.text}</a> : <>{props.text}</>}
     </button>
