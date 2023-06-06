@@ -31,7 +31,7 @@ const Customize = () => {
           padding: "1.5rem",
         }}
       >
-        <Block>Customize</Block>
+        <Block>프레임 설정</Block>
 
         <Block onClick={() => setIsSidebarOpen(false)} $style={{ cursor: "pointer", display: "flex" }}>
           <AngleDoubleLeft size={18} />
@@ -121,7 +121,7 @@ const ResizeTemplate = () => {
           },
         }}
       >
-        Resize template
+        프레임 크기 변경하기
       </Button>
       <Modal
         onClose={() => setIsOpen(false)}
@@ -151,7 +151,7 @@ const ResizeTemplate = () => {
               fontWeight: 500,
             }}
           >
-            Choose a format and resize your template.
+            제공된 템플릿을 선택해주세요.
           </Block>
           <Tabs
             overrides={{
@@ -251,7 +251,7 @@ const ResizeTemplate = () => {
         </Block>
         <Block $style={{ display: "flex", alignItems: "center", justifyContent: "center", paddingBottom: "2rem" }}>
           <Button disabled={!isEnabled} onClick={applyResize} style={{ width: "190px" }}>
-            Resize template
+            프레임 사이즈 변경하기
           </Button>
         </Block>
       </Modal>

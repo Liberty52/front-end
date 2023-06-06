@@ -43,7 +43,6 @@ export default function ReviewModal(props) {
               customProductId: props.customProductId,
             };
             postReview(dto, imageFiles);
-            console.log(dto);
           } else {
             try {
               let isModified = false;
