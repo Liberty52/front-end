@@ -16,22 +16,27 @@ const BASE_ITEMS = [
     {
       id: "images",
       name: "Images",
+      label: "샘플 이미지",
     },
     {
       id: "uploads",
       name: "Uploads",
+      label: "업로드",
     },
     {
       id: "customize",
       name: "Customize",
+      label: "프레임 설정",
     },
     {
       id: "layers",
       name: "Layers",
+      label: "레이어",
     },
     {
       id: "ai",
-      name: "AI"
+      name: "AI",
+      label: "AI",
     }
   ]
 
@@ -44,7 +49,7 @@ const PanelsList = () => {
       <Scrollable autoHide={true}>
         {PANEL_ITEMS.map((panelListItem) => (
           <PanelListItem
-            label={panelListItem.name}
+            label={panelListItem.label}
             name={panelListItem.name}
             key={panelListItem.name}
             icon={panelListItem.name}
