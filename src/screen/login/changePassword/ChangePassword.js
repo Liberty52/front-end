@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
-import { resetPassword } from '../../../axios/login/Login.js';
-import './ChangePassword.css';
-import { useSearchParams, Redirect } from "react-router-dom";
+import { resetPassword } from "../../../axios/login/Login.js";
+import "./ChangePassword.css";
+import { useSearchParams } from "react-router-dom";
 import { useNavigate } from "react-router";
-import Input from '../../../component/common/Input';
-import Button from '../../../component/common/Button';
+import Input from "../../../component/common/Input";
+import Button from "../../../component/common/Button";
 
 export default function ChangePassword() {
     const [newPassword, setNewPassword] = useState("");
@@ -60,8 +59,9 @@ export default function ChangePassword() {
           <label htmlFor="new-password">새로운 비밀번호:</label>
           <Input
             type="password"
-            id="new-password"
+            name="new-password"
             value={newPassword}
+            required={true}
             onChange={(e) => setNewPassword(e.target.value)}
           />
         </div>
@@ -69,8 +69,9 @@ export default function ChangePassword() {
           <label htmlFor="confirm-new-password">새로운 비밀번호 확인:</label>
           <Input
             type="password"
-            id="confirm-new-password"
+            name="confirm-new-password"
             value={confirmNewPassword}
+            required={true}
             onChange={(e) => setConfirmNewPassword(e.target.value)}
           />
         </div>
