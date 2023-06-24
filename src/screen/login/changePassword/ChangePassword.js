@@ -1,15 +1,12 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
-import { resetPassword } from '../../../axios/login/Login.js';
-import './ChangePassword.css';
-import { useSearchParams, Redirect } from "react-router-dom";
+import { resetPassword } from "../../../axios/login/Login.js";
+import "./ChangePassword.css";
+import { useSearchParams } from "react-router-dom";
 import { useNavigate } from "react-router";
-import Input from '../../../component/common/Input';
-import Button from '../../../component/common/Button';
+import Input from "../../../component/common/Input";
+import Button from "../../../component/common/Button";
 
 export default function ChangePassword() {
-    const [newPassword, setNewPassword] = useState("");
-    const [confirmNewPassword, setConfirmNewPassword] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
     const [isSuccess, setIsSuccess] = useState(false);
     const navigate = useNavigate();
@@ -30,6 +27,9 @@ export default function ChangePassword() {
     const handleSubmit = async (e) => {
       e.preventDefault();
 
+      const newPassword = e.target.newPassword.value;
+      const confirmNewPassword = e.target.confirmNewPassword.value;
+
       if (newPassword !== confirmNewPassword) {
         setErrorMessage("새로운 비밀번호와 새로운 비밀번호 확인이 일치하지 않습니다.");
         return;
@@ -49,7 +49,7 @@ export default function ChangePassword() {
     };
 
      if (isSuccess) {
-       navigate("/Login"); //로그인
+       navigate("/login"); //로그인
      }
 
     return (
@@ -58,21 +58,11 @@ export default function ChangePassword() {
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="new-password">새로운 비밀번호:</label>
-          <Input
-            type="password"
-            id="new-password"
-            value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
-          />
+          <Input type="password" name="newPassword" required={true} />
         </div>
         <div>
           <label htmlFor="confirm-new-password">새로운 비밀번호 확인:</label>
-          <Input
-            type="password"
-            id="confirm-new-password"
-            value={confirmNewPassword}
-            onChange={(e) => setConfirmNewPassword(e.target.value)}
-          />
+          <Input type="password" name="confirmNewPassword" required={true} />
         </div>
         <Button text="비밀번호 변경"/>
       </form>
