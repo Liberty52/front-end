@@ -47,7 +47,7 @@ function Section2() {
         className="chromaluxe_img"
         src={chromaluxe_img}
         alt="chromaluxe_img"
-      ></img>
+      />
     </div>
   );
 }
@@ -55,7 +55,7 @@ function Section2() {
 function Section3() {
   return (
     <div className="section-row">
-      <img src={speaker_img} alt="speaker_img"></img>
+      <img src={speaker_img} alt="speaker_img" />
       <div className="text-group">
         <h1>진동 블루투스 스피커</h1>
         <p style={{ fontSize: "20px" }}>고성능 블루투스 스피커 탑재</p>
@@ -85,17 +85,14 @@ function Section4() {
 export default function Main() {
   async function tokenRefresh() {
     let savedRefreshToken = localStorage.getItem(REFRESH_TOKEN);
-    if (savedRefreshToken === null || savedRefreshToken === undefined)
-      return;
-    if (sessionStorage.getItem(ACCESS_TOKEN))
-      return;
+    if (savedRefreshToken === null || savedRefreshToken === undefined) return;
+    if (sessionStorage.getItem(ACCESS_TOKEN)) return;
     try {
       const response = await refreshToken();
       sessionStorage.setItem(ACCESS_TOKEN, response.headers.access);
       localStorage.setItem(REFRESH_TOKEN, response.headers.refresh);
       window.location.href = "/";
-    } catch (e) {
-    }
+    } catch (e) {}
   }
 
   useEffect(() => {
@@ -105,7 +102,7 @@ export default function Main() {
   window.addEventListener(
     // 휠 기본 기능 막기
     "wheel",
-    function(e) {
+    function (e) {
       e.preventDefault();
     },
     { passive: false }
@@ -116,11 +113,11 @@ export default function Main() {
 
   mHtml.animate({ scrollTop: 0 }, 10); // Y가 0이 아닐 경우 대비
 
-  $(window).on("wheel", function(e) {
+  $(window).on("wheel", function (e) {
     if (mHtml.is(":animated")) return;
     if (e.originalEvent.deltaY > 0) {
       // deltaY가 양수면 휠을 아래로 내리는 중, 음수면 위로 올리는 중
-      if (page === 4) return; // 끝까지 내렸을 때 리턴함으로 휠이동 방지
+      if (page === 5) return; // 끝까지 내렸을 때 리턴함으로 휠이동 방지
       page++;
     } else if (e.originalEvent.deltaY < 0) {
       if (page === 1) return;

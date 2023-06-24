@@ -10,7 +10,8 @@ button {
 }
 
 .section,
-.section-row {
+.section-row,
+.section-last {
   height: 100%;
 }
 
@@ -44,6 +45,7 @@ ul {
   display: flex;
   flex-direction: row-reverse;
   justify-content: space-around;
+  align-items: center;
 }
 .text-group {
   text-align: center;
@@ -81,10 +83,25 @@ ul {
 }
 
 .image {
+  width: 100%;
   height: 100%;
 }
 
 .chromaluxe_img {
-  width: 500px;
+  width: 390px;
   height: 400px;
+}
+
+/* 모바일 */
+@media screen and (max-width: 768px) {
+  .main {
+    overflow-x: hidden;
+  }
+  .section-row {
+    flex-direction: column;
+    justify-content: end;
+  }
+  .section-last {
+    flex-direction: column;
+  }
 }
