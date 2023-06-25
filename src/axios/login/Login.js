@@ -26,6 +26,7 @@ export function findEmail(name, phoneNumber) {
     .then((response) => {
       return response;
     })
+
     .catch((error) => {
       console.error("서버에서 에러 발생:", error);
       throw error;
@@ -79,7 +80,7 @@ export async function fetchOrderDetails(orderId, accessToken, phoneNumber) {
 }
 export function refreshToken() {
   return request.get(
-    TOKEN_REFRESH(), // token refresh api
+    TOKEN_REFRESH(),
     {
       headers: {
         "LB-RefreshToken": localStorage.getItem(REFRESH_TOKEN),

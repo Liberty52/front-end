@@ -6,6 +6,7 @@ import { useNavigate } from "react-router";
 import Input from "../../../component/common/Input";
 import Button from "../../../component/common/Button";
 
+
 export default function ChangePassword() {
     const [errorMessage, setErrorMessage] = useState("");
     const [isSuccess, setIsSuccess] = useState(false);
@@ -15,12 +16,6 @@ export default function ChangePassword() {
     useEffect(() => {
       const emailToken = searchParams.get("emailToken");
       const limitTime = searchParams.get("limitTime");
-
-      // Check if emailToken and limitTime are valid
-      // If not, set errorMessage and return
-
-      // Check if the time limit has expired
-      // If it has, set errorMessage and return
 
     }, [searchParams]);
 

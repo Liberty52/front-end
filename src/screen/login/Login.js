@@ -1,23 +1,20 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
-// css
 import "./Login.css";
-// axios
 import {
   post,
   findEmail,
   sendPasswordResetEmail,
   fetchOrderDetails,
 } from "../../axios/login/Login.js";
-// component
 import Header from "../../component/common/Header";
 import Checkbox from "../../component/common/Checkbox";
 import Input from "../../component/common/Input";
 import Button from "../../component/common/Button";
 import SocialLoginButton from "../../component/login/SocialLoginButton";
-// constants
 import { SOCIAL_LOGIN_PROVIDER } from "../../global/Constants";
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "../../constants/token";
+
 
 function LoginInput() {
   return (
@@ -98,7 +95,7 @@ function PasswordRecoveryModal({ showModal, closeModal }) {
         <div className={`modal${showModal ? " is-active" : ""}`}>
           <div className="modal-content">
             <h2>아이디/비밀번호 찾기</h2>
-            <FindForm onSetEmailList={handleSetEmailList} />
+            <FindForm onSetEmailList={handleSetEmailList} handleCloseEmailListModal={handleCloseEmailListModal} />
             <button onClick={closeModal}>닫기</button>
           </div>
         </div>
@@ -120,8 +117,9 @@ function PasswordRecoveryModal({ showModal, closeModal }) {
   );
 }
 
-function FindForm({ onSetEmailList }) {
+function FindForm({ onSetEmailList, handleCloseEmailListModal }) {
   const [activeTab, setActiveTab] = useState("id");
+  const [loading, setLoading] = useState(false);
 
   const handleTabClick = (e) => {
     setActiveTab(e.target.value);
@@ -129,6 +127,8 @@ function FindForm({ onSetEmailList }) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setLoading(true);
+
     if (activeTab === "id") {
       const name = event.target.name.value;
       const phoneNumber = event.target.phoneNumber.value;
@@ -140,7 +140,7 @@ function FindForm({ onSetEmailList }) {
         })
         .catch((e) => {
           if (e.response && e.response.status === 400) {
-            alert("이메일 찾기 실패");
+            alert("등록된 아이디가 없습니다.");
           }
         });
     } else if (activeTab === "password") {
@@ -148,11 +148,16 @@ function FindForm({ onSetEmailList }) {
 
       try {
         await sendPasswordResetEmail(email);
+        alert("비밀번호 변경 메일을 전송했습니다.");
+        handleCloseEmailListModal();
       } catch (error) {
         console.error("비밀번호 찾기 메일 전송 실패", error.response);
+        alert("메일 전송에 실패했습니다.");
       }
     }
+    setLoading(false);
   };
+
   return (
     <>
       <form className="login-form" onSubmit={handleSubmit}>
@@ -190,7 +195,7 @@ function FindForm({ onSetEmailList }) {
             </div>
           )}
         </div>
-        <Button text="확인" />
+        <Button text="확인" disabled={loading} />
       </form>
     </>
   );
