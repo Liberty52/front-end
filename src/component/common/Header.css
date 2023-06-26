@@ -7,7 +7,7 @@
 
 .header-fixed {
   position: fixed;
-  width: 100%;
+  width: 100vw;
 }
 
 .header-block {
