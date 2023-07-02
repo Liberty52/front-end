@@ -14,17 +14,19 @@ import { refreshToken } from "../../axios/login/Login";
 
 function Section() {
   return (
-    <div className="section">
+    <div id="s1" className="section section-3">
       <div style={{ height: "22%" }}></div>
-      <div className="text-group">
+      <div className="liberty-info text-group">
         <div className="text1">Liberty 52_Frame</div>
         <div className="text2">One & Only Speaker</div>
         <div className="text3">내가 만드는 세상 유일</div>
-        <a href="/order" style={{ fontSize: "20px" }}>
+        <a className="order-button" href="/order">
           구매하기
         </a>
       </div>
-      <div style={{ height: "33.3%" }}>
+      <div
+        style={{ height: "33.3%", display: "flex", justifyContent: "center" }}
+      >
         <img className="image" src={product_img} alt="Liberty52_frame"></img>
       </div>
     </div>
@@ -33,13 +35,13 @@ function Section() {
 
 function Section2() {
   return (
-    <div className="section-row background">
+    <div id="s2" className="section section-row">
       <div className="text-group">
         <h1>Chromaluxe</h1>
         <p style={{ fontSize: "20px" }}>
           1mm 두께 승화전사 인쇄용 알루미늄시트
         </p>
-        <a href="/order" style={{ fontSize: "20px" }}>
+        <a className="order-button" href="/order">
           구매하기
         </a>
       </div>
@@ -54,12 +56,12 @@ function Section2() {
 
 function Section3() {
   return (
-    <div className="section-row">
+    <div id="s3" className="section section-row">
       <img src={speaker_img} alt="speaker_img" />
       <div className="text-group">
         <h1>진동 블루투스 스피커</h1>
         <p style={{ fontSize: "20px" }}>고성능 블루투스 스피커 탑재</p>
-        <a href="/order" style={{ fontSize: "20px" }}>
+        <a className="order-button" href="/order">
           구매하기
         </a>
       </div>
@@ -69,12 +71,12 @@ function Section3() {
 
 function Section4() {
   return (
-    <div className="section-last">
-      <img src={liberty52_img} alt="speaker_img" style={{ width: "500px" }} />
+    <div id="s4" className="section section-row reverse">
+      <img src={liberty52_img} alt="speaker_img" />
       <div className="text-group">
         <h1>세계 유일</h1>
         <p style={{ fontSize: "20px" }}>나만의 액자형 스피커</p>
-        <a href="/order" style={{ fontSize: "20px" }}>
+        <a className="order-button" href="/order">
           구매하기
         </a>
       </div>
@@ -108,6 +110,14 @@ export default function Main() {
     { passive: false }
   );
 
+  window.addEventListener(
+    "touchmove",
+    function (e) {
+      e.preventDefault();
+    },
+    { passive: false }
+  );
+
   var mHtml = $("html");
   var page = 1;
 
@@ -120,6 +130,29 @@ export default function Main() {
       if (page === 5) return; // 끝까지 내렸을 때 리턴함으로 휠이동 방지
       page++;
     } else if (e.originalEvent.deltaY < 0) {
+      if (page === 1) return;
+      page--;
+    }
+
+    var posTop = (page - 1) * $(window).height(); // 각 section의 top부분 계산
+    mHtml.animate({ scrollTop: posTop });
+  });
+
+  let delta = 0;
+
+  $(window).on("touchstart", function (e) {
+    delta = e.originalEvent.touches[0].pageY;
+  });
+
+  $(window).on("touchend", function (e) {
+    delta -= e.originalEvent.changedTouches[0].pageY;
+
+    if (mHtml.is(":animated")) return;
+    if (delta > 0) {
+      // deltaY가 양수면 휠을 아래로 내리는 중, 음수면 위로 올리는 중
+      if (page === 5) return; // 끝까지 내렸을 때 리턴함으로 휠이동 방지
+      page++;
+    } else if (delta < 0) {
       if (page === 1) return;
       page--;
     }
