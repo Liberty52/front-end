@@ -27,12 +27,12 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t my-frontend-app .
-          docker tag my-frontend-app ghcr.io/liberty52/liberty52-front-end:${{ github.sha }}
-        working-directory: ./multistage.Dockerfile
+          docker build -t my-frontend-app -f multistage.Dockerfile .
+          docker tag my-frontend-app ghcr.io/liberty52/liberty52-front-end:dev-v${{ github.sha }}
+        working-directory: ./
 
       - name: Login to GitHub Container Registry
-        run: echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+        run: echo ${{ secrets.GTOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
       - name: Push Docker image to GitHub Container Registry
-        run: docker push ghcr.io/liberty52/liberty52-front-end:${{ github.sha }}
+        run: docker push ghcr.io/liberty52/liberty52-front-end:dev-v${{ github.sha }}
