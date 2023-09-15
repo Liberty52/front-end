@@ -21,6 +21,7 @@ jobs:
           echo "  GOOGLE: '${{ secrets.GOOGLE }}'," >> src/global/url.js
           echo "  FACEBOOK: '${{ secrets.FACEBOOK }}'," >> src/global/url.js
           echo "};" >> src/global/url.js
+          echo "export { SOCIAL_LOGIN_URL };" >> src/global/url.js
           
 
       - name: Build Docker image
