@@ -17,12 +17,13 @@ jobs:
         run: |
           echo "SOCIAL_LOGIN_URL={\"KAKAO\":\"${{ secrets.KAKAO }}\",\"NAVER\":\"${{ secrets.NAVER }}\",\"GOOGLE\":\"${{ secrets.GOOGLE }}\",\"FACEBOOK\":\"${{ secrets.FACEBOOK }}\"}" > src/global/url.js
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
+      - name: Setup Docker Buildx
+        run: |
+          docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+          docker buildx create --use --name mybuilder --node mybuilder --driver docker-container
 
       - name: Build Docker Image
         run: |
-          docker buildx create --use
           docker buildx build -t ghcr.io/liberty52/liberty52-front-end:dev-v${{ github.sha }} \
             --file Dockerfile \
             --build-arg BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ') \
