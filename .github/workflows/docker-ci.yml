@@ -13,9 +13,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set SOCIAL_LOGIN_URL secret
+      - name: Create src/global/url.js
         run: |
-          echo "SOCIAL_LOGIN_URL={\"KAKAO\":\"${{ secrets.KAKAO }}\",\"NAVER\":\"${{ secrets.NAVER }}\",\"GOOGLE\":\"${{ secrets.GOOGLE }}\",\"FACEBOOK\":\"${{ secrets.FACEBOOK }}\"}" > src/global/url.js
+          echo "const SOCIAL_LOGIN_URL = {" > src/global/url.js
+          echo "  KAKAO: '${{ secrets.KAKAO }}'," >> src/global/url.js
+          echo "  NAVER: '${{ secrets.NAVER }}'," >> src/global/url.js
+          echo "  GOOGLE: '${{ secrets.GOOGLE }}'," >> src/global/url.js
+          echo "  FACEBOOK: '${{ secrets.FACEBOOK }}'," >> src/global/url.js
+          echo "};" >> src/global/url.js
+          
 
       - name: Build Docker image
         run: |
