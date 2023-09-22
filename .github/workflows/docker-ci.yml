@@ -27,10 +27,30 @@ jobs:
       - name: Login to GitHub Container Registry
         run: echo ${{ secrets.GTOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
+      - name: Create Release Name
+        id: release_name
+        run: |
+          echo "::set-output name=release_name::v-$(date +'%Y.%m.%d-%H%M%S')"
+
       - name: Build and Push Docker image
         run: |
+          RELEASE_NAME="${{ steps.release_name.outputs.release_name }}"
           docker build -t my-frontend-app -f multistage.Dockerfile .
-          docker tag my-frontend-app ghcr.io/liberty52/liberty52-front-end:dev-v${{ github.sha }}
+          docker tag my-frontend-app ghcr.io/liberty52/liberty52-front-end:dev-$RELEASE_NAME
           echo ${{ secrets.GTOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-          docker push ghcr.io/liberty52/liberty52-front-end:dev-v${{ github.sha }}
+          docker push ghcr.io/liberty52/liberty52-front-end:dev-$RELEASE_NAME
         working-directory: ./
+
+      - name: Create GitHub Release
+        uses: actions/create-release@v1
+        with:
+          tag_name: ${{ steps.release_name.outputs.release_name }}
+          release_name: Release ${{ steps.release_name.outputs.release_name }}
+          generateReleaseNotes: true
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GTOKEN }}
+
+      - name: Clean up
+        run: docker logout ghcr.io
