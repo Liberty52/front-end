@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - ci/docker-ci-pipeline
 
 jobs:
   build-and-push:
@@ -22,16 +23,14 @@ jobs:
           echo "  FACEBOOK: '${{ secrets.FACEBOOK }}'," >> src/global/url.js
           echo "};" >> src/global/url.js
           echo "export { SOCIAL_LOGIN_URL };" >> src/global/url.js
-          
-
-      - name: Build Docker image
-        run: |
-          docker build -t my-frontend-app -f multistage.Dockerfile .
-          docker tag my-frontend-app ghcr.io/liberty52/liberty52-front-end:dev-v${{ github.sha }}
-        working-directory: ./
 
       - name: Login to GitHub Container Registry
         run: echo ${{ secrets.GTOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
-      - name: Push Docker image to GitHub Container Registry
-        run: docker push ghcr.io/liberty52/liberty52-front-end:dev-v${{ github.sha }}
+      - name: Build and Push Docker image
+        run: |
+          docker build -t my-frontend-app -f multistage.Dockerfile .
+          docker tag my-frontend-app ghcr.io/liberty52/liberty52-front-end:dev-v${{ github.sha }}
+          echo ${{ secrets.GTOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+          docker push ghcr.io/liberty52/liberty52-front-end:dev-v${{ github.sha }}
+        working-directory: ./
