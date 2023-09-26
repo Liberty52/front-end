@@ -1,15 +1,12 @@
 name: Deploy dev
 
-#on:
-#  workflow_run:
-#    workflows:
-#      - Build and Push Docker Image
-#    types:
-#      - completed
 on:
-  push:
-    branches:
-      - ISSUE-197
+  workflow_run:
+    workflows:
+      - Build and Push Docker Image
+    types:
+      - completed
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
