@@ -5,7 +5,6 @@ import Review from "./review/Review";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import product_img from "../../image/icon/product.png";
-import dummy_img from "../../image/icon/dummy.jpg";
 import post from "../../axios/cart/Cart";
 import Button from "../../component/common/Button";
 import ImageInput from "../../component/common/ImageInput";
@@ -29,6 +28,7 @@ const Order = () => {
     getProductInfo(productId).then((res) => {
       setProductInfo(res.data);
       setPrice(res.data.price);
+      console.log(res.data);
     });
   };
 
@@ -97,8 +97,7 @@ const Order = () => {
           window.location.href = "#add-image";
           pass = false;
         }
-        if(!pass)
-          break
+        if (!pass) break;
         navigate("/payment", {
           state: {
             frameOption: frameOption,
@@ -106,7 +105,7 @@ const Order = () => {
             quantity: quantity,
             add_image: imageFile,
           },
-        })
+        });
     }
   };
 
@@ -179,12 +178,12 @@ const Order = () => {
                   <div className="order-editor">
                     <div
                       onClick={(e) => {
-                        e.preventDefault()
-                          Object.values(frameOption).map((option) => {
-                            option !== ""
-                              ? navigate("/editor")
-                              : alert("모든 옵션을 선택해주세요.");
-                          });
+                        e.preventDefault();
+                        Object.values(frameOption).map((option) => {
+                          option !== ""
+                            ? navigate("/editor")
+                            : alert("모든 옵션을 선택해주세요.");
+                        });
                       }}
                     >
                       개성을 추가하러 가기
@@ -217,7 +216,7 @@ const Order = () => {
         </div>
       </div>
       <img
-        src={dummy_img}
+        src={productInfo.introductionImageUrl}
         alt="상품 정보"
         style={{ width: "70%", margin: "auto", display: "block" }}
       />

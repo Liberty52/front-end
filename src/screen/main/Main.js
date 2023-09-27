@@ -158,7 +158,6 @@ export default function Main() {
     }
 
     var posTop = (page - 1) * $(window).height(); // 각 section의 top부분 계산
-    console.log(posTop);
     mHtml.animate({ scrollTop: posTop });
   });
 
