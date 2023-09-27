@@ -16,6 +16,25 @@
   margin: 20px 0;
 }
 
+.tab {
+  display: flex;
+  justify-content: space-around;
+}
+
+.tab label {
+  display: flex;
+  flex-direction: row;
+}
+
+.tab label Input {
+  margin-right: 15px;
+}
+
+.modal-content h2 {
+  display: flex;
+  justify-content: space-around;
+}
+
 .social-login .social-login-button-group {
   display: flex;
   justify-content: center;
@@ -104,7 +123,7 @@
   padding: 12px 10px 8px;
 }
 
-.input-wrapper .input:focus + .label,
+.input-wrapper .input:focus+.label,
 .input-wrapper .value .label {
   position: absolute;
   top: -7px;

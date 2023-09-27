@@ -9,9 +9,7 @@ button {
   background: none;
 }
 
-.section,
-.section-row,
-.section-last {
+.section {
   height: 100%;
 }
 
@@ -21,75 +19,104 @@ ul {
 
 .section {
   display: flex;
+}
+
+.section-3 {
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
 }
 
 .section-row {
-  display: flex;
   flex-direction: row;
   justify-content: space-evenly;
   align-items: center;
 }
-.section-row .text-group {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+
+.reverse {
+  flex-direction: row-reverse;
 }
-.background {
+
+#s2 {
   background-color: rgb(239, 235, 237);
 }
 
-.section-last {
-  display: flex;
-  flex-direction: row-reverse;
-  justify-content: space-around;
-  align-items: center;
-}
-.text-group {
-  text-align: center;
+#s1 .liberty-info {
   height: 33.3%;
 }
 
-.section .text-group div {
+.section .text-group {
   text-align: center;
+}
+
+.section .text-group div {
   margin: 10px 0;
 }
 
-.text1 {
+.liberty-info .text1 {
   font-size: 40px;
   font-weight: 800;
 }
 
-.text2 {
+.liberty-info .text2 {
   font-size: 50px;
   font-weight: 500;
 }
-.text3 {
+.liberty-info .text3 {
   font-size: 30px;
 }
 
-.outline-button {
-  background-color: white;
-  border: 1px solid gray;
-  padding: 5px 10px;
+.main .order-button {
+  font-size: 20px;
 }
 
-.outline-button:hover {
-  background-color: rgb(240, 240, 240);
-  border: 1px solid gray;
-  padding: 5px 10px;
-}
-
-.image {
+.main .image {
   width: 100%;
   height: 100%;
 }
 
-.chromaluxe_img {
-  width: 390px;
-  height: 400px;
+.main .chromaluxe_img {
+  width: 400px;
+}
+
+/* 모바일 */
+@media screen and (max-width: 768px) {
+  .liberty-info .text1 {
+    font-size: 28px;
+  }
+
+  .liberty-info .text2 {
+    font-size: 30px;
+  }
+
+  .liberty-info .text3 {
+    font-size: 20px;
+  }
+
+  .main .order-button {
+    font-size: 15px;
+  }
+
+  .section-row {
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .reverse {
+    flex-direction: column-reverse;
+  }
+
+  .main .section img {
+    width: 75%;
+  }
+
+  #s1 img {
+    width: 100%;
+  }
+
+  #s2 img {
+    margin-top: 20px;
+  }
 }
 
 /* 모바일 */
