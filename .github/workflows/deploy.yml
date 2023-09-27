@@ -1,0 +1,43 @@
+name: Deploy dev
+
+on:
+  workflow_run:
+    workflows:
+      - Build and Push Docker Image
+    types:
+      - completed
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
+    env:
+      DOCKER_REGISTRY: ghcr.io
+      DOCKER_REPO: liberty52/liberty52-front-end
+
+    steps:
+      - name: Get latest Release tag
+        id: latest-tag
+        uses: robinraju/release-downloader@v1.8
+        with:
+          latest: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set Docker Image Name
+        id: new-docker-image
+        run: echo "::set-output name=image_name::$DOCKER_REGISTRY/$DOCKER_REPO:dev-${{ steps.latest-tag.outputs.tag_name }}"
+
+      - name: Deploy AWS EC2 dev
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.REMOTE_IP_DEV }}
+          username: ${{ secrets.REMOTE_SSH_ID_DEV }}
+          key: ${{ secrets.REMOTE_SSH_KEY_DEV }}
+          port: ${{ secrets.REMOTE_SSH_PORT_DEV }}
+          script: |
+            echo ${{ secrets.GTOKEN }} | sudo docker login ghcr.io -u ${{ github.actor }} --password-stdin
+            sudo docker pull ${{ steps.new-docker-image.outputs.image_name }}
+            container_name=$(sudo docker ps | grep liberty52 | awk '{print $NF}')
+            sudo docker stop $container_name
+            sudo docker run -d -p 80:80 ${{ steps.new-docker-image.outputs.image_name }}
