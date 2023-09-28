@@ -191,11 +191,6 @@ export default function Review() {
 
   return (
     <div className="review">
-      <div className="tab">리뷰</div>
-      <div className="title-div">
-        <div className="title">구매평 (개수)</div>
-      </div>
-      <div className="button-div"></div>
       <div className="filter">
         <Checkbox
           text="포토 구매평만 보기"
