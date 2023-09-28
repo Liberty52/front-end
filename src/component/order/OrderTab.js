@@ -3,6 +3,14 @@ import PropTypes from "prop-types";
 import { useState } from "react";
 import Review from "./review/Review";
 import Introduction from "./Introduction";
+import styled from "styled-components";
+
+const OrderTabBox = styled(Box)`
+  margin: 0 200px;
+  @media screen and (max-width: 768px) {
+    margin: 0;
+  }
+`;
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -54,7 +62,7 @@ export default function OrderTab({ introductionImageUrl }) {
   ];
 
   return (
-    <Box sx={{ margin: "0 200px" }}>
+    <OrderTabBox>
       <Box
         sx={{
           borderBottom: 1,
@@ -90,6 +98,6 @@ export default function OrderTab({ introductionImageUrl }) {
           </TabPanel>
         );
       })}
-    </Box>
+    </OrderTabBox>
   );
 }
