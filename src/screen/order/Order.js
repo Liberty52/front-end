@@ -27,6 +27,7 @@ const Order = () => {
   const retriveProductData = () => {
     getProductInfo(productId).then((res) => {
       setProductInfo(res.data);
+      console.log(res.data);
       setPrice(res.data.price);
     });
   };
@@ -163,7 +164,14 @@ const Order = () => {
                                   onHandleChange(e, item.price);
                                 }}
                                 required
-                              />
+                              >
+                                <span style={{ color: "#bbbbbb" }}>
+                                  {` + ${item.price}원`}
+                                </span>
+                                <span style={{ display: "none" }}>
+                                  {item.stock}
+                                </span>
+                              </Radio>
                             );
                           })}
                       </div>
