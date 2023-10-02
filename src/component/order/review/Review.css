@@ -1,39 +1,15 @@
 .review {
-  padding: 40px 200px 15px;
+  padding-bottom: 15px;
 }
 
-.review .tab {
-  padding: 7px 0;
-  border-bottom: 1px solid gray;
-  text-align: center;
-}
-
-.review .title-div {
-  margin: 13px 0;
+.review .review-content {
+  margin: 15px 0;
 }
 
 .review .filter,
-.review .review-content .review-header,
-.review .review-content,
 .review .content,
 .review .pages {
   margin: 8px 0;
-}
-
-.review .title-div {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.review .title-div .title {
-  font-size: 15px;
-  font-weight: bold;
-}
-
-.review .title-div .button {
-  width: auto;
-  padding: 6px 10px;
 }
 
 .review .filter {
@@ -102,7 +78,7 @@
   color: black;
   font-weight: bold;
 }
-.pages span:hover{
+.pages span:hover {
   cursor: pointer;
 }
 @media screen and (max-width: 500px) {

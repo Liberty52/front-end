@@ -1,7 +1,6 @@
 import "./Order.css";
 import Header from "../../component/common/Header";
 import Footer from "../../component/common/Footer";
-import Review from "./review/Review";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import product_img from "../../image/icon/product.png";
@@ -14,6 +13,7 @@ import $ from "jquery";
 import useAppContext from "../../hooks/useAppContext";
 import Swal from "sweetalert2";
 import { getProductInfo } from "../../axios/order/Order";
+import OrderTab from "../../component/order/OrderTab";
 
 const Order = () => {
   const { frameOption, setFrameOption } = useAppContext();
@@ -214,12 +214,7 @@ const Order = () => {
           </div>
         </div>
       </div>
-      <img
-        src={productInfo.introductionImageUrl}
-        alt="상품 정보"
-        style={{ width: "70%", margin: "auto", display: "block" }}
-      />
-      <Review />
+      <OrderTab introductionImageUrl={productInfo.introductionImageUrl} />
       <Footer />
     </div>
   );
