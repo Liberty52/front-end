@@ -163,7 +163,14 @@ const Order = () => {
                                   onHandleChange(e, item.price);
                                 }}
                                 required
-                              />
+                              >
+                                <span style={{ color: "#bbbbbb" }}>
+                                  {` + ${item.price}원`}
+                                </span>
+                                <span style={{ display: "none" }}>
+                                  {item.stock}
+                                </span>
+                              </Radio>
                             );
                           })}
                       </div>
