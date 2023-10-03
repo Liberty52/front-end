@@ -27,7 +27,6 @@ const Order = () => {
   const retriveProductData = () => {
     getProductInfo(productId).then((res) => {
       setProductInfo(res.data);
-      console.log(res.data);
       setPrice(res.data.price);
     });
   };
