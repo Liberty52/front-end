@@ -9,3 +9,18 @@
 .bank-content div {
   margin-top: 10px;
 }
+@media (max-width: 768px) {
+    /* 768px 이하의 화면 크기에 적용할 스타일 */
+
+    .payment-info {
+        padding: 0 10px; /* 좌우 패딩 추가하여 디자인 유연성 제공 */
+    }
+
+    .bank-content {
+        margin-top: 10px; /* 상단 마진 감소 */
+    }
+
+    .bank-content div {
+        margin-top: 8px; /* div 내부의 상단 마진 감소 */
+    }
+}
