@@ -156,6 +156,12 @@
         height: auto; /* 높이를 자동으로 조정 */
     }
 
+    .confirm-product,
+    .confirm-backgroundImage,
+    .confirm-info, .delivery-info .content {
+      flex-direction: column;
+    }
+
     /* 모달의 폭 조정 */
     .payment .payment-section .modal-content,
     .payment .confirm-section .confirm-termsOfUse .modal-content {

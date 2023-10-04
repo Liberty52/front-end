@@ -67,7 +67,7 @@ function BackgroundImage(props) {
 function DeliveryInfo(props) {
   const deliveryInfo = props.deliveryInfo;
   return (
-    <div className="confirm-info">
+    <div className="confirm-info delivery-info">
       <div className="title">배송 상세 정보</div>
       <div className="content">
         <div>
