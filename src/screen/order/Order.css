@@ -26,7 +26,7 @@
 }
 
 .option {
-  padding: 60px 0;
+  padding-bottom: 70px;
   display: flex;
   flex-direction: column;
   justify-content: center;
