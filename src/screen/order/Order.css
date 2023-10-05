@@ -114,7 +114,7 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 /* 모바일 */
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1000px) {
   .order {
     width: 100%;
     align-content: center;
@@ -133,8 +133,8 @@ input[type="number"]::-webkit-outer-spin-button {
   .order .order-options {
     display: flex;
     justify-content: center;
-    width: 90%;
-    margin-left: 20px;
+    width: 100%;
+    margin-left: 0;
   }
 
   .product-title {
@@ -143,5 +143,19 @@ input[type="number"]::-webkit-outer-spin-button {
 
   .product-image {
     align-items: center;
+  }
+
+  .order .product-image img {
+    width: 50%;
+  }
+
+  .product {
+    margin-bottom: 30px;
+  }
+}
+
+@media screen and (max-width: 780px) {
+  .order .product-image img {
+    width: 90%;
   }
 }
