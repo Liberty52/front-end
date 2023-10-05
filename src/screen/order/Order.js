@@ -165,7 +165,7 @@ const Order = () => {
                                 required
                               >
                                 <span style={{ color: "#bbbbbb" }}>
-                                  {` + ${item.price}원`}
+                                  {` + `}&#8361;{`${item.price}`}
                                 </span>
                                 <span style={{ display: "none" }}>
                                   {item.stock}
