@@ -1,0 +1,81 @@
+name: Liberty52 front-end 빌드, 배포 및 업데이트
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  REGISTRY: ghcr.io
+  REPO_NAME: liberty52/liberty52-front-end
+  DOCKERFILE: multistage.Dockerfile
+  MANIFEST_PATH: kubernetes-manifests/front-end/front-end-deployment.yaml
+  GIT_EMAIL: github-action-bot@example.com
+  GIT_NAME: Front-End Action Bot
+
+jobs:
+  build-push-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 코드 체크아웃
+        uses: actions/checkout@v2
+
+      - name: Docker 로그인
+        run: echo ${{ secrets.GTOKEN }} | docker login $REGISTRY -u ${{ github.actor }} --password-stdin
+
+      - name: 릴리즈 이름 생성
+        id: release_name
+        run: echo "::set-output name=release_name::v-$(date +'%Y.%m.%d-%H%M%S')"
+
+      - name: 소셜 로그인 URL 생성
+        run: |
+          echo "const SOCIAL_LOGIN_URL = {" > src/global/url.js
+          echo "  KAKAO: '${{ secrets.KAKAO }}'," >> src/global/url.js
+          echo "  NAVER: '${{ secrets.NAVER }}'," >> src/global/url.js
+          echo "  GOOGLE: '${{ secrets.GOOGLE }}'," >> src/global/url.js
+          echo "  FACEBOOK: '${{ secrets.FACEBOOK }}'," >> src/global/url.js
+          echo "};" >> src/global/url.js
+          echo "export { SOCIAL_LOGIN_URL };" >> src/global/url.js
+
+      - name: 도커 이미지 빌드 및 푸시
+        run: |
+          IMAGE_TAG="$REGISTRY/$REPO_NAME:dev-${{ steps.release_name.outputs.release_name }}"
+          docker build --build-arg SPRING_PROFILES_ACTIVE=dev -t $REPO_NAME:latest -f $DOCKERFILE .
+          docker tag $REPO_NAME:latest $IMAGE_TAG
+          docker push $IMAGE_TAG
+
+      - name: 인프라스트럭처 레포지토리 체크아웃
+        uses: actions/checkout@v2
+        with:
+          repository: Liberty52/infrastructure
+          token: ${{ secrets.GTOKEN }}
+          path: infrastructure
+
+      - name: 쿠버네티스 디플로이먼트에 도커 이미지 태그 업데이트
+        run: |
+          IMAGE_TAG="$REGISTRY/$REPO_NAME:dev-${{ steps.release_name.outputs.release_name }}"
+          sed -i "s|$REGISTRY/$REPO_NAME:[a-zA-Z0-9\.\-]*|$IMAGE_TAG|" infrastructure/$MANIFEST_PATH
+
+      - name: 인프라스트럭처 레포지토리에 커밋 및 푸시
+        run: |
+          cd infrastructure
+          git config --global user.email "$GIT_EMAIL"
+          git config --global user.name "$GIT_NAME"
+          git add $MANIFEST_PATH
+          git commit -m "Update $REPO_NAME image tag to ${{ steps.release_name.outputs.release_name }}"
+          git push
+
+      - name: GitHub 릴리즈 생성
+        uses: actions/create-release@v1
+        with:
+          tag_name: ${{ steps.release_name.outputs.release_name }}
+          release_name: Release ${{ steps.release_name.outputs.release_name }}
+          generateReleaseNotes: true
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GTOKEN }}
+
+      - name: 정리 작업
+        run: docker logout $REGISTRY
