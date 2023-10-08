@@ -23,7 +23,10 @@ export default function Radio(props) {
           });
         }}
       />
-      <label htmlFor={"radio " + props.text}>{props.text}</label>
+      <label htmlFor={"radio " + props.text}>
+        {props.text}
+        {props.children}
+      </label>
     </div>
   );
 }

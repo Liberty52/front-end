@@ -163,7 +163,14 @@ const Order = () => {
                                   onHandleChange(e, item.price);
                                 }}
                                 required
-                              />
+                              >
+                                <span style={{ color: "#bbbbbb" }}>
+                                  {` + `}&#8361;{`${item.price}`}
+                                </span>
+                                <span style={{ display: "none" }}>
+                                  {item.stock}
+                                </span>
+                              </Radio>
                             );
                           })}
                       </div>
