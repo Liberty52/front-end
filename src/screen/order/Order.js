@@ -153,10 +153,15 @@ const Order = () => {
                         </div>
                         {option.optionItems &&
                           option.optionItems.map((item, idx) => {
+                            const isDisabled = item.stock <= 0;
                             return (
                               <Radio
                                 key={idx}
-                                style={{ marginBottom: "10px" }}
+                                style={{
+                                  marginBottom: "10px",
+                                  opacity: isDisabled ? "0.5" : "1", //if stock is none => opacity 0.5
+                                  pointerEvents: isDisabled ? "none" : "auto", //if stock is none => prevent click
+                                }}
                                 name={option.name}
                                 text={item.name}
                                 onChange={(e) => {
