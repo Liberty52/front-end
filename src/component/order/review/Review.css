@@ -1,0 +1,88 @@
+.review {
+  padding-bottom: 15px;
+}
+
+.review .review-content {
+  margin: 15px 0;
+}
+
+.review .filter,
+.review .content,
+.review .pages {
+  margin: 8px 0;
+}
+
+.review .filter {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.review .review-content .review-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.review .review-content .review-header .user {
+  display: flex;
+  align-items: center;
+}
+
+.review .review-content .review-header .user .image-crop {
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+}
+
+.review .review-content .review-header .user .name {
+  margin-right: 7px;
+}
+
+.review .review-content .review-header .content-buttons {
+  display: flex;
+  align-items: center;
+}
+
+.review .review-content .review-header .content-buttons span {
+  margin-left: 5px;
+}
+
+.review .review-content .review-header .content-buttons a {
+  cursor: pointer;
+}
+
+.review .review-content .review-header .rating img {
+  width: 20px;
+  margin-right: 3px;
+}
+
+.review .review-content .files {
+  display: flex;
+}
+
+.review .review-content .files .image-crop {
+  margin-right: 10px;
+  border-radius: 0;
+}
+
+.review .pages {
+  text-align: center;
+}
+
+.review .pages span {
+  margin-right: 20px;
+  color: gray;
+  cursor: pointer;
+}
+
+.review .pages .active {
+  color: black;
+  font-weight: bold;
+}
+.pages span:hover {
+  cursor: pointer;
+}
+@media screen and (max-width: 500px) {
+  .review {
+    padding: 4px 20px 1px;
+  }
+}
