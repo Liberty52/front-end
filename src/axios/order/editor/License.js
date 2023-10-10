@@ -1,6 +1,6 @@
-import { GET_LICENSES } from "../../../constants/api";
+import { LICENSE_LIST } from "../../../constants/api";
 import request from "../../axios";
 
-export const getLicenses = async () => {
-  return request.get(GET_LICENSES);
+export const getLicenseList = async () => {
+  return request.get(LICENSE_LIST());
 };

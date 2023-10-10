@@ -14,6 +14,6 @@ export const NOTICE_DETAIL = (noticeId) => `/auth/notices/${noticeId}`;
 
 export const PRODUCT_INFO = (id) => `/product/products/${id}`;
 
-export const CREATE_REVIEW = () => `/product/reviews;`;
+export const CREATE_REVIEW = () => `/product/reviews`;
 
-export const GET_LICENSES = () => `/product/licenseImage`;
+export const LICENSE_LIST = () => `/licenseImage`;
