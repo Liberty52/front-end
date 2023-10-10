@@ -16,4 +16,4 @@ export const PRODUCT_INFO = (id) => `/product/products/${id}`;
 
 export const CREATE_REVIEW = () => `/product/reviews`;
 
-export const LICENSE_LIST = () => `/licenseImage`;
+export const LICENSE_LIST = () => `/product/licenseImage`;
