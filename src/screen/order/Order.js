@@ -128,6 +128,25 @@ const Order = () => {
     const top = (bodyHeight - productImage.clientHeight) / 2;
     productImage.style.top = top + "px";
   }
+  const numStripes = 4500; // 빗금 개수
+  const stripeDensity = 3; // 밀도
+
+  function generateDenseStripes() {
+    let gradient = "linear-gradient(45deg, ";
+    const step = 100 / (numStripes * 2); // 빗금 하나당 간격 계산
+
+    for (let i = 0; i <= numStripes; i++) {
+      const position = i * (step * stripeDensity);
+      if (i === numStripes) {
+        gradient += `rgba(0, 0, 0, 0.2) ${position}%`;
+      } else {
+        gradient += `rgba(0, 0, 0, 0.2) ${position}%, transparent ${position}%, `;
+      }
+    }
+
+    gradient += ")";
+    return gradient;
+  }
 
   return (
     <div className="order">
@@ -159,10 +178,10 @@ const Order = () => {
                                 key={idx}
                                 style={{
                                   marginBottom: "10px",
-                                  opacity: isDisabled ? "0.6" : "1", //if stock is none => opacity 0.7
+                                  opacity: isDisabled ? "0.6" : "1",
                                   pointerEvents: isDisabled ? "none" : "auto", //if stock is none => prevent click
                                   backgroundImage: isDisabled
-                                    ? "linear-gradient(45deg, rgba(0, 0, 0, 0.2) 5%, transparent 5%, transparent 10%, rgba(0, 0, 0, 0.2) 10%, rgba(0, 0, 0, 0.2) 15%, transparent 15%, transparent 20%, rgba(0, 0, 0, 0.2) 20%, rgba(0, 0, 0, 0.2) 25%, transparent 25%, transparent 30%, rgba(0, 0, 0, 0.2) 30%, rgba(0, 0, 0, 0.2) 35%, transparent 35%, transparent 40%, rgba(0, 0, 0, 0.2) 40%, rgba(0, 0, 0, 0.2) 45%, transparent 45%, transparent 50%, rgba(0, 0, 0, 0.2) 50%, rgba(0, 0, 0, 0.2) 55%, transparent 55%, transparent 60%, rgba(0, 0, 0, 0.2) 60%, rgba(0, 0, 0, 0.2) 65%, transparent 65%, transparent 70%, rgba(0, 0, 0, 0.2) 70%, rgba(0, 0, 0, 0.2) 75%, transparent 75%, transparent 80%, rgba(0, 0, 0, 0.2) 80%, rgba(0, 0, 0, 0.2) 85%, transparent 85%, transparent 90%, rgba(0, 0, 0, 0.2) 90%, rgba(0, 0, 0, 0.2) 95%, transparent 95%)"
+                                    ? generateDenseStripes()
                                     : "none",
                                 }}
                                 name={option.name}
