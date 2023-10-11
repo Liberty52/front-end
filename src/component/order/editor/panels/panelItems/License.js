@@ -19,7 +19,6 @@ const License = () => {
   const getLicense = () => {
     getLicenseList().then((res) => {
       setLicenses(res.data);
-      console.log(res.data);
     });
   };
 
