@@ -118,3 +118,17 @@ ul {
     margin-top: 20px;
   }
 }
+
+/* 모바일 */
+@media screen and (max-width: 768px) {
+  .main {
+    overflow-x: hidden;
+  }
+  .section-row {
+    flex-direction: column;
+    justify-content: end;
+  }
+  .section-last {
+    flex-direction: column;
+  }
+}
