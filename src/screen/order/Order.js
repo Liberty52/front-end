@@ -128,6 +128,25 @@ const Order = () => {
     const top = (bodyHeight - productImage.clientHeight) / 2;
     productImage.style.top = top + "px";
   }
+  const numStripes = 4500; // 빗금 개수
+  const stripeDensity = 3; // 밀도
+
+  function generateDenseStripes() {
+    let gradient = "linear-gradient(45deg, ";
+    const step = 100 / (numStripes * 2); // 빗금 하나당 간격 계산
+
+    for (let i = 0; i <= numStripes; i++) {
+      const position = i * (step * stripeDensity);
+      if (i === numStripes) {
+        gradient += `rgba(0, 0, 0, 0.2) ${position}%`;
+      } else {
+        gradient += `rgba(0, 0, 0, 0.2) ${position}%, transparent ${position}%, `;
+      }
+    }
+
+    gradient += ")";
+    return gradient;
+  }
 
   return (
     <div className="order">
@@ -153,10 +172,18 @@ const Order = () => {
                         </div>
                         {option.optionItems &&
                           option.optionItems.map((item, idx) => {
+                            const isDisabled = item.stock <= 0;
                             return (
                               <Radio
                                 key={idx}
-                                style={{ marginBottom: "10px" }}
+                                style={{
+                                  marginBottom: "10px",
+                                  opacity: isDisabled ? "0.6" : "1",
+                                  pointerEvents: isDisabled ? "none" : "auto", //if stock is none => prevent click
+                                  backgroundImage: isDisabled
+                                    ? generateDenseStripes()
+                                    : "none",
+                                }}
                                 name={option.name}
                                 text={item.name}
                                 onChange={(e) => {
