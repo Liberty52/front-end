@@ -431,6 +431,7 @@ function ConfirmSection(props) {
             const { orderId, orderNum } = res;
             setOrderId(orderId);
             setOrderNum(orderNum);
+            setIsConfirmProgressing(false);
             setSuccess(true);
           })
           .catch((err) => {
@@ -447,13 +448,13 @@ function ConfirmSection(props) {
             const { orderId, orderNum } = res;
             setOrderId(orderId);
             setOrderNum(orderNum);
+            setIsConfirmProgressing(false);
             setSuccess(true);
           })
           .catch((err) => {
             alert("가상계좌 결제가 실패하였습니다.");
           });
       }
-      setIsConfirmProgressing(false);
     }
   };
 
