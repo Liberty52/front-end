@@ -2,9 +2,10 @@
 /* eslint-disable jsx-a11y/alt-text */
 import "./Review.css";
 import React, { useState, useEffect } from "react";
-import Checkbox from "../../../component/common/Checkbox";
-import Image from "../../../component/common/Image";
-import ReviewModal from "../../../component/order/review/ReviewModal";
+import Checkbox from "../../common/Checkbox";
+import Image from "../../common/Image";
+import ReviewModal from "./ReviewModal";
+import ReplyContents from "./ReplyContents";
 import star from "../../../image/icon/star.png";
 import star_filled from "../../../image/icon/star_filled.png";
 import { deleteReview, getReview } from "../../../axios/order/Review";
@@ -106,17 +107,21 @@ export default function Review() {
           )}
         </div>
         <div className="content">{reviewInfo.content}</div>
-        <div className="reply">
-          {reviewInfo.replies.map((reply) => {
-            return (
-              <div key={reply.replyId}>
-                {reply.authorName} <br />
-                {reply.content}
-              </div>
-            );
-          })}
-        </div>
         <div className="files">{filesChildNode}</div>
+        <span
+          className="reply-num"
+          onClick={() => {
+            const reply = document.getElementById(reviewInfo.reviewId);
+            if (reply.style.display === "block") {
+              reply.style.display = "none";
+            } else {
+              reply.style.display = "block";
+            }
+          }}
+        >
+          댓글 {reviewInfo.replies.length}
+        </span>
+        <ReplyContents id={reviewInfo.reviewId} replies={reviewInfo.replies} />
       </div>
     );
   }
