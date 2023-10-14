@@ -47,10 +47,10 @@ const Order = () => {
   let imageFile = "";
   const navigate = useNavigate();
 
-  const onHandleChange = (e, itemPrice) => {
+  const onHandleChange = (e, item, itemPrice) => {
     setFrameOption({
       ...frameOption,
-      [e.target.name]: e.target.value,
+      [e.target.name]: item,
     });
     setAdditionalPrice({
       ...additionalPrice,
@@ -61,7 +61,7 @@ const Order = () => {
   const onHandleSubmit = (e) => {
     e.preventDefault();
     const options = Object.values(frameOption).map((item) => {
-      return item;
+      return item.name;
     });
     const image = e.target.file.files[0];
     const data = {
@@ -187,7 +187,7 @@ const Order = () => {
                                 name={option.name}
                                 text={item.name}
                                 onChange={(e) => {
-                                  onHandleChange(e, item.price);
+                                  onHandleChange(e, item, item.price);
                                 }}
                                 required
                               >

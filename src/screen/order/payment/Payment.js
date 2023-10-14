@@ -149,7 +149,7 @@ function Product(props) {
         <div className="title">Liberty 52_Frame</div>
         <div>
           {Object.values(productInfo.frameOption).map((option, idx) => {
-            return <div key={idx}>{option}</div>;
+            return <div key={idx}>{option.name}</div>;
           })}
         </div>
       </div>
@@ -301,9 +301,9 @@ function ConfirmSection(props) {
   }
   const length = productInfoList.length;
   const productDto = {
-    productName: "Liberty 52_Frame",
-    options: Object.values(productInfoList[0].frameOption).map((option) => {
-      return option;
+    productName: "Liberty 52_Frame", 
+    optionDetailIds: Object.values(productInfoList[0].frameOption).map((optionDetail) => {
+      return optionDetail.id
     }),
     quantity: props.productInfo.quantity,
   };
@@ -487,7 +487,6 @@ function ConfirmSection(props) {
         </div>
         {productInfoList.map((productInfo) => {
           totalPrice += productInfo.price;
-          console.log(totalPrice);
           return (
             <>
               <Product productInfo={productInfo} />
