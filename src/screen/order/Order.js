@@ -78,16 +78,6 @@ const Order = () => {
         break;
       case "buy":
         let pass = true;
-        // Object.values(productInfo.options).map((option, idx) => {
-        //   if (!frameOption[`${option.name}`]) {
-        //     Swal.fire({
-        //       title: option.name + "를 선택해주세요",
-        //       icon: "warning",
-        //     });
-        //     window.location.href = `#${idx}`;
-        //     pass = false;
-        //   }
-        // });
         if (!imageFile) {
           Swal.fire({
             title: "이미지를 입력해주세요",
@@ -209,7 +199,7 @@ const Order = () => {
                     <ImageInput width="60px" height="60px" />
                   </div>
                   <div className="order-editor">
-                    {/* <div
+                    <div
                       onClick={(e) => {
                         e.preventDefault();
                         Object.values(frameOption).map((option) => {
@@ -218,10 +208,10 @@ const Order = () => {
                             : alert("모든 옵션을 선택해주세요.");
                         });
                       }}
-                    > */}
+                    >
                     
                       개성을 추가하러 가기
-                    {/* </div> */}
+                    </div>
                   </div>
                 </div>
                 <div className="quantity">
