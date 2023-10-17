@@ -1,10 +1,8 @@
-// component
+import React, { useState } from "react";
+import DaumPostcode from "react-daum-postcode";
 import Button from "../../../component/common/Button";
 import Input from "../../../component/common/Input";
 import Modal from "../../../component/common/Modal";
-// react
-import { useState } from "react";
-import DaumPostcode from "react-daum-postcode";
 
 function AddressSearchModal(props) {
   return (
@@ -31,7 +29,25 @@ export default function PaymentSection(props) {
     address1: "",
     zipCode: "",
   });
-  const [modal, setModal] = useState(false); // 주소 검색창 (react daum postcoded)
+  const [modal, setModal] = useState(false);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (address.address1) {
+      props.setSection("confirm");
+      props.setDeliveryInfo({
+        receiverName: e.target.receiverName.value,
+        address1: address.address1,
+        address2: e.target.address2.value,
+        receiverEmail: e.target.receiverEmail.value,
+        zipCode: address.zipCode,
+        receiverPhoneNumber: e.target.receiverPhoneNumber.value,
+      });
+    } else {
+      alert("주소를 입력해주세요");
+    }
+  };
 
   return (
     <div className="payment-section">
@@ -41,26 +57,7 @@ export default function PaymentSection(props) {
           closeModal={() => setModal(false)}
         />
       )}
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          if (address.address1) {
-            props.setSection("confirm");
-            props.setDeliveryInfo({
-              receiverName: e.target.receiverName.value,
-              address1: address.address1,
-              address2: e.target.address2.value,
-              receiverEmail: e.target.receiverEmail.value,
-              zipCode: address.zipCode,
-              receiverPhoneNumber: e.target.receiverPhoneNumber.value,
-            });
-          } else {
-            const addrInput = document.querySelector("#address1");
-            addrInput.children[0].focus();
-            alert("주소를 입력해주세요");
-          }
-        }}
-      >
+      <form onSubmit={handleSubmit}>
         <div className="payment-title">
           어디로 주문하신 제품이 배송되길 원하십니까?
         </div>
@@ -125,7 +122,11 @@ export default function PaymentSection(props) {
             />
           </div>
         </div>
-        <Button text="결제 페이지로 이동" />
+        {address.address1 ? (
+          <Button text="결제 페이지로 이동" />
+        ) : (
+          <p>주소를 입력해야만 결제 페이지로 이동할 수 있습니다.</p>
+        )}
       </form>
     </div>
   );
