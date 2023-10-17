@@ -24,8 +24,6 @@ export const SOCIAL_LOGIN_PROVIDER = {
   },
 };
 
-
-
 export const HTML_EDITOR_MODE = {
   ADD: "ADD",
   UPDATE: "UPDATE",

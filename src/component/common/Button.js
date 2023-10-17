@@ -11,5 +11,4 @@ export default function Button(props) {
       {props.href ? <a href={props.href}>{props.text}</a> : <>{props.text}</>}
     </button>
   );
-  
 }
