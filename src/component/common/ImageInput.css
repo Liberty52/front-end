@@ -7,7 +7,7 @@
   position: relative;
 }
 
-.image-input .image-crop:hover .image-preview {
+.image-input .image-crop:hover {
   background-color: rgba(0, 0, 0, 0.1);
   filter: brightness(90%);
   transition: 0.3s;

@@ -26,10 +26,14 @@
 }
 
 .option {
-  padding-bottom: 70px;
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+
+.option,
+.add-image {
+  padding-bottom: 70px;
 }
 
 .order .order-options {
@@ -77,6 +81,7 @@
 .add-image input {
   display: none;
 }
+
 .order-btn-group {
   display: flex;
   justify-content: space-between;
@@ -86,11 +91,14 @@
   width: 47%;
 }
 
-.quantity {
-  flex-direction: row;
+.quantity-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
+
 .quantity input {
-  margin: 0 5px;
+  margin: 0 10px;
   width: 50px;
 }
 .quantity .price {
@@ -106,7 +114,7 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 .add-image .radio-btn {
-  margin-bottom: 15px;
+  margin-bottom: 7px;
 }
 
 .order-editor div:hover {
