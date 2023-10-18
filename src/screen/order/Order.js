@@ -212,11 +212,7 @@ const Order = () => {
                     <div
                       onClick={(e) => {
                         e.preventDefault();
-                        Object.values(frameOption).map((option) => {
-                          option !== ""
-                            ? navigate("/editor")
-                            : alert("모든 옵션을 선택해주세요.");
-                        });
+                        navigate("/editor");
                       }}
                     >
                       개성을 추가하러 가기
