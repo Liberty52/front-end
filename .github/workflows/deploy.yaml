@@ -9,7 +9,7 @@ env:
   REGISTRY: ghcr.io
   REPO_NAME: liberty52/liberty52-front-end
   DOCKERFILE: multistage.Dockerfile
-  MANIFEST_PATH: kubernetes-manifests/front-end/front-end-deployment.yaml
+  MANIFEST_PATH: kubernetes-manifests/front-end/front-end.yaml
   GIT_EMAIL: github-action-bot@example.com
   GIT_NAME: Front-End Action Bot
 
