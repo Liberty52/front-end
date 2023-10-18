@@ -26,14 +26,10 @@
 }
 
 .option {
+  padding-bottom: 70px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-}
-
-.option,
-.add-image {
-  padding-bottom: 70px;
 }
 
 .order .order-options {
@@ -93,7 +89,7 @@
 
 .quantity-content {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
 }
 
@@ -101,9 +97,11 @@
   margin: 0 10px;
   width: 50px;
 }
+
 .quantity .price {
   font-weight: bold;
 }
+
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
   opacity: 1;
@@ -111,6 +109,7 @@ input[type="number"]::-webkit-outer-spin-button {
 
 .add-image {
   text-align: center;
+  padding-bottom: 35px;
 }
 
 .add-image .radio-btn {

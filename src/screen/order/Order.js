@@ -225,7 +225,6 @@ const Order = () => {
                   </div>
                 </div>
                 <div className="quantity">
-                  <div className="order-title">수량</div>
                   <div className="quantity-content">
                     <span>{productInfo?.name}</span>
                     <div>

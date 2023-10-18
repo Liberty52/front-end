@@ -49,7 +49,7 @@ export default function ImageInput(props) {
           }}
         />
         <img
-          style={{ width: square ? "50%" : width }}
+          style={{ width: square ? (imgFile ? "100%" : "50%") : width }}
           className="image-preview"
           src={imgFile ? imgFile : plus}
           alt={props.alt}
