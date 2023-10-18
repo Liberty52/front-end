@@ -3,7 +3,7 @@ import photo from "../../image/icon/photo.png";
 
 export default function Image(props) {
   return (
-    <div className="image-crop" style="border-radius: 50%;">
+    <div className="image-crop" style={{ borderRadius: "50%" }}>
       <img
         style={{
           width: "100%",
