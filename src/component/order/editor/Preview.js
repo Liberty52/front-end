@@ -51,7 +51,7 @@ const Preview = ({ isOpen, setIsOpen }) => {
     editor.objects
       .list()
       .map((obj) =>
-        frameOption["기본소재 옵션"].includes("실버")
+        frameOption["기본소재 옵션"]?.includes("실버")
           ? (obj.opacity /= 0.65)
           : (obj.opacity /= 0.9)
       );
@@ -62,14 +62,14 @@ const Preview = ({ isOpen, setIsOpen }) => {
   const makePreview = async () => {
     if (!editor) return;
     // set frame background by options
-    frameOption["기본소재 옵션"].includes("실버")
+    frameOption["기본소재 옵션"]?.includes("실버")
       ? editor.frame.setBackgroundColor("#9B9B9B")
       : editor.frame.setBackgroundColor("#ffffff");
     // set opacity of objects
     editor.objects
       .list()
       .map((obj) =>
-        frameOption["기본소재 옵션"].includes("실버")
+        frameOption["기본소재 옵션"]?.includes("실버")
           ? (obj.opacity *= 0.65)
           : (obj.opacity *= 0.9)
       );
