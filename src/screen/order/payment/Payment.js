@@ -44,6 +44,7 @@ function PaymentSection(props) {
     address1: "",
     zipCode: "",
   });
+  const [addressError, setAddressError] = useState(""); 
   const [modal, setModal] = useState(false); // 주소 검색창 (react daum postcoded)
 
   return (
@@ -57,6 +58,11 @@ function PaymentSection(props) {
       <form
         onSubmit={(e) => {
           e.preventDefault();
+          if (!address.address1 || !address.zipCode) {
+            setAddressError("주소를 입력하세요."); // 주소가 입력되지 않았을 때 에러 메시지 설정
+            return;
+          }
+          setAddressError(""); // 에러 메시지 초기화
           props.setSection("confirm");
           props.setDeliveryInfo({
             receiverName: e.target.receiverName.value,
@@ -102,6 +108,7 @@ function PaymentSection(props) {
                 onClick={() => setModal(true)}
               />
             </div>
+            <span className="error-message">{addressError}</span> {""}
             <Input
               type="text"
               name="address2"
@@ -149,7 +156,7 @@ function Product(props) {
         <div className="title">Liberty 52_Frame</div>
         <div>
           {Object.values(productInfo.frameOption).map((option, idx) => {
-            return <div key={idx}>{option}</div>;
+            return <div key={idx}>{option.name}</div>;
           })}
         </div>
       </div>
@@ -301,9 +308,9 @@ function ConfirmSection(props) {
   }
   const length = productInfoList.length;
   const productDto = {
-    productName: "Liberty 52_Frame",
-    options: Object.values(productInfoList[0].frameOption).map((option) => {
-      return option;
+    productName: "Liberty 52_Frame", 
+    optionDetailIds: Object.values(productInfoList[0].frameOption).map((optionDetail) => {
+      return optionDetail.id
     }),
     quantity: props.productInfo.quantity,
   };
@@ -487,7 +494,6 @@ function ConfirmSection(props) {
         </div>
         {productInfoList.map((productInfo) => {
           totalPrice += productInfo.price;
-          console.log(totalPrice);
           return (
             <>
               <Product productInfo={productInfo} />

@@ -3,7 +3,8 @@
 }
 
 .review .review-content {
-  margin: 15px 0;
+  padding: 15px 0;
+  border-bottom: 1px solid #eaeaea;
 }
 
 .review .filter,
@@ -34,7 +35,9 @@
 }
 
 .review .review-content .review-header .user .name {
-  margin-right: 7px;
+  margin-right: 15px;
+  position: relative;
+  top: 2px;
 }
 
 .review .review-content .review-header .content-buttons {
@@ -51,12 +54,13 @@
 }
 
 .review .review-content .review-header .rating img {
-  width: 20px;
+  width: 17px;
   margin-right: 3px;
 }
 
 .review .review-content .files {
   display: flex;
+  margin: 8px 0;
 }
 
 .review .review-content .files .image-crop {
@@ -81,6 +85,11 @@
 .pages span:hover {
   cursor: pointer;
 }
+
+.reply-num {
+  cursor: pointer;
+}
+
 @media screen and (max-width: 500px) {
   .review {
     padding: 4px 20px 1px;
