@@ -1,17 +1,16 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from 'react';
 import {
   AccordionWrapper,
   AccordionArrow,
   AccordionContent,
   AccordionContentWrapper,
   AccordionDetails,
-  AccordionTitleWrapper, AccTitle
-} from "./style/Faq";
-
-
+  AccordionTitleWrapper,
+  AccTitle,
+} from './style/Faq';
 
 function Accordion(props) {
-  const { summary, children,  onClick, currentTitle} = props;
+  const { summary, children, onClick, currentTitle } = props;
   const contentRef = useRef();
   const [contentHeight, setContentHeight] = useState(0);
 
@@ -22,20 +21,18 @@ function Accordion(props) {
   const open = summary === currentTitle;
 
   const onAccordionClicked = () => {
-    if(currentTitle === summary){
-      onClick("");
-    }else
-      onClick(summary)
-  }
+    if (currentTitle === summary) {
+      onClick('');
+    } else onClick(summary);
+  };
 
   return (
     <>
-
-      <AccordionWrapper open={open} >
+      <AccordionWrapper open={open}>
         <AccordionDetails open={open} onClick={onAccordionClicked}>
           <AccordionTitleWrapper>
-            <AccTitle >{summary}</AccTitle>
-            <AccordionArrow ></AccordionArrow>
+            <AccTitle>{summary}</AccTitle>
+            <AccordionArrow></AccordionArrow>
           </AccordionTitleWrapper>
         </AccordionDetails>
         <AccordionContentWrapper open={open}>
@@ -44,7 +41,6 @@ function Accordion(props) {
           </AccordionContent>
         </AccordionContentWrapper>
       </AccordionWrapper>
-
     </>
   );
 }

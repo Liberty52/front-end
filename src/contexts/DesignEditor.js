@@ -1,4 +1,4 @@
-import React from "react"
+import React from 'react';
 
 export const DesignEditorContext = React.createContext({
   scenes: [],
@@ -6,80 +6,79 @@ export const DesignEditorContext = React.createContext({
   currentScene: null,
   setCurrentScene: () => {},
   currentDesign: {
-    id: "",
+    id: '',
     frame: {
       width: 1,
       height: 1,
     },
     metadata: {},
-    name: "",
-    preview: "",
+    name: '',
+    preview: '',
     scenes: [],
-    type: "",
+    type: '',
   },
   setCurrentDesign: () => {},
   isSidebarOpen: true,
   setIsSidebarOpen: () => {},
-  editorType: "NONE",
+  editorType: 'NONE',
   setEditorType: () => {},
   displayPlayback: false,
   setDisplayPlayback: () => {},
   displayPreview: false,
   setDisplayPreview: () => {},
-  currentPreview: "",
+  currentPreview: '',
   setCurrentPreview: () => {},
   maxTime: 0,
   setMaxTime: () => {},
   contextMenuTimelineRequest: {
-    id: "",
+    id: '',
     left: 0,
     top: 0,
     visible: false,
   },
   setContextMenuTimelineRequest: () => {},
   contextMenuSceneRequest: {
-    id: "",
+    id: '',
     left: 0,
     top: 0,
     visible: false,
   },
   setContextMenuSceneRequest: () => {},
-
-})
+});
 
 export const DesignEditorProvider = ({ children }) => {
-  const [scenes, setScenes] = React.useState([])
-  const [currentScene, setCurrentScene] = React.useState(null)
+  const [scenes, setScenes] = React.useState([]);
+  const [currentScene, setCurrentScene] = React.useState(null);
   const [currentDesign, setCurrentDesign] = React.useState({
-    id: "",
+    id: '',
     frame: {
       width: 1,
       height: 1,
     },
     metadata: {},
-    name: "",
-    preview: "",
+    name: '',
+    preview: '',
     scenes: [],
-    type: "",
-  })
-  const [isSidebarOpen, setIsSidebarOpen] = React.useState(true)
-  const [editorType, setEditorType] = React.useState("NONE")
-  const [displayPlayback, setDisplayPlayback] = React.useState(false)
-  const [displayPreview, setDisplayPreview] = React.useState(false)
-  const [currentPreview, setCurrentPreview] = React.useState("")
-  const [maxTime, setMaxTime] = React.useState(5000)
+    type: '',
+  });
+  const [isSidebarOpen, setIsSidebarOpen] = React.useState(true);
+  const [editorType, setEditorType] = React.useState('NONE');
+  const [displayPlayback, setDisplayPlayback] = React.useState(false);
+  const [displayPreview, setDisplayPreview] = React.useState(false);
+  const [currentPreview, setCurrentPreview] = React.useState('');
+  const [maxTime, setMaxTime] = React.useState(5000);
   const [contextMenuTimelineRequest, setContextMenuTimelineRequest] = React.useState({
-    id: "",
+    id: '',
     left: 0,
     top: 0,
     visible: false,
-  })
+  });
   const [contextMenuSceneRequest, setContextMenuSceneRequest] = React.useState({
-    id: "",
+    id: '',
     left: 0,
     top: 0,
     visible: false,
-  })
+  });
   const context = {
     scenes,
     setScenes,
@@ -103,7 +102,7 @@ export const DesignEditorProvider = ({ children }) => {
     setContextMenuTimelineRequest,
     contextMenuSceneRequest,
     setContextMenuSceneRequest,
-  }
-  
-  return <DesignEditorContext.Provider value={context}>{children}</DesignEditorContext.Provider>
-}
+  };
+
+  return <DesignEditorContext.Provider value={context}>{children}</DesignEditorContext.Provider>;
+};
