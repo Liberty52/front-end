@@ -107,9 +107,8 @@ const Preview = ({ isOpen, setIsOpen }) => {
 
     setFrameOption({
       ...frameOption,
-      "기본소재 옵션": currentTargetValue,
+      [`기본소재 옵션`]: currentTargetValue,
     });
-    console.log(frameOption);
   };
 
   return (
