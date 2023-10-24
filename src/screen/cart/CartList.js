@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from "react";
 import "./Cart.css";
 import "./CartPrice.css";
-import axios from "../../axios/axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Table from "react-bootstrap/Table";
 import { useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import LButton from "../../component/common/Button";
-import { handleDeleteClick, handleEditClick } from "../../axios/cart/Cart";
+import {
+  fetchCartData,
+  handleDeleteClick,
+  handleEditClick,
+} from "../../axios/cart/Cart";
 import { addComma } from "./Comma";
 import cookie from "react-cookies";
 import { ACCESS_TOKEN } from "../../constants/token";
@@ -22,66 +25,32 @@ export default function CartList({ setEmptyMode }) {
   const [totalPrice, setTotalPrice] = useState(0.0);
   const [paymentValue, setPaymentValue] = useState([]);
   const [editMode, setEditMode] = useState(false);
-  const [selectValue, setSelectValue] = useState("");
-  const [formValue, setFormValue] = useState({
-    holder: "",
-    material: "",
-    color: "",
-    quantity: "",
-    // "거치 방식": "",
-    // 기본소재: "",
-    // "기본소재 옵션": "",
-  });
-  const [hidden, setHidden] = useState([
-    true,
-    true,
-    true,
-    true,
-    true,
-    true,
-    true,
-    true,
-    true,
-    true,
-  ]);
+  const [formValue, setFormValue] = useState({});
+  const [quantity, setQuantity] = useState();
+  const [hidden, setHidden] = useState([]);
   let [imageFile, setImageFile] = useState("");
   let [disabledBtn, setDisabledBtn] = useState(true);
   let [customProductId, setCustomProductId] = useState("");
-  let editData = "";
-  let basicFormValue = {
-    holder: "",
-    material: "",
-    color: "",
-    quantity: 1,
-    // "거치 방식": "",
-    // 기본소재: "",
-    // "기본소재 옵션": "",
-  };
+  let basicFormValue = {};
   const onImageChange = (e) => {
     const img = e.target.files[0];
     setImageFile(img);
   };
   const onHandleSubmit = (e) => {
     e.preventDefault();
-    const rawData = [
-      formValue.holder,
-      "1mm 두께 승화전사 인쇄용 알루미늄시트",
-      formValue.color,
-    ].filter(Boolean);
     const data = {
-      options: rawData,
-      quantity: Number(formValue.quantity),
+      optionDetailIds: Object.values(formValue).filter(Boolean),
+      quantity: Number(quantity),
     };
-    editData = data;
     if (editMode) {
-      handleEditClick(customProductId, editData, imageFile);
+      handleEditClick(customProductId, data, imageFile);
       setEditMode(false);
     }
   };
   const handleRowClick = (id, idx, options, quantity) => {
     let newHidden = [...hidden];
     if (newHidden.indexOf(false) == idx) {
-      //수정옵션 열려있을 때
+      // when opened edited row
       newHidden[idx] = !newHidden[idx];
       setHidden(newHidden);
       setDisabledBtn(true);
@@ -90,26 +59,19 @@ export default function CartList({ setEmptyMode }) {
       newHidden[idx] = !newHidden[idx];
       setHidden(newHidden);
       setDisabledBtn(false);
-      // TODO key를 option.optionName으로, value를 그대로 detailName으로 하면 음..
-      basicFormValue = {
-        holder: options[0].detailName,
-        material: options[1].detailName,
-        color: options[2].detailName,
-        quantity: quantity,
-        // "거치 방식": options[0].detailName,
-        // 기본소재: options[1].detailName,
-        // "기본소재 옵션": options[2].detailName,
-      };
+      options.forEach((option) => {
+        basicFormValue[option.optionId] = option.detailId;
+      });
     }
     setCustomProductId(id);
     setFormValue(basicFormValue);
+    setQuantity(quantity);
   };
-  const onHandleChange = (value, name) => {
+  const onHandleChange = (value, optionId) => {
     setFormValue({
       ...formValue,
-      [name]: value,
+      [optionId]: value,
     });
-    setSelectValue(value);
   };
   const onCheckedElement = (checked, item, price, options, quantity, url) => {
     const frameOption = {};
@@ -134,65 +96,37 @@ export default function CartList({ setEmptyMode }) {
     }
   };
 
-  const [data, setCartList] = useState([]);
+  const [cartData, setCartList] = useState([]);
   const [productOption, setProductOption] = useState([]);
 
   useEffect(() => {
     if (sessionStorage.getItem(ACCESS_TOKEN)) {
-      axios
-        .get("/product/carts", {
-          headers: {
-            Authorization: sessionStorage.getItem(ACCESS_TOKEN),
-          },
-        })
-        .then((response) => {
-          setCartList(response.data);
-          if (!response.data || response.data == "") {
-            setEmptyMode(true);
-            // alert("장바구니에 담긴 상품이 없습니다.");
-            // return navigate("/");
-          } else {
-            axios
-              .get("/product/carts/productOptionInfo", {
-                headers: {
-                  Authorization: sessionStorage.getItem(ACCESS_TOKEN),
-                },
-              })
-              .then((response) => {
-                setProductOption(response.data[0].productOptionList);
-              });
-          }
-        });
+      fetchCartData(
+        sessionStorage.getItem(ACCESS_TOKEN),
+        setCartList,
+        setEmptyMode,
+        setProductOption
+      );
     } else if (cookie.load("guest")) {
-      axios
-        .get("/product/guest/carts", {
-          headers: {
-            Authorization: cookie.load("guest"),
-          },
-        })
-        .then((response) => {
-          setCartList(response.data);
-          if (!response.data || response.data == "") {
-            setEmptyMode(true);
-            // alert("장바구니에 담긴 상품이 없습니다.");
-            // return navigate("/");
-          } else {
-            axios
-              .get("/product/carts/productOptionInfo", {
-                headers: {
-                  Authorization: cookie.load("guest"),
-                },
-              })
-              .then((response) => {
-                setProductOption(response.data[0].productOptionList);
-              });
-          }
-        });
+      fetchCartData(
+        cookie.load("guest"),
+        setCartList,
+        setEmptyMode,
+        setProductOption
+      );
     } else {
       alert("잘못된 접근입니다");
       return navigate("/");
     }
   }, []);
+
+  useEffect(() => {
+    if (cartData.length > 0) {
+      const initialHiddenArray = new Array(cartData.length).fill(true);
+      setHidden(initialHiddenArray);
+    }
+  }, [cartData]);
+
   function pay() {
     if (checkedList == "") {
       alert("체크된 장바구니 항목이 없습니다");
@@ -214,7 +148,7 @@ export default function CartList({ setEmptyMode }) {
     );
   };
   // const data = mockData;
-  if (!data || data == "") {
+  if (!cartData || cartData == "") {
     return (
       <div id="cartTable">
         <div className="cart-header">
@@ -277,8 +211,8 @@ export default function CartList({ setEmptyMode }) {
               </tr>
             </thead>
             <tbody>
-              {data.length > 0 &&
-                data.map((item, idx) => {
+              {cartData.length > 0 &&
+                cartData.map((item, idx) => {
                   let orderAmount = 0.0;
                   let totalOptionPrice = 0.0;
                   item.options.map(
@@ -352,35 +286,20 @@ export default function CartList({ setEmptyMode }) {
                             }}
                           >
                             {productOption.map((option) => {
-                              let selectName = "";
-                              const selectOptionName = option.optionName;
-                              let placeholderContent = `"${selectOptionName}"을(를) 선택해주세요`;
-
-                              if (option.optionName === "거치 방식") {
-                                selectName = "holder";
-                              } else if (option.optionName === "기본소재") {
-                                selectName = "material";
-                              } else if (
-                                option.optionName === "기본소재 옵션"
-                              ) {
-                                selectName = "color";
-                              } else {
-                                selectName = "택배";
-                              }
-
+                              let selectId = option.optionId;
+                              let placeholderContent = `"${option.optionName}"을(를) 선택해주세요`;
                               const options = option.optionDetailList.map(
                                 (optionDetail) => ({
-                                  value: optionDetail.optionDetailName,
+                                  value: optionDetail.optionDetailId,
                                   label: optionDetail.optionDetailName,
                                 })
                               );
-
                               return (
                                 <th key={option.optionId}>
                                   <Select
                                     style={{ width: "200px", fontSize: "12px" }}
                                     onChange={(e) =>
-                                      onHandleChange(e.value, selectName)
+                                      onHandleChange(e.value, selectId)
                                     }
                                     placeholder={placeholderContent}
                                     options={options}
@@ -400,16 +319,14 @@ export default function CartList({ setEmptyMode }) {
                         </th>
                         <th>
                           <input
-                            onChange={(e) =>
-                              onHandleChange(e.target.value, e.target.name)
-                            }
+                            onChange={(e) => setQuantity(e.target.value)}
                             className="quantityInput"
                             type="number"
                             id="quantity"
                             name="quantity"
                             min="1"
                             max="10"
-                            value={formValue.quantity}
+                            value={quantity}
                           />
                         </th>
                         <th></th>

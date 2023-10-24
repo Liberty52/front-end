@@ -61,41 +61,42 @@ const Order = () => {
   const onHandleSubmit = (e) => {
     e.preventDefault();
     const options = Object.values(frameOption).map((item) => {
-      return item.name;
+      return item.id;
     });
     const image = e.target.file.files[0];
     const data = {
-      productName: productInfo?.name,
-      options: options,
+      productId: productInfo?.id,
+      optionDetailIds: options,
       quantity: parseInt(quantity),
     };
     dto = data;
     imageFile = image;
     // eslint-disable-next-line default-case
+    let pass = true;
+    Object.values(productInfo.options).map((option, idx) => {
+      if (!frameOption[`${option.name}`]) {
+        Swal.fire({
+          title: option.name + "를 선택해주세요",
+          icon: "warning",
+        });
+        window.location.href = `#${idx}`;
+        pass = false;
+      }
+    });
+    if (!imageFile) {
+      Swal.fire({
+        title: "이미지를 입력해주세요",
+        icon: "warning",
+      });
+      window.location.href = "#add-image";
+      pass = false;
+    }
     switch (mode) {
       case "cart":
+        if (!pass) break;
         post(dto, imageFile);
         break;
       case "buy":
-        let pass = true;
-        Object.values(productInfo.options).map((option, idx) => {
-          if (!frameOption[`${option.name}`]) {
-            Swal.fire({
-              title: option.name + "를 선택해주세요",
-              icon: "warning",
-            });
-            window.location.href = `#${idx}`;
-            pass = false;
-          }
-        });
-        if (!imageFile) {
-          Swal.fire({
-            title: "이미지를 입력해주세요",
-            icon: "warning",
-          });
-          window.location.href = "#add-image";
-          pass = false;
-        }
         if (!pass) break;
         navigate("/payment", {
           state: {
