@@ -19,6 +19,8 @@ import QuestionEditor from "./screen/question/QuestionEditor";
 import Support from "./screen/support/Support";
 import { FAQ, QUESTION, QUESTION_DETAIL, QUESTION_EDITOR, SUPPORT } from "./constants/path";
 import Faq from "./screen/support/Faq";
+import Choose from "./screen/order/Choose";
+
 export default function App() {
   return (
     <Provider>
@@ -30,6 +32,7 @@ export default function App() {
           <Route path={"/signUp"} element={<SignUp />} />
           <Route path={"/redirect"} element={<Redirect />} />
           <Route path={"/cart"} element={<Cart />} />
+          <Route path={"/choose"} element={<Choose/>}/>
           <Route path={"/order"} element={<Order />} />
           <Route path={"/payment"} element={<Payment />} />
           <Route path={"/auth/password"} element={<ChangePassword />} />

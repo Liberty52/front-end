@@ -47,10 +47,10 @@ const Order = () => {
   let imageFile = "";
   const navigate = useNavigate();
 
-  const onHandleChange = (e, itemPrice) => {
+  const onHandleChange = (e, item, itemPrice) => {
     setFrameOption({
       ...frameOption,
-      [e.target.name]: e.target.value,
+      [e.target.name]: item,
     });
     setAdditionalPrice({
       ...additionalPrice,
@@ -61,7 +61,7 @@ const Order = () => {
   const onHandleSubmit = (e) => {
     e.preventDefault();
     const options = Object.values(frameOption).map((item) => {
-      return item;
+      return item.name;
     });
     const image = e.target.file.files[0];
     const data = {
@@ -187,7 +187,7 @@ const Order = () => {
                                 name={option.name}
                                 text={item.name}
                                 onChange={(e) => {
-                                  onHandleChange(e, item.price);
+                                  onHandleChange(e, item, item.price);
                                 }}
                                 required
                               >
@@ -206,17 +206,14 @@ const Order = () => {
                 <div id="add-image" className="add-image">
                   <div className="order-title">나만의 개성을 추가해봐요</div>
                   <div className="radio-btn">
-                    <ImageInput width="60px" height="60px" />
+                    <ImageInput width="300px" height="150px" square />
                   </div>
                   <div className="order-editor">
                     <div
+                      style={{ color: "#1976d2" }}
                       onClick={(e) => {
                         e.preventDefault();
-                        Object.values(frameOption).map((option) => {
-                          option !== ""
-                            ? navigate("/editor")
-                            : alert("모든 옵션을 선택해주세요.");
-                        });
+                        navigate("/editor");
                       }}
                     >
                       개성을 추가하러 가기
@@ -224,20 +221,24 @@ const Order = () => {
                   </div>
                 </div>
                 <div className="quantity">
-                  {productInfo?.name}
-                  <input
-                    type="number"
-                    name="quantity"
-                    value={quantity}
-                    min={1}
-                    required
-                    onChange={(e) => {
-                      setQuantity(e.target.value);
-                    }}
-                  />
-                  <span className="price">
-                    &#8361;{(price * quantity).toLocaleString("ko-KR")}
-                  </span>
+                  <div className="quantity-content">
+                    <span>{productInfo?.name}</span>
+                    <div>
+                      <input
+                        type="number"
+                        name="quantity"
+                        value={quantity}
+                        min={1}
+                        required
+                        onChange={(e) => {
+                          setQuantity(e.target.value);
+                        }}
+                      />
+                      <span className="price">
+                        &#8361;{(price * quantity).toLocaleString("ko-KR")}
+                      </span>
+                    </div>
+                  </div>
                 </div>
                 <div className="order-btn-group">
                   <Button text="구매하기" onClick={buy} />
