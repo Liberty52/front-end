@@ -10,7 +10,7 @@ export default function Introduction({ content }) {
     } else {
       contentRef.current.innerText = "상품 정보가 없습니다";
     }
-  }, content);
+  }, [content]);
 
   return (
     <div
