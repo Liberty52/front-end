@@ -2,7 +2,17 @@ import axios from "../axios";
 import React, { useState, useEffect } from "react";
 import cookie from "react-cookies";
 import { useNavigate } from "react-router-dom";
-import { ACCESS_TOKEN } from "../../constants/token";
+import { ACCESS_TOKEN, GUEST_COOKIE } from "../../constants/token";
+import { CONTENT_TYPE } from "../../constants/header";
+import { BACK, CART } from "../../constants/path";
+import {
+  ADD_CART,
+  ADD_CART_GUEST,
+  CART_LIST,
+  DELETE_CART,
+  DELETE_CART_GUEST, EDIT_CART, EDIT_CART_GUEST,
+  PRODUCT_OPTION
+} from "../../constants/api";
 
 export default function post(dto, file) {
   const formData = new FormData();
@@ -13,27 +23,27 @@ export default function post(dto, file) {
   );
   if (sessionStorage.getItem(ACCESS_TOKEN)) {
     axios
-      .post("/product/carts/custom-products", formData, {
+      .post(ADD_CART, formData, {
         headers: {
           Authorization: sessionStorage.getItem(ACCESS_TOKEN),
-          "Contest-Type": "multipart/form-data",
+          "Content-Type": CONTENT_TYPE.MultipartFormData,
         },
       })
       .then(() => {
         alert("장바구니에 담겼습니다!");
-        window.location.replace("/");
+        window.location.replace(BACK);
       });
   } else {
     axios
-      .post("/product/guest/carts/custom-products", formData, {
+      .post(ADD_CART_GUEST, formData, {
         headers: {
-          Authorization: cookie.load("guest"),
-          "Contest-Type": "multipart/form-data",
+          Authorization: cookie.load(GUEST_COOKIE),
+          "Content-Type": CONTENT_TYPE.MultipartFormData,
         },
       })
       .then(() => {
         alert("비회원 장바구니에 담겼습니다!");
-        window.location.replace("/");
+        window.location.replace(BACK);
       });
   }
 }
@@ -49,14 +59,14 @@ export const fetchCartData = (
   };
 
   axios
-    .get("/product/carts", { headers })
+    .get(CART_LIST, { headers })
     .then((response) => {
       setCartList(response.data);
       if (!response.data || response.data === "") {
         setEmptyMode(true);
       } else {
         axios
-          .get("/product/carts/productOptionInfo", { headers })
+          .get(PRODUCT_OPTION, { headers })
           .then((response) => {
             setProductOption(response.data[0].productOptionList);
           });
@@ -74,7 +84,7 @@ export const handleDeleteClick = (checkedList) => {
         const customProductId = checkedList.map((id) => {
           axios
             .delete(
-              `https://liberty52.com:444/product/carts/custom-products/${id}`,
+              DELETE_CART(id),
               {
                 headers: {
                   Authorization: sessionStorage.getItem(ACCESS_TOKEN),
@@ -82,22 +92,22 @@ export const handleDeleteClick = (checkedList) => {
               }
             )
             .then(() => {
-              window.location.replace("/cart");
+              window.location.replace(CART);
             });
         });
       } else {
         const customProductId = checkedList.map((id) => {
           axios
             .delete(
-              `https://liberty52.com:444/product/guest/carts/custom-products/${id}`,
+              DELETE_CART_GUEST(id),
               {
                 headers: {
-                  Authorization: cookie.load("guest"),
+                  Authorization: cookie.load(GUEST_COOKIE),
                 },
               }
             )
             .then(() => {
-              window.location.replace("/cart");
+              window.location.replace(CART);
             });
         });
       }
@@ -115,29 +125,29 @@ export const handleEditClick = (customProductId, dto, file) => {
   console.log(dto);
   if (sessionStorage.getItem(ACCESS_TOKEN)) {
     axios
-      .patch(`/product/carts/customProducts/${customProductId}`, formData, {
+      .patch(EDIT_CART(customProductId), formData, {
         headers: {
           Authorization: sessionStorage.getItem(ACCESS_TOKEN),
-          "Contest-Type": "multipart/form-data",
+          "Content-Type": CONTENT_TYPE.MultipartFormData,
         },
       })
       .then(() => {
-        window.location.replace("/cart");
+        window.location.replace(CART);
       });
   } else {
     axios
       .patch(
-        `https://liberty52.com:444/product/guest/carts/customProducts/${customProductId}`,
+        EDIT_CART_GUEST(customProductId),
         formData,
         {
           headers: {
-            Authorization: cookie.load("guest"),
-            "Contest-Type": "multipart/form-data",
+            Authorization: cookie.load(GUEST_COOKIE),
+            "Content-Type": CONTENT_TYPE.MultipartFormData,
           },
         }
       )
       .then(() => {
-        window.location.replace("/cart");
+        window.location.replace(CART);
       });
   }
 };
