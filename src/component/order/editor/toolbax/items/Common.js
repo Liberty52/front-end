@@ -1,60 +1,66 @@
-import React from "react"
-import { Button, SIZE, KIND } from "baseui/button"
-import { Checkbox } from "baseui/checkbox"
-import { Block } from "baseui/block"
-import { StatefulTooltip, PLACEMENT } from "baseui/tooltip"
-import { useActiveObject, useEditor } from "@layerhub-io/react"
-import { StatefulPopover } from "baseui/popover"
-import DeleteIcon from "../../icons/Delete"
-import UnlockedIcon from "../../icons/Unlocked"
-import LockedIcon from "../../icons/Locked"
-import DuplicateIcon from "../../icons/Duplicate"
-import LayersIcon from "../../icons/Layers"
-import AlignCenter from "../../icons/AlignCenter"
-import AlignLeft from "../../icons/AlignLeft"
-import AlignRight from "../../icons/AlignRight"
-import AlignTop from "../../icons/AlignTop"
-import AlignMiddle from "../../icons/AlignMiddle"
-import BringToFront from "../../icons/BringToFront"
-import SendToBack from "../../icons/SendToBack"
-import AlignBottom from "../../icons/AlignBottom"
-import Opacity from "./shared/Opacity"
+import React from 'react';
+import { Button, SIZE, KIND } from 'baseui/button';
+import { Checkbox } from 'baseui/checkbox';
+import { Block } from 'baseui/block';
+import { StatefulTooltip, PLACEMENT } from 'baseui/tooltip';
+import { useActiveObject, useEditor } from '@layerhub-io/react';
+import { StatefulPopover } from 'baseui/popover';
+import DeleteIcon from '../../icons/Delete';
+import UnlockedIcon from '../../icons/Unlocked';
+import LockedIcon from '../../icons/Locked';
+import DuplicateIcon from '../../icons/Duplicate';
+import LayersIcon from '../../icons/Layers';
+import AlignCenter from '../../icons/AlignCenter';
+import AlignLeft from '../../icons/AlignLeft';
+import AlignRight from '../../icons/AlignRight';
+import AlignTop from '../../icons/AlignTop';
+import AlignMiddle from '../../icons/AlignMiddle';
+import BringToFront from '../../icons/BringToFront';
+import SendToBack from '../../icons/SendToBack';
+import AlignBottom from '../../icons/AlignBottom';
+import Opacity from './shared/Opacity';
 
 const Common = () => {
-  const [state, setState] = React.useState({ isGroup: false, isMultiple: false })
-  const activeObject = useActiveObject()
+  const [state, setState] = React.useState({ isGroup: false, isMultiple: false });
+  const activeObject = useActiveObject();
 
-  const editor = useEditor()
+  const editor = useEditor();
 
   React.useEffect(() => {
     if (activeObject) {
-      setState({ isGroup: activeObject.type === "group", isMultiple: activeObject.type === "activeSelection" })
+      setState({
+        isGroup: activeObject.type === 'group',
+        isMultiple: activeObject.type === 'activeSelection',
+      });
     }
-  }, [activeObject])
+  }, [activeObject]);
 
   React.useEffect(() => {
     let watcher = async () => {
       if (activeObject) {
-        setState({ isGroup: activeObject.type === "group", isMultiple: activeObject.type === "activeSelection" })
+        setState({
+          isGroup: activeObject.type === 'group',
+          isMultiple: activeObject.type === 'activeSelection',
+        });
       }
-    }
+    };
     if (editor) {
-      editor.on("history:changed", watcher)
+      editor.on('history:changed', watcher);
     }
     return () => {
       if (editor) {
-        editor.off("history:changed", watcher)
+        editor.off('history:changed', watcher);
       }
-    }
-  }, [editor, activeObject])
+    };
+  }, [editor, activeObject]);
 
   return (
-    <Block $style={{ display: "flex", alignItems: "center" }}>
+    <Block $style={{ display: 'flex', alignItems: 'center' }}>
       {state.isGroup ? (
         <Button
           onClick={() => {
-            editor.objects.ungroup()
-            setState({ ...state, isGroup: false })
+            editor.objects.ungroup();
+            setState({ ...state, isGroup: false });
           }}
           size={SIZE.compact}
           kind={KIND.tertiary}
@@ -64,8 +70,8 @@ const Common = () => {
       ) : state.isMultiple ? (
         <Button
           onClick={() => {
-            editor.objects.group()
-            setState({ ...state, isGroup: true })
+            editor.objects.group();
+            setState({ ...state, isGroup: true });
           }}
           size={SIZE.compact}
           kind={KIND.tertiary}
@@ -79,36 +85,46 @@ const Common = () => {
       <CommonAlign />
       <Opacity />
       <LockUnlock />
-      <StatefulTooltip placement={PLACEMENT.bottom} showArrow={true} accessibilityType="tooltip" content="Duplicate">
+      <StatefulTooltip
+        placement={PLACEMENT.bottom}
+        showArrow={true}
+        accessibilityType='tooltip'
+        content='Duplicate'
+      >
         <Button onClick={() => editor.objects.clone()} size={SIZE.mini} kind={KIND.tertiary}>
           <DuplicateIcon size={22} />
         </Button>
       </StatefulTooltip>
-      <StatefulTooltip placement={PLACEMENT.bottom} showArrow={true} accessibilityType="tooltip" content="Delete">
+      <StatefulTooltip
+        placement={PLACEMENT.bottom}
+        showArrow={true}
+        accessibilityType='tooltip'
+        content='Delete'
+      >
         <Button onClick={() => editor.objects.remove()} size={SIZE.mini} kind={KIND.tertiary}>
           <DeleteIcon size={24} />
         </Button>
       </StatefulTooltip>
     </Block>
-  )
-}
+  );
+};
 
 const CommonLayers = () => {
-  const editor = useEditor()
-  const [checked, setChecked] = React.useState(true)
-  const activeObject = useActiveObject()
+  const editor = useEditor();
+  const [checked, setChecked] = React.useState(true);
+  const activeObject = useActiveObject();
 
   React.useEffect(() => {
     if (activeObject) {
-      setChecked(!!activeObject.clipPath)
+      setChecked(!!activeObject.clipPath);
     }
-  }, [activeObject])
+  }, [activeObject]);
   return (
     <StatefulPopover
       placement={PLACEMENT.bottomRight}
       content={() => (
-        <Block padding="12px" backgroundColor="#ffffff">
-          <Block display="grid" gridTemplateColumns="1fr 1fr" gridGap="8px">
+        <Block padding='12px' backgroundColor='#ffffff'>
+          <Block display='grid' gridTemplateColumns='1fr 1fr' gridGap='8px'>
             <Button
               startEnhancer={<BringToFront size={24} />}
               onClick={() => editor.objects.bringToFront()}
@@ -129,16 +145,16 @@ const CommonLayers = () => {
 
           <Block
             $style={{
-              display: "flex",
-              fontSize: "12px",
-              alignItems: "center",
-              gap: "0.5rem",
+              display: 'flex',
+              fontSize: '12px',
+              alignItems: 'center',
+              gap: '0.5rem',
               fontWeight: 500,
-              fontFamily: "system-ui,",
-              padding: "0.5rem 0.5rem",
-              cursor: "pointer",
-              ":hover": {
-                background: "rgb(244,245,246)",
+              fontFamily: 'system-ui,',
+              padding: '0.5rem 0.5rem',
+              cursor: 'pointer',
+              ':hover': {
+                background: 'rgb(244,245,246)',
               },
             }}
           >
@@ -146,15 +162,15 @@ const CommonLayers = () => {
               overrides={{
                 Checkmark: {
                   style: {
-                    height: "16px",
-                    width: "16px",
+                    height: '16px',
+                    width: '16px',
                   },
                 },
               }}
               checked={checked}
               onChange={() => {
-                editor.objects.update({ clipToFrame: !checked })
-                setChecked(!checked)
+                editor.objects.update({ clipToFrame: !checked });
+                setChecked(!checked);
               }}
             />
             <Block>Clip to frame</Block>
@@ -165,27 +181,42 @@ const CommonLayers = () => {
       autoFocus
     >
       <Block>
-        <StatefulTooltip placement={PLACEMENT.bottom} showArrow={true} accessibilityType="tooltip" content="Layers">
+        <StatefulTooltip
+          placement={PLACEMENT.bottom}
+          showArrow={true}
+          accessibilityType='tooltip'
+          content='Layers'
+        >
           <Button size={SIZE.mini} kind={KIND.tertiary}>
             <LayersIcon size={19} />
           </Button>
         </StatefulTooltip>
       </Block>
     </StatefulPopover>
-  )
-}
+  );
+};
 
 const CommonAlign = () => {
-  const editor = useEditor()
+  const editor = useEditor();
   return (
     <StatefulPopover
       placement={PLACEMENT.bottomRight}
       content={() => (
-        <Block padding="12px" backgroundColor="#ffffff" display="grid" gridTemplateColumns="1fr 1fr 1fr" gridGap="8px">
+        <Block
+          padding='12px'
+          backgroundColor='#ffffff'
+          display='grid'
+          gridTemplateColumns='1fr 1fr 1fr'
+          gridGap='8px'
+        >
           <Button onClick={() => editor.objects.alignLeft()} kind={KIND.tertiary} size={SIZE.mini}>
             <AlignLeft size={24} />
           </Button>
-          <Button onClick={() => editor.objects.alignCenter()} kind={KIND.tertiary} size={SIZE.mini}>
+          <Button
+            onClick={() => editor.objects.alignCenter()}
+            kind={KIND.tertiary}
+            size={SIZE.mini}
+          >
             <AlignCenter size={24} />
           </Button>
           <Button onClick={() => editor.objects.alignRight()} kind={KIND.tertiary} size={SIZE.mini}>
@@ -194,10 +225,18 @@ const CommonAlign = () => {
           <Button onClick={() => editor.objects.alignTop()} kind={KIND.tertiary} size={SIZE.mini}>
             <AlignTop size={24} />
           </Button>
-          <Button onClick={() => editor.objects.alignMiddle()} kind={KIND.tertiary} size={SIZE.mini}>
+          <Button
+            onClick={() => editor.objects.alignMiddle()}
+            kind={KIND.tertiary}
+            size={SIZE.mini}
+          >
             <AlignMiddle size={24} />
           </Button>
-          <Button onClick={() => editor.objects.alignBottom()} kind={KIND.tertiary} size={SIZE.mini}>
+          <Button
+            onClick={() => editor.objects.alignBottom()}
+            kind={KIND.tertiary}
+            size={SIZE.mini}
+          >
             <AlignBottom size={24} />
           </Button>
         </Block>
@@ -206,33 +245,43 @@ const CommonAlign = () => {
       autoFocus
     >
       <Block>
-        <StatefulTooltip placement={PLACEMENT.bottom} showArrow={true} accessibilityType="tooltip" content="Align">
+        <StatefulTooltip
+          placement={PLACEMENT.bottom}
+          showArrow={true}
+          accessibilityType='tooltip'
+          content='Align'
+        >
           <Button size={SIZE.mini} kind={KIND.tertiary}>
             <AlignCenter size={24} />
           </Button>
         </StatefulTooltip>
       </Block>
     </StatefulPopover>
-  )
-}
+  );
+};
 
 const LockUnlock = () => {
-  const [state, setState] = React.useState({ locked: false })
-  const editor = useEditor()
-  const activeObject = useActiveObject()
+  const [state, setState] = React.useState({ locked: false });
+  const editor = useEditor();
+  const activeObject = useActiveObject();
 
   React.useEffect(() => {
     if (activeObject) {
-      setState({ locked: !!activeObject.locked })
+      setState({ locked: !!activeObject.locked });
     }
-  }, [activeObject])
+  }, [activeObject]);
 
   return state.locked ? (
-    <StatefulTooltip placement={PLACEMENT.bottom} showArrow={true} accessibilityType="tooltip" content="Lock">
+    <StatefulTooltip
+      placement={PLACEMENT.bottom}
+      showArrow={true}
+      accessibilityType='tooltip'
+      content='Lock'
+    >
       <Button
         onClick={() => {
-          editor.objects.unlock()
-          setState({ locked: false })
+          editor.objects.unlock();
+          setState({ locked: false });
         }}
         size={SIZE.mini}
         kind={KIND.tertiary}
@@ -241,11 +290,16 @@ const LockUnlock = () => {
       </Button>
     </StatefulTooltip>
   ) : (
-    <StatefulTooltip placement={PLACEMENT.bottom} showArrow={true} accessibilityType="tooltip" content="Lock">
+    <StatefulTooltip
+      placement={PLACEMENT.bottom}
+      showArrow={true}
+      accessibilityType='tooltip'
+      content='Lock'
+    >
       <Button
         onClick={() => {
-          editor.objects.lock()
-          setState({ locked: true })
+          editor.objects.lock();
+          setState({ locked: true });
         }}
         size={SIZE.mini}
         kind={KIND.tertiary}
@@ -253,7 +307,7 @@ const LockUnlock = () => {
         <LockedIcon size={24} />
       </Button>
     </StatefulTooltip>
-  )
-}
+  );
+};
 
-export default Common
+export default Common;

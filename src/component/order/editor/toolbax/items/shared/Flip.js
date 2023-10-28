@@ -1,44 +1,44 @@
-import React from "react"
-import { useActiveObject, useEditor } from "@layerhub-io/react"
-import { Block } from "baseui/block"
-import { Button, SIZE, KIND } from "baseui/button"
-import { PLACEMENT, StatefulPopover } from "baseui/popover"
-import { StatefulTooltip } from "baseui/tooltip"
-import FlipHorizontal from "../../../icons/FlipHorizontal"
-import FlipVertical from "../../../icons/FlipVertical"
+import React from 'react';
+import { useActiveObject, useEditor } from '@layerhub-io/react';
+import { Block } from 'baseui/block';
+import { Button, SIZE, KIND } from 'baseui/button';
+import { PLACEMENT, StatefulPopover } from 'baseui/popover';
+import { StatefulTooltip } from 'baseui/tooltip';
+import FlipHorizontal from '../../../icons/FlipHorizontal';
+import FlipVertical from '../../../icons/FlipVertical';
 
 const Flip = () => {
-  const editor = useEditor()
-  const activeObject = useActiveObject()
-  const [state, setState] = React.useState({ flipX: false, flipY: false })
+  const editor = useEditor();
+  const activeObject = useActiveObject();
+  const [state, setState] = React.useState({ flipX: false, flipY: false });
 
   React.useEffect(() => {
     if (activeObject) {
       setState({
         flipX: activeObject.flipX,
         flipY: activeObject.flipY,
-      })
+      });
     }
-  }, [activeObject])
+  }, [activeObject]);
 
   const flipHorizontally = React.useCallback(() => {
-    editor.objects.update({ flipX: !state.flipX })
-    setState({ ...state, flipX: !state.flipX })
-  }, [editor, state])
+    editor.objects.update({ flipX: !state.flipX });
+    setState({ ...state, flipX: !state.flipX });
+  }, [editor, state]);
 
   const flipVertically = React.useCallback(() => {
-    editor.objects.update({ flipY: !state.flipY })
-    setState({ ...state, flipY: !state.flipY })
-  }, [editor, state])
+    editor.objects.update({ flipY: !state.flipY });
+    setState({ ...state, flipY: !state.flipY });
+  }, [editor, state]);
 
   return (
     <StatefulPopover
       placement={PLACEMENT.bottom}
       content={() => (
-        <Block width="180px" padding="12px" backgroundColor="#ffffff">
+        <Block width='180px' padding='12px' backgroundColor='#ffffff'>
           <Block>
             <Button
-              $style={{ width: "100%", justifyContent: "flex-start" }}
+              $style={{ width: '100%', justifyContent: 'flex-start' }}
               startEnhancer={<FlipHorizontal size={24} />}
               onClick={flipHorizontally}
               kind={KIND.tertiary}
@@ -48,7 +48,7 @@ const Flip = () => {
             </Button>
           </Block>
           <Button
-            $style={{ width: "100%", justifyContent: "flex-start" }}
+            $style={{ width: '100%', justifyContent: 'flex-start' }}
             startEnhancer={<FlipVertical size={24} />}
             onClick={flipVertically}
             kind={KIND.tertiary}
@@ -60,14 +60,19 @@ const Flip = () => {
       )}
     >
       <Block>
-        <StatefulTooltip placement={PLACEMENT.bottom} showArrow={true} accessibilityType="tooltip" content="Layers">
+        <StatefulTooltip
+          placement={PLACEMENT.bottom}
+          showArrow={true}
+          accessibilityType='tooltip'
+          content='Layers'
+        >
           <Button size={SIZE.compact} kind={KIND.tertiary}>
             Flip
           </Button>
         </StatefulTooltip>
       </Block>
     </StatefulPopover>
-  )
-}
+  );
+};
 
-export default Flip
+export default Flip;

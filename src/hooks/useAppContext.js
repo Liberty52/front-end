@@ -1,6 +1,5 @@
-import { useContext, createContext } from "react"
-import { AppContext } from "../contexts/AppContext"
-
+import { useContext, createContext } from 'react';
+import { AppContext } from '../contexts/AppContext';
 
 const useAppContext = () => {
   const {
@@ -19,8 +18,8 @@ const useAppContext = () => {
     currentTemplate,
     setCurrentTemplate,
     frameOption,
-    setFrameOption
-  } = useContext(AppContext)
+    setFrameOption,
+  } = useContext(AppContext);
   return {
     isMobile,
     setIsMobile,
@@ -37,8 +36,8 @@ const useAppContext = () => {
     currentTemplate,
     setCurrentTemplate,
     frameOption,
-    setFrameOption
-  }
-}
+    setFrameOption,
+  };
+};
 
-export default useAppContext
+export default useAppContext;
