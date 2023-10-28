@@ -1,10 +1,10 @@
-import "./Detail.css";
-import React, { useState, useEffect } from "react";
-import Header from "../../component/common/Header";
-import Footer from "../../component/common/Footer";
-import CancelModal from "../../component/inquiry/CancelModal";
-import { useParams, useLocation } from "react-router-dom";
-import axios from "../../axios/axios";
+import './Detail.css';
+import React, { useState, useEffect } from 'react';
+import Header from '../../component/common/Header';
+import Footer from '../../component/common/Footer';
+import CancelModal from '../../component/inquiry/CancelModal';
+import { useParams, useLocation } from 'react-router-dom';
+import axios from '../../axios/axios';
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -14,11 +14,11 @@ function InquiryDetails() {
   const [loading, setLoading] = useState(true);
   const { orderId } = useParams();
   const query = useQuery();
-  const phoneNumber = query.get("phoneNumber");
+  const phoneNumber = query.get('phoneNumber');
 
   useEffect(() => {
     const getAccessToken = () => {
-      return sessionStorage.getItem("ACCESS_TOKEN");
+      return sessionStorage.getItem('ACCESS_TOKEN');
     };
 
     const fetchOrderDetails = async (orderId, accessToken) => {
@@ -28,11 +28,11 @@ function InquiryDetails() {
             Authorization: ` ${accessToken}`,
           },
         });
-        console.log("Order Details:", response.data);
+        console.log('Order Details:', response.data);
         setOrderDetails(response.data);
         setLoading(false);
       } catch (error) {
-        console.error("Error fetching order details:", error);
+        console.error('Error fetching order details:', error);
       }
     };
 
@@ -46,7 +46,7 @@ function InquiryDetails() {
         setOrderDetails(response.data);
         setLoading(false);
       } catch (error) {
-        console.error("Error fetching order details:", error);
+        console.error('Error fetching order details:', error);
       }
     };
 
@@ -57,7 +57,7 @@ function InquiryDetails() {
       if (phoneNumber) {
         fetchGuestOrderDetails(orderId, phoneNumber);
       } else {
-        const enteredPhoneNumber = prompt("휴대폰 번호를 입력해주세요.");
+        const enteredPhoneNumber = prompt('휴대폰 번호를 입력해주세요.');
         fetchGuestOrderDetails(orderId, enteredPhoneNumber);
       }
     }
@@ -70,40 +70,33 @@ function InquiryDetails() {
     const [modal, showModal] = useState(false);
     return (
       <>
-        {modal && (
-          <CancelModal
-            order={orderDetails}
-            closeModal={() => showModal(false)}
-          />
-        )}
-        <div className="title">
+        {modal && <CancelModal order={orderDetails} closeModal={() => showModal(false)} />}
+        <div className='title'>
           <span>{orderDetails.orderNum}</span>
-          <button className="cancel" onClick={() => showModal(true)}>
+          <button className='cancel' onClick={() => showModal(true)}>
             주문 취소
           </button>
         </div>
         {orderDetails.products.map((product) => (
           <>
-            <div className="section1">
-              <ul className="Detailul">
-                <li key={product.name} className="DetailProduct">
+            <div className='section1'>
+              <ul className='Detailul'>
+                <li key={product.name} className='DetailProduct'>
                   <img
                     src={orderDetails.productRepresentUrl}
                     alt={product.name}
-                    className="productRepresentUrl"
+                    className='productRepresentUrl'
                   />
-                 <div className="productInfo">
-                    <p className="DetailProductName">{product.name}</p>
-                    <p className="DetailProductOptions">
+                  <div className='productInfo'>
+                    <p className='DetailProductName'>{product.name}</p>
+                    <p className='DetailProductOptions'>
                       {product.options.map((option) => (
                         <p key={option}>{option}</p>
                       ))}
                     </p>
-                    <div className="Detail-product-bottom">
-                      <p className="DetailProductQuantity">{product.quantity} 개</p>
-                      <p className="DetailProductPrice">
-                        ₩{product.price.toLocaleString()}
-                      </p>
+                    <div className='Detail-product-bottom'>
+                      <p className='DetailProductQuantity'>{product.quantity} 개</p>
+                      <p className='DetailProductPrice'>₩{product.price.toLocaleString()}</p>
                     </div>
                   </div>
                 </li>
@@ -118,24 +111,24 @@ function InquiryDetails() {
 
   function ImgDetailsSection({ productUrl }) {
     return (
-      <div className="section2">
-        <p className="DetailCName">배경이미지 시안</p>
-        <div className="content">
-          <img src={productUrl} alt="배경이미지 시안"  className="Detail-Img"/>
+      <div className='section2'>
+        <p className='DetailCName'>배경이미지 시안</p>
+        <div className='content'>
+          <img src={productUrl} alt='배경이미지 시안' className='Detail-Img' />
         </div>
       </div>
     );
   }
   function DeliveryDetailsSection({ orderDetails }) {
     return (
-      <div className="section3">
-        <p className="DetailCName">배송 상세 정보</p>
-        <div className="content">
-          <p className="DetailSpacing">
+      <div className='section3'>
+        <p className='DetailCName'>배송 상세 정보</p>
+        <div className='content'>
+          <p className='DetailSpacing'>
             <div>배송지: </div>
             <div>{orderDetails.address}</div>
           </p>
-          <p className="DetailSpacing">
+          <p className='DetailSpacing'>
             <div>연락처 정보: </div>
             <div>{orderDetails.receiverEmail}</div>
             <div>{orderDetails.receiverPhoneNumber}</div>
@@ -149,29 +142,26 @@ function InquiryDetails() {
   function PaymentDetailsSection({ orderDetails }) {
     const { paymentType, paymentInfo } = orderDetails;
     let cardInfo;
-    if (paymentType === "가상 계좌") {
+    if (paymentType === '가상 계좌') {
       cardInfo = `${paymentInfo?.vbankInfo}`;
     } else {
-      cardInfo = `${
-        paymentInfo?.cardName
-      } **** **** **** ${paymentInfo?.cardNumber?.substr(-4)}`;
+      cardInfo = `${paymentInfo?.cardName} **** **** **** ${paymentInfo?.cardNumber?.substr(-4)}`;
     }
 
     return (
-      <div className="section4">
-        <p className="DetailCName">결제 상세 정보</p>
-        <div className="content">
+      <div className='section4'>
+        <p className='DetailCName'>결제 상세 정보</p>
+        <div className='content'>
+          <p className='DetailSpacing'>
+            <div>결제 수단: </div>
+            <div className='detail-card'>
+              <p>{paymentType} </p>
+              <p className='detail-cardInfo'>{cardInfo}</p>
+            </div>
+            <div>{orderDetails.orderDate}</div>
+          </p>
 
-            <p className="DetailSpacing">
-              <div>결제 수단: </div>
-              <div className="detail-card">
-                <p>{paymentType} </p>
-                <p className="detail-cardInfo">{cardInfo}</p>
-              </div>
-              <div>{orderDetails.orderDate}</div>
-            </p>
-
-          <p className="DetailSpacing">
+          <p className='DetailSpacing'>
             <div>청구 주소: </div>
             <div>{orderDetails.address}</div>
           </p>
@@ -182,21 +172,21 @@ function InquiryDetails() {
 
   function ResultDetailsSection({ orderDetails }) {
     return (
-      <div className="section5">
-        <p className="DetailCName">총계</p>
-        <div className="content-col">
-          <div className="FinalTop">
-            <p className="charge">
+      <div className='section5'>
+        <p className='DetailCName'>총계</p>
+        <div className='content-col'>
+          <div className='FinalTop'>
+            <p className='charge'>
               <div>소계</div>
               <div>₩{orderDetails.totalProductPrice.toLocaleString()}</div>
             </p>
-            <p className="delivery">
+            <p className='delivery'>
               <div>배송비</div>
               <div>₩{orderDetails.deliveryFee.toLocaleString()}</div>
             </p>
           </div>
-          <div className="FinalBottom">
-            <p className="finalDetail">
+          <div className='FinalBottom'>
+            <p className='finalDetail'>
               <div>총계</div>
               <div>₩{orderDetails.totalPrice.toLocaleString()}</div>
             </p>
@@ -224,9 +214,9 @@ function InquiryDetails() {
 
 export default function Detail() {
   return (
-    <div className="detail">
+    <div className='detail'>
       <Header />
-      <div className="container">
+      <div className='container'>
         <InquiryDetails />
       </div>
       <Footer />

@@ -1,72 +1,80 @@
-import React from "react"
-import { useStyletron } from "baseui"
-import { Block } from "baseui/block"
-import { images } from "../../../../../constants/mock-data"
-import { useEditor } from "@layerhub-io/react"
-import Scrollable from "../../common/Scrollable"
-import AngleDoubleLeft from "../../icons/AngleDoubleLeft"
-import useSidebarOpen from "../../../../../hooks/useSidebarOpen"
+import React from 'react';
+import { useStyletron } from 'baseui';
+import { Block } from 'baseui/block';
+import { images } from '../../../../../constants/mock-data';
+import { useEditor } from '@layerhub-io/react';
+import Scrollable from '../../common/Scrollable';
+import AngleDoubleLeft from '../../icons/AngleDoubleLeft';
+import useSidebarOpen from '../../../../../hooks/useSidebarOpen';
 
 const Images = () => {
-  const editor = useEditor()
-  const {setIsSidebarOpen} = useSidebarOpen()
-  
+  const editor = useEditor();
+  const { setIsSidebarOpen } = useSidebarOpen();
 
   const addObject = React.useCallback(
     async (url) => {
       if (editor) {
         const options = {
-          type: "StaticImage",
+          type: 'StaticImage',
           src: url,
-        }
-        await editor.objects.add(options)
+        };
+        await editor.objects.add(options);
       }
     },
-    [editor]
-  )
+    [editor],
+  );
 
   return (
-    <Block $style={{ flex: 1, display: "flex", flexDirection: "column" }}>
+    <Block $style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
       <Block
         $style={{
-          display: "flex",
-          alignItems: "center",
+          display: 'flex',
+          alignItems: 'center',
           fontWeight: 500,
-          justifyContent: "space-between",
-          padding: "1.5rem",
+          justifyContent: 'space-between',
+          padding: '1.5rem',
         }}
       >
         <Block>샘플 이미지</Block>
-        
-        <Block onClick={() => setIsSidebarOpen(false)} $style={{ cursor: "pointer", display: "flex" }}>
+
+        <Block
+          onClick={() => setIsSidebarOpen(false)}
+          $style={{ cursor: 'pointer', display: 'flex' }}
+        >
           <AngleDoubleLeft size={18} />
         </Block>
       </Block>
       <Scrollable>
-        <Block padding="0 1.5rem">
-          <div style={{ display: "grid", gap: "8px", gridTemplateColumns: "1fr 1fr" }}>
+        <Block padding='0 1.5rem'>
+          <div style={{ display: 'grid', gap: '8px', gridTemplateColumns: '1fr 1fr' }}>
             {images.map((image, index) => {
-              return <ImageItem key={index} onClick={() => addObject(image.src.large)} preview={image.src.small} />
+              return (
+                <ImageItem
+                  key={index}
+                  onClick={() => addObject(image.src.large)}
+                  preview={image.src.small}
+                />
+              );
             })}
           </div>
         </Block>
       </Scrollable>
     </Block>
-  )
-}
+  );
+};
 
 const ImageItem = ({ preview, onClick }) => {
-  const [css] = useStyletron()
+  const [css] = useStyletron();
   return (
     <div
       onClick={onClick}
       className={css({
-        position: "relative",
-        background: "#f8f8fb",
-        cursor: "pointer",
-        borderRadius: "8px",
-        overflow: "hidden",
-        "::before:hover": {
+        position: 'relative',
+        background: '#f8f8fb',
+        cursor: 'pointer',
+        borderRadius: '8px',
+        overflow: 'hidden',
+        '::before:hover': {
           opacity: 1,
         },
       })}
@@ -90,16 +98,16 @@ const ImageItem = ({ preview, onClick }) => {
           rgba(0, 0, 0, 0.428) 84.5%,
           rgba(0, 0, 0, 0.444) 91.9%,
           rgba(0, 0, 0, 0.45) 100%)`,
-          position: "absolute",
+          position: 'absolute',
           top: 0,
           left: 0,
           right: 0,
           bottom: 0,
           opacity: 0,
-          transition: "opacity 0.3s ease-in-out",
-          height: "100%",
-          width: "100%",
-          ":hover": {
+          transition: 'opacity 0.3s ease-in-out',
+          height: '100%',
+          width: '100%',
+          ':hover': {
             opacity: 1,
           },
         })}
@@ -107,15 +115,15 @@ const ImageItem = ({ preview, onClick }) => {
       <img
         src={preview}
         className={css({
-          width: "100%",
-          height: "100%",
-          objectFit: "contain",
-          pointerEvents: "none",
-          verticalAlign: "middle",
+          width: '100%',
+          height: '100%',
+          objectFit: 'contain',
+          pointerEvents: 'none',
+          verticalAlign: 'middle',
         })}
       />
     </div>
-  )
-}
+  );
+};
 
-export default Images
+export default Images;

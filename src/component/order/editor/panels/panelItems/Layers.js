@@ -1,80 +1,86 @@
-import React from "react"
-import { useEditor, useObjects } from "@layerhub-io/react"
-import { Block } from "baseui/block"
-import AngleDoubleLeft from "../../icons/AngleDoubleLeft"
-import Scrollable from "../../common/Scrollable"
-import Locked from "../../icons/Locked"
-import Unlocked from "../../icons/Unlocked"
-import Eye from "../../icons/Eye"
-import EyeCrossed from "../../icons/EyeCrossed"
-import Delete from "../../icons/Delete"
-import { Button, KIND, SIZE } from "baseui/button"
-import useSidebarOpen from "../../../../../hooks/useSidebarOpen"
+import React from 'react';
+import { useEditor, useObjects } from '@layerhub-io/react';
+import { Block } from 'baseui/block';
+import AngleDoubleLeft from '../../icons/AngleDoubleLeft';
+import Scrollable from '../../common/Scrollable';
+import Locked from '../../icons/Locked';
+import Unlocked from '../../icons/Unlocked';
+import Eye from '../../icons/Eye';
+import EyeCrossed from '../../icons/EyeCrossed';
+import Delete from '../../icons/Delete';
+import { Button, KIND, SIZE } from 'baseui/button';
+import useSidebarOpen from '../../../../../hooks/useSidebarOpen';
 
 const Layers = () => {
-  const editor = useEditor()
-  const objects = useObjects()
-  const [layerObjects, setLayerObjects] = React.useState([])
-  const {setIsSidebarOpen} = useSidebarOpen()
+  const editor = useEditor();
+  const objects = useObjects();
+  const [layerObjects, setLayerObjects] = React.useState([]);
+  const { setIsSidebarOpen } = useSidebarOpen();
 
   React.useEffect(() => {
     if (objects) {
-      setLayerObjects(objects)
+      setLayerObjects(objects);
     }
-  }, [objects])
+  }, [objects]);
 
   React.useEffect(() => {
     let watcher = async () => {
       if (objects) {
-        setLayerObjects([...objects])
+        setLayerObjects([...objects]);
       }
-    }
+    };
     if (editor) {
-      editor.on("history:changed", watcher)
+      editor.on('history:changed', watcher);
     }
     return () => {
       if (editor) {
-        editor.off("history:changed", watcher)
+        editor.off('history:changed', watcher);
       }
-    }
-  }, [editor, objects])
+    };
+  }, [editor, objects]);
 
   return (
-    <Block $style={{ flex: 1, display: "flex", flexDirection: "column" }}>
+    <Block $style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
       <Block
         $style={{
-          display: "flex",
-          alignItems: "center",
+          display: 'flex',
+          alignItems: 'center',
           fontWeight: 500,
-          justifyContent: "space-between",
-          padding: "1.5rem",
+          justifyContent: 'space-between',
+          padding: '1.5rem',
         }}
       >
         <Block>레이어</Block>
 
-        <Block onClick={() => setIsSidebarOpen(false)} $style={{ cursor: "pointer", display: "flex" }}>
+        <Block
+          onClick={() => setIsSidebarOpen(false)}
+          $style={{ cursor: 'pointer', display: 'flex' }}
+        >
           <AngleDoubleLeft size={18} />
         </Block>
       </Block>
       <Scrollable>
-        <Block padding="0 1.5rem">
+        <Block padding='0 1.5rem'>
           {layerObjects.map((object) => (
             <Block
               $style={{
-                display: "grid",
-                gridTemplateColumns: "1fr 90px",
-                fontSize: "14px",
-                alignItems: "center",
-                ":hover": {
-                  background: "rgb(245,246,247)",
+                display: 'grid',
+                gridTemplateColumns: '1fr 90px',
+                fontSize: '14px',
+                alignItems: 'center',
+                ':hover': {
+                  background: 'rgb(245,246,247)',
                 },
               }}
               key={object.id}
             >
-              <Block $style={{ cursor: "pointer" }} onClick={() => editor.objects.select(object.id)}>
+              <Block
+                $style={{ cursor: 'pointer' }}
+                onClick={() => editor.objects.select(object.id)}
+              >
                 {object.name}
               </Block>
-              <Block $style={{ display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
+              <Block $style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
                 {object.locked ? (
                   <Button
                     kind={KIND.tertiary}
@@ -83,8 +89,8 @@ const Layers = () => {
                     overrides={{
                       Root: {
                         style: {
-                          paddingLeft: "4px",
-                          paddingRight: "4px",
+                          paddingLeft: '4px',
+                          paddingRight: '4px',
                         },
                       },
                     }}
@@ -99,8 +105,8 @@ const Layers = () => {
                     overrides={{
                       Root: {
                         style: {
-                          paddingLeft: "4px",
-                          paddingRight: "4px",
+                          paddingLeft: '4px',
+                          paddingRight: '4px',
                         },
                       },
                     }}
@@ -117,8 +123,8 @@ const Layers = () => {
                     overrides={{
                       Root: {
                         style: {
-                          paddingLeft: "4px",
-                          paddingRight: "4px",
+                          paddingLeft: '4px',
+                          paddingRight: '4px',
                         },
                       },
                     }}
@@ -133,8 +139,8 @@ const Layers = () => {
                     overrides={{
                       Root: {
                         style: {
-                          paddingLeft: "4px",
-                          paddingRight: "4px",
+                          paddingLeft: '4px',
+                          paddingRight: '4px',
                         },
                       },
                     }}
@@ -149,8 +155,8 @@ const Layers = () => {
                   overrides={{
                     Root: {
                       style: {
-                        paddingLeft: "4px",
-                        paddingRight: "4px",
+                        paddingLeft: '4px',
+                        paddingRight: '4px',
                       },
                     },
                   }}
@@ -163,7 +169,7 @@ const Layers = () => {
         </Block>
       </Scrollable>
     </Block>
-  )
-}
+  );
+};
 
-export default Layers
+export default Layers;
