@@ -41,7 +41,7 @@ function a11yProps(index) {
   };
 }
 
-export default function OrderTab({ introductionImageUrl }) {
+export default function OrderTab({ content }) {
   const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
@@ -52,7 +52,7 @@ export default function OrderTab({ introductionImageUrl }) {
     {
       value: 'intro',
       label: '상품 소개',
-      content: <Introduction introductionImageUrl={introductionImageUrl} />,
+      content: <Introduction content={content} />,
     },
     {
       value: 'review',

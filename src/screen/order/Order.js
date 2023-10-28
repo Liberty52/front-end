@@ -245,7 +245,7 @@ const Order = () => {
           </div>
         </div>
       </div>
-      <OrderTab introductionImageUrl={productInfo.introductionImageUrl} />
+      <OrderTab content={productInfo.content} />
       <Footer />
     </div>
   );
