@@ -1,10 +1,10 @@
-import axios from "axios";
-import { TOKEN_REFRESH } from "../constants/api";
-import { ACCESS_TOKEN, REFRESH_TOKEN } from "../constants/token";
-import { GLOBAL_ERROR } from "../constants/error-name";
-import { refreshToken } from "./login/Login";
+import axios from 'axios';
+import { TOKEN_REFRESH } from '../constants/api';
+import { ACCESS_TOKEN, REFRESH_TOKEN } from '../constants/token';
+import { GLOBAL_ERROR } from '../constants/error-name';
+import { refreshToken } from './login/Login';
 
-const request = axios.create({ baseURL: "https://liberty52.com:444/" });
+const request = axios.create({ baseURL: 'https://liberty52.com:444/' });
 
 request.interceptors.response.use(
   (response) => {
@@ -16,10 +16,10 @@ request.interceptors.response.use(
         const originalRequest = error.config;
         const savedRefreshToken = localStorage.getItem(REFRESH_TOKEN);
         if (savedRefreshToken === null) {
-          alert("인증 토큰이 만료되었습니다. 다시 로그인 후 이용해주세요.");
+          alert('인증 토큰이 만료되었습니다. 다시 로그인 후 이용해주세요.');
           sessionStorage.removeItem(ACCESS_TOKEN);
           localStorage.removeItem(REFRESH_TOKEN);
-          window.location.href = "/login";
+          window.location.href = '/login';
           return Promise.reject(error);
         }
         // token refresh 요청
@@ -34,15 +34,13 @@ request.interceptors.response.use(
         } catch (e) {
           sessionStorage.removeItem(ACCESS_TOKEN);
           localStorage.removeItem(REFRESH_TOKEN);
-          alert("다시 로그인해주세요");
-          window.location.href = "/login";
+          alert('다시 로그인해주세요');
+          window.location.href = '/login';
         }
-
       }
     }
     return Promise.reject(error);
-  }
+  },
 );
-
 
 export default request;

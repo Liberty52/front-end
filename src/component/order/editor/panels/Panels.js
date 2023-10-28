@@ -1,7 +1,5 @@
-import PanelItem from "./PanelItem"
-import PanelsList from "./PanelsList"
-
-
+import PanelItem from './PanelItem';
+import PanelsList from './PanelsList';
 
 const Panels = () => {
   return (
@@ -9,7 +7,7 @@ const Panels = () => {
       <PanelsList />
       <PanelItem />
     </>
-  )
-}
+  );
+};
 
-export default Panels
+export default Panels;

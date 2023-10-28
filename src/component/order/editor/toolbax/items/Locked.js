@@ -1,27 +1,32 @@
-import React from "react"
-import { Block } from "baseui/block"
-import { useEditor } from "@layerhub-io/react"
-import { PLACEMENT, StatefulTooltip } from "baseui/tooltip"
-import { Button, SIZE, KIND } from "baseui/button"
-import UnlockedIcon from "../../icons/Unlocked"
+import React from 'react';
+import { Block } from 'baseui/block';
+import { useEditor } from '@layerhub-io/react';
+import { PLACEMENT, StatefulTooltip } from 'baseui/tooltip';
+import { Button, SIZE, KIND } from 'baseui/button';
+import UnlockedIcon from '../../icons/Unlocked';
 
 const Locked = () => {
-  const editor = useEditor()
+  const editor = useEditor();
 
   return (
     <Block
       $style={{
         flex: 1,
-        display: "flex",
-        alignItems: "center",
-        padding: "0 12px",
-        justifyContent: "flex-end",
+        display: 'flex',
+        alignItems: 'center',
+        padding: '0 12px',
+        justifyContent: 'flex-end',
       }}
     >
-      <StatefulTooltip placement={PLACEMENT.bottom} showArrow={true} accessibilityType="tooltip" content="Unlock">
+      <StatefulTooltip
+        placement={PLACEMENT.bottom}
+        showArrow={true}
+        accessibilityType='tooltip'
+        content='Unlock'
+      >
         <Button
           onClick={() => {
-            editor.objects.unlock()
+            editor.objects.unlock();
           }}
           size={SIZE.mini}
           kind={KIND.tertiary}
@@ -30,7 +35,7 @@ const Locked = () => {
         </Button>
       </StatefulTooltip>
     </Block>
-  )
-}
+  );
+};
 
-export default Locked
+export default Locked;
