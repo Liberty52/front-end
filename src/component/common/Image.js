@@ -3,11 +3,14 @@ import photo from '../../image/icon/photo.png';
 
 export default function Image(props) {
   return (
-    <div className="image-crop">
+    <div className='image-crop' style={{ borderRadius: '50%' }}>
       <img
-        className="image-preview"
+        style={{
+          width: '100%',
+        }}
+        className='image-preview'
         src={props.image ? props.image : photo}
-        onClick={props.onClick ? e => props.onClick(e) : () => {}}
+        onClick={props.onClick ? (e) => props.onClick(e) : () => {}}
         alt={props.alt}
       />
     </div>

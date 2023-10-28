@@ -1,12 +1,12 @@
-import axios from "../axios";
-import { REFRESH_TOKEN } from "../../constants/token";
-import request from "../axios";
-import { TOKEN_REFRESH } from "../../constants/api";
+import axios from '../axios';
+import { REFRESH_TOKEN } from '../../constants/token';
+import request from '../axios';
+import { TOKEN_REFRESH } from '../../constants/api';
 
 export function post(dto) {
-  return axios.post("/auth/login", JSON.stringify(dto), {
+  return axios.post('/auth/login', JSON.stringify(dto), {
     headers: {
-      "Content-Type": `application/json`,
+      'Content-Type': `application/json`,
     },
   });
 }
@@ -18,9 +18,9 @@ export function findEmail(name, phoneNumber) {
   };
 
   return axios
-    .post("/auth/find-email", requestBody, {
+    .post('/auth/find-email', requestBody, {
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
     })
     .then((response) => {
@@ -28,7 +28,7 @@ export function findEmail(name, phoneNumber) {
     })
 
     .catch((error) => {
-      console.error("서버에서 에러 발생:", error);
+      console.error('서버에서 에러 발생:', error);
       throw error;
     });
 }
@@ -38,9 +38,9 @@ export function sendPasswordResetEmail(email) {
     email: email,
   };
 
-  return axios.post("/auth/password/send-mail", data, {
+  return axios.post('/auth/password/send-mail', data, {
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
   });
 }
@@ -50,9 +50,9 @@ export function resetPassword(emailToken, password) {
     emailToken: emailToken,
     password: password,
   };
-  return axios.patch("/auth/password", data, {
+  return axios.patch('/auth/password', data, {
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
   });
 }
@@ -67,24 +67,19 @@ export async function fetchOrderDetails(orderId, accessToken, phoneNumber) {
       headers.Authorization = `${phoneNumber}`;
     }
 
-    const url = `/product/${
-      accessToken ? "orders" : "guest/orders"
-    }/${orderId}`;
+    const url = `/product/${accessToken ? 'orders' : 'guest/orders'}/${orderId}`;
     const response = await axios.get(url, { headers });
 
     return response.data;
   } catch (error) {
-    console.error("Error fetching order details:", error);
+    console.error('Error fetching order details:', error);
     throw error;
   }
 }
 export function refreshToken() {
-  return request.get(
-    TOKEN_REFRESH(),
-    {
-      headers: {
-        "LB-RefreshToken": localStorage.getItem(REFRESH_TOKEN),
-      },
-    }
-  );
+  return request.get(TOKEN_REFRESH(), {
+    headers: {
+      'LB-RefreshToken': localStorage.getItem(REFRESH_TOKEN),
+    },
+  });
 }

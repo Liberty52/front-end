@@ -1,14 +1,12 @@
-import "./Radio.css";
+import './Radio.css';
 
 export default function Radio(props) {
-  const radioButtons = document.querySelectorAll(
-    `input[type="radio"][name="${props.name}"]`
-  );
+  const radioButtons = document.querySelectorAll(`input[type="radio"][name="${props.name}"]`);
   return (
-    <div className="radio" style={props.style}>
+    <div className='radio' style={props.style}>
       <input
-        id={"radio " + props.text}
-        type="radio"
+        id={'radio ' + props.text}
+        type='radio'
         name={props.name}
         value={props.text}
         checked={props.checked}
@@ -16,14 +14,14 @@ export default function Radio(props) {
           props.onChange(e);
           radioButtons.forEach((rb) => {
             if (rb === e.target) {
-              if (!rb.checked) rb.toggleAttribute("checked");
+              if (!rb.checked) rb.toggleAttribute('checked');
             } else {
-              if (rb.checked) rb.toggleAttribute("checked");
+              if (rb.checked) rb.toggleAttribute('checked');
             }
           });
         }}
       />
-      <label htmlFor={"radio " + props.text}>
+      <label htmlFor={'radio ' + props.text}>
         {props.text}
         {props.children}
       </label>

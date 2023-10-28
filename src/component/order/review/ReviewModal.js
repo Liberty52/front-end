@@ -1,18 +1,13 @@
-import "./ReviewModal.css";
-import Button from "../../common/Button";
-import Modal from "../../common/Modal";
-import ImageInputGroup from "../../common/ImageInputGroup";
-import star from "../../../image/icon/star.png";
-import star_filled from "../../../image/icon/star_filled.png";
-import {
-  postReview,
-  patchContents,
-  postImage,
-  delImage,
-} from "../../../axios/order/Review";
+import './ReviewModal.css';
+import Button from '../../common/Button';
+import Modal from '../../common/Modal';
+import ImageInputGroup from '../../common/ImageInputGroup';
+import star from '../../../image/icon/star.png';
+import star_filled from '../../../image/icon/star_filled.png';
+import { postReview, patchContents, postImage, delImage } from '../../../axios/order/Review';
 
-import { useState } from "react";
-import { Url } from "url";
+import { useState } from 'react';
+import { Url } from 'url';
 
 export default function ReviewModal(props) {
   const modalInfo =
@@ -20,7 +15,7 @@ export default function ReviewModal(props) {
       ? {
           rating: 1,
           imageUrls: [],
-          content: "",
+          content: '',
         }
       : props.reviewInfo;
   const [rating, setRating] = useState(modalInfo.rating);
@@ -30,9 +25,9 @@ export default function ReviewModal(props) {
   const onSuccess = undefined ? () => {} : props.onSuccess;
 
   return (
-    <Modal title="리뷰 작성" closeModal={props.closeModal}>
+    <Modal title='리뷰 작성' closeModal={props.closeModal}>
       <form
-        className="review-form"
+        className='review-form'
         onSubmit={(e) => {
           e.preventDefault();
           const content = e.target.content.value;
@@ -47,10 +42,7 @@ export default function ReviewModal(props) {
           } else {
             try {
               let isModified = false;
-              if (
-                modalInfo.rating !== rating ||
-                modalInfo.content !== content
-              ) {
+              if (modalInfo.rating !== rating || modalInfo.content !== content) {
                 const dto = {
                   rating: rating,
                   content: content,
@@ -69,7 +61,7 @@ export default function ReviewModal(props) {
                 delImage(modalInfo.reviewId, dto);
                 isModified = true;
               }
-              alert("수정되었습니다!");
+              alert('수정되었습니다!');
               if (isModified) onSuccess();
             } catch (e) {
               // 왜 실행이 안되지?
@@ -78,27 +70,15 @@ export default function ReviewModal(props) {
           props.closeModal();
         }}
       >
-        <div className="rating">
+        <div className='rating'>
           <img src={star_filled} onClick={() => setRating(1)} />
-          <img
-            src={rating < 2 ? star : star_filled}
-            onClick={() => setRating(2)}
-          />
-          <img
-            src={rating < 3 ? star : star_filled}
-            onClick={() => setRating(3)}
-          />
-          <img
-            src={rating < 4 ? star : star_filled}
-            onClick={() => setRating(4)}
-          />
-          <img
-            src={rating < 5 ? star : star_filled}
-            onClick={() => setRating(5)}
-          />
+          <img src={rating < 2 ? star : star_filled} onClick={() => setRating(2)} />
+          <img src={rating < 3 ? star : star_filled} onClick={() => setRating(3)} />
+          <img src={rating < 4 ? star : star_filled} onClick={() => setRating(4)} />
+          <img src={rating < 5 ? star : star_filled} onClick={() => setRating(5)} />
         </div>
         <textarea
-          name="content"
+          name='content'
           value={text}
           required
           maxLength={1000}
@@ -114,7 +94,7 @@ export default function ReviewModal(props) {
           num={5}
           max={10}
         />
-        <Button text="등록" />
+        <Button text='등록' />
       </form>
     </Modal>
   );

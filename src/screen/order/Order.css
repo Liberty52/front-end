@@ -77,6 +77,7 @@
 .add-image input {
   display: none;
 }
+
 .order-btn-group {
   display: flex;
   justify-content: space-between;
@@ -86,16 +87,21 @@
   width: 47%;
 }
 
-.quantity {
-  flex-direction: row;
+.quantity-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
+
 .quantity input {
-  margin: 0 5px;
+  margin: 0 10px;
   width: 50px;
 }
+
 .quantity .price {
   font-weight: bold;
 }
+
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
   opacity: 1;
@@ -103,10 +109,11 @@ input[type="number"]::-webkit-outer-spin-button {
 
 .add-image {
   text-align: center;
+  padding-bottom: 35px;
 }
 
 .add-image .radio-btn {
-  margin-bottom: 15px;
+  margin-bottom: 7px;
 }
 
 .order-editor div:hover {

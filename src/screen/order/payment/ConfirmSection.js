@@ -5,29 +5,29 @@ import {
   prepareCard,
   prepareCardCart,
   payByVBankCart,
-} from "../../../axios/order/Payment";
+} from '../../../axios/order/Payment';
 // constants
-import { ACCESS_TOKEN } from "../../../constants/token";
+import { ACCESS_TOKEN } from '../../../constants/token';
 // component
-import Checkbox from "../../../component/common/Checkbox";
-import Modal from "../../../component/common/Modal";
-import Button from "../../../component/common/Button";
-import CenterCircularProgress from "../../../component/common/CenterCircularProgress";
+import Checkbox from '../../../component/common/Checkbox';
+import Modal from '../../../component/common/Modal';
+import Button from '../../../component/common/Button';
+import CenterCircularProgress from '../../../component/common/CenterCircularProgress';
 // screen
-import PaymentInfo from "./PaymentInfo";
+import PaymentInfo from './PaymentInfo';
 // image
-import liberty52 from "../../../image/icon/liberty52.jpg";
+import liberty52 from '../../../image/icon/liberty52.jpg';
 // react
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function Product(props) {
   const productInfo = props.productInfo;
   return (
-    <div className="confirm-product">
-      <img src={liberty52} alt="제품 이미지" />
+    <div className='confirm-product'>
+      <img src={liberty52} alt='제품 이미지' />
       <div>
-        <div className="title">Liberty 52_Frame</div>
+        <div className='title'>Liberty 52_Frame</div>
         <div>
           <div>{productInfo.mounting_method}</div>
           <div>{productInfo.basic_material}</div>
@@ -35,9 +35,7 @@ function Product(props) {
         </div>
       </div>
       <div>{productInfo.quantity}개</div>
-      <span>
-        &#8361;{(1550000 * productInfo.quantity).toLocaleString("ko-KR")}
-      </span>
+      <span>&#8361;{(1550000 * productInfo.quantity).toLocaleString('ko-KR')}</span>
     </div>
   );
 }
@@ -49,7 +47,7 @@ function BackgroundImage(props) {
     return Object.prototype.toString.call(target).slice(8, -1);
   }
 
-  if (getType(imageSrc) === "File") {
+  if (getType(imageSrc) === 'File') {
     const reader = new FileReader();
     reader.readAsDataURL(imageSrc);
     reader.onloadend = () => {
@@ -57,9 +55,9 @@ function BackgroundImage(props) {
     };
   }
   return (
-    <div className="confirm-backgroundImage">
-      <div className="title">배경이미지 시안</div>
-      <img src={imageSrc} alt="배경 이미지" />
+    <div className='confirm-backgroundImage'>
+      <div className='title'>배경이미지 시안</div>
+      <img src={imageSrc} alt='배경 이미지' />
     </div>
   );
 }
@@ -67,13 +65,13 @@ function BackgroundImage(props) {
 function DeliveryInfo(props) {
   const deliveryInfo = props.deliveryInfo;
   return (
-    <div className="confirm-info delivery-info">
-      <div className="title">배송 상세 정보</div>
-      <div className="content">
+    <div className='confirm-info delivery-info'>
+      <div className='title'>배송 상세 정보</div>
+      <div className='content'>
         <div>
           <div>배송지: </div>
           <div>
-            ({deliveryInfo.zipCode}) {deliveryInfo.address1}{" "}
+            ({deliveryInfo.zipCode}) {deliveryInfo.address1}{' '}
           </div>
           <div>{deliveryInfo.address2}</div>
         </div>
@@ -81,8 +79,8 @@ function DeliveryInfo(props) {
           <div>연락처 정보:</div>
           <div>{deliveryInfo.receiverEmail}</div>
           <div>
-            {deliveryInfo.receiverPhoneNumber === ""
-              ? "휴대폰 번호 미입력"
+            {deliveryInfo.receiverPhoneNumber === ''
+              ? '휴대폰 번호 미입력'
               : deliveryInfo.receiverPhoneNumber}
           </div>
         </div>
@@ -95,21 +93,21 @@ function TermsOfUse() {
   const [modal, setModal] = useState(false);
 
   return (
-    <div className="confirm-termsOfUse">
+    <div className='confirm-termsOfUse'>
       {modal ? (
-        <Modal title="개인정보 취급방침" closeModal={() => setModal(false)}>
+        <Modal title='개인정보 취급방침' closeModal={() => setModal(false)}>
           이용약관입니다. 추후 입력해주세요!
         </Modal>
       ) : (
         <></>
       )}
-      <div className="title">이용 약관</div>
-      <div className="content">
+      <div className='title'>이용 약관</div>
+      <div className='content'>
         <Checkbox
-          name="termsOfUse"
+          name='termsOfUse'
           independentText1={
             <button
-              type="button"
+              type='button'
               onClick={() => {
                 setModal(true);
               }}
@@ -117,10 +115,10 @@ function TermsOfUse() {
               Liberty 개인정보 취급방침
             </button>
           }
-          text="
+          text='
                 에 따라 개인정보를 수집하고, 사용하고, 제3자에 제공하고,
                 처리한다는 점에 동의합니다.
-            "
+            '
         />
       </div>
     </div>
@@ -132,26 +130,24 @@ function Total(props) {
   const quantity = props.quantity;
 
   return (
-    <div className="confirm-total">
-      <div className="title">총계</div>
-      <div className="contents">
-        <div className="content">
+    <div className='confirm-total'>
+      <div className='title'>총계</div>
+      <div className='contents'>
+        <div className='content'>
           <span>소계</span>
-          <span>&#8361;{(1550000 * quantity).toLocaleString("ko-KR")}</span>
+          <span>&#8361;{(1550000 * quantity).toLocaleString('ko-KR')}</span>
         </div>
-        <div className="content">
+        <div className='content'>
           <span>배송</span>
           <span>
-            {deliverPrice === 0
-              ? "무료"
-              : "&#8361;" + deliverPrice.toLocaleString("ko-KOR")}
+            {deliverPrice === 0 ? '무료' : '&#8361;' + deliverPrice.toLocaleString('ko-KOR')}
           </span>
         </div>
-        <div className="content">
+        <div className='content'>
           <span>총계</span>
           <span>
             &#8361;
-            {(1550000 * quantity + deliverPrice).toLocaleString("ko-KR")}
+            {(1550000 * quantity + deliverPrice).toLocaleString('ko-KR')}
           </span>
         </div>
       </div>
@@ -163,8 +159,8 @@ export default function ConfirmSection(props) {
   const navigate = useNavigate();
   const [success, setSuccess] = useState(false);
   const [isConfirmProgressing, setIsConfirmProgressing] = useState(false);
-  const [orderId, setOrderId] = useState("");
-  const [orderNum, setOrderNum] = useState("");
+  const [orderId, setOrderId] = useState('');
+  const [orderNum, setOrderNum] = useState('');
 
   const productInfo = props.productInfo;
   let productInfoList = productInfo;
@@ -181,7 +177,7 @@ export default function ConfirmSection(props) {
   const length = productInfoList.length;
 
   const productDto = {
-    productName: "Liberty 52_Frame",
+    productName: 'Liberty 52_Frame',
     options: [
       props.productInfo.mounting_method,
       props.productInfo.basic_material,
@@ -201,9 +197,9 @@ export default function ConfirmSection(props) {
   const imageFile = props.productInfo.add_image;
 
   const constants = {
-    PM_CARD: "card",
-    PM_VBANK: "vbank",
-    defaultVBankAccount: "",
+    PM_CARD: 'card',
+    PM_VBANK: 'vbank',
+    defaultVBankAccount: '',
     defaultDepositorName: destinationDto.receiverName,
   };
 
@@ -218,7 +214,7 @@ export default function ConfirmSection(props) {
 
   /* IMP 결제 관련 코드 */
   const IMP = window.IMP;
-  IMP.init("imp07432404");
+  IMP.init('imp07432404');
 
   const requestPay = () => {
     if (payment.paymentMethod === constants.PM_CARD) {
@@ -227,15 +223,15 @@ export default function ConfirmSection(props) {
 
         IMP.request_pay(
           {
-            pg: "html5_inicis",
+            pg: 'html5_inicis',
             pay_method: payment.paymentMethod,
             merchant_uid: merchantId,
             name:
               length === 1
                 ? productDto.productName
-                : productDto.productName + "외 " + length - 1 + "건",
+                : productDto.productName + '외 ' + length - 1 + '건',
             amount: amount,
-            currency: "KRW",
+            currency: 'KRW',
             buyer_email: destinationDto.receiverEmail,
             buyer_name: destinationDto.receiverName,
             buyer_tel: destinationDto.receiverPhoneNumber,
@@ -249,7 +245,7 @@ export default function ConfirmSection(props) {
               try {
                 const response = await checkCardPayApproval(
                   merchantId,
-                  destinationDto.receiverPhoneNumber
+                  destinationDto.receiverPhoneNumber,
                 );
                 setOrderId(response.data.orderId);
                 setOrderNum(response.data.orderNum);
@@ -259,25 +255,23 @@ export default function ConfirmSection(props) {
                 setIsConfirmProgressing(false);
                 const code = err.response.data.errorCode;
                 const message = err.response.data.errorMessage;
-                alert(
-                  `카드결제가 실패하였습니다.\n에러코드: ${code}\n에러내용:\n${message}`
-                );
+                alert(`카드결제가 실패하였습니다.\n에러코드: ${code}\n에러내용:\n${message}`);
               }
             } else {
-              if (rsp.error_msg !== "사용자가 결제를 취소하셨습니다") {
+              if (rsp.error_msg !== '사용자가 결제를 취소하셨습니다') {
                 alert(`카드결제에 실패하였습니다. 에러 내용: ${rsp.error_msg}`);
               }
             }
-          }
+          },
         );
       };
-      if (productIdList === "") {
+      if (productIdList === '') {
         prepareCard(
           {
             productDto: productDto,
             destinationDto: destinationDto,
           },
-          imageFile
+          imageFile,
         ).then(afterRequest);
       } else {
         prepareCardCart({
@@ -286,11 +280,11 @@ export default function ConfirmSection(props) {
         }).then(afterRequest);
       }
     } else if (payment.paymentMethod === constants.PM_VBANK) {
-      if (payment.vBankAccount === "") {
-        alert("가상계좌를 선택해주세요.");
+      if (payment.vBankAccount === '') {
+        alert('가상계좌를 선택해주세요.');
         return;
       }
-      if (payment.depositorName === "") {
+      if (payment.depositorName === '') {
         payment.depositorName = destinationDto.receiverName;
       }
       setIsConfirmProgressing(true);
@@ -299,23 +293,24 @@ export default function ConfirmSection(props) {
         depositorName: payment.depositorName,
         isApplyCashReceipt: payment.isCashReceipt,
       };
-      if (productIdList === "") {
+      if (productIdList === '') {
         payByVBank(
           {
             productDto: productDto,
             destinationDto: destinationDto,
             vbankDto: vBankDto,
           },
-          imageFile
+          imageFile,
         )
           .then((res) => {
             const { orderId, orderNum } = res;
             setOrderId(orderId);
             setOrderNum(orderNum);
+            setIsConfirmProgressing(false);
             setSuccess(true);
           })
           .catch((err) => {
-            alert("가상계좌 결제가 실패하였습니다.");
+            alert('가상계좌 결제가 실패하였습니다.');
           });
       } else {
         payByVBankCart({
@@ -327,13 +322,13 @@ export default function ConfirmSection(props) {
             const { orderId, orderNum } = res;
             setOrderId(orderId);
             setOrderNum(orderNum);
+            setIsConfirmProgressing(false);
             setSuccess(true);
           })
           .catch((err) => {
-            alert("가상계좌 결제가 실패하였습니다.");
+            alert('가상계좌 결제가 실패하였습니다.');
           });
       }
-      setIsConfirmProgressing(false);
     }
   };
 
@@ -341,28 +336,24 @@ export default function ConfirmSection(props) {
     if (sessionStorage.getItem(ACCESS_TOKEN)) {
       navigate(`/detail/${orderId}`);
     } else {
-      navigate(
-        `/product/guest/${orderNum}?phoneNumber=${destinationDto.receiverPhoneNumber}`
-      );
+      navigate(`/product/guest/${orderNum}?phoneNumber=${destinationDto.receiverPhoneNumber}`);
     }
   }
 
   return (
-    <div className="confirm-section">
+    <div className='confirm-section'>
       <form
         onSubmit={(e) => {
           e.preventDefault();
           if (!e.target.termsOfUse.checked) {
-            alert("이용약관에 동의해주세요");
+            alert('이용약관에 동의해주세요');
             return;
           }
           requestPay();
         }}
       >
         <CenterCircularProgress isConfirmProgressing={isConfirmProgressing} />
-        <div className="payment-title">
-          입력하신 사항이 모두 정확한지 확인해주십시오.
-        </div>
+        <div className='payment-title'>입력하신 사항이 모두 정확한지 확인해주십시오.</div>
         {productInfoList.map((productInfo) => {
           return (
             <>
@@ -376,13 +367,13 @@ export default function ConfirmSection(props) {
         <PaymentInfo constants={constants} setPayment={setPayment} />
         <TermsOfUse />
         <Total quantity={quantity} deliverPrice={0} />
-        <Button text="결제하기" />
+        <Button text='결제하기' />
         <Button
-          type="button"
-          text="돌아가기"
+          type='button'
+          text='돌아가기'
           onClick={(e) => {
             e.preventDefault();
-            props.setSection("form");
+            props.setSection('form');
           }}
         />
       </form>

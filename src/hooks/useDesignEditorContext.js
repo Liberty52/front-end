@@ -1,5 +1,5 @@
-import { useContext } from "react"
-import { DesignEditorContext } from "../contexts/DesignEditor"
+import { useContext } from 'react';
+import { DesignEditorContext } from '../contexts/DesignEditor';
 
 const useDesignEditorContext = () => {
   const {
@@ -21,7 +21,7 @@ const useDesignEditorContext = () => {
     setContextMenuSceneRequest,
     currentDesign,
     setCurrentDesign,
-  } = useContext(DesignEditorContext)
+  } = useContext(DesignEditorContext);
   return {
     editorType,
     setEditorType,
@@ -41,7 +41,7 @@ const useDesignEditorContext = () => {
     setContextMenuSceneRequest,
     currentDesign,
     setCurrentDesign,
-  }
-}
+  };
+};
 
-export default useDesignEditorContext
+export default useDesignEditorContext;

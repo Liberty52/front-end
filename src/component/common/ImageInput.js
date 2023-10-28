@@ -5,20 +5,20 @@ import { useState } from 'react';
 
 export default function ImageInput(props) {
   const [imgFile, setImgFile] = useState(props.image);
-  const { width, height } = props
+  const { width, height, square } = props;
 
   const reader = new FileReader();
   return (
     <label className={imgFile ? 'image-input value' : 'image-input'}>
       <input
-        className="image-input-input"
-        type="file"
-        name="file"
-        accept="image/*"
-        onClick={e => {
+        className='image-input-input'
+        type='file'
+        name='file'
+        accept='image/*'
+        onClick={(e) => {
           if (props.readOnly) e.preventDefault();
         }}
-        onChange={e => {
+        onChange={(e) => {
           const file = e.currentTarget.files[0];
           if (file) {
             reader.readAsDataURL(file);
@@ -30,11 +30,18 @@ export default function ImageInput(props) {
           }
         }}
       />
-      <div className="image-crop" style={{width: width, height: height}}>
+      <div
+        className='image-crop'
+        style={{
+          width: width,
+          height: height,
+          borderRadius: square ? 'initial' : '50%',
+        }}
+      >
         <Button
-          type="button"
-          text="삭제"
-          onClick={e => {
+          type='button'
+          text='삭제'
+          onClick={(e) => {
             const label = e.target.parentNode.parentNode;
             const input = label.children[0];
             input.value = '';
@@ -42,7 +49,8 @@ export default function ImageInput(props) {
           }}
         />
         <img
-          className="image-preview"
+          style={{ width: square ? (imgFile ? '100%' : '50%') : width }}
+          className='image-preview'
           src={imgFile ? imgFile : plus}
           alt={props.alt}
         />

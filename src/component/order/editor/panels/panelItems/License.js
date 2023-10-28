@@ -1,11 +1,11 @@
-import { Block } from "baseui/block";
-import useSidebarOpen from "../../../../../hooks/useSidebarOpen";
-import AngleDoubleLeft from "../../icons/AngleDoubleLeft";
-import { useCallback, useEffect, useState } from "react";
-import { getLicenseList } from "../../../../../axios/order/editor/License";
-import { useEditor } from "@layerhub-io/react";
-import Scrollable from "../../common/Scrollable";
-import { useStyletron } from "baseui";
+import { Block } from 'baseui/block';
+import useSidebarOpen from '../../../../../hooks/useSidebarOpen';
+import AngleDoubleLeft from '../../icons/AngleDoubleLeft';
+import { useCallback, useEffect, useState } from 'react';
+import { getLicenseList } from '../../../../../axios/order/editor/License';
+import { useEditor } from '@layerhub-io/react';
+import Scrollable from '../../common/Scrollable';
+import { useStyletron } from 'baseui';
 
 const License = () => {
   const { setIsSidebarOpen } = useSidebarOpen();
@@ -26,42 +26,42 @@ const License = () => {
     async (url) => {
       if (editor) {
         const options = {
-          type: "StaticImage",
+          type: 'StaticImage',
           src: url,
         };
         await editor.objects.add(options);
       }
     },
-    [editor]
+    [editor],
   );
 
   return (
-    <Block $style={{ flex: 1, display: "flex", flexDirection: "column" }}>
+    <Block $style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
       <Block
         $style={{
-          display: "flex",
-          alignItems: "center",
+          display: 'flex',
+          alignItems: 'center',
           fontWeight: 500,
-          justifyContent: "space-between",
-          padding: "1.5rem",
+          justifyContent: 'space-between',
+          padding: '1.5rem',
         }}
       >
         <Block>라이센스</Block>
 
         <Block
           onClick={() => setIsSidebarOpen(false)}
-          $style={{ cursor: "pointer", display: "flex" }}
+          $style={{ cursor: 'pointer', display: 'flex' }}
         >
           <AngleDoubleLeft size={18} />
         </Block>
       </Block>
       <Scrollable>
-        <Block padding="0 1.5rem">
+        <Block padding='0 1.5rem'>
           <div
             style={{
-              display: "grid",
-              gap: "8px",
-              gridTemplateColumns: "1fr 1fr",
+              display: 'grid',
+              gap: '8px',
+              gridTemplateColumns: '1fr 1fr',
             }}
           >
             {licenses.map((license, index) => {
@@ -86,12 +86,12 @@ const ImageItem = ({ preview, onClick }) => {
     <div
       onClick={onClick}
       className={css({
-        position: "relative",
-        background: "#f8f8fb",
-        cursor: "pointer",
-        borderRadius: "8px",
-        overflow: "hidden",
-        "::before:hover": {
+        position: 'relative',
+        background: '#f8f8fb',
+        cursor: 'pointer',
+        borderRadius: '8px',
+        overflow: 'hidden',
+        '::before:hover': {
           opacity: 1,
         },
       })}
@@ -115,16 +115,16 @@ const ImageItem = ({ preview, onClick }) => {
           rgba(0, 0, 0, 0.428) 84.5%,
           rgba(0, 0, 0, 0.444) 91.9%,
           rgba(0, 0, 0, 0.45) 100%)`,
-          position: "absolute",
+          position: 'absolute',
           top: 0,
           left: 0,
           right: 0,
           bottom: 0,
           opacity: 0,
-          transition: "opacity 0.3s ease-in-out",
-          height: "100%",
-          width: "100%",
-          ":hover": {
+          transition: 'opacity 0.3s ease-in-out',
+          height: '100%',
+          width: '100%',
+          ':hover': {
             opacity: 1,
           },
         })}
@@ -132,11 +132,11 @@ const ImageItem = ({ preview, onClick }) => {
       <img
         src={preview}
         className={css({
-          width: "100%",
-          height: "100%",
-          objectFit: "contain",
-          pointerEvents: "none",
-          verticalAlign: "middle",
+          width: '100%',
+          height: '100%',
+          objectFit: 'contain',
+          pointerEvents: 'none',
+          verticalAlign: 'middle',
         })}
       />
     </div>
