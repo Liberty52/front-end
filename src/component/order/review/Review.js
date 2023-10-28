@@ -45,6 +45,7 @@ export default function Review() {
               img.style.width = "300px";
             }
           }}
+          square
         />
       );
     });
