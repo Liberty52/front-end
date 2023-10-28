@@ -1,9 +1,9 @@
-import { Box, Tabs, Tab } from "@mui/material";
-import PropTypes from "prop-types";
-import { useState } from "react";
-import Review from "./review/Review";
-import Introduction from "./Introduction";
-import styled from "styled-components";
+import { Box, Tabs, Tab } from '@mui/material';
+import PropTypes from 'prop-types';
+import { useState } from 'react';
+import Review from './review/Review';
+import Introduction from './Introduction';
+import styled from 'styled-components';
 
 const OrderTabBox = styled(Box)`
   margin: 0 200px;
@@ -17,7 +17,7 @@ function TabPanel(props) {
 
   return (
     <div
-      role="tabpanel"
+      role='tabpanel'
       hidden={value !== index}
       id={`product-tabpanel-${index}`}
       aria-labelledby={`product-tab-${index}`}
@@ -37,11 +37,11 @@ TabPanel.propTypes = {
 function a11yProps(index) {
   return {
     id: `product-tab-${index}`,
-    "aria-controls": `product-tabpanel-${index}`,
+    'aria-controls': `product-tabpanel-${index}`,
   };
 }
 
-export default function OrderTab({ introductionImageUrl }) {
+export default function OrderTab({ content }) {
   const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
@@ -50,13 +50,13 @@ export default function OrderTab({ introductionImageUrl }) {
 
   const tabConfigs = [
     {
-      value: "intro",
-      label: "상품 소개",
-      content: <Introduction introductionImageUrl={introductionImageUrl} />,
+      value: 'intro',
+      label: '상품 소개',
+      content: <Introduction content={content} />,
     },
     {
-      value: "review",
-      label: "리뷰",
+      value: 'review',
+      label: '리뷰',
       content: <Review />,
     },
   ];
@@ -66,14 +66,14 @@ export default function OrderTab({ introductionImageUrl }) {
       <Box
         sx={{
           borderBottom: 1,
-          borderColor: "divider",
+          borderColor: 'divider',
         }}
       >
         <Tabs
           sx={{ mt: 7 }}
           value={value}
           onChange={handleChange}
-          aria-label="basic tabs example"
+          aria-label='basic tabs example'
           centered
         >
           {tabConfigs.map((t, i, arr) => {
@@ -82,7 +82,7 @@ export default function OrderTab({ introductionImageUrl }) {
                 key={i}
                 sx={{
                   fontSize: 18,
-                  fontWeight: "bold",
+                  fontWeight: 'bold',
                 }}
                 label={t.label}
                 {...a11yProps(i)}

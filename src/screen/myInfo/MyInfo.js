@@ -1,13 +1,13 @@
-import "./MyInfo.css";
-import React from "react";
-import Button from "../../component/common/Button";
-import Image from "../../component/common/Image";
-import ImageInput from "../../component/common/ImageInput";
-import Input from "../../component/common/Input";
-import { delMyInfo, putMyInfo, getMyInfo } from "../../axios/myInfo/MyInfo";
-import Header from "../../component/common/Header";
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router";
+import './MyInfo.css';
+import React from 'react';
+import Button from '../../component/common/Button';
+import Image from '../../component/common/Image';
+import ImageInput from '../../component/common/ImageInput';
+import Input from '../../component/common/Input';
+import { delMyInfo, putMyInfo, getMyInfo } from '../../axios/myInfo/MyInfo';
+import Header from '../../component/common/Header';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router';
 
 function UpdateInfo(props) {
   const myInfo = props.myInfo;
@@ -17,47 +17,42 @@ function UpdateInfo(props) {
       <tr>
         <td>
           <Input
-            type="text"
-            name="name"
-            label="이름"
+            type='text'
+            name='name'
+            label='이름'
             required={true}
             maxLength={25}
-            value={myInfo === undefined ? "" : myInfo.name}
+            value={myInfo === undefined ? '' : myInfo.name}
           />
         </td>
       </tr>
       <tr>
         <td>
           <Input
-            type="text"
-            name="phoneNumber"
-            label="휴대폰번호"
+            type='text'
+            name='phoneNumber'
+            label='휴대폰번호'
             required={true}
-            pattern="01[0,1][0-9]{6,8}"
+            pattern='01[0,1][0-9]{6,8}'
             maxLength={11}
-            title="ex) 01012341234"
-            value={myInfo === undefined ? "" : myInfo.phoneNumber}
+            title='ex) 01012341234'
+            value={myInfo === undefined ? '' : myInfo.phoneNumber}
           />
         </td>
       </tr>
       <tr>
         <td>
-          <Input
-            type="password"
-            name="originPassword"
-            label="현재 비밀번호"
-            required={true}
-          />
+          <Input type='password' name='originPassword' label='현재 비밀번호' required={true} />
         </td>
       </tr>
       <tr>
         <td>
-          <Input type="password" name="updatePassword" label="변경 비밀번호" />
+          <Input type='password' name='updatePassword' label='변경 비밀번호' />
         </td>
       </tr>
       <tr>
         <td>
-          <Input type="password" name="confirm" label="비밀번호 확인" />
+          <Input type='password' name='confirm' label='비밀번호 확인' />
         </td>
       </tr>
     </>
@@ -71,25 +66,19 @@ function CurrentInfo(props) {
       <tr>
         <th>이름</th>
         <td>
-          <span className="info-value">
-            {myInfo === undefined ? "" : myInfo.name}
-          </span>
+          <span className='info-value'>{myInfo === undefined ? '' : myInfo.name}</span>
         </td>
       </tr>
       <tr>
         <th>이메일</th>
         <td>
-          <span className="info-value">
-            {myInfo === undefined ? "" : myInfo.email}
-          </span>
+          <span className='info-value'>{myInfo === undefined ? '' : myInfo.email}</span>
         </td>
       </tr>
       <tr>
         <th>휴대폰번호</th>
         <td>
-          <span className="info-value">
-            {myInfo === undefined ? "" : myInfo.phoneNumber}
-          </span>
+          <span className='info-value'>{myInfo === undefined ? '' : myInfo.phoneNumber}</span>
         </td>
       </tr>
     </>
@@ -99,14 +88,14 @@ function CurrentInfo(props) {
 function InfoGroup(props) {
   const updateMode = props.updateMode;
   const myInfo = props.myInfo;
-  const image = myInfo === undefined ? "" : myInfo.profileUrl;
+  const image = myInfo === undefined ? '' : myInfo.profileUrl;
 
   return (
-    <div className="myInfo-info-group">
-      <div className="myInfo-image-wrapper">
+    <div className='myInfo-info-group'>
+      <div className='myInfo-image-wrapper'>
         {updateMode ? <ImageInput image={image} /> : <Image image={image} />}
       </div>
-      <table className="myInfo-table">
+      <table className='myInfo-table'>
         <tbody>
           {updateMode ? (
             <UpdateInfo myInfo={props.myInfo} />
@@ -123,15 +112,15 @@ function ButtonGroup(props) {
   const navigate = useNavigate();
 
   return props.updateMode ? (
-    <div className="myInfo-button-group">
-      <Button text="수정" />
-      <Button text="취소" onClick={props.cancelUpdateMode} />
+    <div className='myInfo-button-group'>
+      <Button text='수정' />
+      <Button text='취소' onClick={props.cancelUpdateMode} />
     </div>
   ) : (
-    <div className="myInfo-button-group">
-      <Button text="정보 수정" onClick={props.setUpdateMode} />
+    <div className='myInfo-button-group'>
+      <Button text='정보 수정' onClick={props.setUpdateMode} />
       <Button
-        text="회원 탈퇴"
+        text='회원 탈퇴'
         onClick={() => {
           const dmi = delMyInfo();
           if (dmi) {
@@ -139,8 +128,8 @@ function ButtonGroup(props) {
               .then(() => {
                 localStorage.clear();
                 sessionStorage.clear();
-                alert("탈퇴가 성공적으로 이루어졌습니다.");
-                navigate("/");
+                alert('탈퇴가 성공적으로 이루어졌습니다.');
+                navigate('/');
               })
               .catch((err) => alert(err.response.data.message));
           }
@@ -180,9 +169,9 @@ function MyInfoForm() {
         if (confirm === updatePassword) {
           putMyInfo(dto, file).then((res) => setMyInfo(res));
           setUpdateMode(false);
-        } else alert("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
+        } else alert('비밀번호와 비밀번호 확인이 일치하지 않습니다.');
       }}
-      className="myInfo-input-group"
+      className='myInfo-input-group'
     >
       <InfoGroup updateMode={updateMode} myInfo={myInfo} />
       <ButtonGroup
@@ -200,7 +189,7 @@ function MyInfoForm() {
 
 function Section() {
   return (
-    <div className="section">
+    <div className='section'>
       <MyInfoForm />
     </div>
   );
@@ -208,7 +197,7 @@ function Section() {
 
 export default function MyInfo() {
   return (
-    <div className="myInfo">
+    <div className='myInfo'>
       <Header fixed />
       <Section />
     </div>
