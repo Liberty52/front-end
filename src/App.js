@@ -20,8 +20,16 @@ import Support from './screen/support/Support';
 import { FAQ, QUESTION, QUESTION_DETAIL, QUESTION_EDITOR, SUPPORT } from './constants/path';
 import Faq from './screen/support/Faq';
 import Choose from './screen/order/Choose';
+import { useEffect } from 'react';
+import ReactGA from 'react-ga4';
+
+ReactGA.initialize(process.env.REACT_APP_GA_KEY);
 
 export default function App() {
+  useEffect(() => {
+    ReactGA.send({ hitType: 'pageview', page: window.location.pathname });
+  }, []);
+
   return (
     <Provider>
       <BrowserRouter>
