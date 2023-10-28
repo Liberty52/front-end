@@ -1,24 +1,23 @@
-import "./Input.css";
-import { useState, useEffect } from "react";
+import './Input.css';
+import { useState, useEffect } from 'react';
 
 export default function Input(props) {
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState('');
 
   useEffect(() => {
-    setValue(props.value ? props.value : "");
+    setValue(props.value ? props.value : '');
   }, [props.value]);
 
   useEffect(() => {
-    if (!value)
-      document.querySelector("#" + props.name).classList.remove("value");
-    else document.querySelector("#" + props.name).classList.add("value");
+    if (!value) document.querySelector('#' + props.name).classList.remove('value');
+    else document.querySelector('#' + props.name).classList.add('value');
   }, [value]);
 
   return (
-    <div id={props.name} className="input-block">
+    <div id={props.name} className='input-block'>
       <input
-        id={props.name + "-input"}
-        className="input"
+        id={props.name + '-input'}
+        className='input'
         type={props.type}
         name={props.name}
         required={props.required}
@@ -32,11 +31,11 @@ export default function Input(props) {
           setValue(e.target.value);
         }}
         onClick={props.onClick}
-        autoComplete="off"
+        autoComplete='off'
       />
-      <label htmlFor={props.name + "-input"} className="label">
+      <label htmlFor={props.name + '-input'} className='label'>
         {props.label}
-        {props.required ? " (필수)" : ""}
+        {props.required ? ' (필수)' : ''}
       </label>
     </div>
   );

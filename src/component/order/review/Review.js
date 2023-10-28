@@ -1,14 +1,14 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable jsx-a11y/alt-text */
-import "./Review.css";
-import React, { useState, useEffect } from "react";
-import Checkbox from "../../common/Checkbox";
-import Image from "../../common/Image";
-import ReviewModal from "./ReviewModal";
-import ReplyContents from "./ReplyContents";
-import star from "../../../image/icon/star.png";
-import star_filled from "../../../image/icon/star_filled.png";
-import { deleteReview, getReview } from "../../../axios/order/Review";
+import './Review.css';
+import React, { useState, useEffect } from 'react';
+import Checkbox from '../../common/Checkbox';
+import Image from '../../common/Image';
+import ReviewModal from './ReviewModal';
+import ReplyContents from './ReplyContents';
+import star from '../../../image/icon/star.png';
+import star_filled from '../../../image/icon/star_filled.png';
+import { deleteReview, getReview } from '../../../axios/order/Review';
 
 export default function Review() {
   function ReviewContents() {
@@ -16,11 +16,7 @@ export default function Review() {
     for (var i = 0; i < reviewContents.length; i++) {
       list.push(<ReviewContent key={i} reviewInfo={reviewContents[i]} />);
     }
-    return (
-      <div>
-        {list.length > 0 ? list : <span>작성된 구매평이 없습니다.</span>}
-      </div>
-    );
+    return <div>{list.length > 0 ? list : <span>작성된 구매평이 없습니다.</span>}</div>;
   }
   function ReviewContent(props) {
     const [modal, showModal] = useState(false);
@@ -35,14 +31,14 @@ export default function Review() {
           onClick={(e) => {
             const img = e.target;
             const imageCrop = img.parentNode;
-            if (imageCrop.style.width === "auto") {
-              imageCrop.style.width = "100px";
-              imageCrop.style.height = "100px";
-              img.style.width = "100%";
+            if (imageCrop.style.width === 'auto') {
+              imageCrop.style.width = '100px';
+              imageCrop.style.height = '100px';
+              img.style.width = '100%';
             } else {
-              imageCrop.style.width = "auto";
-              imageCrop.style.height = "auto";
-              img.style.width = "300px";
+              imageCrop.style.width = 'auto';
+              imageCrop.style.height = 'auto';
+              img.style.width = '300px';
             }
           }}
           square
@@ -51,7 +47,7 @@ export default function Review() {
     });
 
     return (
-      <div className="review-content">
+      <div className='review-content'>
         {modal ? (
           <ReviewModal
             closeModal={() => showModal(false)}
@@ -63,17 +59,13 @@ export default function Review() {
         ) : (
           <></>
         )}
-        <div className="review-header">
-          <div className="user">
+        <div className='review-header'>
+          <div className='user'>
             <Image
-              image={
-                reviewInfo.authorProfileUrl === null
-                  ? ""
-                  : reviewInfo.authorProfileUrl
-              }
+              image={reviewInfo.authorProfileUrl === null ? '' : reviewInfo.authorProfileUrl}
             />
-            <div className="name">{reviewInfo.authorName}</div>
-            <div className="rating">
+            <div className='name'>{reviewInfo.authorName}</div>
+            <div className='rating'>
               <img src={star_filled} />
               <img src={reviewInfo.rating < 2 ? star : star_filled} />
               <img src={reviewInfo.rating < 3 ? star : star_filled} />
@@ -82,7 +74,7 @@ export default function Review() {
             </div>
           </div>
           {reviewInfo.isYours ? (
-            <div className="content-buttons">
+            <div className='content-buttons'>
               <span>
                 <a
                   onClick={() => {
@@ -107,16 +99,16 @@ export default function Review() {
             <></>
           )}
         </div>
-        <div className="content">{reviewInfo.content}</div>
-        <div className="files">{filesChildNode}</div>
+        <div className='content'>{reviewInfo.content}</div>
+        <div className='files'>{filesChildNode}</div>
         <span
-          className="reply-num"
+          className='reply-num'
           onClick={() => {
             const reply = document.getElementById(reviewInfo.reviewId);
-            if (reply.style.display === "block") {
-              reply.style.display = "none";
+            if (reply.style.display === 'block') {
+              reply.style.display = 'none';
             } else {
-              reply.style.display = "block";
+              reply.style.display = 'block';
             }
           }}
         >
@@ -135,13 +127,13 @@ export default function Review() {
         list.push(
           <span
             key={i}
-            className="active"
+            className='active'
             onClick={() => {
               setPageNum(i - 1);
             }}
           >
             {i}
-          </span>
+          </span>,
         );
       else
         list.push(
@@ -152,10 +144,10 @@ export default function Review() {
             }}
           >
             {i}
-          </span>
+          </span>,
         );
     }
-    return <div className="pages">{list}</div>;
+    return <div className='pages'>{list}</div>;
   }
   const [onlyPhoto, setOnlyPhoto] = useState(false);
   const [reviewContents, setReviewContents] = useState([]);
@@ -167,7 +159,7 @@ export default function Review() {
   const [pageNum, setPageNum] = useState(0);
 
   function getReviewFromServer() {
-    getReview("LIB-001", 10, pageNum, onlyPhoto).then((res) => {
+    getReview('LIB-001', 10, pageNum, onlyPhoto).then((res) => {
       const contents = res.contents;
       setReviewContents([]);
       for (var i = 0; i < contents.length; i++) {
@@ -196,10 +188,10 @@ export default function Review() {
   }, [onlyPhoto, pageNum]);
 
   return (
-    <div className="review">
-      <div className="filter">
+    <div className='review'>
+      <div className='filter'>
         <Checkbox
-          text="포토 구매평만 보기"
+          text='포토 구매평만 보기'
           onChange={() => {
             setOnlyPhoto(!onlyPhoto);
           }}

@@ -1,53 +1,70 @@
-import { useLocation } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useLocation } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import {
   Container,
   SupportBodyWrapper,
   SupportHeaderItem,
   SupportHeaderItemList,
   SupportHeaderTitle,
-  SupportHeaderWrapper
-} from "../../component/support/style/Support";
-import uuid from "react-uuid";
+  SupportHeaderWrapper,
+} from '../../component/support/style/Support';
+import uuid from 'react-uuid';
 
-import { FAQ_MODE } from "../../constants/mode";
-import Accordion from "../../component/support/Accordion";
-import { changeFaq, deliveryFaq, etcFaq, orderPayFaq, ProductGuideFaq, warrantyFaq } from "../../constants/faq";
-import Footer from "../../component/common/Footer";
-import Header from "../../component/common/Header";
-
+import { FAQ_MODE } from '../../constants/mode';
+import Accordion from '../../component/support/Accordion';
+import {
+  changeFaq,
+  deliveryFaq,
+  etcFaq,
+  orderPayFaq,
+  ProductGuideFaq,
+  warrantyFaq,
+} from '../../constants/faq';
+import Footer from '../../component/common/Footer';
+import Header from '../../component/common/Header';
 
 export default function Faq() {
-
-  const [mode, setMode] = useState("");
-  const [currentTitle, setCurrentTitle] = useState("");
+  const [mode, setMode] = useState('');
+  const [currentTitle, setCurrentTitle] = useState('');
   const FaqHeaderItems = [
-    { name: "제품 가이드", value: FAQ_MODE.PRODUCT_GUIDE, onClick: () => onModeChanged(FAQ_MODE.PRODUCT_GUIDE) },
-    { name: "주문 / 결제", value: FAQ_MODE.ORDER_PAY, onClick: () => onModeChanged(FAQ_MODE.ORDER_PAY) },
-    { name: "배송", value: FAQ_MODE.DELIVERY, onClick: () => onModeChanged(FAQ_MODE.DELIVERY) },
-    { name: "교환 / 반품", value: FAQ_MODE.EXCHANGE_RETURN, onClick: () => onModeChanged(FAQ_MODE.EXCHANGE_RETURN) },
-    { name: "제품 보증", value: FAQ_MODE.PRODUCT_WARRANTY, onClick: () => onModeChanged(FAQ_MODE.PRODUCT_WARRANTY) },
-    { name: "기타", value: FAQ_MODE.ETC, onClick: () => onModeChanged(FAQ_MODE.ETC) }
+    {
+      name: '제품 가이드',
+      value: FAQ_MODE.PRODUCT_GUIDE,
+      onClick: () => onModeChanged(FAQ_MODE.PRODUCT_GUIDE),
+    },
+    {
+      name: '주문 / 결제',
+      value: FAQ_MODE.ORDER_PAY,
+      onClick: () => onModeChanged(FAQ_MODE.ORDER_PAY),
+    },
+    { name: '배송', value: FAQ_MODE.DELIVERY, onClick: () => onModeChanged(FAQ_MODE.DELIVERY) },
+    {
+      name: '교환 / 반품',
+      value: FAQ_MODE.EXCHANGE_RETURN,
+      onClick: () => onModeChanged(FAQ_MODE.EXCHANGE_RETURN),
+    },
+    {
+      name: '제품 보증',
+      value: FAQ_MODE.PRODUCT_WARRANTY,
+      onClick: () => onModeChanged(FAQ_MODE.PRODUCT_WARRANTY),
+    },
+    { name: '기타', value: FAQ_MODE.ETC, onClick: () => onModeChanged(FAQ_MODE.ETC) },
   ];
 
-
-
-  const [faqList , setFaqList] = useState(ProductGuideFaq);
+  const [faqList, setFaqList] = useState(ProductGuideFaq);
   const location = useLocation();
   useEffect(() => {
-    if(location.state?.mode === undefined)
-      setBody(FAQ_MODE.PRODUCT_GUIDE)
-    else
-      setBody(location.state.mode)
-  },[])
+    if (location.state?.mode === undefined) setBody(FAQ_MODE.PRODUCT_GUIDE);
+    else setBody(location.state.mode);
+  }, []);
 
   const onModeChanged = (m) => {
     setBody(m);
-  }
+  };
 
   function setBody(m) {
     switch (m) {
-      case FAQ_MODE.PRODUCT_GUIDE :
+      case FAQ_MODE.PRODUCT_GUIDE:
         setFaqList(ProductGuideFaq);
         setMode(FAQ_MODE.PRODUCT_GUIDE);
         break;
@@ -74,7 +91,7 @@ export default function Faq() {
         setMode(FAQ_MODE.ETC);
         break;
     }
-    setCurrentTitle("");
+    setCurrentTitle('');
   }
   return (
     <>
@@ -83,19 +100,19 @@ export default function Faq() {
         <SupportHeaderWrapper>
           <SupportHeaderTitle>FAQ</SupportHeaderTitle>
           <SupportHeaderItemList>
-            {FaqHeaderItems.map(i =>
-              <SupportHeaderItem key={uuid()} name={i.value} mode={mode}
-                                 onClick={i.onClick}>{i.name}</SupportHeaderItem>)}
+            {FaqHeaderItems.map((i) => (
+              <SupportHeaderItem key={uuid()} name={i.value} mode={mode} onClick={i.onClick}>
+                {i.name}
+              </SupportHeaderItem>
+            ))}
           </SupportHeaderItemList>
         </SupportHeaderWrapper>
         <SupportBodyWrapper>
-          {faqList.map(p => <Accordion onClick={setCurrentTitle}
-                                               currentTitle={currentTitle}
-                                               summary={p.title}>
-            <p>
-              {p.content}
-            </p>
-          </Accordion>)}
+          {faqList.map((p) => (
+            <Accordion onClick={setCurrentTitle} currentTitle={currentTitle} summary={p.title}>
+              <p>{p.content}</p>
+            </Accordion>
+          ))}
         </SupportBodyWrapper>
       </Container>
       <Footer />

@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 const StyledButton = styled.button`
   padding: 5px;
@@ -6,13 +6,13 @@ const StyledButton = styled.button`
 `;
 
 const Image = styled.img`
-  width: ${(props) => (props.width ? props.width : "30px")};
+  width: ${(props) => (props.width ? props.width : '30px')};
 `;
 
 export default function ImageButton({ src, onClick, width }) {
   return (
     <StyledButton
-      type="button"
+      type='button'
       onClick={() => {
         if (onClick) onClick();
       }}

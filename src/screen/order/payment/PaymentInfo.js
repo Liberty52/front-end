@@ -1,13 +1,13 @@
-import "./PaymentInfo.css";
-import * as React from "react";
-import { Box, Radio, RadioGroup, Sheet, Input } from "@mui/joy";
-import Select, { selectClasses } from "@mui/joy/Select";
-import Option from "@mui/joy/Option";
-import KeyboardArrowDown from "@mui/icons-material/KeyboardArrowDown";
-import Checkbox from "../../../component/common/Checkbox";
-import { useEffect, useState } from "react";
-import { getVBankInfos } from "../../../axios/order/Payment";
-import { PAYMENT_TYPE, ORDER_STATUS } from "../../../constants/order-info";
+import './PaymentInfo.css';
+import * as React from 'react';
+import { Box, Radio, RadioGroup, Sheet, Input } from '@mui/joy';
+import Select, { selectClasses } from '@mui/joy/Select';
+import Option from '@mui/joy/Option';
+import KeyboardArrowDown from '@mui/icons-material/KeyboardArrowDown';
+import Checkbox from '../../../component/common/Checkbox';
+import { useEffect, useState } from 'react';
+import { getVBankInfos } from '../../../axios/order/Payment';
+import { PAYMENT_TYPE, ORDER_STATUS } from '../../../constants/order-info';
 
 function PaymentMethod(props) {
   const onPMChanged = (e) => {
@@ -16,27 +16,27 @@ function PaymentMethod(props) {
 
   return (
     <RadioGroup
-      defaultValue="card"
-      size="sm"
+      defaultValue='card'
+      size='sm'
       sx={{
-        justifyContent: "space-around",
+        justifyContent: 'space-around',
       }}
-      orientation="horizontal"
+      orientation='horizontal'
     >
       {[
-        { value: "card", label: PAYMENT_TYPE.CARD },
-        { value: "vbank", label: PAYMENT_TYPE.VBANK },
+        { value: 'card', label: PAYMENT_TYPE.CARD },
+        { value: 'vbank', label: PAYMENT_TYPE.VBANK },
       ].map((element) => (
         <Sheet
           key={element.value}
           sx={{
             width: 130,
-            textAlign: "center",
+            textAlign: 'center',
             fontSize: 11,
             p: 0.5,
-            borderRadius: "sm",
-            boxShadow: "sm",
-            bgcolor: "background.body",
+            borderRadius: 'sm',
+            boxShadow: 'sm',
+            bgcolor: 'background.body',
           }}
         >
           <Radio
@@ -48,16 +48,16 @@ function PaymentMethod(props) {
             slotProps={{
               label: ({ checked }) => ({
                 sx: {
-                  fontWeight: "md",
-                  fontSize: "md",
-                  color: checked ? "text.primary" : "text.secondary",
+                  fontWeight: 'md',
+                  fontSize: 'md',
+                  color: checked ? 'text.primary' : 'text.secondary',
                 },
               }),
               action: ({ checked }) => ({
                 sx: (theme) => ({
                   ...(checked && {
-                    "--variant-borderWidth": "2px",
-                    "&&": {
+                    '--variant-borderWidth': '2px',
+                    '&&': {
                       // && to increase the specificity to win the base :hover styles
                       borderColor: theme.vars.palette.primary[500],
                     },
@@ -74,7 +74,7 @@ function PaymentMethod(props) {
 
 function VBankContent(props) {
   const [vbankInfos, setVbankInfos] = useState({
-    vbanks: [{ vbank: "" }],
+    vbanks: [{ vbank: '' }],
   });
 
   useEffect(() => {
@@ -83,7 +83,7 @@ function VBankContent(props) {
         const vbankList = await getVBankInfos();
         setVbankInfos(vbankList.data);
       } catch (e) {
-        alert("가상계좌 정보를 가져오는데 실패했습니다. 다시 시도해주세요.");
+        alert('가상계좌 정보를 가져오는데 실패했습니다. 다시 시도해주세요.');
       }
     };
 
@@ -105,29 +105,29 @@ function VBankContent(props) {
   };
 
   return (
-    <div className="bank-content">
+    <div className='bank-content'>
       <Select
         indicator={<KeyboardArrowDown />}
         sx={{
           [`& .${selectClasses.indicator}`]: {
-            transition: "0.2s",
+            transition: '0.2s',
             [`&.${selectClasses.expanded}`]: {
-              transform: "rotate(-180deg)",
+              transform: 'rotate(-180deg)',
             },
           },
-          fontFamily: "inherit",
+          fontFamily: 'inherit',
           fontSize: 13,
-          minHeight: "34px",
+          minHeight: '34px',
         }}
         onChange={onAccountChange}
-        placeholder={"가상계좌를 선택해주세요."}
+        placeholder={'가상계좌를 선택해주세요.'}
       >
         {vbankInfos.vbanks.map((data) => (
           <Option
             key={data.vbank}
             value={data.vbank}
             sx={{
-              fontFamily: "inherit",
+              fontFamily: 'inherit',
               fontSize: 13,
             }}
           >
@@ -138,25 +138,25 @@ function VBankContent(props) {
 
       <Box
         sx={{
-          alignItems: "center",
-          flexWrap: "wrap",
+          alignItems: 'center',
+          flexWrap: 'wrap',
         }}
       >
         <Input
           sx={{
-            fontFamily: "inherit",
+            fontFamily: 'inherit',
             fontSize: 13,
-            minHeight: "34px",
-            "--Input-focusedThickness": "1px",
+            minHeight: '34px',
+            '--Input-focusedThickness': '1px',
           }}
           onChange={onDepositorChange}
-          placeholder="입금자명 (미입력시 주문자명)"
-          variant="outlined"
-          color="neutral"
+          placeholder='입금자명 (미입력시 주문자명)'
+          variant='outlined'
+          color='neutral'
         />
       </Box>
       <Checkbox
-        text="현금영수증 신청"
+        text='현금영수증 신청'
         onChange={handleCheckBoxChange}
         checked={isCashReceiptChecked}
       />
@@ -165,8 +165,7 @@ function VBankContent(props) {
 }
 
 export default function PaymentInfo(props) {
-  const { PM_CARD, PM_VBANK, defaultVBankAccount, defaultDepositorName } =
-    props.constants;
+  const { PM_CARD, PM_VBANK, defaultVBankAccount, defaultDepositorName } = props.constants;
 
   const [pm, setPm] = useState({ pm: PM_CARD });
 
@@ -201,10 +200,10 @@ export default function PaymentInfo(props) {
   };
 
   return (
-    <div className="confirm-info">
-      <div className="title">결제 수단</div>
-      <div className="content">
-        <div className="payment-info">
+    <div className='confirm-info'>
+      <div className='title'>결제 수단</div>
+      <div className='content'>
+        <div className='payment-info'>
           <PaymentMethod setPaymentMethod={setPaymentMethod} />
           {pm === PM_VBANK && (
             <VBankContent
