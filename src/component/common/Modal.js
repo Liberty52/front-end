@@ -1,5 +1,5 @@
-import "./Modal.css";
-import close from "../../image/icon/close.png";
+import './Modal.css';
+import close from '../../image/icon/close.png';
 
 /**
  * @param title 모달 제목
@@ -9,16 +9,12 @@ import close from "../../image/icon/close.png";
  */
 export default function Modal(props) {
   return (
-    <div className="modal">
-      <div className="modal-content">
-        <div className="title">
-          <span style={{ width: "25px" }}></span>
+    <div className='modal'>
+      <div className='modal-content'>
+        <div className='title'>
+          <span style={{ width: '25px' }}></span>
           <span>{props.title}</span>
-          {props.closeModal ? (
-            <img src={close} onClick={props.closeModal} />
-          ) : (
-            <></>
-          )}
+          {props.closeModal ? <img src={close} onClick={props.closeModal} /> : <></>}
         </div>
         {props.children}
       </div>

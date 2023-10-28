@@ -1,32 +1,32 @@
-import "./Payment.css";
-import DaumPostcode from "react-daum-postcode";
-import Header from "../../../component/common/Header";
-import { useLocation, useNavigate } from "react-router-dom";
-import Button from "../../../component/common/Button";
-import Input from "../../../component/common/Input";
-import Checkbox from "../../../component/common/Checkbox";
-import Modal from "../../../component/common/Modal";
-import liberty52 from "../../../image/icon/liberty52.jpg";
-import { useState } from "react";
+import './Payment.css';
+import DaumPostcode from 'react-daum-postcode';
+import Header from '../../../component/common/Header';
+import { useLocation, useNavigate } from 'react-router-dom';
+import Button from '../../../component/common/Button';
+import Input from '../../../component/common/Input';
+import Checkbox from '../../../component/common/Checkbox';
+import Modal from '../../../component/common/Modal';
+import liberty52 from '../../../image/icon/liberty52.jpg';
+import { useState } from 'react';
 import {
   checkCardPayApproval,
   payByVBank,
   prepareCard,
   prepareCardCart,
   payByVBankCart,
-} from "../../../axios/order/Payment";
-import PaymentInfo from "./PaymentInfo";
-import CenterCircularProgress from "../../../component/common/CenterCircularProgress";
-import { ACCESS_TOKEN } from "../../../constants/token";
+} from '../../../axios/order/Payment';
+import PaymentInfo from './PaymentInfo';
+import CenterCircularProgress from '../../../component/common/CenterCircularProgress';
+import { ACCESS_TOKEN } from '../../../constants/token';
 
 function AddressSearchModal(props) {
   return (
-    <Modal title="주소 검색" closeModal={props.closeModal}>
+    <Modal title='주소 검색' closeModal={props.closeModal}>
       <DaumPostcode
         onComplete={(data) => {
           props.setAddress({
             address1: data.buildingName
-              ? data.address + " (" + data.buildingName + ")"
+              ? data.address + ' (' + data.buildingName + ')'
               : data.address,
             zipCode: data.zonecode,
           });
@@ -41,29 +41,24 @@ function AddressSearchModal(props) {
 function PaymentSection(props) {
   const deliveryInfo = props.deliveryInfo;
   const [address, setAddress] = useState({
-    address1: "",
-    zipCode: "",
+    address1: '',
+    zipCode: '',
   });
-  const [addressError, setAddressError] = useState(""); 
+  const [addressError, setAddressError] = useState('');
   const [modal, setModal] = useState(false); // 주소 검색창 (react daum postcoded)
 
   return (
-    <div className="payment-section">
-      {modal && (
-        <AddressSearchModal
-          setAddress={setAddress}
-          closeModal={() => setModal(false)}
-        />
-      )}
+    <div className='payment-section'>
+      {modal && <AddressSearchModal setAddress={setAddress} closeModal={() => setModal(false)} />}
       <form
         onSubmit={(e) => {
           e.preventDefault();
           if (!address.address1 || !address.zipCode) {
-            setAddressError("주소를 입력하세요."); // 주소가 입력되지 않았을 때 에러 메시지 설정
+            setAddressError('주소를 입력하세요.'); // 주소가 입력되지 않았을 때 에러 메시지 설정
             return;
           }
-          setAddressError(""); // 에러 메시지 초기화
-          props.setSection("confirm");
+          setAddressError(''); // 에러 메시지 초기화
+          props.setSection('confirm');
           props.setDeliveryInfo({
             receiverName: e.target.receiverName.value,
             address1: address.address1,
@@ -74,73 +69,63 @@ function PaymentSection(props) {
           });
         }}
       >
-        <div className="payment-title">
-          어디로 주문하신 제품이 배송되길 원하십니까?
-        </div>
-        <div className="payment-user">
-          <div className="input-title">이름 및 주소 입력:</div>
-          <div className="inputs">
+        <div className='payment-title'>어디로 주문하신 제품이 배송되길 원하십니까?</div>
+        <div className='payment-user'>
+          <div className='input-title'>이름 및 주소 입력:</div>
+          <div className='inputs'>
             <Input
-              type="text"
-              name="receiverName"
-              label="이름"
+              type='text'
+              name='receiverName'
+              label='이름'
               required
               maxLength={25}
               value={deliveryInfo.receiverName}
             />
-            <div className="input-button">
+            <div className='input-button'>
               <Input
-                type="text"
-                name="address1"
-                label="주소"
+                type='text'
+                name='address1'
+                label='주소'
                 required
                 maxLength={25}
                 readOnly
-                value={
-                  address.address1
-                    ? "(" + address.zipCode + ") " + address.address1
-                    : ""
-                }
+                value={address.address1 ? '(' + address.zipCode + ') ' + address.address1 : ''}
               />
-              <Button
-                type="button"
-                text="주소 검색"
-                onClick={() => setModal(true)}
-              />
+              <Button type='button' text='주소 검색' onClick={() => setModal(true)} />
             </div>
-            <span className="error-message">{addressError}</span> {""}
+            <span className='error-message'>{addressError}</span> {''}
             <Input
-              type="text"
-              name="address2"
-              label="상세 주소"
+              type='text'
+              name='address2'
+              label='상세 주소'
               required
               value={deliveryInfo.address2}
             />
           </div>
         </div>
-        <div className="payment-contact">
-          <div className="input-title">연락처 정보:</div>
-          <div className="inputs">
+        <div className='payment-contact'>
+          <div className='input-title'>연락처 정보:</div>
+          <div className='inputs'>
             <Input
-              type="email"
-              name="receiverEmail"
-              label="이메일"
+              type='email'
+              name='receiverEmail'
+              label='이메일'
               required
               value={deliveryInfo.receiverEmail}
             />
             <Input
-              type="text"
-              name="receiverPhoneNumber"
-              label="휴대폰 번호"
+              type='text'
+              name='receiverPhoneNumber'
+              label='휴대폰 번호'
               required
-              pattern="01[0,1][0-9]{6,8}"
+              pattern='01[0,1][0-9]{6,8}'
               maxLength={11}
-              title="ex) 01012341234"
+              title='ex) 01012341234'
               value={deliveryInfo.receiverPhoneNumber}
             />
           </div>
         </div>
-        <Button text="결제 페이지로 이동" />
+        <Button text='결제 페이지로 이동' />
       </form>
     </div>
   );
@@ -150,10 +135,10 @@ function Product(props) {
   const productInfo = props.productInfo;
 
   return (
-    <div className="confirm-product">
-      <img src={liberty52} alt="제품 이미지" />
+    <div className='confirm-product'>
+      <img src={liberty52} alt='제품 이미지' />
       <div>
-        <div className="title">Liberty 52_Frame</div>
+        <div className='title'>Liberty 52_Frame</div>
         <div>
           {Object.values(productInfo.frameOption).map((option, idx) => {
             return <div key={idx}>{option.name}</div>;
@@ -163,7 +148,7 @@ function Product(props) {
       <div>{productInfo?.quantity}개</div>
       <span>
         &#8361;
-        {(productInfo?.price).toLocaleString("ko-KR")}
+        {(productInfo?.price).toLocaleString('ko-KR')}
       </span>
     </div>
   );
@@ -176,7 +161,7 @@ function BackgroundImage(props) {
     return Object.prototype.toString.call(target).slice(8, -1);
   }
 
-  if (getType(imageSrc) === "File") {
+  if (getType(imageSrc) === 'File') {
     const reader = new FileReader();
     reader.readAsDataURL(imageSrc);
     reader.onloadend = () => {
@@ -184,9 +169,9 @@ function BackgroundImage(props) {
     };
   }
   return (
-    <div className="confirm-backgroundImage">
-      <div className="title">배경이미지 시안</div>
-      <img src={imageSrc} alt="배경 이미지" />
+    <div className='confirm-backgroundImage'>
+      <div className='title'>배경이미지 시안</div>
+      <img src={imageSrc} alt='배경 이미지' />
     </div>
   );
 }
@@ -194,13 +179,13 @@ function BackgroundImage(props) {
 function DeliveryInfo(props) {
   const deliveryInfo = props.deliveryInfo;
   return (
-    <div className="confirm-info">
-      <div className="title">배송 상세 정보</div>
-      <div className="content">
+    <div className='confirm-info'>
+      <div className='title'>배송 상세 정보</div>
+      <div className='content'>
         <div>
           <div>배송지: </div>
           <div>
-            ({deliveryInfo.zipCode}) {deliveryInfo.address1}{" "}
+            ({deliveryInfo.zipCode}) {deliveryInfo.address1}{' '}
           </div>
           <div>{deliveryInfo.address2}</div>
         </div>
@@ -208,8 +193,8 @@ function DeliveryInfo(props) {
           <div>연락처 정보:</div>
           <div>{deliveryInfo.receiverEmail}</div>
           <div>
-            {deliveryInfo.receiverPhoneNumber === ""
-              ? "휴대폰 번호 미입력"
+            {deliveryInfo.receiverPhoneNumber === ''
+              ? '휴대폰 번호 미입력'
               : deliveryInfo.receiverPhoneNumber}
           </div>
         </div>
@@ -222,21 +207,21 @@ function TermsOfUse() {
   const [modal, setModal] = useState(false);
 
   return (
-    <div className="confirm-termsOfUse">
+    <div className='confirm-termsOfUse'>
       {modal ? (
-        <Modal title="개인정보 취급방침" closeModal={() => setModal(false)}>
+        <Modal title='개인정보 취급방침' closeModal={() => setModal(false)}>
           이용약관입니다. 추후 입력해주세요!
         </Modal>
       ) : (
         <></>
       )}
-      <div className="title">이용 약관</div>
-      <div className="content">
+      <div className='title'>이용 약관</div>
+      <div className='content'>
         <Checkbox
-          name="termsOfUse"
+          name='termsOfUse'
           independentText1={
             <button
-              type="button"
+              type='button'
               onClick={() => {
                 setModal(true);
               }}
@@ -244,10 +229,10 @@ function TermsOfUse() {
               Liberty 개인정보 취급방침
             </button>
           }
-          text="
+          text='
               에 따라 개인정보를 수집하고, 사용하고, 제3자에 제공하고,
               처리한다는 점에 동의합니다.
-          "
+          '
         />
       </div>
     </div>
@@ -260,26 +245,24 @@ function Total(props) {
   const price = props.price;
 
   return (
-    <div className="confirm-total">
-      <div className="title">총계</div>
-      <div className="contents">
-        <div className="content">
+    <div className='confirm-total'>
+      <div className='title'>총계</div>
+      <div className='contents'>
+        <div className='content'>
           <span>소계</span>
-          <span>&#8361;{price.toLocaleString("ko-KR")}</span>
+          <span>&#8361;{price.toLocaleString('ko-KR')}</span>
         </div>
-        <div className="content">
+        <div className='content'>
           <span>배송</span>
           <span>
-            {deliverPrice === 0
-              ? "무료"
-              : "&#8361;" + deliverPrice.toLocaleString("ko-KOR")}
+            {deliverPrice === 0 ? '무료' : '&#8361;' + deliverPrice.toLocaleString('ko-KOR')}
           </span>
         </div>
-        <div className="content">
+        <div className='content'>
           <span>총계</span>
           <span>
             &#8361;
-            {(price + deliverPrice).toLocaleString("ko-KR")}
+            {(price + deliverPrice).toLocaleString('ko-KR')}
           </span>
         </div>
       </div>
@@ -291,8 +274,8 @@ function ConfirmSection(props) {
   const navigate = useNavigate();
   const [success, setSuccess] = useState(false);
   const [isConfirmProgressing, setIsConfirmProgressing] = useState(false);
-  const [orderId, setOrderId] = useState("");
-  const [orderNum, setOrderNum] = useState("");
+  const [orderId, setOrderId] = useState('');
+  const [orderNum, setOrderNum] = useState('');
 
   const productInfo = props.productInfo;
   let productInfoList = productInfo;
@@ -308,9 +291,9 @@ function ConfirmSection(props) {
   }
   const length = productInfoList.length;
   const productDto = {
-    productName: "Liberty 52_Frame", 
+    productName: 'Liberty 52_Frame',
     optionDetailIds: Object.values(productInfoList[0].frameOption).map((optionDetail) => {
-      return optionDetail.id
+      return optionDetail.id;
     }),
     quantity: props.productInfo.quantity,
   };
@@ -326,9 +309,9 @@ function ConfirmSection(props) {
   const imageFile = props.productInfo.add_image;
 
   const constants = {
-    PM_CARD: "card",
-    PM_VBANK: "vbank",
-    defaultVBankAccount: "",
+    PM_CARD: 'card',
+    PM_VBANK: 'vbank',
+    defaultVBankAccount: '',
     defaultDepositorName: destinationDto.receiverName,
   };
 
@@ -343,7 +326,7 @@ function ConfirmSection(props) {
 
   /* IMP 결제 관련 코드 */
   const IMP = window.IMP;
-  IMP.init("imp07432404");
+  IMP.init('imp07432404');
 
   const requestPay = () => {
     if (payment.paymentMethod === constants.PM_CARD) {
@@ -352,15 +335,15 @@ function ConfirmSection(props) {
 
         IMP.request_pay(
           {
-            pg: "html5_inicis",
+            pg: 'html5_inicis',
             pay_method: payment.paymentMethod,
             merchant_uid: merchantId,
             name:
               length === 1
                 ? productDto.productName
-                : productDto.productName + "외 " + length - 1 + "건",
+                : productDto.productName + '외 ' + length - 1 + '건',
             amount: amount,
-            currency: "KRW",
+            currency: 'KRW',
             buyer_email: destinationDto.receiverEmail,
             buyer_name: destinationDto.receiverName,
             buyer_tel: destinationDto.receiverPhoneNumber,
@@ -374,7 +357,7 @@ function ConfirmSection(props) {
               try {
                 const response = await checkCardPayApproval(
                   merchantId,
-                  destinationDto.receiverPhoneNumber
+                  destinationDto.receiverPhoneNumber,
                 );
                 setOrderId(response.data.orderId);
                 setOrderNum(response.data.orderNum);
@@ -384,25 +367,23 @@ function ConfirmSection(props) {
                 setIsConfirmProgressing(false);
                 const code = err.response.data.errorCode;
                 const message = err.response.data.errorMessage;
-                alert(
-                  `카드결제가 실패하였습니다.\n에러코드: ${code}\n에러내용:\n${message}`
-                );
+                alert(`카드결제가 실패하였습니다.\n에러코드: ${code}\n에러내용:\n${message}`);
               }
             } else {
-              if (rsp.error_msg !== "사용자가 결제를 취소하셨습니다") {
+              if (rsp.error_msg !== '사용자가 결제를 취소하셨습니다') {
                 alert(`카드결제에 실패하였습니다. 에러 내용: ${rsp.error_msg}`);
               }
             }
-          }
+          },
         );
       };
-      if (productIdList === "") {
+      if (productIdList === '') {
         prepareCard(
           {
             productDto: productDto,
             destinationDto: destinationDto,
           },
-          imageFile
+          imageFile,
         ).then(afterRequest);
       } else {
         prepareCardCart({
@@ -411,11 +392,11 @@ function ConfirmSection(props) {
         }).then(afterRequest);
       }
     } else if (payment.paymentMethod === constants.PM_VBANK) {
-      if (payment.vBankAccount === "") {
-        alert("가상계좌를 선택해주세요.");
+      if (payment.vBankAccount === '') {
+        alert('가상계좌를 선택해주세요.');
         return;
       }
-      if (payment.depositorName === "") {
+      if (payment.depositorName === '') {
         payment.depositorName = destinationDto.receiverName;
       }
       setIsConfirmProgressing(true);
@@ -424,7 +405,7 @@ function ConfirmSection(props) {
         depositorName: payment.depositorName,
         isApplyCashReceipt: payment.isCashReceipt,
       };
-      if (productIdList === "") {
+      if (productIdList === '') {
         // 주문 결제
         payByVBank(
           {
@@ -432,7 +413,7 @@ function ConfirmSection(props) {
             destinationDto: destinationDto,
             vbankDto: vBankDto,
           },
-          imageFile
+          imageFile,
         )
           .then((res) => {
             const { orderId, orderNum } = res;
@@ -442,7 +423,7 @@ function ConfirmSection(props) {
             setSuccess(true);
           })
           .catch((err) => {
-            alert("가상계좌 결제가 실패하였습니다.");
+            alert('가상계좌 결제가 실패하였습니다.');
           });
       } else {
         // 장바구니 결제
@@ -459,7 +440,7 @@ function ConfirmSection(props) {
             setSuccess(true);
           })
           .catch((err) => {
-            alert("가상계좌 결제가 실패하였습니다.");
+            alert('가상계좌 결제가 실패하였습니다.');
           });
       }
     }
@@ -469,29 +450,25 @@ function ConfirmSection(props) {
     if (sessionStorage.getItem(ACCESS_TOKEN)) {
       navigate(`/detail/${orderId}`);
     } else {
-      navigate(
-        `/product/guest/${orderNum}?phoneNumber=${destinationDto.receiverPhoneNumber}`
-      );
+      navigate(`/product/guest/${orderNum}?phoneNumber=${destinationDto.receiverPhoneNumber}`);
     }
   }
   let totalPrice = 0;
 
   return (
-    <div className="confirm-section">
+    <div className='confirm-section'>
       <form
         onSubmit={(e) => {
           e.preventDefault();
           if (!e.target.termsOfUse.checked) {
-            alert("이용약관에 동의해주세요");
+            alert('이용약관에 동의해주세요');
             return;
           }
           requestPay();
         }}
       >
         <CenterCircularProgress isConfirmProgressing={isConfirmProgressing} />
-        <div className="payment-title">
-          입력하신 사항이 모두 정확한지 확인해주십시오.
-        </div>
+        <div className='payment-title'>입력하신 사항이 모두 정확한지 확인해주십시오.</div>
         {productInfoList.map((productInfo) => {
           totalPrice += productInfo.price;
           return (
@@ -506,13 +483,13 @@ function ConfirmSection(props) {
         <PaymentInfo constants={constants} setPayment={setPayment} />
         <TermsOfUse />
         <Total quantity={quantity} deliverPrice={0} price={totalPrice} />
-        <Button text="결제하기" />
+        <Button text='결제하기' />
         <Button
-          type="button"
-          text="돌아가기"
+          type='button'
+          text='돌아가기'
           onClick={(e) => {
             e.preventDefault();
-            props.setSection("form");
+            props.setSection('form');
           }}
         />
       </form>
@@ -521,20 +498,20 @@ function ConfirmSection(props) {
 }
 
 export default function Payment() {
-  const [section, setSection] = useState("form");
+  const [section, setSection] = useState('form');
   const [deliveryInfo, setDeliveryInfo] = useState({
-    receiverName: "",
-    address1: "",
-    address2: "",
-    zipCode: "",
-    receiverEmail: "",
-    receiverPhoneNumber: "",
+    receiverName: '',
+    address1: '',
+    address2: '',
+    zipCode: '',
+    receiverEmail: '',
+    receiverPhoneNumber: '',
   });
 
   const location = useLocation();
   const locationData = { ...location.state }; // mounting_method, basic_material, add_material, add_image, quantity
-  let productInfo = "";
-  let productIdList = "";
+  let productInfo = '';
+  let productIdList = '';
   if (!locationData.checkedList) {
     productInfo = locationData;
   } else {
@@ -543,9 +520,9 @@ export default function Payment() {
   }
 
   return (
-    <div className="payment">
+    <div className='payment'>
       <Header />
-      {section === "form" ? (
+      {section === 'form' ? (
         <PaymentSection
           setSection={setSection}
           deliveryInfo={deliveryInfo}
