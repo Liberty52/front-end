@@ -5,6 +5,8 @@ import Footer from '../../component/common/Footer';
 import CancelModal from '../../component/inquiry/CancelModal';
 import { useParams, useLocation } from 'react-router-dom';
 import axios from '../../axios/axios';
+import Button from '../../component/common/Button';
+import { fetchRealTimeDeliveryInfo } from '../../axios/inquiry/Inquiry'
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -119,6 +121,7 @@ function InquiryDetails() {
       </div>
     );
   }
+
   function DeliveryDetailsSection({ orderDetails }) {
     return (
       <div className='section3'>
@@ -134,6 +137,32 @@ function InquiryDetails() {
             <div>{orderDetails.receiverPhoneNumber}</div>
             <div>{orderDetails.receiverName}</div>
           </p>
+          {orderDetails.orderDelivery !==null ? (
+              <div>
+                  <p className="DetailDelivery_courierName">
+                    <div>택배사 이름: </div>
+                    <div>{orderDetails.orderDelivery.name}</div>
+                  </p>
+                  <p className="DetailDelivery_trackingNumber">
+                    <div>운송장번호: </div>
+                    <div>{orderDetails.orderDelivery.trackingNumber}</div>
+                  </p>
+                  <Button
+                    className="getDeleiveryInfo" 
+                    text="배송조회"
+                    onClick={() => {
+                      const popup = window.open("about:blank", "배송조회", "width=500,height=700,top=100,left=100");
+                      fetchRealTimeDeliveryInfo(orderId, phoneNumber, orderDetails, popup)
+                    }}
+                  ></Button>
+              </div>
+            ) : (
+              <div>
+                  <p className="DetailDelivery">
+                    <div>배송준비중</div>
+                  </p>
+              </div>
+            )}
         </div>
       </div>
     );
