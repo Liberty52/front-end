@@ -6,24 +6,27 @@ import { LabelSmall, HeadingXSmall } from 'baseui/typography';
 import { useEditor } from '@layerhub-io/react';
 import { ModalFooter } from 'react-bootstrap';
 import Frame from '../../../image/icon/frame.png';
+import Glow from '../../../image/icon/glow.png';
 import useAppContext from '../../../hooks/useAppContext';
 import mergeImages from 'merge-images';
 import { resizedataURL } from '../../../utils';
 import { ADDITIONAL_MATERIAL } from '../../../global/Constants';
 
-const generateMergedImageURL = async (plainImageURL) => {
+const generateMergedImageURL = async ({ customImage, isGlow }) => {
+  const images = [{ src: Frame }, { src: await resizeImage(customImage), x: 412, y: 238 }];
+  if (isGlow) {
+    images.push({ src: await resizeImage(Glow), x: 412, y: 238 });
+  }
+  return await mergeImages(images);
+};
+
+const resizeImage = async (binary) => {
   const img = document.createElement('img');
   const canvas = document.createElement('canvas');
-  const resizedImageURL = await resizedataURL(img, canvas, plainImageURL, 1750, 1010).finally(
+  const resizedImageURL = await resizedataURL(img, canvas, binary, 1750, 1010).finally(
     () => img.remove() && canvas.remove(),
   );
-
-  const meregedImage = await mergeImages([
-    { src: Frame },
-    { src: resizedImageURL, x: 412, y: 238 },
-  ]);
-
-  return meregedImage;
+  return resizedImageURL;
 };
 
 const Preview = ({ isOpen, setIsOpen }) => {
@@ -70,7 +73,10 @@ const Preview = ({ isOpen, setIsOpen }) => {
 
     const template = editor.scene.exportToJSON();
     const imageURL = await editor.renderer.render(template);
-    const image = await generateMergedImageURL(imageURL);
+    const image = await generateMergedImageURL({
+      customImage: imageURL,
+      isGlow: frameOption['기본소재 옵션']?.includes('유광'),
+    });
 
     setState({ image });
     setLoading(false);
