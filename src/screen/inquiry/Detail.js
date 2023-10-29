@@ -6,6 +6,7 @@ import CancelModal from '../../component/inquiry/CancelModal';
 import { useParams, useLocation } from 'react-router-dom';
 import axios from '../../axios/axios';
 import Button from '../../component/common/Button';
+import { fetchRealTimeDeliveryInfo } from '../../axios/inquiry/Inquiry'
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -121,78 +122,7 @@ function InquiryDetails() {
     );
   }
 
-  
   function DeliveryDetailsSection({ orderDetails }) {
-    
-    const fetchRealTimeDeliveryInfo = async (popup) => {
-      const orderDelivery = orderDetails.orderDelivery;
-      const courierCode = orderDelivery.code;
-      const trackingNumber = orderDelivery.trackingNumber;
-      const getAccessToken = () => {
-        return sessionStorage.getItem("ACCESS_TOKEN");
-      }
-
-      const fetchUserDeliveryInfo = (accessToken, orderId) => {
-          axios.get(`/product/orders/${orderId}/delivery?courierCode=${courierCode}&trackingNumber=${trackingNumber}`, {
-            headers: {
-              Authorization: `${accessToken}`,
-            },
-          })
-          .then(response => {
-            if (response.status === 200 || response.status === 302) {
-              if (!popup) {
-                alert("팝업 차단을 해제해주세요")
-              } else {
-                popup.location.href = response.request?.responseURL;
-              }
-            }
-             else {
-              const data = response.json();
-              data.then((res => {alert(res.errorName)}));
-            }
-          })
-          .catch(error => {
-            console.error(error);
-          });
-      }
-
-      const fetchGuestDeliveryInfo = (phoneNumber, orderNumber) => {
-        axios.get(`/guest/product/orders/${orderNumber}/delivery?courierCode=${courierCode}&trackingNumber=${trackingNumber}`, {
-          headers: {
-            Authorization: `${phoneNumber}`,
-          },
-        })
-        .then(response => {
-          if (response.status === 200 || response.status === 302) {
-            if (!popup) {
-              alert("팝업 차단을 해제해주세요")
-            } else {
-              popup.location.href = response.request?.responseURL;
-            }
-          }
-           else {
-            const data = response.json();
-            data.then((res => {alert(res.errorName)}));
-          }
-        })
-        .catch(error => {
-          console.error(error);
-        });
-      }
-
-      const accessToken = getAccessToken()
-      if (accessToken) {
-        fetchUserDeliveryInfo(accessToken, orderId);
-      } else {
-        if (phoneNumber) {
-          fetchGuestDeliveryInfo(phoneNumber, orderDetails.orderNum);
-        } else {
-          const enteredPhoneNumber = prompt("휴대폰 번호를 입력해주세요.");
-          fetchGuestDeliveryInfo(orderId, enteredPhoneNumber);
-        }
-      }
-    }
-
     return (
       <div className='section3'>
         <p className='DetailCName'>배송 상세 정보</p>
@@ -222,7 +152,7 @@ function InquiryDetails() {
                     text="배송조회"
                     onClick={() => {
                       const popup = window.open("about:blank", "배송조회", "width=500,height=700,top=100,left=100");
-                      fetchRealTimeDeliveryInfo(popup)
+                      fetchRealTimeDeliveryInfo(orderId, phoneNumber, orderDetails, popup)
                     }}
                   ></Button>
               </div>
