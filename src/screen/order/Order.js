@@ -237,6 +237,7 @@ const Order = () => {
                     </div>
                   </div>
                 </div>
+                <div style={{ padding: '10px 0' }}>배송비: &#8361;{productInfo?.deliveryFee}</div>
                 <div className='order-btn-group'>
                   <Button text='구매하기' onClick={buy} />
                   <Button text='장바구니' onClick={addCart} />
