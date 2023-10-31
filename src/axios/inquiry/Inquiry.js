@@ -41,65 +41,75 @@ export function fetchRealTimeDeliveryInfo(orderId, phoneNumber, orderDetails, po
   const trackingNumber = orderDelivery.trackingNumber;
 
   const getAccessToken = () => {
-    return sessionStorage.getItem("ACCESS_TOKEN");
-  }
+    return sessionStorage.getItem('ACCESS_TOKEN');
+  };
 
   const fetchUserDeliveryInfo = (accessToken, orderId) => {
-      axios.get(`/product/orders/${orderId}/delivery?courierCode=${courierCode}&trackingNumber=${trackingNumber}`, {
-        headers: {
-          Authorization: `${accessToken}`,
+    axios
+      .get(
+        `/product/orders/${orderId}/delivery?courierCode=${courierCode}&trackingNumber=${trackingNumber}`,
+        {
+          headers: {
+            Authorization: `${accessToken}`,
+          },
         },
-      })
-      .then(response => {
+      )
+      .then((response) => {
         if (response.status === 200 || response.status === 302) {
           if (!popup) {
-            alert("팝업 차단을 해제해주세요")
+            alert('팝업 차단을 해제해주세요');
           } else {
             popup.location.href = response.request?.responseURL;
           }
-        }
-         else {
+        } else {
           const data = response.json();
-          data.then((res => {alert(res.errorName)}));
+          data.then((res) => {
+            alert(res.errorName);
+          });
         }
       })
-      .catch(error => {
+      .catch((error) => {
         console.error(error);
       });
-  }
+  };
 
   const fetchGuestDeliveryInfo = (phoneNumber, orderNumber) => {
-    axios.get(`/guest/product/orders/${orderNumber}/delivery?courierCode=${courierCode}&trackingNumber=${trackingNumber}`, {
-      headers: {
-        Authorization: `${phoneNumber}`,
-      },
-    })
-    .then(response => {
-      if (response.status === 200 || response.status === 302) {
-        if (!popup) {
-          alert("팝업 차단을 해제해주세요")
+    axios
+      .get(
+        `/guest/product/orders/${orderNumber}/delivery?courierCode=${courierCode}&trackingNumber=${trackingNumber}`,
+        {
+          headers: {
+            Authorization: `${phoneNumber}`,
+          },
+        },
+      )
+      .then((response) => {
+        if (response.status === 200 || response.status === 302) {
+          if (!popup) {
+            alert('팝업 차단을 해제해주세요');
+          } else {
+            popup.location.href = response.request?.responseURL;
+          }
         } else {
-          popup.location.href = response.request?.responseURL;
+          const data = response.json();
+          data.then((res) => {
+            alert(res.errorName);
+          });
         }
-      }
-       else {
-        const data = response.json();
-        data.then((res => {alert(res.errorName)}));
-      }
-    })
-    .catch(error => {
-      console.error(error);
-    });
-  }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
 
-  const accessToken = getAccessToken()
+  const accessToken = getAccessToken();
   if (accessToken) {
     fetchUserDeliveryInfo(accessToken, orderId);
   } else {
     if (phoneNumber) {
       fetchGuestDeliveryInfo(phoneNumber, orderDetails.orderNum);
     } else {
-      const enteredPhoneNumber = prompt("휴대폰 번호를 입력해주세요.");
+      const enteredPhoneNumber = prompt('휴대폰 번호를 입력해주세요.');
       fetchGuestDeliveryInfo(orderId, enteredPhoneNumber);
     }
   }

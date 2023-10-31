@@ -12,7 +12,7 @@ import Cookie from '../redirect/Cookie';
 import $ from 'jquery';
 import useAppContext from '../../hooks/useAppContext';
 import Swal from 'sweetalert2';
-import { getProductInfo } from '../../axios/order/Order';
+import { getLicenseImg, getProductInfo } from '../../axios/order/Order';
 import OrderTab from '../../component/order/OrderTab';
 
 const Order = () => {
@@ -28,15 +28,15 @@ const Order = () => {
     getProductInfo(location.state.productId).then((res) => {
       setProductInfo(res.data);
       setPrice(res.data.price);
-      console.log(location.state);
-      console.log(res.data);
     });
   };
 
   useEffect(() => {
     retriveProductData();
     if (!productInfo?.custom) {
-      console.log('라이센스');
+      getLicenseImg(location.state.productId).then((res) => {
+        console.log(res.data);
+      });
     }
   }, []);
 
@@ -205,23 +205,27 @@ const Order = () => {
                       </div>
                     );
                   })}
-                <div id='add-image' className='add-image'>
-                  <div className='order-title'>나만의 개성을 추가해봐요</div>
-                  <div className='radio-btn'>
-                    <ImageInput width='300px' height='150px' square />
-                  </div>
-                  <div className='order-editor'>
-                    <div
-                      style={{ color: '#1976d2' }}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        navigate('/editor');
-                      }}
-                    >
-                      개성을 추가하러 가기
+                {productInfo.custom ? (
+                  <div id='add-image' className='add-image'>
+                    <div className='order-title'>나만의 개성을 추가해봐요</div>
+                    <div className='radio-btn'>
+                      <ImageInput width='300px' height='150px' square />
+                    </div>
+                    <div className='order-editor'>
+                      <div
+                        style={{ color: '#1976d2' }}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          navigate('/editor');
+                        }}
+                      >
+                        개성을 추가하러 가기
+                      </div>
                     </div>
                   </div>
-                </div>
+                ) : (
+                  <h1>안녕</h1>
+                )}
                 <div className='quantity'>
                   <div className='quantity-content'>
                     <span>{productInfo?.name}</span>

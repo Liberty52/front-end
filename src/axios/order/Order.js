@@ -1,7 +1,7 @@
 import axios from '../axios';
 import request from '../axios';
 import { ACCESS_TOKEN } from '../../constants/token';
-import { PRODUCT_INFO, PRODUCT_LIST } from '../../constants/api';
+import { LICENSE_IMAGES, PRODUCT_INFO } from '../../constants/api';
 
 export const getProductInfo = async (id) => {
   return request.get(PRODUCT_INFO(id), {
@@ -28,3 +28,7 @@ export function getProductList(page, size) {
       });
   });
 }
+
+export const getLicenseImg = (id) => {
+  return request.get(LICENSE_IMAGES(id));
+};
