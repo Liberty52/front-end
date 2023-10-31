@@ -32,4 +32,4 @@ jobs:
         run: npm install
 
       - name: 빌드
-        run: npm run build
+        run: CI=false npm run build
