@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Block } from 'baseui/block';
 import AngleDoubleLeft from '../../icons/AngleDoubleLeft';
 import useSidebarOpen from '../../../../../hooks/useSidebarOpen';
@@ -8,16 +8,17 @@ import { Modal, ROLE } from 'baseui/modal';
 import { useEditor } from '@layerhub-io/react';
 import { useStyletron } from 'baseui';
 import { postImageGeneration } from '../../../../../axios/order/editor/AI';
-import CenterCircularProgress from '../../../../common/CenterCircularProgress';
 import { ACCESS_TOKEN } from '../../../../../constants/token';
 import { CircularProgress } from '@mui/joy';
 import { postTranslation } from '../../../../../axios/order/editor/Translation';
+import { LoginModalComponent } from '../../../../../screen/login/Login';
+import { nanoid } from 'nanoid';
 
 export default function AI() {
   const editor = useEditor();
   const [images, setImages] = React.useState([]);
-  const [generationIsLoading, setGenerationIsLoading] = React.useState(false);
   const { setIsSidebarOpen } = useSidebarOpen();
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const addObject = React.useCallback(
     async (url) => {
       if (editor) {
@@ -33,10 +34,20 @@ export default function AI() {
   const addImages = (newImages) => {
     setImages((data) => [...data, ...newImages]);
   };
+  const replaceImages = (newImages) => {
+    console.log('replace');
+    setImages((images) => {
+      newImages.forEach((n) => {
+        const idx = images.findIndex((i) => i.key === n.key);
+        if (idx !== -1) {
+          images[idx] = n;
+        }
+      });
+      return [...images];
+    });
+  };
   return (
     <Block $style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-      <CenterCircularProgress isConfirmProgressing={generationIsLoading} />
-
       <Block
         $style={{
           display: 'flex',
@@ -58,7 +69,7 @@ export default function AI() {
       {sessionStorage.getItem(ACCESS_TOKEN) ? (
         <Scrollable>
           <Block padding='0 1.5rem'>
-            <AITemplate addImages={addImages} setIsLoading={setGenerationIsLoading} />
+            <AITemplate addImages={addImages} replaceImages={replaceImages} />
           </Block>
           <Block padding='0 1.5rem'>
             <div
@@ -70,19 +81,81 @@ export default function AI() {
               }}
             >
               {images.map((image, index) => {
-                return <ImageItem key={index} onClick={() => addObject(image)} preview={image} />;
+                if (image.type === 'LOADING') {
+                  return <LodingItem key={image.key} />;
+                } else {
+                  return (
+                    <ImageItem
+                      key={image.key}
+                      onClick={() => addObject(image.url)}
+                      preview={image.url}
+                    />
+                  );
+                }
               })}
             </div>
           </Block>
         </Scrollable>
       ) : (
-        <Block style={{ alignSelf: 'center' }}>로그인 후 사용 가능합니다.</Block>
+        <>
+          <Button
+            // onClick={() => navigate(true)}
+            onClick={() => {
+              setIsLoginModalOpen(true);
+            }}
+            size={SIZE.compact}
+            overrides={{
+              Root: {
+                style: {
+                  width: '80%',
+                  margin: '0 auto',
+                },
+              },
+            }}
+          >
+            로그인하고 이용하기
+          </Button>
+          <Modal
+            onClose={() => setIsLoginModalOpen(false)}
+            closeable={true}
+            isOpen={isLoginModalOpen}
+            animate
+            autoFocus
+            size='auto'
+            role={ROLE.dialog}
+            overrides={{
+              Dialog: {
+                style: {
+                  borderTopRightRadius: '8px',
+                  borderEndStartRadius: '8px',
+                  borderEndEndRadius: '8px',
+                  borderStartEndRadius: '8px',
+                  borderStartStartRadius: '8px',
+                  padding: '20px',
+                  paddingTop: '50px',
+                  width: '80vw',
+                },
+              },
+            }}
+          >
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                flexDirection: 'column',
+                width: '100%',
+              }}
+            >
+              <LoginModalComponent target={'_blank'} onLogin={() => setIsLoginModalOpen(false)} />
+            </div>
+          </Modal>
+        </>
       )}
     </Block>
   );
 }
 let translationTimeout = 1234;
-const AITemplate = ({ addImages, setIsLoading: setGenerationIsLoading }) => {
+const AITemplate = ({ addImages, replaceImages }) => {
   const [isOpen, setIsOpen] = React.useState(false);
   const [prompt, setPrompt] = React.useState('');
   const [isTranslationLoading, setTranslationIsLoading] = React.useState(false);
@@ -131,14 +204,14 @@ const AITemplate = ({ addImages, setIsLoading: setGenerationIsLoading }) => {
   }, [translated]);
 
   const onGenerationButtonClicked = async () => {
-    try {
-      setGenerationIsLoading(true);
-      const urls = await postImageGeneration(translated);
-      addImages(urls);
-    } finally {
-      setGenerationIsLoading(false);
-      setIsOpen(false);
-    }
+    const n = 3;
+    const boxes = Array(n)
+      .fill()
+      .map(() => ({ key: nanoid(), type: 'LOADING' }));
+    addImages(boxes);
+    setIsOpen(false);
+    const urls = await postImageGeneration(translated, n);
+    replaceImages(boxes.map((b, index) => ({ key: b.key, url: urls[index] })));
   };
   return (
     <>
@@ -232,7 +305,7 @@ const AITemplate = ({ addImages, setIsLoading: setGenerationIsLoading }) => {
   );
 };
 
-const ImageItem = ({ preview, onClick }) => {
+const ItemContainer = ({ onClick, children }) => {
   const [css] = useStyletron();
   return (
     <div
@@ -281,6 +354,15 @@ const ImageItem = ({ preview, onClick }) => {
           },
         })}
       />
+      {children}
+    </div>
+  );
+};
+
+const ImageItem = ({ preview, onClick }) => {
+  const [css] = useStyletron();
+  return (
+    <ItemContainer onClick={onClick}>
       <img
         src={preview}
         className={css({
@@ -292,6 +374,14 @@ const ImageItem = ({ preview, onClick }) => {
         })}
         alt='x'
       />
-    </div>
+    </ItemContainer>
+  );
+};
+
+const LodingItem = () => {
+  return (
+    <ItemContainer>
+      <CircularProgress />
+    </ItemContainer>
   );
 };
