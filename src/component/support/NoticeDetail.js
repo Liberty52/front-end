@@ -16,7 +16,6 @@ import {
 
 export default function NoticeDetail({ noticeId, clearNoticeId }) {
   const [data, setData] = useState();
-  const [comments, setComments] = useState([]);
 
   const effect = async () => {
     try {
@@ -50,7 +49,7 @@ export default function NoticeDetail({ noticeId, clearNoticeId }) {
         )}
       </NoticeDetailHeader>
       <Viewer id={"viewer"}></Viewer>
-      <NoticeComment comments={comments} />
+      <NoticeComment noticeId={noticeId} />
       {data ? (
         <DetailPageButtonWrapper>
           <MoveToListButton onClick={clearNoticeId}>목록</MoveToListButton>

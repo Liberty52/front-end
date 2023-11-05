@@ -83,6 +83,9 @@ export const CommentButton = styled.button`
   :hover {
     outline: 1.2px solid gray;
   }
+  :disabled {
+    outline: none;
+  }
 `;
 
 export const CommentInfo = styled.div`

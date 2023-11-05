@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import {
   CommentListContainer,
   CommentContainer,
@@ -9,17 +10,49 @@ import {
   Content,
   Date,
 } from "./style/Notice";
+import { postComment, retrieveComments } from "../../axios/support/Notice";
+import { ACCESS_TOKEN } from "../../constants/token";
 
-export default function NoticeComment({ comments }) {
+export default function NoticeComment({ noticeId }) {
+  const [comments, setComments] = useState([]);
+  const logined = sessionStorage.getItem(ACCESS_TOKEN) ? true : false;
+
+  useEffect(() => {
+    getComment();
+  }, []);
+
+  const getComment = async () => {
+    const res = await retrieveComments(noticeId);
+  };
+
+  const submitComment = async (e) => {
+    e.preventDefault();
+
+    const content = e.target.content.value;
+    const res = await postComment(noticeId, content);
+    if (res.status === 401) {
+      alert("로그인이 필요한 기능입니다");
+    }
+  };
+
   return (
     <>
       <CommentListContainer>
         <CommentItem />
         <CommentItem />
       </CommentListContainer>
-      <InputContainer>
-        <CommentInput variant="outlined" />
-        <CommentButton>작성</CommentButton>
+      <InputContainer onSubmit={submitComment}>
+        <CommentInput
+          name="content"
+          variant="outlined"
+          placeholder={
+            logined ? "" : "로그인 한 고객님만 댓글 작성이 가능합니다."
+          }
+          disabled={!logined}
+        />
+        <CommentButton type="submit" disabled={!logined}>
+          작성
+        </CommentButton>
       </InputContainer>
     </>
   );
