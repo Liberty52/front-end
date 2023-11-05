@@ -15,6 +15,7 @@ import { ACCESS_TOKEN } from "../../constants/token";
 
 export default function NoticeComment({ noticeId }) {
   const [comments, setComments] = useState([]);
+  const [page, setPage] = useState(0);
   const logined = sessionStorage.getItem(ACCESS_TOKEN) ? true : false;
 
   useEffect(() => {
@@ -22,7 +23,8 @@ export default function NoticeComment({ noticeId }) {
   }, []);
 
   const getComment = async () => {
-    const res = await retrieveComments(noticeId);
+    const res = await retrieveComments(noticeId, page);
+    setComments(res.data.content);
   };
 
   const submitComment = async (e) => {
@@ -30,7 +32,9 @@ export default function NoticeComment({ noticeId }) {
 
     const content = e.target.content.value;
     const res = await postComment(noticeId, content);
-    if (res.status === 401) {
+    if (res.status === 200) {
+      getComment();
+    } else if (res.status === 401) {
       alert("로그인이 필요한 기능입니다");
     }
   };
@@ -38,8 +42,13 @@ export default function NoticeComment({ noticeId }) {
   return (
     <>
       <CommentListContainer>
-        <CommentItem />
-        <CommentItem />
+        {comments.length === 0 ? (
+          <span>댓글이 없습니다</span>
+        ) : (
+          comments.map((comment) => {
+            return <CommentItem key={comment.commentId} comment={comment} />;
+          })
+        )}
       </CommentListContainer>
       <InputContainer onSubmit={submitComment}>
         <CommentInput
@@ -62,19 +71,19 @@ function CommentItem({ comment }) {
   return (
     <CommentContainer>
       <CommentInfo>
-        <WriterName>이한별</WriterName>
-        <Date>2023-11-05 03:13</Date>
+        <WriterName>{comment.writerName}</WriterName>
+        <Date>{formatDate(comment.createdAt)}</Date>
       </CommentInfo>
-      {/* createdAt updatedAt */}
-      <Content>내용</Content>
+      <Content>{comment.content}</Content>
     </CommentContainer>
   );
 }
-// "commentId": "72735f0a-4a15-4a1d-ab03-e8f200bbe476", //댓글id
-// "noticeId": "NOTICE-001", //해당 댓글이 속한 공지사항id
-// "writerId": "TESTER-001", //해당 댓글 작성자id
-// "writerName": "김테스터", //해당 댓글 작성자 이름
-// "writerEmail": "test@gmail.com", //해당 댓글 작성자 이메일
-// "content": "댓글이에요", //댓글 내용
-// "createdAt": "2023-11-02T22:45:18.586432", //생성시각
-// "updatedAt": null //수정시각
+
+function formatDate(date) {
+  var dateParts = date.split("T");
+  var datePart = dateParts[0];
+  var timePart = dateParts[1].split(".")[0].slice(0, 5);
+  var formattedDate = datePart + " " + timePart;
+
+  return formattedDate;
+}

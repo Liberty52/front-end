@@ -2,6 +2,7 @@ import request from "../axios";
 import {
   NOTICE_DETAIL,
   NOTICE_LIST,
+  GET_NOTICE_COMMENT,
   POST_NOTICE_COMMENT,
 } from "../../constants/api";
 import { ACCESS_TOKEN } from "../../constants/token";
@@ -15,9 +16,10 @@ export const retrieveNoticeDetail = (noticeId) => {
   return request.get(NOTICE_DETAIL(noticeId));
 };
 
-export const retrieveComments = (noticeId) => {
-  alert("아직 안 했지롱");
-  // return request.get()
+export const retrieveComments = (noticeId, page) => {
+  return request.get(
+    GET_NOTICE_COMMENT(noticeId, page, 10, "createdAt", "desc")
+  );
 };
 
 export const postComment = (noticeId, content) => {
