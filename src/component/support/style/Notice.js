@@ -44,7 +44,7 @@ export const MoveListAnchor = styled.span`
 
 // Notice Comment --
 export const CommentListContainer = styled.div`
-  padding: 20px 0px 10px;
+  padding-top: 20px;
   border-top: 1px solid rgba(0, 0, 0, 0.2);
 `;
 
@@ -57,6 +57,13 @@ export const InputContainer = styled.form`
   justify-content: space-between;
   align-items: center;
   margin-bottom: 50px;
+`;
+
+export const PageContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
 `;
 
 export const CommentInput = styled.input`
@@ -101,3 +108,6 @@ export const Date = styled.span`
   color: rgba(0, 0, 0, 0.5);
 `;
 export const Content = styled.div``;
+export const Page = styled.span`
+  margin: 0 5px;
+`;

@@ -18,7 +18,7 @@ export const retrieveNoticeDetail = (noticeId) => {
 
 export const retrieveComments = (noticeId, page) => {
   return request.get(
-    GET_NOTICE_COMMENT(noticeId, page, 10, "createdAt", "desc")
+    GET_NOTICE_COMMENT(noticeId, page - 1, 10, "createdAt", "desc")
   );
 };
 

@@ -3,28 +3,40 @@ import {
   CommentListContainer,
   CommentContainer,
   InputContainer,
+  PageContainer,
   CommentInput,
   CommentButton,
   CommentInfo,
   WriterName,
   Content,
   Date,
+  Page,
 } from "./style/Notice";
 import { postComment, retrieveComments } from "../../axios/support/Notice";
 import { ACCESS_TOKEN } from "../../constants/token";
 
 export default function NoticeComment({ noticeId }) {
   const [comments, setComments] = useState([]);
-  const [page, setPage] = useState(0);
+  const [pages, setPages] = useState({
+    startPage: 1,
+    lastPage: 1,
+    currentPage: 1,
+  });
   const logined = sessionStorage.getItem(ACCESS_TOKEN) ? true : false;
 
   useEffect(() => {
     getComment();
-  }, []);
+  }, [pages.currentPage]);
 
   const getComment = async () => {
-    const res = await retrieveComments(noticeId, page);
+    const res = await retrieveComments(noticeId, pages.currentPage);
     setComments(res.data.content);
+    console.log(res.data);
+    setPages({
+      startPage: 1,
+      lastPage: res.data.totalPages,
+      currentPage: res.data.pageable.pageNumber + 1,
+    });
   };
 
   const submitComment = async (e) => {
@@ -44,17 +56,52 @@ export default function NoticeComment({ noticeId }) {
     }
   };
 
+  function CommentItem({ comment }) {
+    return (
+      <CommentContainer>
+        <CommentInfo>
+          <WriterName>{comment.writerName}</WriterName>
+          <Date>{formatDate(comment.createdAt)}</Date>
+        </CommentInfo>
+        <Content>{comment.content}</Content>
+      </CommentContainer>
+    );
+  }
+
+  function Pages() {
+    const pageComponents = [];
+    for (let i = 1; i <= pages.lastPage; i++) {
+      pageComponents.push(
+        <Page
+          style={{ fontWeight: i === pages.currentPage && "bold" }}
+          key={i}
+          onClick={() => {
+            console.log(i);
+            if (i !== pages.currentPage) setPages({ ...pages, currentPage: i });
+            console.log({ ...pages, currentPage: i });
+          }}
+        >
+          {i}
+        </Page>
+      );
+    }
+    return <PageContainer>{pageComponents}</PageContainer>;
+  }
+
   return (
     <>
       <CommentListContainer>
         {comments.length === 0 ? (
-          <span>댓글이 없습니다</span>
+          <div style={{ textAlign: "center", marginBottom: "10px" }}>
+            작성된 댓글이 없습니다
+          </div>
         ) : (
           comments.map((comment) => {
             return <CommentItem key={comment.commentId} comment={comment} />;
           })
         )}
       </CommentListContainer>
+      <Pages />
       <InputContainer onSubmit={submitComment}>
         <CommentInput
           name="content"
@@ -69,18 +116,6 @@ export default function NoticeComment({ noticeId }) {
         </CommentButton>
       </InputContainer>
     </>
-  );
-}
-
-function CommentItem({ comment }) {
-  return (
-    <CommentContainer>
-      <CommentInfo>
-        <WriterName>{comment.writerName}</WriterName>
-        <Date>{formatDate(comment.createdAt)}</Date>
-      </CommentInfo>
-      <Content>{comment.content}</Content>
-    </CommentContainer>
   );
 }
 
