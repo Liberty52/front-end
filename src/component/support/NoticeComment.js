@@ -31,7 +31,6 @@ export default function NoticeComment({ noticeId }) {
   const getComment = async () => {
     const res = await retrieveComments(noticeId, pages.currentPage);
     setComments(res.data.content);
-    console.log(res.data);
     setPages({
       startPage: 1,
       lastPage: res.data.totalPages,
@@ -76,9 +75,7 @@ export default function NoticeComment({ noticeId }) {
           style={{ fontWeight: i === pages.currentPage && "bold" }}
           key={i}
           onClick={() => {
-            console.log(i);
             if (i !== pages.currentPage) setPages({ ...pages, currentPage: i });
-            console.log({ ...pages, currentPage: i });
           }}
         >
           {i}
