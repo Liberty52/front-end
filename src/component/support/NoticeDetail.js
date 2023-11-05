@@ -1,12 +1,7 @@
-import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import { retrieveNoticeDetail } from '../../axios/support/Notice';
-import {
-  MoveToListButton,
-  QuestionDetailActionButton,
-  DetailPageButtonWrapper,
-  Viewer,
-} from '../question/QuestionComponent';
+import { MoveToListButton, DetailPageButtonWrapper, Viewer } from '../question/QuestionComponent';
+import NoticeComment from './NoticeComment';
 import { Editor } from '@toast-ui/editor';
 import {
   MoveListAnchor,
@@ -17,6 +12,7 @@ import {
 
 export default function NoticeDetail({ noticeId, clearNoticeId }) {
   const [data, setData] = useState();
+
   const effect = async () => {
     try {
       const res = await retrieveNoticeDetail(noticeId);
@@ -38,21 +34,17 @@ export default function NoticeDetail({ noticeId, clearNoticeId }) {
   return (
     <>
       <NoticeDetailHeader>
-        {data ? (
+        {data && (
           <div>
             <NoticeDetailTitle>{data.title}</NoticeDetailTitle>
             <NoticeDetailCreatedAt>
               <MoveListAnchor onClick={clearNoticeId}>공지사항</MoveListAnchor> {data.createdAt}
             </NoticeDetailCreatedAt>
           </div>
-        ) : (
-          <></>
         )}
       </NoticeDetailHeader>
       <Viewer id={'viewer'}></Viewer>
-
-      {/*  TODO 댓글 작성 필드 넘어오는 속성 값에 따라서 댓글 창 On/Off를 해 주어야 한다.*/}
-      {/*  TODO 댓글 리스트 조회 필드*/}
+      <NoticeComment noticeId={noticeId} />
       {data ? (
         <DetailPageButtonWrapper>
           <MoveToListButton onClick={clearNoticeId}>목록</MoveToListButton>

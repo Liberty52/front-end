@@ -25,7 +25,7 @@ export const SupportHeaderItemList = styled.div`
   flex-wrap: wrap;
 `;
 export const SupportHeaderItem = styled.div`
-  margin-right: 10px;
+  margin: 0 5px;
   font-size: 16px;
   border-bottom: ${(props) => (props.name === props.mode ? '1px solid #9A845B' : 'none')};
   cursor: pointer;
