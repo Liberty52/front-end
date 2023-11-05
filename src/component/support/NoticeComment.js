@@ -103,9 +103,7 @@ export default function NoticeComment({ noticeId }) {
         <CommentInput
           name="content"
           variant="outlined"
-          placeholder={
-            logined ? "" : "로그인 한 고객님만 댓글 작성이 가능합니다."
-          }
+          placeholder={logined ? "" : "댓글 작성을 위해 로그인이 필요합니다"}
           disabled={!logined}
         />
         <CommentButton type="submit" disabled={!logined}>
