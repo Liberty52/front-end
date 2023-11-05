@@ -1,28 +1,27 @@
-import React from "react"
-import { Canvas as LayerhubCanvas } from "@layerhub-io/react"
-import ContextMenu from "./ContextMenu"
+import React from 'react';
+import { Canvas as LayerhubCanvas } from '@layerhub-io/react';
+import ContextMenu from './ContextMenu';
 
 const Canvas = () => {
-
   return (
-    <div style={{ flex: 1, display: "flex", position: "relative" }}>
+    <div style={{ flex: 1, display: 'flex', position: 'relative' }}>
       <ContextMenu />
       <LayerhubCanvas
         config={{
-          background: "#f1f2f6",
+          background: '#f1f2f6',
           controlsPosition: {
-            rotation: "BOTTOM",
+            rotation: 'BOTTOM',
           },
           shadow: {
             blur: 4,
-            color: "#fcfcfc",
+            color: '#fcfcfc',
             offsetX: 0,
             offsetY: 0,
           },
         }}
       />
     </div>
-  )
-}
+  );
+};
 
-export default Canvas
+export default Canvas;

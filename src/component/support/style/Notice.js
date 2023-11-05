@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const NoticeListWrapper = styled.div``;
 export const NoticeItem = styled.div`

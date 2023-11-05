@@ -1,17 +1,14 @@
-import "./Image.css";
-import photo from "../../image/icon/photo.png";
+import './Image.css';
+import photo from '../../image/icon/photo.png';
 
 export default function Image(props) {
   return (
-    <div
-      className="image-crop"
-      style={{ borderRadius: !props.square && "50%" }}
-    >
+    <div className='image-crop' style={{ borderRadius: !props.square && '50%' }}>
       <img
         style={{
-          width: "100%",
+          width: '100%',
         }}
-        className="image-preview"
+        className='image-preview'
         src={props.image ? props.image : photo}
         onClick={props.onClick ? (e) => props.onClick(e) : () => {}}
         alt={props.alt}

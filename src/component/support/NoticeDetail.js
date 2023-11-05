@@ -1,18 +1,14 @@
-import { useEffect, useState } from "react";
-import { retrieveNoticeDetail } from "../../axios/support/Notice";
-import {
-  MoveToListButton,
-  DetailPageButtonWrapper,
-  Viewer,
-} from "../question/QuestionComponent";
-import NoticeComment from "./NoticeComment";
-import { Editor } from "@toast-ui/editor";
+import { useEffect, useState } from 'react';
+import { retrieveNoticeDetail } from '../../axios/support/Notice';
+import { MoveToListButton, DetailPageButtonWrapper, Viewer } from '../question/QuestionComponent';
+import NoticeComment from './NoticeComment';
+import { Editor } from '@toast-ui/editor';
 import {
   MoveListAnchor,
   NoticeDetailCreatedAt,
   NoticeDetailHeader,
   NoticeDetailTitle,
-} from "./style/Notice";
+} from './style/Notice';
 
 export default function NoticeDetail({ noticeId, clearNoticeId }) {
   const [data, setData] = useState();
@@ -22,11 +18,11 @@ export default function NoticeDetail({ noticeId, clearNoticeId }) {
       const res = await retrieveNoticeDetail(noticeId);
       setData(res.data);
       const viewer = new Editor.factory({
-        el: document.querySelector("#viewer"),
-        height: "500px",
-        initialEditType: "wysiwyg",
+        el: document.querySelector('#viewer'),
+        height: '500px',
+        initialEditType: 'wysiwyg',
         initialValue: res.data.content,
-        language: "ko-KR",
+        language: 'ko-KR',
         viewer: true,
       });
     } catch (e) {}
@@ -42,13 +38,12 @@ export default function NoticeDetail({ noticeId, clearNoticeId }) {
           <div>
             <NoticeDetailTitle>{data.title}</NoticeDetailTitle>
             <NoticeDetailCreatedAt>
-              <MoveListAnchor onClick={clearNoticeId}>공지사항</MoveListAnchor>{" "}
-              {data.createdAt}
+              <MoveListAnchor onClick={clearNoticeId}>공지사항</MoveListAnchor> {data.createdAt}
             </NoticeDetailCreatedAt>
           </div>
         )}
       </NoticeDetailHeader>
-      <Viewer id={"viewer"}></Viewer>
+      <Viewer id={'viewer'}></Viewer>
       <NoticeComment noticeId={noticeId} />
       {data ? (
         <DetailPageButtonWrapper>

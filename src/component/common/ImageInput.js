@@ -1,7 +1,7 @@
-import "./ImageInput.css";
-import Button from "./Button";
-import plus from "../../image/icon/plus.png";
-import { useState } from "react";
+import './ImageInput.css';
+import Button from './Button';
+import plus from '../../image/icon/plus.png';
+import { useState } from 'react';
 
 export default function ImageInput(props) {
   const [imgFile, setImgFile] = useState(props.image);
@@ -9,12 +9,12 @@ export default function ImageInput(props) {
 
   const reader = new FileReader();
   return (
-    <label className={imgFile ? "image-input value" : "image-input"}>
+    <label className={imgFile ? 'image-input value' : 'image-input'}>
       <input
-        className="image-input-input"
-        type="file"
-        name="file"
-        accept="image/*"
+        className='image-input-input'
+        type='file'
+        name='file'
+        accept='image/*'
         onClick={(e) => {
           if (props.readOnly) e.preventDefault();
         }}
@@ -31,26 +31,26 @@ export default function ImageInput(props) {
         }}
       />
       <div
-        className="image-crop"
+        className='image-crop'
         style={{
           width: width,
           height: height,
-          borderRadius: square ? "initial" : "50%",
+          borderRadius: square ? 'initial' : '50%',
         }}
       >
         <Button
-          type="button"
-          text="삭제"
+          type='button'
+          text='삭제'
           onClick={(e) => {
             const label = e.target.parentNode.parentNode;
             const input = label.children[0];
-            input.value = "";
+            input.value = '';
             setImgFile(undefined);
           }}
         />
         <img
-          style={{ width: square ? (imgFile ? "100%" : "50%") : width }}
-          className="image-preview"
+          style={{ width: square ? (imgFile ? '100%' : '50%') : width }}
+          className='image-preview'
           src={imgFile ? imgFile : plus}
           alt={props.alt}
         />

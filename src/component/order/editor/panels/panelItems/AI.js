@@ -1,117 +1,177 @@
-import React from "react";
-import { Block } from "baseui/block";
-import AngleDoubleLeft from "../../icons/AngleDoubleLeft";
-import useSidebarOpen from "../../../../../hooks/useSidebarOpen";
-import { Button, SIZE } from "baseui/button";
-import Scrollable from "../../common/Scrollable";
-import { Modal, ROLE } from "baseui/modal";
-import { useEditor } from "@layerhub-io/react";
-import { useStyletron } from "baseui";
-import { postImageGeneration } from "../../../../../axios/order/editor/AI";
-import CenterCircularProgress from "../../../../common/CenterCircularProgress";
-import { ACCESS_TOKEN } from "../../../../../constants/token";
-import { CircularProgress } from "@mui/joy";
-import { postTranslation } from "../../../../../axios/order/editor/Translation";
+import React, { useState } from 'react';
+import { Block } from 'baseui/block';
+import AngleDoubleLeft from '../../icons/AngleDoubleLeft';
+import useSidebarOpen from '../../../../../hooks/useSidebarOpen';
+import { Button, SIZE } from 'baseui/button';
+import Scrollable from '../../common/Scrollable';
+import { Modal, ROLE } from 'baseui/modal';
+import { useEditor } from '@layerhub-io/react';
+import { useStyletron } from 'baseui';
+import { postImageGeneration } from '../../../../../axios/order/editor/AI';
+import { ACCESS_TOKEN } from '../../../../../constants/token';
+import { CircularProgress } from '@mui/joy';
+import { postTranslation } from '../../../../../axios/order/editor/Translation';
+import { LoginModalComponent } from '../../../../../screen/login/Login';
+import { nanoid } from 'nanoid';
 
 export default function AI() {
   const editor = useEditor();
   const [images, setImages] = React.useState([]);
-  const [generationIsLoading, setGenerationIsLoading] = React.useState(false);
   const { setIsSidebarOpen } = useSidebarOpen();
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const addObject = React.useCallback(
     async (url) => {
       if (editor) {
         const options = {
-          type: "StaticImage",
+          type: 'StaticImage',
           src: url,
         };
         await editor.objects.add(options);
       }
     },
-    [editor]
+    [editor],
   );
   const addImages = (newImages) => {
     setImages((data) => [...data, ...newImages]);
   };
+  const replaceImages = (newImages) => {
+    console.log('replace');
+    setImages((images) => {
+      newImages.forEach((n) => {
+        const idx = images.findIndex((i) => i.key === n.key);
+        if (idx !== -1) {
+          images[idx] = n;
+        }
+      });
+      return [...images];
+    });
+  };
   return (
-    <Block $style={{ flex: 1, display: "flex", flexDirection: "column" }}>
-      <CenterCircularProgress isConfirmProgressing={generationIsLoading} />
-
+    <Block $style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
       <Block
         $style={{
-          display: "flex",
-          alignItems: "center",
+          display: 'flex',
+          alignItems: 'center',
           fontWeight: 500,
-          justifyContent: "space-between",
-          padding: "1.5rem",
+          justifyContent: 'space-between',
+          padding: '1.5rem',
         }}
       >
         <Block>AI</Block>
 
         <Block
           onClick={() => setIsSidebarOpen(false)}
-          $style={{ cursor: "pointer", display: "flex" }}
+          $style={{ cursor: 'pointer', display: 'flex' }}
         >
           <AngleDoubleLeft size={18} />
         </Block>
       </Block>
       {sessionStorage.getItem(ACCESS_TOKEN) ? (
         <Scrollable>
-          <Block padding="0 1.5rem">
-            <AITemplate
-              addImages={addImages}
-              setIsLoading={setGenerationIsLoading}
-            />
+          <Block padding='0 1.5rem'>
+            <AITemplate addImages={addImages} replaceImages={replaceImages} />
           </Block>
-          <Block padding="0 1.5rem">
+          <Block padding='0 1.5rem'>
             <div
               style={{
-                display: "grid",
-                gap: "8px",
-                gridTemplateColumns: "1fr 1fr",
-                marginTop: "10px",
+                display: 'grid',
+                gap: '8px',
+                gridTemplateColumns: '1fr 1fr',
+                marginTop: '10px',
               }}
             >
               {images.map((image, index) => {
-                return (
-                  <ImageItem
-                    key={index}
-                    onClick={() => addObject(image)}
-                    preview={image}
-                  />
-                );
+                if (image.type === 'LOADING') {
+                  return <LodingItem key={image.key} />;
+                } else {
+                  return (
+                    <ImageItem
+                      key={image.key}
+                      onClick={() => addObject(image.url)}
+                      preview={image.url}
+                    />
+                  );
+                }
               })}
             </div>
           </Block>
         </Scrollable>
       ) : (
-        <Block style={{ alignSelf: "center" }}>
-          로그인 후 사용 가능합니다.
-        </Block>
+        <>
+          <Button
+            // onClick={() => navigate(true)}
+            onClick={() => {
+              setIsLoginModalOpen(true);
+            }}
+            size={SIZE.compact}
+            overrides={{
+              Root: {
+                style: {
+                  width: '80%',
+                  margin: '0 auto',
+                },
+              },
+            }}
+          >
+            로그인하고 이용하기
+          </Button>
+          <Modal
+            onClose={() => setIsLoginModalOpen(false)}
+            closeable={true}
+            isOpen={isLoginModalOpen}
+            animate
+            autoFocus
+            size='auto'
+            role={ROLE.dialog}
+            overrides={{
+              Dialog: {
+                style: {
+                  borderTopRightRadius: '8px',
+                  borderEndStartRadius: '8px',
+                  borderEndEndRadius: '8px',
+                  borderStartEndRadius: '8px',
+                  borderStartStartRadius: '8px',
+                  padding: '20px',
+                  paddingTop: '50px',
+                  width: '80vw',
+                },
+              },
+            }}
+          >
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                flexDirection: 'column',
+                width: '100%',
+              }}
+            >
+              <LoginModalComponent target={'_blank'} onLogin={() => setIsLoginModalOpen(false)} />
+            </div>
+          </Modal>
+        </>
       )}
     </Block>
   );
 }
 let translationTimeout = 1234;
-const AITemplate = ({ addImages, setIsLoading: setGenerationIsLoading }) => {
+const AITemplate = ({ addImages, replaceImages }) => {
   const [isOpen, setIsOpen] = React.useState(false);
-  const [prompt, setPrompt] = React.useState("");
+  const [prompt, setPrompt] = React.useState('');
   const [isTranslationLoading, setTranslationIsLoading] = React.useState(false);
-  const [translated, setTranslated] = React.useState("");
-  const [isGenerationButtonDisabled, setIsGenerationButtonDisabled] =
-    React.useState(true);
-  const [generationDisabledCause, setGenerationDisabledCause] =
-    React.useState("");
-  const [sourceLang, setSourceLang] = React.useState("감지");
+  const [translated, setTranslated] = React.useState('');
+  const [isGenerationButtonDisabled, setIsGenerationButtonDisabled] = React.useState(true);
+  const [generationDisabledCause, setGenerationDisabledCause] = React.useState('');
+  const [sourceLang, setSourceLang] = React.useState('감지');
 
   React.useEffect(() => {
     const doTranslate = async () => {
       setTranslationIsLoading(true);
       const [{ source, translatedText }, err] = await postTranslation(prompt);
       if (err) {
-        setTranslated("");
+        setTranslated('');
         setIsGenerationButtonDisabled(true);
-        setGenerationDisabledCause("서버와의 연결이 원활하지 않습니다.");
+        setGenerationDisabledCause('서버와의 연결이 원활하지 않습니다.');
       } else {
         setSourceLang(source);
         setTranslated(translatedText);
@@ -123,12 +183,12 @@ const AITemplate = ({ addImages, setIsLoading: setGenerationIsLoading }) => {
     setIsGenerationButtonDisabled(true);
     if (prompt.length < 10 || prompt.length > 5000) {
       if (prompt.length < 10) {
-        setGenerationDisabledCause("10 자 이상 입력해주세요.");
+        setGenerationDisabledCause('10 자 이상 입력해주세요.');
       } else {
-        setGenerationDisabledCause("5000 자 이하로 입력해주세요.");
+        setGenerationDisabledCause('5000 자 이하로 입력해주세요.');
       }
     } else {
-      setGenerationDisabledCause("");
+      setGenerationDisabledCause('');
       const newt = window.setTimeout(doTranslate, 700);
       translationTimeout = newt;
     }
@@ -144,14 +204,14 @@ const AITemplate = ({ addImages, setIsLoading: setGenerationIsLoading }) => {
   }, [translated]);
 
   const onGenerationButtonClicked = async () => {
-    try {
-      setGenerationIsLoading(true);
-      const urls = await postImageGeneration(translated);
-      addImages(urls);
-    } finally {
-      setGenerationIsLoading(false);
-      setIsOpen(false);
-    }
+    const n = 3;
+    const boxes = Array(n)
+      .fill()
+      .map(() => ({ key: nanoid(), type: 'LOADING' }));
+    addImages(boxes);
+    setIsOpen(false);
+    const urls = await postImageGeneration(translated, n);
+    replaceImages(boxes.map((b, index) => ({ key: b.key, url: urls[index] })));
   };
   return (
     <>
@@ -161,7 +221,7 @@ const AITemplate = ({ addImages, setIsLoading: setGenerationIsLoading }) => {
         overrides={{
           Root: {
             style: {
-              width: "100%",
+              width: '100%',
             },
           },
         }}
@@ -174,59 +234,52 @@ const AITemplate = ({ addImages, setIsLoading: setGenerationIsLoading }) => {
         isOpen={isOpen}
         animate
         autoFocus
-        size="auto"
+        size='auto'
         role={ROLE.dialog}
         overrides={{
           Dialog: {
             style: {
-              borderTopRightRadius: "8px",
-              borderEndStartRadius: "8px",
-              borderEndEndRadius: "8px",
-              borderStartEndRadius: "8px",
-              borderStartStartRadius: "8px",
-              padding: "20px",
-              paddingTop: "50px",
-              width: "80vw",
+              borderTopRightRadius: '8px',
+              borderEndStartRadius: '8px',
+              borderEndEndRadius: '8px',
+              borderStartEndRadius: '8px',
+              borderStartStartRadius: '8px',
+              padding: '20px',
+              paddingTop: '50px',
+              width: '80vw',
             },
           },
         }}
       >
         <div
           style={{
-            display: "flex",
-            justifyContent: "space-between",
-            flexDirection: "column",
-            width: "100%",
+            display: 'flex',
+            justifyContent: 'space-between',
+            flexDirection: 'column',
+            width: '100%',
           }}
         >
-          <h1 style={{ alignSelf: "center" }}>AI 이미지 생성</h1>
-          <p>
-            나만의 이미지를 텍스트로 표현해보세요. AI가 이미지를 생성해줍니다. (
-            {sourceLang})
-          </p>
-          <input
-            type="text"
-            onChange={(e) => setPrompt(e.target.value)}
-            value={prompt}
-          />
+          <h1 style={{ alignSelf: 'center' }}>AI 이미지 생성</h1>
+          <p>나만의 이미지를 텍스트로 표현해보세요. AI가 이미지를 생성해줍니다. ({sourceLang})</p>
+          <input type='text' onChange={(e) => setPrompt(e.target.value)} value={prompt} />
           <br />
           <p>다음과 같이 번역되어 이미지가 생성됩니다.</p>
           <p>번역: {translated}</p>
           <div
             style={{
-              alignSelf: "end",
-              marginTop: "20px",
+              alignSelf: 'end',
+              marginTop: '20px',
             }}
           >
             {isTranslationLoading ? (
-              <CircularProgress style={{ alignSelf: "flex-end" }} />
+              <CircularProgress style={{ alignSelf: 'flex-end' }} />
             ) : (
               <>
                 <span
                   hidden={!isGenerationButtonDisabled}
                   style={{
-                    marginRight: "10px",
-                    color: "red",
+                    marginRight: '10px',
+                    color: 'red',
                   }}
                 >
                   {generationDisabledCause}
@@ -234,12 +287,10 @@ const AITemplate = ({ addImages, setIsLoading: setGenerationIsLoading }) => {
                 <button
                   disabled={isGenerationButtonDisabled}
                   style={{
-                    padding: "10px",
-                    borderRadius: "10px ",
-                    color: "white",
-                    backgroundColor: isGenerationButtonDisabled
-                      ? "lightgray"
-                      : "black",
+                    padding: '10px',
+                    borderRadius: '10px ',
+                    color: 'white',
+                    backgroundColor: isGenerationButtonDisabled ? 'lightgray' : 'black',
                   }}
                   onClick={onGenerationButtonClicked}
                 >
@@ -254,18 +305,18 @@ const AITemplate = ({ addImages, setIsLoading: setGenerationIsLoading }) => {
   );
 };
 
-const ImageItem = ({ preview, onClick }) => {
+const ItemContainer = ({ onClick, children }) => {
   const [css] = useStyletron();
   return (
     <div
       onClick={onClick}
       className={css({
-        position: "relative",
-        background: "#f8f8fb",
-        cursor: "pointer",
-        borderRadius: "8px",
-        overflow: "hidden",
-        "::before:hover": {
+        position: 'relative',
+        background: '#f8f8fb',
+        cursor: 'pointer',
+        borderRadius: '8px',
+        overflow: 'hidden',
+        '::before:hover': {
           opacity: 1,
         },
       })}
@@ -289,31 +340,48 @@ const ImageItem = ({ preview, onClick }) => {
           rgba(0, 0, 0, 0.428) 84.5%,
           rgba(0, 0, 0, 0.444) 91.9%,
           rgba(0, 0, 0, 0.45) 100%)`,
-          position: "absolute",
+          position: 'absolute',
           top: 0,
           left: 0,
           right: 0,
           bottom: 0,
           opacity: 0,
-          transition: "opacity 0.3s ease-in-out",
-          height: "100%",
-          width: "100%",
-          ":hover": {
+          transition: 'opacity 0.3s ease-in-out',
+          height: '100%',
+          width: '100%',
+          ':hover': {
             opacity: 1,
           },
         })}
       />
+      {children}
+    </div>
+  );
+};
+
+const ImageItem = ({ preview, onClick }) => {
+  const [css] = useStyletron();
+  return (
+    <ItemContainer onClick={onClick}>
       <img
         src={preview}
         className={css({
-          width: "100%",
-          height: "100%",
-          objectFit: "contain",
-          pointerEvents: "none",
-          verticalAlign: "middle",
+          width: '100%',
+          height: '100%',
+          objectFit: 'contain',
+          pointerEvents: 'none',
+          verticalAlign: 'middle',
         })}
-        alt="x"
+        alt='x'
       />
-    </div>
+    </ItemContainer>
+  );
+};
+
+const LodingItem = () => {
+  return (
+    <ItemContainer>
+      <CircularProgress />
+    </ItemContainer>
   );
 };

@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const Container = styled.div`
   margin: 5% 10%;
@@ -27,11 +27,9 @@ export const SupportHeaderItemList = styled.div`
 export const SupportHeaderItem = styled.div`
   margin: 0 5px;
   font-size: 16px;
-  border-bottom: ${(props) =>
-    props.name === props.mode ? "1px solid #9A845B" : "none"};
+  border-bottom: ${(props) => (props.name === props.mode ? '1px solid #9A845B' : 'none')};
   cursor: pointer;
-  color: ${(props) =>
-    props.name === props.mode ? "black" : "rgba(0,0,0,0.4)"};
+  color: ${(props) => (props.name === props.mode ? 'black' : 'rgba(0,0,0,0.4)')};
   transition: color 0.5s;
   padding: 5px 0;
   :hover {

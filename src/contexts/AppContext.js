@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useState } from 'react';
 
 export const AppContext = createContext({
   isMobile: false,
@@ -9,7 +9,7 @@ export const AppContext = createContext({
   setUploads: () => {},
   shapes: [],
   setShapes: () => {},
-  activePanel: "Images",
+  activePanel: 'Images',
   setActivePanel: () => {},
   activeSubMenu: null,
   setActiveSubMenu: (value) => {},
@@ -24,7 +24,7 @@ export const AppProvider = ({ children }) => {
   const [templates, setTemplates] = useState([]);
   const [uploads, setUploads] = useState([]);
   const [shapes, setShapes] = useState([]);
-  const [activePanel, setActivePanel] = useState("Images");
+  const [activePanel, setActivePanel] = useState('Images');
   const [activeSubMenu, setActiveSubMenu] = useState(null);
   const [currentTemplate, setCurrentTemplate] = useState(null);
   const [frameOption, setFrameOption] = useState({});

@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const ColumnDirectionFlexBox = styled.div`
   display: flex;
@@ -129,8 +129,8 @@ export const PageNumberButton = styled.div`
   align-items: center;
   padding: 5px;
   font-size: 16px;
-  color: ${(props) => (props.isCurrentPage ? "black" : "rgba(0,0,0,0.2)")};
-  text-decoration: ${(props) => (props.isCurrentPage ? "underline" : "none")};
+  color: ${(props) => (props.isCurrentPage ? 'black' : 'rgba(0,0,0,0.2)')};
+  text-decoration: ${(props) => (props.isCurrentPage ? 'underline' : 'none')};
   font-weight: bold;
   :hover {
     cursor: pointer;
@@ -170,7 +170,7 @@ export const HTMLEditor = styled.div`
   width: 100%;
 `;
 export const CurrentHtmlSizeSpan = styled.span`
-  color: ${(props) => (props.isExeed ? "red" : "black")};
+  color: ${(props) => (props.isExeed ? 'red' : 'black')};
 `;
 export const MoveToListButton = styled(QuestionPageButton)`
   margin-right: 10px;
@@ -257,9 +257,8 @@ export const EnterImage = styled.img`
 export const QuestionReplyContentWrapper = styled.pre`
   margin-left: 10px;
   font-size: 14px;
-  font-family: "Open Sans", "Helvetica Neue", "Helvetica", "Arial",
-    "나눔바른고딕", "Nanum Barun Gothic", "맑은고딕", "Malgun Gothic",
-    sans-serif;
+  font-family: 'Open Sans', 'Helvetica Neue', 'Helvetica', 'Arial', '나눔바른고딕',
+    'Nanum Barun Gothic', '맑은고딕', 'Malgun Gothic', sans-serif;
   white-space: pre-wrap;
   overflow: auto;
 `;
