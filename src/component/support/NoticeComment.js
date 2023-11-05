@@ -31,9 +31,14 @@ export default function NoticeComment({ noticeId }) {
     e.preventDefault();
 
     const content = e.target.content.value;
+    if (content === "") {
+      alert("댓글 내용을 입력해주세요");
+      return;
+    }
     const res = await postComment(noticeId, content);
     if (res.status === 200) {
       getComment();
+      e.target.content.value = "";
     } else if (res.status === 401) {
       alert("로그인이 필요한 기능입니다");
     }
