@@ -27,7 +27,7 @@ jobs:
           echo "export { SOCIAL_LOGIN_URL };" >> src/global/url.js
 
       - name: 의존성 설치
-        run: npm install
+        run: npm install --force
 
       - name: 빌드
         run: CI=false npm run build
