@@ -44,7 +44,7 @@ export default function NoticeDetail({ noticeId, clearNoticeId }) {
         )}
       </NoticeDetailHeader>
       <Viewer id={'viewer'}></Viewer>
-      <NoticeComment noticeId={noticeId} />
+      {data?.commentable && <NoticeComment noticeId={noticeId} />}
       {data ? (
         <DetailPageButtonWrapper>
           <MoveToListButton onClick={clearNoticeId}>목록</MoveToListButton>
