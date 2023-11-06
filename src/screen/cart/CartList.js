@@ -148,13 +148,7 @@ export default function CartList({ setEmptyMode }) {
         <Table bordered hover className='cartTable'>
           <thead>
             <tr>
-              <th width='5%'>
-                {/* <input
-                  type="checkbox"
-                  onClick={(e) => changeAllCheck(e)}
-                  checked={isCheckAll}
-                ></input> */}
-              </th>
+              <th width='5%'></th>
               <th width='15%'>제품명</th>
               <th width='15%'>제품가격</th>
               <th width='25%'>옵션</th>
@@ -183,13 +177,7 @@ export default function CartList({ setEmptyMode }) {
           <Table bordered hover className='cartTable'>
             <thead>
               <tr>
-                <th width='5%'>
-                  {/* <input
-                  type="checkbox"
-                  onClick={(e) => changeAllCheck(e)}
-                  checked={isCheckAll}
-                ></input> */}
-                </th>
+                <th width='5%'></th>
                 <th width='15%'>제품명</th>
                 <th width='12%'>제품가격</th>
                 <th width='33%'>옵션</th>

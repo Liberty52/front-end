@@ -9,6 +9,9 @@ export const TOKEN_REFRESH = () => `/auth/refresh`;
 
 export const NOTICE_LIST = (size, page) => `/auth/notices?size=${size}&page=${page}`;
 export const NOTICE_DETAIL = (noticeId) => `/auth/notices/${noticeId}`;
+export const GET_NOTICE_COMMENT = (noticeId, page, size, sortBy, sort) =>
+  `/auth/notices/${noticeId}/comments?page=${page}&size=${size}&sort=${sortBy},${sort}`;
+export const POST_NOTICE_COMMENT = (noticeId) => `/auth/notices/${noticeId}/comments`;
 
 export const PRODUCT_INFO = (id) => `/product/products/${id}`;
 
@@ -25,4 +28,3 @@ export const DELETE_CART = (id) => `/product/carts/custom-products/${id}`;
 export const DELETE_CART_GUEST = (id) => `/product/guest/carts/custom-products/${id}`;
 export const EDIT_CART = (id) => `/product/carts/customProducts/${id}`;
 export const EDIT_CART_GUEST = (id) => `/product/guest/carts/customProducts/${id}`;
-
