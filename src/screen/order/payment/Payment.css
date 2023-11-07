@@ -124,47 +124,48 @@
   width: 50%;
 }
 @media (max-width: 768px) {
-    /* 768px 이하의 화면 크기에 적용할 스타일 */
+  /* 768px 이하의 화면 크기에 적용할 스타일 */
 
-    .payment-section,
-    .confirm-section {
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 0 15px; /* 좌우 패딩 추가 */
-    }
+  .payment-section,
+  .confirm-section {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0 15px; /* 좌우 패딩 추가 */
+  }
 
-    .payment-section form,
-    .confirm-section form {
-        width: 100%; /* 폼의 폭을 최대로 조정 */
-    }
+  .payment-section form,
+  .confirm-section form {
+    width: 100%; /* 폼의 폭을 최대로 조정 */
+  }
 
-    .payment-title,
-    .confirm-section .title {
-        font-size: 24px; /* 폰트 크기 감소 */
-    }
+  .payment-title,
+  .confirm-section .title {
+    font-size: 24px; /* 폰트 크기 감소 */
+  }
 
-    .payment .payment-user .input-button #address1 {
-        width: 70%; /* 주소 입력 폭 감소 */
-    }
+  .payment .payment-user .input-button #address1 {
+    width: 70%; /* 주소 입력 폭 감소 */
+  }
 
-    .payment .payment-user .input-button .button {
-        width: 30%; /* 버튼 폭 증가 */
-    }
+  .payment .payment-user .input-button .button {
+    width: 30%; /* 버튼 폭 증가 */
+  }
 
-    .confirm-backgroundImage img {
-        width: 300px; /* 이미지 폭 감소 */
-        height: auto; /* 높이를 자동으로 조정 */
-    }
+  .confirm-backgroundImage img {
+    width: 300px; /* 이미지 폭 감소 */
+    height: auto; /* 높이를 자동으로 조정 */
+  }
 
-    .confirm-product,
-    .confirm-backgroundImage,
-    .confirm-info, .delivery-info .content {
-      flex-direction: column;
-    }
+  .confirm-product,
+  .confirm-backgroundImage,
+  .confirm-info,
+  .delivery-info .content {
+    flex-direction: column;
+  }
 
-    /* 모달의 폭 조정 */
-    .payment .payment-section .modal-content,
-    .payment .confirm-section .confirm-termsOfUse .modal-content {
-        width: 100%;
-    }
+  /* 모달의 폭 조정 */
+  .payment .payment-section .modal-content,
+  .payment .confirm-section .confirm-termsOfUse .modal-content {
+    width: 100%;
+  }
 }

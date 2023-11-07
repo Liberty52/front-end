@@ -2,7 +2,7 @@ import './Order.css';
 import Header from '../../component/common/Header';
 import Footer from '../../component/common/Footer';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import product_img from '../../image/icon/product.png';
 import post from '../../axios/cart/Cart';
 import Button from '../../component/common/Button';
@@ -12,7 +12,7 @@ import Cookie from '../redirect/Cookie';
 import $ from 'jquery';
 import useAppContext from '../../hooks/useAppContext';
 import Swal from 'sweetalert2';
-import { getProductInfo } from '../../axios/order/Order';
+import { getLicenseImg, getProductInfo } from '../../axios/order/Order';
 import OrderTab from '../../component/order/OrderTab';
 
 const Order = () => {
@@ -22,10 +22,11 @@ const Order = () => {
   const [quantity, setQuantity] = useState(1);
   const [productInfo, setProductInfo] = useState({});
   const [additionalPrice, setAdditionalPrice] = useState({});
-  const productId = 'LIB-001';
+  const [license, setLicense] = useState({});
+  const location = useLocation();
 
   const retriveProductData = () => {
-    getProductInfo(productId).then((res) => {
+    getProductInfo(location.state.productId).then((res) => {
       setProductInfo(res.data);
       setPrice(res.data.price);
     });
@@ -33,6 +34,11 @@ const Order = () => {
 
   useEffect(() => {
     retriveProductData();
+    if (!productInfo?.custom) {
+      getLicenseImg(location.state.productId).then((res) => {
+        setLicense(res.data);
+      });
+    }
   }, []);
 
   useEffect(() => {
@@ -200,23 +206,38 @@ const Order = () => {
                       </div>
                     );
                   })}
-                <div id='add-image' className='add-image'>
-                  <div className='order-title'>나만의 개성을 추가해봐요</div>
-                  <div className='radio-btn'>
-                    <ImageInput width='300px' height='150px' square />
-                  </div>
-                  <div className='order-editor'>
-                    <div
-                      style={{ color: '#1976d2' }}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        navigate('/editor');
-                      }}
-                    >
-                      개성을 추가하러 가기
+                {productInfo.custom ? (
+                  <div id='add-image' className='add-image'>
+                    <div className='order-title'>나만의 개성을 추가해봐요</div>
+                    <div className='radio-btn'>
+                      <ImageInput width='300px' height='150px' square />
+                    </div>
+                    <div className='order-editor'>
+                      <div
+                        style={{ color: '#1976d2' }}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          navigate('/editor');
+                        }}
+                      >
+                        개성을 추가하러 가기
+                      </div>
                     </div>
                   </div>
-                </div>
+                ) : (
+                  license.optionItems &&
+                  license.optionItems.map((optionItem) => {
+                    return (
+                      <div key={optionItem.id} style={{ width: '300px', height: '150px' }}>
+                        <img
+                          src={optionItem.artUrl}
+                          alt={optionItem.artName}
+                          style={{ width: '100%', height: '100%' }}
+                        />
+                      </div>
+                    );
+                  })
+                )}
                 <div className='quantity'>
                   <div className='quantity-content'>
                     <span>{productInfo?.name}</span>

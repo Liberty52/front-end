@@ -1,4 +1,4 @@
-.radio input[type="radio"] {
+.radio input[type='radio'] {
   display: none;
 }
 
@@ -13,7 +13,7 @@
 }
 
 /* Checked */
-.radio input[type="radio"]:checked + label {
+.radio input[type='radio']:checked + label {
   border: 1.5px solid #0071e3;
 }
 
@@ -23,6 +23,6 @@
   border-color: #aaa;
 }
 
-.radio input[type="radio"]:checked + label:hover {
+.radio input[type='radio']:checked + label:hover {
   background-color: #eef6ff;
 }

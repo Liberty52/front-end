@@ -50,6 +50,14 @@ export default function Choose() {
   function ProductContent(props) {
     const [modal, showModal] = useState(false);
     const productInfo = props.productInfo;
+    const navigate = useNavigate();
+    const cardClicked = () => {
+      navigate(`/order`, {
+        state: {
+          productId: productInfo.id,
+        },
+      });
+    };
 
     return (
       <>
@@ -129,11 +137,6 @@ export default function Choose() {
       </>
     );
   }
-
-  const navigate = useNavigate();
-  const cardClicked = () => {
-    navigate(`/order`);
-  };
 
   function Pages(props) {
     const pages = props.pages;
