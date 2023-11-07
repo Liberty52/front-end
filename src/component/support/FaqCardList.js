@@ -82,10 +82,8 @@ export default function FaqCardList() {
   };
 
   return (
-    <>
-      <FaqListWrapper flexDirection={'row'} spacing={2} useFlexGap flexWrap='wrap'>
-        {createFAQ().map((f) => f)}
-      </FaqListWrapper>
-    </>
+    <FaqListWrapper flexDirection={'row'} spacing={2} useFlexGap flexWrap='wrap'>
+      {createFAQ().map((f) => f)}
+    </FaqListWrapper>
   );
 }

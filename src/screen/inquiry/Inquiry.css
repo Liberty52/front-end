@@ -12,7 +12,6 @@
   max-width: 900px;
 }
 
-
 .inquiry .order-item {
   display: grid;
   grid-template-columns: 1fr 7fr;
@@ -21,7 +20,6 @@
   padding-top: 1.5rem;
   padding-bottom: 1.5rem;
   cursor: pointer;
-
 }
 
 .inquiry .order-img-wrapper,
@@ -37,7 +35,6 @@
   margin-left: 5%;
 }
 
-
 .inquiry .order-right-bottom {
   display: grid;
   grid-template-columns: 3.5fr 2.5fr 1fr;
@@ -51,12 +48,10 @@
   margin-right: 10px;
 }
 
-
 .inquiry .buttons {
   margin-right: 3rem;
   margin-bottom: 1rem;
 }
-
 
 .inquiry .cancel,
 .inquiry .review {
@@ -64,7 +59,6 @@
   margin-right: 10px;
   margin-top: 0;
   margin-bottom: 0;
-
 }
 
 .inquiry .TCheck {
@@ -76,7 +70,6 @@
   height: 120px !important;
 }
 
-
 .inquiry .order-left p {
   text-align: center;
 }
@@ -84,7 +77,6 @@
 .inquiry .order-right-botton p {
   font-size: 5px;
 }
-
 
 .PayAdd-wrapper .address2,
 .personal-info .info-customer {
@@ -94,7 +86,6 @@
 .date {
   margin-top: 3rem;
 }
-
 
 .inquiry .cancel {
   color: #0066cc;
@@ -136,7 +127,6 @@
   background-color: #0066cc;
 }
 
-
 .inquiry .address1,
 .inquiry .address {
   margin: 0;
@@ -161,16 +151,12 @@
   margin-bottom: 1rem;
 }
 
-
 .product-item p {
   color: black;
   width: 100%;
   justify-content: space-around;
   font-size: x-large;
 }
-
-
-
 
 @media only screen and (max-width: 768px) {
   .inquiry .order-info-wrapper {
@@ -203,13 +189,11 @@
     margin-left: 3rem;
   }
 
-
   .inquiry .buttons {
     display: none;
   }
 
-
-  .inquiry .order-info-wrapper>*:not(.order-right-top) {
+  .inquiry .order-info-wrapper > *:not(.order-right-top) {
     display: none;
   }
 }
