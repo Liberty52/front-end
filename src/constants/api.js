@@ -12,7 +12,7 @@ export const NOTICE_DETAIL = (noticeId) => `/auth/notices/${noticeId}`;
 
 // order api
 export const PRODUCT_INFO = (id) => `/product/products/${id}`;
-export const LICENSE_IMAGES = (productId) => `/licenseProductOptionInfo/${productId}`;
+export const LICENSE_IMAGES = (productId) => `/product/licenseProductOptionInfo/${productId}`;
 
 export const CREATE_REVIEW = () => `/product/reviews`;
 

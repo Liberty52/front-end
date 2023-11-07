@@ -35,6 +35,7 @@ const Order = () => {
     retriveProductData();
     if (!productInfo?.custom) {
       getLicenseImg(location.state.productId).then((res) => {
+        setProductInfo(res.data);
         console.log(res.data);
       });
     }
@@ -224,7 +225,14 @@ const Order = () => {
                     </div>
                   </div>
                 ) : (
-                  <h1>안녕</h1>
+                  productInfo.optionItems &&
+                  productInfo?.optionItems.map((optionItem) => {
+                    return (
+                      <div key={optionItem.id} style={{ width: '300px', height: '150px' }}>
+                        <img src={optionItem?.artUrl} style={{ width: '100%', height: '100%' }} />
+                      </div>
+                    );
+                  })
                 )}
                 <div className='quantity'>
                   <div className='quantity-content'>
