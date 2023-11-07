@@ -244,9 +244,7 @@ export const QuestionDetailActionDivider = styled.div`
   margin: 0px 5px;
 `;
 
-export const DetailPageButtonWrapper = styled(QuestionPageButtonWrapper)`
-  margin-top: 15px;
-`;
+export const DetailPageButtonWrapper = styled(QuestionPageButtonWrapper)``;
 
 export const QuestionReplyWrapper = styled.div`
   margin-top: 10px;

@@ -24,7 +24,7 @@ function LoginInput() {
   );
 }
 
-function LoginForm() {
+function LoginForm({ onLogin }) {
   const navigate = useNavigate();
   return (
     <form
@@ -45,7 +45,11 @@ function LoginForm() {
               localStorage.setItem(REFRESH_TOKEN, response.headers.refresh);
             }
             sessionStorage.setItem(ACCESS_TOKEN, response.headers.access);
-            navigate('/');
+            if (onLogin) {
+              onLogin();
+            } else {
+              navigate('/');
+            }
           })
           .catch((e) => {
             if (e.response) {
@@ -245,7 +249,7 @@ function PasswordInput({ setEmail }) {
   );
 }
 
-function CompanyLogin() {
+function CompanyLogin({ onLogin }) {
   const [showModal, setShowModal] = useState(false);
   const [showFindFormModal, setShowFindFormModal] = useState(true);
   const openModal = () => {
@@ -263,7 +267,7 @@ function CompanyLogin() {
 
   return (
     <div className='company-login'>
-      <LoginForm />
+      <LoginForm onLogin={onLogin} />
       <div className='login-nav'>
         <a href='/signUp'>회원가입</a>
         <button onClick={openModal}>아이디/비밀번호 찾기</button>
@@ -273,15 +277,15 @@ function CompanyLogin() {
   );
 }
 
-function SocialLogin() {
+function SocialLogin({ target }) {
   return (
     <div className='social-login'>
       <div className='login-title'>소셜 로그인</div>
       <div className='social-login-button-group'>
-        <SocialLoginButton provider={SOCIAL_LOGIN_PROVIDER.NAVER} />
-        <SocialLoginButton provider={SOCIAL_LOGIN_PROVIDER.KAKAO} />
-        <SocialLoginButton provider={SOCIAL_LOGIN_PROVIDER.GOOGLE} />
-        <SocialLoginButton provider={SOCIAL_LOGIN_PROVIDER.FACEBOOK} />
+        <SocialLoginButton provider={SOCIAL_LOGIN_PROVIDER.NAVER} target={target} />
+        <SocialLoginButton provider={SOCIAL_LOGIN_PROVIDER.KAKAO} target={target} />
+        <SocialLoginButton provider={SOCIAL_LOGIN_PROVIDER.GOOGLE} target={target} />
+        <SocialLoginButton provider={SOCIAL_LOGIN_PROVIDER.FACEBOOK} target={target} />
       </div>
     </div>
   );
@@ -413,6 +417,18 @@ export default function Login() {
         <SocialLogin />
         <Border />
         <NonmemberInquiry />
+      </div>
+    </div>
+  );
+}
+
+export function LoginModalComponent({ onLogin, target }) {
+  return (
+    <div className='login'>
+      <div className='section'>
+        <CompanyLogin onLogin={onLogin} />
+        <Border />
+        <SocialLogin target={target} />
       </div>
     </div>
   );

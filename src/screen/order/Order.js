@@ -22,6 +22,7 @@ const Order = () => {
   const [quantity, setQuantity] = useState(1);
   const [productInfo, setProductInfo] = useState({});
   const [additionalPrice, setAdditionalPrice] = useState({});
+  const [license, setLicense] = useState({});
   const location = useLocation();
 
   const retriveProductData = () => {
@@ -35,8 +36,7 @@ const Order = () => {
     retriveProductData();
     if (!productInfo?.custom) {
       getLicenseImg(location.state.productId).then((res) => {
-        setProductInfo(res.data);
-        console.log(res.data);
+        setLicense(res.data);
       });
     }
   }, []);
@@ -225,11 +225,15 @@ const Order = () => {
                     </div>
                   </div>
                 ) : (
-                  productInfo.optionItems &&
-                  productInfo?.optionItems.map((optionItem) => {
+                  license.optionItems &&
+                  license.optionItems.map((optionItem) => {
                     return (
                       <div key={optionItem.id} style={{ width: '300px', height: '150px' }}>
-                        <img src={optionItem?.artUrl} style={{ width: '100%', height: '100%' }} />
+                        <img
+                          src={optionItem.artUrl}
+                          alt={optionItem.artName}
+                          style={{ width: '100%', height: '100%' }}
+                        />
                       </div>
                     );
                   })
@@ -254,6 +258,7 @@ const Order = () => {
                     </div>
                   </div>
                 </div>
+                <div style={{ padding: '10px 0' }}>배송비: &#8361;{productInfo?.deliveryFee}</div>
                 <div className='order-btn-group'>
                   <Button text='구매하기' onClick={buy} />
                   <Button text='장바구니' onClick={addCart} />
@@ -263,7 +268,7 @@ const Order = () => {
           </div>
         </div>
       </div>
-      <OrderTab introductionImageUrl={productInfo.introductionImageUrl} />
+      <OrderTab content={productInfo.content} />
       <Footer />
     </div>
   );
