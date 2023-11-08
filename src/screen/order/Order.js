@@ -23,6 +23,7 @@ const Order = () => {
   const [productInfo, setProductInfo] = useState({});
   const [additionalPrice, setAdditionalPrice] = useState({});
   const [license, setLicense] = useState({});
+  const [selectedImg, setSelectedImg] = useState('');
   const location = useLocation();
 
   const retriveProductData = () => {
@@ -69,7 +70,13 @@ const Order = () => {
     const options = Object.values(frameOption).map((item) => {
       return item.id;
     });
-    const image = e.target.file.files[0];
+    let image;
+    if (productInfo.custom) {
+      image = e.target.file.files[0];
+    } else {
+      image = selectedImg;
+    }
+
     const data = {
       productId: productInfo?.id,
       optionDetailIds: options,
@@ -232,6 +239,7 @@ const Order = () => {
                         <img
                           src={optionItem.artUrl}
                           alt={optionItem.artName}
+                          onClick={(e) => setSelectedImg(e.target.src)}
                           onContextMenu={(e) => {
                             e.preventDefault();
                           }}
