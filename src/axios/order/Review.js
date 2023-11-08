@@ -1,6 +1,6 @@
 import axios from '../axios';
 import { ACCESS_TOKEN } from '../../constants/token';
-import { CREATE_REVIEW } from '../../constants/api';
+import { CREATE_REVIEW, DELETE_REVIEW } from '../../constants/api';
 
 export function postReview(dto, files) {
   const formData = new FormData();
@@ -107,20 +107,10 @@ export function delImage(reviewId, dto) {
   return false;
 }
 
-export function deleteReview(reviewId, onSuccess) {
-  if (window.confirm('리뷰를 삭제하시겠습니까?')) {
-    axios
-      .delete(`/product/reviews/${reviewId}`, {
-        headers: {
-          Authorization: sessionStorage.getItem(ACCESS_TOKEN),
-        },
-      })
-      .then(() => {
-        alert('리뷰가 삭제되었습니다.');
-        onSuccess();
-      })
-      .catch((response) => {
-        if (response.status === 404) alert('해당 리뷰가 존재하지 않습니다.');
-      });
-  }
+export function deleteReview(reviewId) {
+  return axios.delete(DELETE_REVIEW(reviewId), {
+    headers: {
+      Authorization: sessionStorage.getItem(ACCESS_TOKEN),
+    },
+  });
 }
