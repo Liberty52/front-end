@@ -232,6 +232,9 @@ const Order = () => {
                         <img
                           src={optionItem.artUrl}
                           alt={optionItem.artName}
+                          onContextMenu={(e) => {
+                            e.preventDefault();
+                          }}
                           style={{ width: '100%', height: '100%' }}
                         />
                       </div>
