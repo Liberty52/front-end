@@ -13,7 +13,7 @@ import { getLicenseImg } from '../../axios/order/Order';
 import { ORDER_MODE } from '../../constants/mode';
 import { EDITOR, PAYMENT } from '../../constants/path';
 
-export default function OrderOptions({ productInfo }) {
+export default function OrderOptions({ productId, productInfo }) {
   let imageFile = '';
   const navigate = useNavigate();
 
@@ -27,7 +27,7 @@ export default function OrderOptions({ productInfo }) {
   useEffect(() => {
     setPrice(productInfo?.price);
     if (!productInfo?.custom) {
-      getLicenseImg(productInfo?.id).then((res) => {
+      getLicenseImg(productId).then((res) => {
         setLicense(res.data);
       });
     }

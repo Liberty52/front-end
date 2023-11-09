@@ -16,8 +16,9 @@ const Order = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const productId = location.state?.productId;
+
   const retriveProductData = () => {
-    const productId = location.state?.productId;
     if (!productId) {
       navigate(CHOOSE);
       return;
@@ -39,7 +40,7 @@ const Order = () => {
         <h1 className='product-title'>{productInfo?.name}</h1>
         <div className='order-page'>
           <ProductImage productInfo={productInfo} />
-          <OrderOptions productInfo={productInfo} />
+          <OrderOptions productId={productId} productInfo={productInfo} />
         </div>
       </div>
       <OrderTab content={productInfo.content} />
