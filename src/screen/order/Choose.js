@@ -9,6 +9,7 @@ import { getProductList } from '../../axios/order/Order';
 import { useNavigate } from 'react-router-dom';
 import Header from '../../component/common/Header';
 import ReviewModal from '../../component/order/review/ReviewModal';
+import photoNotFound from '../../image/icon/photo-not-found.svg';
 
 export default function Choose() {
   function ChooseContents(id) {
@@ -81,11 +82,7 @@ export default function Choose() {
                 <div className='product'>
                   <div className='choose-product' key={productInfo.id}>
                     <span className='product-image img'>
-                      {productInfo.id === 'LIB-001' ? (
-                        <img src='https://liberty52.s3.ap-northeast-2.amazonaws.com/product/static/liberty52-frame.png'></img>
-                      ) : (
-                        <img src={productInfo.pictureUrl}></img>
-                      )}
+                      <img src={productInfo.pictureUrl ? productInfo.pictureUrl : photoNotFound} />
                     </span>
                     <div className='product-contents'>
                       <div className='choose-isnotsale'>

@@ -3,7 +3,7 @@ import Header from '../../component/common/Header';
 import Footer from '../../component/common/Footer';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import product_img from '../../image/icon/product.png';
+import photoNotFound from '../../image/icon/photo-not-found.svg';
 import post from '../../axios/cart/Cart';
 import Button from '../../component/common/Button';
 import ImageInput from '../../component/common/ImageInput';
@@ -123,18 +123,6 @@ const Order = () => {
     setMode('buy');
   };
 
-  $('.order').on('resize', function () {
-    calcHeight();
-  });
-
-  function calcHeight() {
-    const bodyHeight = document.body.clientHeight;
-    const productImage = document.querySelector('.product-image');
-
-    // set product-image top : vertical center
-    const top = (bodyHeight - productImage.clientHeight) / 2;
-    productImage.style.top = top + 'px';
-  }
   const numStripes = 4500; // 빗금 개수
   const stripeDensity = 3; // 밀도
 
@@ -164,7 +152,11 @@ const Order = () => {
         <div className='order-page'>
           <div className='product'>
             <div className='product-image'>
-              <img src={product_img} alt='제품 이미지' onLoad={calcHeight} />
+              <img
+                style={{ width: !productInfo.pictureUrl && '50%' }}
+                src={productInfo.pictureUrl ? productInfo.pictureUrl : photoNotFound}
+                alt='제품 이미지'
+              />
             </div>
           </div>
           <div className='order-options'>
