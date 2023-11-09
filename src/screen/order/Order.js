@@ -3,7 +3,7 @@ import Header from '../../component/common/Header';
 import Footer from '../../component/common/Footer';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import product_img from '../../image/icon/product.png';
+import photoNotFound from '../../image/icon/photo-not-found.svg';
 import post from '../../axios/cart/Cart';
 import Button from '../../component/common/Button';
 import ImageInput from '../../component/common/ImageInput';
@@ -164,7 +164,11 @@ const Order = () => {
         <div className='order-page'>
           <div className='product'>
             <div className='product-image'>
-              <img src={product_img} alt='제품 이미지' onLoad={calcHeight} />
+              <img
+                src={productInfo.pictureUrl ? productInfo.pictureUrl : photoNotFound}
+                alt='제품 이미지'
+                onLoad={calcHeight}
+              />
             </div>
           </div>
           <div className='order-options'>
