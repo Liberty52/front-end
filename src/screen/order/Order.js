@@ -12,11 +12,13 @@ import { CHOOSE } from '../../constants/path';
 
 const Order = () => {
   const [productInfo, setProductInfo] = useState({});
+  const [price, setPrice] = useState(0);
 
   const navigate = useNavigate();
   const location = useLocation();
 
   const productId = location.state?.productId;
+  let initialPrice;
 
   const retriveProductData = () => {
     if (!productId) {
@@ -25,6 +27,7 @@ const Order = () => {
     }
     getProductInfo(productId).then((res) => {
       setProductInfo(res.data);
+      setPrice(res.data.price);
     });
   };
 
@@ -40,7 +43,12 @@ const Order = () => {
         <h1 className='product-title'>{productInfo?.name}</h1>
         <div className='order-page'>
           <ProductImage productInfo={productInfo} />
-          <OrderOptions productId={productId} productInfo={productInfo} />
+          <OrderOptions
+            productId={productId}
+            productInfo={productInfo}
+            price={price}
+            setPrice={setPrice}
+          />
         </div>
       </div>
       <OrderTab content={productInfo.content} />
