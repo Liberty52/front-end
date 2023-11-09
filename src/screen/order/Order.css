@@ -155,6 +155,10 @@ input[type='number']::-webkit-outer-spin-button {
     align-items: center;
   }
 
+  .order .product-image {
+    transform: initial;
+  }
+
   .order .product-image img {
     width: 50%;
   }
