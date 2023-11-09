@@ -18,7 +18,6 @@ const Order = () => {
   const location = useLocation();
 
   const productId = location.state?.productId;
-  let initialPrice;
 
   const retriveProductData = () => {
     if (!productId) {
