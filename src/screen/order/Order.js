@@ -123,18 +123,6 @@ const Order = () => {
     setMode('buy');
   };
 
-  $('.order').on('resize', function () {
-    calcHeight();
-  });
-
-  function calcHeight() {
-    const bodyHeight = document.body.clientHeight;
-    const productImage = document.querySelector('.product-image');
-
-    // set product-image top : vertical center
-    const top = (bodyHeight - productImage.clientHeight) / 2;
-    productImage.style.top = top + 'px';
-  }
   const numStripes = 4500; // 빗금 개수
   const stripeDensity = 3; // 밀도
 
@@ -165,9 +153,9 @@ const Order = () => {
           <div className='product'>
             <div className='product-image'>
               <img
+                style={{ width: !productInfo.pictureUrl && '50%' }}
                 src={productInfo.pictureUrl ? productInfo.pictureUrl : photoNotFound}
                 alt='제품 이미지'
-                onLoad={calcHeight}
               />
             </div>
           </div>
