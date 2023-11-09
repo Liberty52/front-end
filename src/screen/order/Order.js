@@ -9,7 +9,6 @@ import Button from '../../component/common/Button';
 import ImageInput from '../../component/common/ImageInput';
 import Radio from '../../component/common/Radio';
 import Cookie from '../redirect/Cookie';
-import $ from 'jquery';
 import useAppContext from '../../hooks/useAppContext';
 import Swal from 'sweetalert2';
 import { getLicenseImg, getProductInfo } from '../../axios/order/Order';
@@ -27,6 +26,7 @@ const Order = () => {
 
   const retriveProductData = () => {
     getProductInfo(location.state.productId).then((res) => {
+      console.log(res.data);
       setProductInfo(res.data);
       setPrice(res.data.price);
     });
@@ -77,10 +77,9 @@ const Order = () => {
     };
     dto = data;
     imageFile = image;
-    // eslint-disable-next-line default-case
     let pass = true;
     Object.values(productInfo.options).map((option, idx) => {
-      if (!frameOption[`${option.name}`]) {
+      if (option.require && !frameOption[`${option.name}`]) {
         Swal.fire({
           title: option.name + '을(를) 선택해주세요',
           icon: 'warning',
