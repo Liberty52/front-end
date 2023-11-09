@@ -17,7 +17,9 @@ export const POST_NOTICE_COMMENT = (noticeId) => `/auth/notices/${noticeId}/comm
 export const PRODUCT_INFO = (id) => `/product/products/${id}`;
 export const LICENSE_IMAGES = (productId) => `/product/licenseProductOptionInfo/${productId}`;
 
+// review api
 export const CREATE_REVIEW = () => `/product/reviews`;
+export const DELETE_REVIEW = (reviewId) => `/product/reviews/${reviewId}`;
 
 export const LICENSE_LIST = () => `/product/licenseImage`;
 
