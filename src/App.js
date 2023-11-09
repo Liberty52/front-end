@@ -17,7 +17,27 @@ import QuestionDetail from './screen/question/QuestionDetail';
 import QuestionList from './screen/question/QuestionList';
 import QuestionEditor from './screen/question/QuestionEditor';
 import Support from './screen/support/Support';
-import { FAQ, QUESTION, QUESTION_DETAIL, QUESTION_EDITOR, SUPPORT } from './constants/path';
+import {
+  MAIN,
+  MY_INFO,
+  LOGIN,
+  SIGN_UP,
+  REDIRECT,
+  CART,
+  CHOOSE,
+  ORDER,
+  PAYMENT,
+  CHANGE_PASSWORD,
+  INQUIRY,
+  DETAIL,
+  GUEST_DETAIL,
+  EDITOR,
+  SUPPORT,
+  QUESTION,
+  QUESTION_DETAIL,
+  QUESTION_EDITOR,
+  FAQ,
+} from './constants/path';
 import Faq from './screen/support/Faq';
 import Choose from './screen/order/Choose';
 import { useEffect } from 'react';
@@ -34,20 +54,20 @@ export default function App() {
     <Provider>
       <BrowserRouter>
         <Routes>
-          <Route path={'/'} element={<Main />} />
-          <Route path={'/myInfo'} element={<MyInfo />} />
-          <Route path={'/login'} element={<Login />} />
-          <Route path={'/signUp'} element={<SignUp />} />
-          <Route path={'/redirect'} element={<Redirect />} />
-          <Route path={'/cart'} element={<Cart />} />
-          <Route path={'/choose'} element={<Choose />} />
-          <Route path={'/order'} element={<Order />} />
-          <Route path={'/payment'} element={<Payment />} />
-          <Route path={'/auth/password'} element={<ChangePassword />} />
-          <Route path={'/inquiry'} element={<Inquiry />} />
-          <Route path={'/detail/:orderId'} element={<Detail />} />
-          <Route path={'/product/guest/:orderId'} element={<Detail />} />
-          <Route path={'/editor'} element={<Editor />} />
+          <Route path={MAIN} element={<Main />} />
+          <Route path={MY_INFO} element={<MyInfo />} />
+          <Route path={LOGIN} element={<Login />} />
+          <Route path={SIGN_UP} element={<SignUp />} />
+          <Route path={REDIRECT} element={<Redirect />} />
+          <Route path={CART} element={<Cart />} />
+          <Route path={CHOOSE} element={<Choose />} />
+          <Route path={ORDER} element={<Order />} />
+          <Route path={PAYMENT} element={<Payment />} />
+          <Route path={CHANGE_PASSWORD} element={<ChangePassword />} />
+          <Route path={INQUIRY} element={<Inquiry />} />
+          <Route path={DETAIL} element={<Detail />} />
+          <Route path={GUEST_DETAIL} element={<Detail />} />
+          <Route path={EDITOR} element={<Editor />} />
           <Route path={QUESTION} element={<QuestionList />} />
           <Route path={QUESTION_DETAIL} element={<QuestionDetail />} />
           <Route path={QUESTION_EDITOR} element={<QuestionEditor />} />
