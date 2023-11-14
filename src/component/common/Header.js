@@ -103,13 +103,13 @@ export default function Header({ fixed }) {
         },
         { name: '장바구니', href: 'cart' },
         { name: '주문조회', href: 'inquiry' },
-        { name: '구매하기', href: 'order' },
+        { name: '구매하기', href: 'choose' },
       ]);
     } else {
       setHeaderItemsRight([
         { name: '로그인', href: 'login' },
         { name: '장바구니', href: 'cart' },
-        { name: '구매하기', href: 'order' },
+        { name: '구매하기', href: 'choose' },
       ]);
     }
   }, []);
