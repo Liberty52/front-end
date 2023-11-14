@@ -35,7 +35,6 @@ const Order = () => {
     retriveProductData();
 
     $(window).on('resize', function () {
-      console.log('resize');
       calcHeight();
     });
   }, []);

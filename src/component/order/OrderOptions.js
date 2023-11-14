@@ -205,7 +205,7 @@ export default function OrderOptions({ productId, productInfo, price, setPrice }
           )}
           <div className='quantity'>
             <div className='quantity-content'>
-              <span>{productInfo?.name}</span>
+              <span className='product-name'>{productInfo?.name}</span>
               <div>
                 <input
                   type='number'
@@ -221,7 +221,7 @@ export default function OrderOptions({ productId, productInfo, price, setPrice }
               </div>
             </div>
           </div>
-          <div style={{ padding: '10px 0' }}>배송비: &#8361;{productInfo?.deliveryFee}</div>
+          <div className='delivery-fee'>배송비: &#8361;{productInfo?.deliveryFee}</div>
           <div className='order-btn-group'>
             <Button text='구매하기' onClick={buy} />
             <Button text='장바구니' onClick={addCart} />
