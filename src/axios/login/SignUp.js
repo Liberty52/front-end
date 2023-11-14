@@ -1,18 +1,20 @@
 import axios from '../axios';
+import { CONTENT_TYPE } from '../../constants/header';
+import { LOGIN } from '../../constants/path';
 
 export default function post(dto, file) {
   const formData = new FormData();
   formData.append('file', file);
-  formData.append('dto', new Blob([JSON.stringify(dto)], { type: 'application/json' }));
+  formData.append('dto', new Blob([JSON.stringify(dto)], { type: CONTENT_TYPE.ApplicationJson }));
   axios
     .post('/auth/sign-up', formData, {
       headers: {
-        'Content-Type': 'multipart/form-data',
+        'Content-Type': CONTENT_TYPE.MultipartFormData,
       },
     })
     .then(() => {
       alert(dto.name + '님 회원 가입을 환영합니다.');
-      window.location.replace('/login');
+      window.location.replace(LOGIN);
     })
     .catch((e) => {
       if (e.response) {

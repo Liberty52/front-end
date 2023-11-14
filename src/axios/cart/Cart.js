@@ -13,11 +13,12 @@ import {
   EDIT_CART_GUEST,
   PRODUCT_OPTION,
 } from '../../constants/api';
+import { CONTENT_TYPE } from '../../constants/header';
 
 export default function post(dto, file) {
   const formData = new FormData();
   formData.append('file', file);
-  formData.append('dto', new Blob([JSON.stringify(dto)], { type: 'application/json' }));
+  formData.append('dto', new Blob([JSON.stringify(dto)], { type: CONTENT_TYPE.ApplicationJson }));
   if (sessionStorage.getItem(ACCESS_TOKEN)) {
     axios
       .post(ADD_CART, formData, {
@@ -102,7 +103,7 @@ export const handleDeleteClick = (checkedList) => {
 export const handleEditClick = (customProductId, dto, file) => {
   const formData = new FormData();
   formData.append('file', file);
-  formData.append('dto', new Blob([JSON.stringify(dto)], { type: 'application/json' }));
+  formData.append('dto', new Blob([JSON.stringify(dto)], { type: CONTENT_TYPE.ApplicationJson }));
   console.log(dto);
   if (sessionStorage.getItem(ACCESS_TOKEN)) {
     axios
