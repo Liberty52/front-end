@@ -108,6 +108,39 @@ export default function OrderOptions({ productId, productInfo, price, setPrice }
     setMode(ORDER_MODE.BUY);
   };
 
+  const moveToEditor = (e) => {
+    e.preventDefault();
+    navigate(EDITOR);
+  };
+
+  return (
+    <div className='order-options'>
+      <form className='order-inputs' onSubmit={onHandleSubmit}>
+        <div className='order-inputs-selects'>
+          <Options options={productInfo.options} onHandleChange={onHandleChange} />
+          <AddImage
+            custom={productInfo.custom}
+            optionItems={license.optionItems}
+            moveToEditor={moveToEditor}
+          />
+          <Quantity
+            productName={productInfo.name}
+            quantity={quantity}
+            setQuantity={setQuantity}
+            price={price}
+          />
+          <div className='delivery-fee'>배송비: &#8361;{productInfo?.deliveryFee}</div>
+          <div className='order-btn-group'>
+            <Button text='구매하기' onClick={buy} />
+            <Button text='장바구니' onClick={addCart} />
+          </div>
+        </div>
+      </form>
+    </div>
+  );
+}
+
+const Options = ({ options, onHandleChange }) => {
   const numStripes = 4500; // 빗금 개수
   const stripeDensity = 3; // 밀도
 
@@ -129,105 +162,102 @@ export default function OrderOptions({ productId, productInfo, price, setPrice }
   }
 
   return (
-    <div className='order-options'>
-      <form className='order-inputs' onSubmit={onHandleSubmit}>
-        <div className='order-inputs-selects'>
-          {productInfo.options &&
-            productInfo.options.map((option, idx) => {
-              return (
-                <div key={idx} className='option'>
-                  <div id={idx} className='order-title'>
-                    {option.name}을 선택하세요
-                  </div>
-                  {option.optionItems &&
-                    option.optionItems.map((item, idx) => {
-                      const isDisabled = item.stock <= 0;
-                      return (
-                        <Radio
-                          key={idx}
-                          style={{
-                            marginBottom: '10px',
-                            opacity: isDisabled ? '0.6' : '1',
-                            pointerEvents: isDisabled ? 'none' : 'auto', //if stock is none => prevent click
-                            backgroundImage: isDisabled ? generateDenseStripes() : 'none',
-                          }}
-                          name={option.name}
-                          text={item.name}
-                          onChange={(e) => {
-                            onHandleChange(e, item, item.price);
-                          }}
-                          required
-                        >
-                          <span style={{ color: '#bbbbbb' }}>
-                            {` + `}&#8361;{`${item.price}`}
-                          </span>
-                          <span style={{ display: 'none' }}>{item.stock}</span>
-                        </Radio>
-                      );
-                    })}
-                </div>
-              );
-            })}
-          {productInfo.custom ? (
-            <div id='add-image' className='add-image'>
-              <div className='order-title'>나만의 개성을 추가해봐요</div>
-              <div className='radio-btn'>
-                <ImageInput width='300px' height='150px' square />
+    <>
+      {options &&
+        options.map((option, idx) => {
+          return (
+            <div key={idx} className='option'>
+              <div id={idx} className='order-title'>
+                {option.name}을 선택하세요
               </div>
-              <div className='order-editor'>
-                <div
-                  style={{ color: '#1976d2' }}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    navigate(EDITOR);
-                  }}
-                >
-                  개성을 추가하러 가기
-                </div>
-              </div>
+              {option.optionItems &&
+                option.optionItems.map((item, idx) => {
+                  const isDisabled = item.stock <= 0;
+                  return (
+                    <Radio
+                      key={idx}
+                      style={{
+                        marginBottom: '10px',
+                        opacity: isDisabled ? '0.6' : '1',
+                        pointerEvents: isDisabled ? 'none' : 'auto', //if stock is none => prevent click
+                        backgroundImage: isDisabled ? generateDenseStripes() : 'none',
+                      }}
+                      name={option.name}
+                      text={item.name}
+                      onChange={(e) => {
+                        onHandleChange(e, item, item.price);
+                      }}
+                      required
+                    >
+                      <span style={{ color: '#bbbbbb' }}>
+                        {` + `}&#8361;{`${item.price}`}
+                      </span>
+                      <span style={{ display: 'none' }}>{item.stock}</span>
+                    </Radio>
+                  );
+                })}
             </div>
-          ) : (
-            license.optionItems &&
-            license.optionItems.map((optionItem) => {
-              return (
-                <div key={optionItem.id} style={{ width: '300px', height: '150px' }}>
-                  <img
-                    src={optionItem.artUrl}
-                    alt={optionItem.artName}
-                    onContextMenu={(e) => {
-                      e.preventDefault();
-                    }}
-                    style={{ width: '100%', height: '100%' }}
-                  />
-                </div>
-              );
-            })
-          )}
-          <div className='quantity'>
-            <div className='quantity-content'>
-              <span className='product-name'>{productInfo?.name}</span>
-              <div>
-                <input
-                  type='number'
-                  name='quantity'
-                  value={quantity}
-                  min={1}
-                  required
-                  onChange={(e) => {
-                    setQuantity(e.target.value);
-                  }}
-                />
-                <span className='price'>&#8361;{(price * quantity).toLocaleString('ko-KR')}</span>
-              </div>
-            </div>
+          );
+        })}
+    </>
+  );
+};
+
+const AddImage = ({ custom, optionItems, moveToEditor }) => {
+  return (
+    <>
+      {custom ? (
+        <div id='add-image' className='add-image'>
+          <div className='order-title'>나만의 개성을 추가해봐요</div>
+          <div className='radio-btn'>
+            <ImageInput width='300px' height='150px' square />
           </div>
-          <div className='delivery-fee'>배송비: &#8361;{productInfo?.deliveryFee}</div>
-          <div className='order-btn-group'>
-            <Button text='구매하기' onClick={buy} />
-            <Button text='장바구니' onClick={addCart} />
+          <div className='order-editor'>
+            <div style={{ color: '#1976d2' }} onClick={moveToEditor}>
+              개성을 추가하러 가기
+            </div>
           </div>
         </div>
-      </form>
+      ) : (
+        optionItems &&
+        optionItems.map((optionItem) => {
+          return (
+            <div key={optionItem.id} style={{ width: '300px', height: '150px' }}>
+              <img
+                src={optionItem.artUrl}
+                alt={optionItem.artName}
+                onContextMenu={(e) => {
+                  e.preventDefault();
+                }}
+                style={{ width: '100%', height: '100%' }}
+              />
+            </div>
+          );
+        })
+      )}
+    </>
+  );
+};
+
+const Quantity = ({ productName, quantity, setQuantity, price }) => {
+  return (
+    <div className='quantity'>
+      <div className='quantity-content'>
+        <span className='product-name'>{productName}</span>
+        <div>
+          <input
+            type='number'
+            name='quantity'
+            value={quantity}
+            min={1}
+            required
+            onChange={(e) => {
+              setQuantity(e.target.value);
+            }}
+          />
+          <span className='price'>&#8361;{(price * quantity).toLocaleString('ko-KR')}</span>
+        </div>
+      </div>
     </div>
   );
-}
+};
