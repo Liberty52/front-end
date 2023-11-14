@@ -161,6 +161,11 @@ const Options = ({ options, onHandleChange }) => {
     return gradient;
   }
 
+  // 종성이 있는 한글인지 체크
+  function hasLastConsonantLetter(text) {
+    return (text.charCodeAt(text.length - 1) - '가'.charCodeAt(0)) % 28 !== 0;
+  }
+
   return (
     <>
       {options &&
@@ -168,7 +173,8 @@ const Options = ({ options, onHandleChange }) => {
           return (
             <div key={idx} className='option'>
               <div id={idx} className='order-title'>
-                {option.name}을 선택하세요
+                {option.name}
+                {hasLastConsonantLetter(option.name) ? '을' : '를'} 선택하세요
                 {option.require && <span className='order-title'> *</span>}
               </div>
               {option.optionItems &&
