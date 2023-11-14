@@ -169,6 +169,7 @@ const Options = ({ options, onHandleChange }) => {
             <div key={idx} className='option'>
               <div id={idx} className='order-title'>
                 {option.name}을 선택하세요
+                {option.require && <span className='order-title'> *</span>}
               </div>
               {option.optionItems &&
                 option.optionItems.map((item, idx) => {
@@ -208,7 +209,7 @@ const AddImage = ({ custom, optionItems, moveToEditor }) => {
     <>
       {custom ? (
         <div id='add-image' className='add-image'>
-          <div className='order-title'>나만의 개성을 추가해봐요</div>
+          <div className='order-title'>나만의 개성을 추가해봐요 *</div>
           <div className='radio-btn'>
             <ImageInput width='300px' height='150px' square />
           </div>
