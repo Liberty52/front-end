@@ -76,11 +76,11 @@ export default function QuestionList() {
     setPageNum(id - 1);
   };
   const pageNumberMinusButtonClicked = () => {
-    if (pageNum == 0) return;
+    if (pageNum === 0) return;
     setPageNum((prev) => prev - 1);
   };
   const pageNumberPlusButtonClicked = () => {
-    if (pageNum == data.totalPage - 1) return;
+    if (pageNum === data.totalPage - 1) return;
     setPageNum((prev) => prev + 1);
   };
 

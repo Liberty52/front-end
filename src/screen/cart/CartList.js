@@ -45,7 +45,7 @@ export default function CartList({ setEmptyMode }) {
   };
   const handleRowClick = (id, idx, options, quantity) => {
     let newHidden = [...hidden];
-    if (newHidden.indexOf(false) == idx) {
+    if (newHidden.indexOf(false) === idx) {
       // when opened edited row
       newHidden[idx] = !newHidden[idx];
       setHidden(newHidden);
@@ -119,7 +119,7 @@ export default function CartList({ setEmptyMode }) {
   }, [cartData]);
 
   function pay() {
-    if (checkedList == '') {
+    if (checkedList === '') {
       alert('체크된 장바구니 항목이 없습니다');
     } else {
       navigate('/payment', {
@@ -139,7 +139,7 @@ export default function CartList({ setEmptyMode }) {
     );
   };
   // const data = mockData;
-  if (!cartData || cartData == '') {
+  if (!cartData || cartData === '') {
     return (
       <div id='cartTable'>
         <div className='cart-header'>

@@ -66,7 +66,7 @@ export const fetchCartData = (token, setCartList, setEmptyMode, setProductOption
 };
 
 export const handleDeleteClick = (checkedList) => {
-  if (checkedList == 0) {
+  if (checkedList === 0) {
     alert('체크된 항목이 없습니다');
   } else {
     if (window.confirm('정말로 삭제하시겠습니까?')) {
