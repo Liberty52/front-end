@@ -15,7 +15,7 @@ function LargeHeader({ headerLeft, headerRight, fixed }) {
       <ul className='header-items'>
         <li>
           <a href={'/'}>
-            <img className='logo-img' src={logo} />
+            <img className='logo-img' src={logo} alt='logo' />
           </a>
         </li>
         {headerLeft}
@@ -42,7 +42,7 @@ function SmallHeader({ headerLeft, headerRight, fixed }) {
           }}
         />
         <a href={'/'}>
-          <img className='logo-img' src={logo} />
+          <img className='logo-img' src={logo} alt='logo' />
         </a>
         <ImageButton
           width={'23px'}
