@@ -9,6 +9,7 @@ import $ from 'jquery';
 import { ACCESS_TOKEN, REFRESH_TOKEN } from '../../constants/token';
 import { useEffect } from 'react';
 import { refreshToken } from '../../axios/login/Login';
+import { MAIN } from '../../constants/path';
 
 function Section() {
   return (
@@ -83,7 +84,7 @@ export default function Main() {
       const response = await refreshToken();
       sessionStorage.setItem(ACCESS_TOKEN, response.headers.access);
       localStorage.setItem(REFRESH_TOKEN, response.headers.refresh);
-      window.location.href = '/';
+      window.location.href = MAIN;
     } catch (e) {}
   }
 

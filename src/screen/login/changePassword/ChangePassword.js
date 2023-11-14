@@ -5,6 +5,7 @@ import { useSearchParams } from 'react-router-dom';
 import { useNavigate } from 'react-router';
 import Input from '../../../component/common/Input';
 import Button from '../../../component/common/Button';
+import { LOGIN } from '../../../constants/path.js';
 
 export default function ChangePassword() {
   const [errorMessage, setErrorMessage] = useState('');
@@ -37,7 +38,7 @@ export default function ChangePassword() {
   };
 
   if (isSuccess) {
-    navigate('/login'); //로그인
+    navigate(LOGIN); //로그인
   }
 
   return (

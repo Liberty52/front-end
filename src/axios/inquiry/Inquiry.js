@@ -1,5 +1,6 @@
 import axios from '../axios';
 import { ACCESS_TOKEN } from '../../constants/token';
+import { INQUIRY } from '../../constants/path';
 
 export function fetchOrders(sessionToken) {
   return axios.get('/product/orders', {
@@ -20,7 +21,7 @@ export function cancelOrder(dto, receiverPhoneNumber) {
     .then((response) => {
       console.log('Response:', response.data);
       alert(response.data.message);
-      window.location.href = '/inquiry';
+      window.location.href = INQUIRY;
     })
     .catch((e) => {
       if (e.response) {

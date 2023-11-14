@@ -18,6 +18,7 @@ import {
 import PaymentInfo from './PaymentInfo';
 import CenterCircularProgress from '../../../component/common/CenterCircularProgress';
 import { ACCESS_TOKEN } from '../../../constants/token';
+import { DETAIL, GUEST_DETAIL } from '../../../constants/path';
 
 function AddressSearchModal(props) {
   return (
@@ -442,11 +443,12 @@ function ConfirmSection(props) {
 
   if (success) {
     if (sessionStorage.getItem(ACCESS_TOKEN)) {
-      navigate(`/detail/${orderId}`);
+      navigate(`${DETAIL}/${orderId}`);
     } else {
-      navigate(`/product/guest/${orderNum}?phoneNumber=${destinationDto.receiverPhoneNumber}`);
+      navigate(`${GUEST_DETAIL}/${orderNum}?phoneNumber=${destinationDto.receiverPhoneNumber}`);
     }
   }
+
   let totalPrice = 0;
 
   return (

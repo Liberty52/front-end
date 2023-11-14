@@ -24,7 +24,7 @@ import { HTML_EDITOR_MODE } from '../../global/Constants';
 import { getQuestionList } from '../../axios/question/QuestionsList';
 import { convertQuestionStatus } from '../../utils';
 import uuid from 'react-uuid';
-import { QUESTION_EDITOR } from '../../constants/path';
+import { QUESTION_DETAIL, QUESTION_EDITOR } from '../../constants/path';
 
 export default function QuestionList() {
   const navigate = useNavigate();
@@ -62,7 +62,7 @@ export default function QuestionList() {
     });
   };
   const moveToDetailPageButtonClicked = (id) => {
-    navigate(`/question/${id}`);
+    navigate(`${QUESTION_DETAIL}/${id}`);
   };
 
   const createPageNumberButton = () => {

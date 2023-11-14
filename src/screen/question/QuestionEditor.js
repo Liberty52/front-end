@@ -21,7 +21,7 @@ import { useNavigate } from 'react-router';
 import { createQuestion, updateQuestion, uploadImage } from '../../axios/question/QuestionEditor';
 import { getQuestionDetail } from '../../axios/question/QuestionDetail';
 import './QuestionEditor.css';
-import { QUESTION } from '../../constants/path';
+import { QUESTION, QUESTION_DETAIL } from '../../constants/path';
 
 export default function QuestionEditor() {
   const MAX_HTML_SIZE = 10000;
@@ -103,7 +103,7 @@ export default function QuestionEditor() {
   };
 
   function moveToQuestionDetailPage() {
-    navigate(`/question/${location.state.id}`, {
+    navigate(`${QUESTION_DETAIL}/${location.state.id}`, {
       replace: true,
     });
   }
