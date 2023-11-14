@@ -1,7 +1,5 @@
 import axios from '../axios';
-import React, { useState, useEffect } from 'react';
 import cookie from 'react-cookies';
-import { useNavigate } from 'react-router-dom';
 import { ACCESS_TOKEN, GUEST_COOKIE } from '../../constants/token';
 import { CONTENT_TYPE } from '../../constants/header';
 import { BACK, CART } from '../../constants/path';
@@ -73,7 +71,7 @@ export const handleDeleteClick = (checkedList) => {
   } else {
     if (window.confirm('정말로 삭제하시겠습니까?')) {
       if (sessionStorage.getItem(ACCESS_TOKEN)) {
-        const customProductId = checkedList.map((id) => {
+        checkedList.map((id) => {
           axios
             .delete(DELETE_CART(id), {
               headers: {
@@ -85,7 +83,7 @@ export const handleDeleteClick = (checkedList) => {
             });
         });
       } else {
-        const customProductId = checkedList.map((id) => {
+        checkedList.map((id) => {
           axios
             .delete(DELETE_CART_GUEST(id), {
               headers: {

@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import styled from 'styled-components';
 import { retrieveNoticeList } from '../../axios/support/Notice';
 import {
   PageMoveButton,

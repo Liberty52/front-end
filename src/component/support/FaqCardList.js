@@ -6,7 +6,6 @@ import ChangeCircleOutlinedIcon from '@mui/icons-material/ChangeCircleOutlined';
 import GppGoodOutlinedIcon from '@mui/icons-material/GppGoodOutlined';
 import ListAltOutlinedIcon from '@mui/icons-material/ListAltOutlined';
 import { FaqBody, FaqCard, FaqListWrapper, FaqTitle } from './style/Faq';
-import { Stack } from '@mui/joy';
 import { useNavigate } from 'react-router-dom';
 
 export default function FaqCardList() {

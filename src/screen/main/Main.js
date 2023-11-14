@@ -6,9 +6,7 @@ import liberty52_img from '../../image/icon/liberty52.jpg';
 import Header from '../../component/common/Header';
 import Footer from '../../component/common/Footer';
 import $ from 'jquery';
-import { TOKEN_REFRESH } from '../../constants/api';
 import { ACCESS_TOKEN, REFRESH_TOKEN } from '../../constants/token';
-import request from '../../axios/axios';
 import { useEffect } from 'react';
 import { refreshToken } from '../../axios/login/Login';
 

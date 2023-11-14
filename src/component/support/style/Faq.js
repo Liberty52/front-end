@@ -1,4 +1,4 @@
-import styled, { keyframes, css } from 'styled-components';
+import styled, { css } from 'styled-components';
 import { Card, Stack } from '@mui/joy';
 
 export const FaqListWrapper = styled(Stack)`

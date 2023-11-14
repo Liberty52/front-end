@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { resetPassword } from '../../../axios/login/Login.js';
 import './ChangePassword.css';
 import { useSearchParams } from 'react-router-dom';
@@ -11,11 +11,6 @@ export default function ChangePassword() {
   const [isSuccess, setIsSuccess] = useState(false);
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
-
-  useEffect(() => {
-    const emailToken = searchParams.get('emailToken');
-    const limitTime = searchParams.get('limitTime');
-  }, [searchParams]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

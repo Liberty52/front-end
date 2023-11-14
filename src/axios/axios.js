@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { TOKEN_REFRESH } from '../constants/api';
 import { ACCESS_TOKEN, REFRESH_TOKEN } from '../constants/token';
 import { GLOBAL_ERROR } from '../constants/error-name';
 import { refreshToken } from './login/Login';

@@ -38,12 +38,6 @@ function OrderList() {
   const [cancelModal, showCancelModal] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState({});
 
-  const handleCancelModalOpen = (order) => {
-    const updatedOrder = { ...order, paymentType: order.paymentType };
-    setSelectedOrder(updatedOrder);
-    showCancelModal(true);
-  };
-
   return (
     <>
       {reviewModal && (

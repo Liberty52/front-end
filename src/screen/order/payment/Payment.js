@@ -241,7 +241,6 @@ function TermsOfUse() {
 
 function Total(props) {
   const deliverPrice = props.deliverPrice;
-  const quantity = props.quantity;
   const price = props.price;
 
   return (
@@ -280,15 +279,10 @@ function ConfirmSection(props) {
   const productInfo = props.productInfo;
   let productInfoList = productInfo;
 
-  let quantity = 0;
   if (!Array.isArray(productInfo)) {
     productInfoList = [productInfo];
-    quantity = productInfo.quantity;
-  } else {
-    for (var p of productInfo) {
-      quantity += p.quantity;
-    }
   }
+
   const length = productInfoList.length;
   const productDto = {
     productName: 'Liberty 52_Frame',
@@ -482,7 +476,7 @@ function ConfirmSection(props) {
         <DeliveryInfo deliveryInfo={destinationDto} />
         <PaymentInfo constants={constants} setPayment={setPayment} />
         <TermsOfUse />
-        <Total quantity={quantity} deliverPrice={0} price={totalPrice} />
+        <Total deliverPrice={0} price={totalPrice} />
         <Button text='결제하기' />
         <Button
           type='button'
