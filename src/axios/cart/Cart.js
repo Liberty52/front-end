@@ -13,7 +13,6 @@ import {
   EDIT_CART_GUEST,
   PRODUCT_OPTION,
 } from '../../constants/api';
-import { CONTENT_TYPE } from '../../constants/header';
 
 export default function post(dto, file) {
   const formData = new FormData();

@@ -1,5 +1,5 @@
 import axios from '../axios';
-import { ACCESS_TOKEN } from '../../constants/token';
+import { ACCESS_TOKEN, GUEST_COOKIE } from '../../constants/token';
 import cookie from 'react-cookies';
 import { CONTENT_TYPE } from '../../constants/header';
 
@@ -67,7 +67,7 @@ export function prepareCardCart(dto) {
         .post('/product/guest/orders/card/carts', JSON.stringify(dto), {
           headers: {
             'Content-Type': CONTENT_TYPE.ApplicationJson,
-            Authorization: cookie.load('guest'),
+            Authorization: cookie.load(GUEST_COOKIE),
           },
         })
         .then((response) => {
@@ -174,7 +174,7 @@ export function payByVBankCart(dto) {
         .post('/product/guest/orders/vbank/carts', JSON.stringify(dto), {
           headers: {
             'Content-Type': CONTENT_TYPE.ApplicationJson,
-            Authorization: cookie.load('guest'),
+            Authorization: cookie.load(GUEST_COOKIE),
           },
         })
         .then((response) => {

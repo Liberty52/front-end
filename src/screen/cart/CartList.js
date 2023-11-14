@@ -9,7 +9,7 @@ import LButton from '../../component/common/Button';
 import { fetchCartData, handleDeleteClick, handleEditClick } from '../../axios/cart/Cart';
 import { addComma } from './Comma';
 import cookie from 'react-cookies';
-import { ACCESS_TOKEN } from '../../constants/token';
+import { ACCESS_TOKEN, GUEST_COOKIE } from '../../constants/token';
 import { useMediaQuery } from 'react-responsive';
 import Select from 'react-select';
 import { MAIN, PAYMENT } from '../../constants/path';
@@ -104,8 +104,8 @@ export default function CartList({ setEmptyMode }) {
         setEmptyMode,
         setProductOption,
       );
-    } else if (cookie.load('guest')) {
-      fetchCartData(cookie.load('guest'), setCartList, setEmptyMode, setProductOption);
+    } else if (cookie.load(GUEST_COOKIE)) {
+      fetchCartData(cookie.load(GUEST_COOKIE), setCartList, setEmptyMode, setProductOption);
     } else {
       alert('잘못된 접근입니다');
       return navigate(MAIN);
