@@ -1,5 +1,7 @@
 import axios from '../axios';
 import { ACCESS_TOKEN } from '../../constants/token';
+import { INQUIRY } from '../../constants/path';
+import { CONTENT_TYPE } from '../../constants/header';
 
 export function fetchOrders(sessionToken) {
   return axios.get('/product/orders', {
@@ -14,13 +16,13 @@ export function cancelOrder(dto, receiverPhoneNumber) {
         Authorization: sessionStorage.getItem(ACCESS_TOKEN)
           ? sessionStorage.getItem(ACCESS_TOKEN)
           : receiverPhoneNumber,
-        'Content-Type': `application/json`,
+        'Content-Type': CONTENT_TYPE.ApplicationJson,
       },
     })
     .then((response) => {
       console.log('Response:', response.data);
       alert(response.data.message);
-      window.location.href = '/inquiry';
+      window.location.href = INQUIRY;
     })
     .catch((e) => {
       if (e.response) {

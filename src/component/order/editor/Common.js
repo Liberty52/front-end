@@ -31,13 +31,13 @@ const Common = () => {
     setOptions({ ...options, zoomRatio: Math.round(zoomRatio * 100) });
   }, [zoomRatio]);
 
-  const handleChange = (type, value) => {
-    if (editor) {
-      if (type.includes('emp')) {
-        setOptions({ ...options, zoomRatioTemp: value });
-      }
-    }
-  };
+  // const handleChange = (type, value) => {
+  //   if (editor) {
+  //     if (type.includes('emp')) {
+  //       setOptions({ ...options, zoomRatioTemp: value });
+  //     }
+  //   }
+  // };
 
   const applyZoomRatio = (type, e) => {
     const value = e.target.value;
