@@ -20,11 +20,11 @@ export default function post(dto, file) {
   formData.append('dto', new Blob([JSON.stringify(dto)], { type: CONTENT_TYPE.ApplicationJson }));
   if (sessionStorage.getItem(ACCESS_TOKEN)) {
     axios
-      .post(ADD_CART, formData, {
-        headers: {
-          Authorization: sessionStorage.getItem(ACCESS_TOKEN),
-          'Content-Type': CONTENT_TYPE.MultipartFormData,
-        },
+        .post(ADD_CART(), formData, {
+          headers: {
+            Authorization: sessionStorage.getItem(ACCESS_TOKEN),
+            "Contest-Type": "multipart/form-data",
+          },
       })
       .then(() => {
         alert('장바구니에 담겼습니다!');
@@ -51,13 +51,13 @@ export const fetchCartData = (token, setCartList, setEmptyMode, setProductOption
   };
 
   axios
-    .get(CART_LIST, { headers })
+    .get(CART_LIST(), { headers })
     .then((response) => {
       setCartList(response.data);
       if (!response.data || response.data === '') {
         setEmptyMode(true);
       } else {
-        axios.get(PRODUCT_OPTION, { headers }).then((response) => {
+        axios.get(PRODUCT_OPTION(), { headers }).then((response) => {
           setProductOption(response.data[0].productOptionList);
         });
       }

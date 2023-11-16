@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import './Cart.css';
 import './CartPrice.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -17,9 +17,11 @@ import { MAIN, PAYMENT } from '../../constants/path';
 export default function CartList({ setEmptyMode }) {
   const isDesktopOrMobile = useMediaQuery({ query: '(max-width:768px)' });
   const navigate = useNavigate();
+  const fileInputRef = useRef(null);
 
   const [checkedList, setCheckedList] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0.0);
+  const [deliveryPrice, setDeliveryPrice] = useState(0.0);
   const [paymentValue, setPaymentValue] = useState([]);
   const [editMode, setEditMode] = useState(false);
   const [formValue, setFormValue] = useState({});
@@ -30,8 +32,17 @@ export default function CartList({ setEmptyMode }) {
   let [customProductId, setCustomProductId] = useState('');
   let basicFormValue = {};
   const onImageChange = (e) => {
-    const img = e.target.files[0];
-    setImageFile(img);
+    const file = e.target.files[0];
+    if (file) {
+      const imageUrl = URL.createObjectURL(file);
+      setImageFile({ file, imageUrl });
+    }
+  };
+  const onImageClick = () => {
+    const fileInput = document.getElementById('fileInput');
+    if (fileInput) {
+      fileInput.click();
+    }
   };
   const onHandleSubmit = (e) => {
     e.preventDefault();
@@ -63,6 +74,7 @@ export default function CartList({ setEmptyMode }) {
     setCustomProductId(id);
     setFormValue(basicFormValue);
     setQuantity(quantity);
+    setImageFile('');
   };
   const onHandleChange = (value, optionId) => {
     setFormValue({
@@ -70,7 +82,7 @@ export default function CartList({ setEmptyMode }) {
       [optionId]: value,
     });
   };
-  const onCheckedElement = (checked, item, price, options, quantity, url) => {
+  const onCheckedElement = (checked, item, price, options, quantity, url, deliveryFee) => {
     const frameOption = {};
     options.map((option) => {
       frameOption[option.optionName] = option.detailName;
@@ -85,11 +97,13 @@ export default function CartList({ setEmptyMode }) {
     if (checked) {
       setCheckedList([...checkedList, item]);
       setTotalPrice(totalPrice + price);
+      setDeliveryPrice(deliveryPrice + (deliveryFee * quantity));
       setPaymentValue([...paymentValue, thisValue]);
     } else if (!checked) {
       setCheckedList(checkedList.filter((element) => element !== item));
       setPaymentValue(paymentValue.filter((data) => data.id !== item));
       setTotalPrice(totalPrice - price);
+      setDeliveryPrice(deliveryPrice - (deliveryFee * quantity));
     }
   };
 
@@ -120,7 +134,7 @@ export default function CartList({ setEmptyMode }) {
   }, [cartData]);
 
   function pay() {
-    if (checkedList === '') {
+    if (checkedList == '') {
       alert('체크된 장바구니 항목이 없습니다');
     } else {
       navigate(PAYMENT, {
@@ -152,10 +166,11 @@ export default function CartList({ setEmptyMode }) {
               <th width='5%'></th>
               <th width='15%'>제품명</th>
               <th width='15%'>제품가격</th>
-              <th width='25%'>옵션</th>
-              <th width='15%'>첨부사진</th>
-              <th width='10%'>수량</th>
-              <th width='15%'>주문금액</th>
+              <th width='35%'>옵션</th>
+              <th width='10%'>첨부사진</th>
+              <th width='7%'>수량</th>
+              <th width='9%'>주문금액</th>
+              <th width='9%'>배송비</th>
             </tr>
           </thead>
           <tbody>
@@ -180,11 +195,12 @@ export default function CartList({ setEmptyMode }) {
               <tr>
                 <th width='5%'></th>
                 <th width='15%'>제품명</th>
-                <th width='12%'>제품가격</th>
-                <th width='33%'>옵션</th>
+                <th width='10%'>제품가격</th>
+                <th width='35%'>옵션</th>
                 <th width='10%'>첨부사진</th>
-                <th width='10%'>수량</th>
-                <th width='15%'>주문금액</th>
+                <th width='7%'>수량</th>
+                <th width='9%'>주문금액</th>
+                <th width='9%'>배송비</th>
               </tr>
             </thead>
             <tbody>
@@ -214,6 +230,7 @@ export default function CartList({ setEmptyMode }) {
                                 item.options,
                                 item.quantity,
                                 item.imageUrl,
+                                  item.deliveryFee,
                               );
                             }}
                           ></input>
@@ -230,13 +247,18 @@ export default function CartList({ setEmptyMode }) {
                         </th>
                         <th>
                           <button onClick={() => window.open(item.imageUrl, '_blank')}>
-                            [이미지 링크]
+                            <img
+                                src={item.imageUrl}
+                                alt='이미지 링크'
+                                style={{ width: '100%', height: 'auto', cursor: 'pointer' }}
+                            />
                           </button>
                         </th>
                         <th>{item.quantity}</th>
                         <th>{addComma(orderAmount)}원</th>
+                        <th>{addComma(item.deliveryFee)}원</th>
                       </tr>
-                      <tr style={hidden[idx] ? { display: 'none' } : { display: '' }}>
+                      <tr style={hidden[idx] ? { display: 'none' } : { display: '', backgroundColor: '#f0f0f0' }}>
                         <th></th>
                         <th></th>
                         <th></th>
@@ -268,12 +290,24 @@ export default function CartList({ setEmptyMode }) {
                           </div>
                         </th>
                         <th>
-                          <input
-                            type='file'
-                            accept='image/*'
-                            name='file'
-                            onChange={onImageChange}
-                          ></input>
+                          {imageFile !== '' ? (
+                              <div onClick={onImageClick}>
+                                <img
+                                    src={imageFile.imageUrl}
+                                    alt='Selected'
+                                    style={{ width: '100%', height: 'auto', cursor: 'pointer' }}
+                                />
+                              </div>
+                          ) : (
+                              <input
+                                  type='file'
+                                  accept='image/*'
+                                  name='file'
+                                  onChange={onImageChange}
+                                  className='form-control'
+                                  id='fileInput'
+                              />
+                          )}
                         </th>
                         <th>
                           <input
@@ -287,6 +321,7 @@ export default function CartList({ setEmptyMode }) {
                             value={quantity}
                           />
                         </th>
+                        <th></th>
                         <th></th>
                       </tr>
                     </>
@@ -331,12 +366,14 @@ export default function CartList({ setEmptyMode }) {
                 </div>
                 <div className='shipping'>
                   <p className='title'>배송비</p>
-                  <p className='price'>무료</p>
+                  <p className='price'>
+                    {deliveryPrice === 0.0 ? '무료' : ` ${addComma(deliveryPrice)} 원`}
+                  </p>
                 </div>
               </div>
               <div className='total'>
                 <p className='title'>총 결제 금액</p>
-                <p className='price'>{addComma(totalPrice)} 원</p>
+                <p className='price'>{addComma(totalPrice + deliveryPrice)} 원</p>
               </div>
             </div>
             <Payment></Payment>
