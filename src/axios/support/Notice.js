@@ -4,6 +4,7 @@ import {
   NOTICE_LIST,
   GET_NOTICE_COMMENT,
   POST_NOTICE_COMMENT,
+  PATCH_NOTICE_COMMENT,
 } from '../../constants/api';
 import { ACCESS_TOKEN } from '../../constants/token';
 import { CONTENT_TYPE } from '../../constants/header';
@@ -28,6 +29,16 @@ export const retrieveComments = (noticeId, page, logined) => {
 export const postComment = (noticeId, content) => {
   const data = { content: content };
   return request.post(POST_NOTICE_COMMENT(noticeId), data, {
+    headers: {
+      Authorization: sessionStorage.getItem(ACCESS_TOKEN),
+      'Content-Type': CONTENT_TYPE.ApplicationJson,
+    },
+  });
+};
+
+export const patchComment = (noticeId, commentId, content) => {
+  const data = { content: content };
+  return request.patch(PATCH_NOTICE_COMMENT(noticeId, commentId), data, {
     headers: {
       Authorization: sessionStorage.getItem(ACCESS_TOKEN),
       'Content-Type': CONTENT_TYPE.ApplicationJson,

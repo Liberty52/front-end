@@ -47,6 +47,7 @@ function Section2() {
 }
 
 function Section3() {
+  
   return (
     <div id='s3' className='section section-row'>
       <img src={speaker_img} alt='speaker_img' />

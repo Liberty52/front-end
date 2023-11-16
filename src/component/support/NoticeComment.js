@@ -12,11 +12,15 @@ import {
   Date,
   Page,
 } from './style/Notice';
-import { postComment, retrieveComments } from '../../axios/support/Notice';
+import { postComment, retrieveComments,patchComment } from '../../axios/support/Notice';
 import { ACCESS_TOKEN } from '../../constants/token';
+import EditIcon from '@mui/icons-material/Edit';
 
 export default function NoticeComment({ noticeId }) {
   const [comments, setComments] = useState([]);
+  const [editCommentId, setEditCommentId] = useState(null);
+  const [editContent, setEditContent] = useState("");
+  
   const [pages, setPages] = useState({
     startPage: 1,
     lastPage: 1,
@@ -24,6 +28,30 @@ export default function NoticeComment({ noticeId }) {
   });
   const logined = sessionStorage.getItem(ACCESS_TOKEN) ? true : false;
 
+  const handleEditSubmit = async (commentId) => {
+    if (!editContent.trim() === "") {
+      alert("내용을 입력해주세요.");
+      return;
+    }
+    try {
+      await patchComment(noticeId, commentId, { content: editContent });
+      setEditCommentId(null);
+      getComment(); // 댓글 목록 새로고침
+    } catch (error) {
+      // 에러 처리
+      console.error(error);
+      alert("댓글 수정에 실패했습니다.");
+    }
+  };
+
+  const handleCancel = () => {
+    setEditCommentId(null);
+  };
+  const handleEditClick = (comment) => {
+    setEditCommentId(comment.commentId);
+    setEditContent(comment.content);
+  };
+  
   useEffect(() => {
     getComment();
   }, [pages.currentPage]);
@@ -55,15 +83,39 @@ export default function NoticeComment({ noticeId }) {
     }
   };
 
+
   function CommentItem({ comment }) {
+    const isMine = comment.writerId == comment.mine;
+    const isEditing = editCommentId === comment.commentId;
+
     return (
-      <CommentContainer>
+      <div>
         <CommentInfo>
-          <WriterName>{comment.writerName}</WriterName>
+           <WriterName>
+             {comment.writerName}
+             {isMine && !isEditing && (
+            <EditIcon style={{ cursor: 'pointer', color: 'blue' }} onClick={() => handleEditClick(comment)} />
+            )}
+          </WriterName>
           <Date>{formatDate(comment.createdAt)}</Date>
         </CommentInfo>
-        <Content>{comment.content}</Content>
-      </CommentContainer>
+        {isEditing ? (
+          <div>
+            <input
+              type="text"
+              value={editContent}
+              onChange={(e) => setEditContent(e.target.value)}
+            />
+            <button onClick={() => handleEditSubmit(comment.commentId)}>수정 완료</button>
+            <button onClick={handleCancel}>취소</button>
+          </div>
+        ) : (
+          <div>
+            <p>{comment.content}</p>
+            {isMine && <button onClick={() => handleEditClick(comment)}>수정</button>}
+          </div>
+        )}
+      </div>
     );
   }
 
