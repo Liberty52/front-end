@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import Button from '../../component/common/Button';
 import { ACCESS_TOKEN } from '../../constants/token';
 import Swal from 'sweetalert2';
+import { DETAIL } from '../../constants/path';
 
 export async function getAccessToken() {
   return sessionStorage.getItem(ACCESS_TOKEN);
@@ -31,18 +32,12 @@ function OrderList() {
   }, []);
 
   function goToDetail(orderId) {
-    navigate(`/detail/${orderId}`);
+    navigate(`${DETAIL}/${orderId}`);
   }
 
   const [reviewModal, showReviewModal] = useState(false);
   const [cancelModal, showCancelModal] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState({});
-
-  const handleCancelModalOpen = (order) => {
-    const updatedOrder = { ...order, paymentType: order.paymentType };
-    setSelectedOrder(updatedOrder);
-    showCancelModal(true);
-  };
 
   return (
     <>

@@ -2,11 +2,12 @@ import axios from '../axios';
 import { REFRESH_TOKEN } from '../../constants/token';
 import request from '../axios';
 import { TOKEN_REFRESH } from '../../constants/api';
+import { CONTENT_TYPE } from '../../constants/header';
 
 export function post(dto) {
   return axios.post('/auth/login', JSON.stringify(dto), {
     headers: {
-      'Content-Type': `application/json`,
+      'Content-Type': CONTENT_TYPE.ApplicationJson,
     },
   });
 }
@@ -20,7 +21,7 @@ export function findEmail(name, phoneNumber) {
   return axios
     .post('/auth/find-email', requestBody, {
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': CONTENT_TYPE.ApplicationJson,
       },
     })
     .then((response) => {
@@ -40,7 +41,7 @@ export function sendPasswordResetEmail(email) {
 
   return axios.post('/auth/password/send-mail', data, {
     headers: {
-      'Content-Type': 'application/json',
+      'Content-Type': CONTENT_TYPE.ApplicationJson,
     },
   });
 }
@@ -52,7 +53,7 @@ export function resetPassword(emailToken, password) {
   };
   return axios.patch('/auth/password', data, {
     headers: {
-      'Content-Type': 'application/json',
+      'Content-Type': CONTENT_TYPE.ApplicationJson,
     },
   });
 }

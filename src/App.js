@@ -65,11 +65,11 @@ export default function App() {
           <Route path={PAYMENT} element={<Payment />} />
           <Route path={CHANGE_PASSWORD} element={<ChangePassword />} />
           <Route path={INQUIRY} element={<Inquiry />} />
-          <Route path={DETAIL} element={<Detail />} />
-          <Route path={GUEST_DETAIL} element={<Detail />} />
+          <Route path={`${DETAIL}/:orderId`} element={<Detail />} />
+          <Route path={`${GUEST_DETAIL}/:orderId`} element={<Detail />} />
           <Route path={EDITOR} element={<Editor />} />
           <Route path={QUESTION} element={<QuestionList />} />
-          <Route path={QUESTION_DETAIL} element={<QuestionDetail />} />
+          <Route path={`${QUESTION_DETAIL}/:id`} element={<QuestionDetail />} />
           <Route path={QUESTION_EDITOR} element={<QuestionEditor />} />
           <Route path={SUPPORT} element={<Support />} />
           <Route path={FAQ} element={<Faq />} />

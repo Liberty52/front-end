@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import Header from '../../component/common/Header';
 import ReviewModal from '../../component/order/review/ReviewModal';
 import photoNotFound from '../../image/icon/photo-not-found.svg';
+import { ORDER } from '../../constants/path';
 
 export default function Choose() {
   function ChooseContents(id) {
@@ -53,7 +54,7 @@ export default function Choose() {
     const productInfo = props.productInfo;
     const navigate = useNavigate();
     const cardClicked = () => {
-      navigate(`/order`, {
+      navigate(ORDER, {
         state: {
           productId: productInfo.id,
         },

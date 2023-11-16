@@ -6,11 +6,10 @@ import liberty52_img from '../../image/icon/liberty52.jpg';
 import Header from '../../component/common/Header';
 import Footer from '../../component/common/Footer';
 import $ from 'jquery';
-import { TOKEN_REFRESH } from '../../constants/api';
 import { ACCESS_TOKEN, REFRESH_TOKEN } from '../../constants/token';
-import request from '../../axios/axios';
 import { useEffect } from 'react';
 import { refreshToken } from '../../axios/login/Login';
+import { MAIN } from '../../constants/path';
 
 function Section() {
   return (
@@ -85,7 +84,7 @@ export default function Main() {
       const response = await refreshToken();
       sessionStorage.setItem(ACCESS_TOKEN, response.headers.access);
       localStorage.setItem(REFRESH_TOKEN, response.headers.refresh);
-      window.location.href = '/';
+      window.location.href = MAIN;
     } catch (e) {}
   }
 

@@ -33,7 +33,7 @@ const Canvas = () => {
               showArrow={true}
               accessibilityType='tooltip'
             >
-              <Button size={SIZE.compact} kind={KIND.tertiary} onClick={() => navigate('/order')}>
+              <Button size={SIZE.compact} kind={KIND.tertiary} onClick={() => navigate(-1)}>
                 상품 페이지로 돌아가기
               </Button>
             </StatefulTooltip>

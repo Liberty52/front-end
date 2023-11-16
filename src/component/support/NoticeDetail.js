@@ -17,7 +17,7 @@ export default function NoticeDetail({ noticeId, clearNoticeId }) {
     try {
       const res = await retrieveNoticeDetail(noticeId);
       setData(res.data);
-      const viewer = new Editor.factory({
+      new Editor.factory({
         el: document.querySelector('#viewer'),
         height: '500px',
         initialEditType: 'wysiwyg',

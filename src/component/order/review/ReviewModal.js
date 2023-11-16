@@ -7,7 +7,6 @@ import star_filled from '../../../image/icon/star_filled.png';
 import { postReview, patchContents, postImage, delImage } from '../../../axios/order/Review';
 
 import { useState } from 'react';
-import { Url } from 'url';
 
 export default function ReviewModal(props) {
   const modalInfo =
@@ -62,19 +61,17 @@ export default function ReviewModal(props) {
               }
               alert('수정되었습니다!');
               if (isModified) onSuccess();
-            } catch (e) {
-              // 왜 실행이 안되지?
-            }
+            } catch (e) {}
           }
           props.closeModal();
         }}
       >
         <div className='rating'>
-          <img src={star_filled} onClick={() => setRating(1)} />
-          <img src={rating < 2 ? star : star_filled} onClick={() => setRating(2)} />
-          <img src={rating < 3 ? star : star_filled} onClick={() => setRating(3)} />
-          <img src={rating < 4 ? star : star_filled} onClick={() => setRating(4)} />
-          <img src={rating < 5 ? star : star_filled} onClick={() => setRating(5)} />
+          <img src={star_filled} onClick={() => setRating(1)} alt='별1' />
+          <img src={rating < 2 ? star : star_filled} onClick={() => setRating(2)} alt='별2' />
+          <img src={rating < 3 ? star : star_filled} onClick={() => setRating(3)} alt='별3' />
+          <img src={rating < 4 ? star : star_filled} onClick={() => setRating(4)} alt='별4' />
+          <img src={rating < 5 ? star : star_filled} onClick={() => setRating(5)} alt='별5' />
         </div>
         <textarea
           name='content'

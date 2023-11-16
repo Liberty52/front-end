@@ -14,6 +14,7 @@ import Button from '../../component/common/Button';
 import SocialLoginButton from '../../component/login/SocialLoginButton';
 import { SOCIAL_LOGIN_PROVIDER } from '../../global/Constants';
 import { ACCESS_TOKEN, REFRESH_TOKEN } from '../../constants/token';
+import { GUEST_DETAIL, MAIN } from '../../constants/path.js';
 
 function LoginInput() {
   return (
@@ -48,7 +49,7 @@ function LoginForm({ onLogin }) {
             if (onLogin) {
               onLogin();
             } else {
-              navigate('/');
+              navigate(MAIN);
             }
           })
           .catch((e) => {
@@ -329,7 +330,7 @@ function NonmemberModal({ showModal, closeModal }) {
     try {
       const orderDetails = await fetchOrderDetails(orderId, null, phoneNumber);
       if (orderDetails) {
-        window.location.href = `/product/guest/${orderId}?phoneNumber=${phoneNumber}`;
+        window.location.href = `${GUEST_DETAIL}/${orderId}?phoneNumber=${phoneNumber}`;
       } else {
         alert('주문번호와 전화번호를 확인해 주세요.');
       }
