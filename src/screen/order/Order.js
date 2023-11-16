@@ -1,4 +1,5 @@
 import './Order.css';
+import $ from 'jquery';
 import Header from '../../component/common/Header';
 import Footer from '../../component/common/Footer';
 import { useEffect, useState } from 'react';
@@ -32,7 +33,19 @@ const Order = () => {
 
   useEffect(() => {
     retriveProductData();
+
+    $(window).on('resize', function () {
+      calcHeight();
+    });
   }, []);
+
+  // set product-image top : vertical center
+  function calcHeight() {
+    const bodyHeight = document.body.clientHeight;
+    const productImage = document.querySelector('.product-image');
+    const top = (bodyHeight - productImage.clientHeight) / 2;
+    productImage.style.top = top + 'px';
+  }
 
   return (
     <div className='order'>

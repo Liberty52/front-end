@@ -35,7 +35,6 @@ export default function AI() {
     setImages((data) => [...data, ...newImages]);
   };
   const replaceImages = (newImages) => {
-    console.log('replace');
     setImages((images) => {
       newImages.forEach((n) => {
         const idx = images.findIndex((i) => i.key === n.key);

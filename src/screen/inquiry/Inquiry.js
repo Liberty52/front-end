@@ -126,7 +126,6 @@ function OrderList() {
                     disabled={product.hasReview}
                     onClick={(e) => {
                       e.stopPropagation();
-                      console.log(order.orderStatus);
                       if (order.orderStatus === '배송완료') {
                         showReviewModal(true);
                         setSelectedOrder({
@@ -185,7 +184,6 @@ function CancelOrderButton({ order, showCancelModal, setSelectedOrder }) {
           className='cancel'
           onClick={(e) => {
             e.stopPropagation();
-            console.log('paymentType:', order.paymentType);
             showCancelModal(true);
             setSelectedOrder({ ...order, paymentType: order.paymentType });
           }}
