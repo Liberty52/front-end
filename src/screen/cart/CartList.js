@@ -165,7 +165,7 @@ export default function CartList({ setEmptyMode }) {
             <tr>
               <th width='5%'></th>
               <th width='15%'>제품명</th>
-              <th width='15%'>제품가격</th>
+              <th width='10%'>제품가격</th>
               <th width='35%'>옵션</th>
               <th width='10%'>첨부사진</th>
               <th width='7%'>수량</th>
