@@ -1,7 +1,5 @@
 import axios from '../axios';
-import React, { useState, useEffect } from 'react';
 import cookie from 'react-cookies';
-import { useNavigate } from 'react-router-dom';
 import { ACCESS_TOKEN, GUEST_COOKIE } from '../../constants/token';
 import { CONTENT_TYPE } from '../../constants/header';
 import { BACK, CART } from '../../constants/path';
@@ -19,7 +17,7 @@ import {
 export default function post(dto, file) {
   const formData = new FormData();
   formData.append('file', file);
-  formData.append('dto', new Blob([JSON.stringify(dto)], { type: 'application/json' }));
+  formData.append('dto', new Blob([JSON.stringify(dto)], { type: CONTENT_TYPE.ApplicationJson }));
   if (sessionStorage.getItem(ACCESS_TOKEN)) {
     axios
       .post(ADD_CART, formData, {
@@ -68,12 +66,12 @@ export const fetchCartData = (token, setCartList, setEmptyMode, setProductOption
 };
 
 export const handleDeleteClick = (checkedList) => {
-  if (checkedList == 0) {
+  if (checkedList === 0) {
     alert('체크된 항목이 없습니다');
   } else {
     if (window.confirm('정말로 삭제하시겠습니까?')) {
       if (sessionStorage.getItem(ACCESS_TOKEN)) {
-        const customProductId = checkedList.map((id) => {
+        checkedList.map((id) => {
           axios
             .delete(DELETE_CART(id), {
               headers: {
@@ -85,7 +83,7 @@ export const handleDeleteClick = (checkedList) => {
             });
         });
       } else {
-        const customProductId = checkedList.map((id) => {
+        checkedList.map((id) => {
           axios
             .delete(DELETE_CART_GUEST(id), {
               headers: {
@@ -104,8 +102,7 @@ export const handleDeleteClick = (checkedList) => {
 export const handleEditClick = (customProductId, dto, file) => {
   const formData = new FormData();
   formData.append('file', file);
-  formData.append('dto', new Blob([JSON.stringify(dto)], { type: 'application/json' }));
-  console.log(dto);
+  formData.append('dto', new Blob([JSON.stringify(dto)], { type: CONTENT_TYPE.ApplicationJson }));
   if (sessionStorage.getItem(ACCESS_TOKEN)) {
     axios
       .patch(EDIT_CART(customProductId), formData, {

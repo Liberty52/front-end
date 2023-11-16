@@ -1,11 +1,12 @@
 import axios from '../axios';
-import { ACCESS_TOKEN } from '../../constants/token';
+import { ACCESS_TOKEN, GUEST_COOKIE } from '../../constants/token';
 import cookie from 'react-cookies';
+import { CONTENT_TYPE } from '../../constants/header';
 
 export function prepareCard(dto, file) {
   const formData = new FormData();
   formData.append('imageFile', file);
-  formData.append('dto', new Blob([JSON.stringify(dto)], { type: 'application/json' }));
+  formData.append('dto', new Blob([JSON.stringify(dto)], { type: CONTENT_TYPE.ApplicationJson }));
   const receiverPhoneNumber = dto.destinationDto.receiverPhoneNumber;
 
   if (sessionStorage.getItem(ACCESS_TOKEN)) {
@@ -13,7 +14,7 @@ export function prepareCard(dto, file) {
       axios
         .post('/product/orders/card', formData, {
           headers: {
-            'Content-Type': `multipart/form-data`,
+            'Content-Type': CONTENT_TYPE.MultipartFormData,
             Authorization: sessionStorage.getItem(ACCESS_TOKEN),
           },
         })
@@ -29,7 +30,7 @@ export function prepareCard(dto, file) {
       axios
         .post('/product/guest/orders/card', formData, {
           headers: {
-            'Content-Type': `multipart/form-data`,
+            'Content-Type': CONTENT_TYPE.MultipartFormData,
             Authorization: receiverPhoneNumber,
           },
         })
@@ -49,7 +50,7 @@ export function prepareCardCart(dto) {
       axios
         .post('/product/orders/card/carts', JSON.stringify(dto), {
           headers: {
-            'Content-Type': 'application/json',
+            'Content-Type': CONTENT_TYPE.ApplicationJson,
             Authorization: sessionStorage.getItem(ACCESS_TOKEN),
           },
         })
@@ -65,8 +66,8 @@ export function prepareCardCart(dto) {
       axios
         .post('/product/guest/orders/card/carts', JSON.stringify(dto), {
           headers: {
-            'Content-Type': 'application/json',
-            Authorization: cookie.load('guest'),
+            'Content-Type': CONTENT_TYPE.ApplicationJson,
+            Authorization: cookie.load(GUEST_COOKIE),
           },
         })
         .then((response) => {
@@ -90,7 +91,7 @@ export function checkCardPayApproval(orderId, guestPhoneNum) {
   } else {
     return axios.get(`/product/guest/orders/card/${orderId}/confirm`, {
       headers: {
-        'Content-Type': `application/json`,
+        'Content-Type': CONTENT_TYPE.ApplicationJson,
         Authorization: guestPhoneNum,
       },
     });
@@ -111,7 +112,7 @@ export function payByVBank(dto, file) {
       axios
         .post('/product/orders/vbank', formData, {
           headers: {
-            'Content-Type': `multipart/form-data`,
+            'Content-Type': CONTENT_TYPE.MultipartFormData,
             Authorization: sessionStorage.getItem(ACCESS_TOKEN),
           },
         })
@@ -130,7 +131,7 @@ export function payByVBank(dto, file) {
       axios
         .post('/product/guest/orders/vbank', formData, {
           headers: {
-            'Content-Type': `multipart/form-data`,
+            'Content-Type': CONTENT_TYPE.MultipartFormData,
             Authorization: receiverPhoneNumber,
           },
         })
@@ -153,7 +154,7 @@ export function payByVBankCart(dto) {
       axios
         .post('/product/orders/vbank/carts', JSON.stringify(dto), {
           headers: {
-            'Content-Type': 'application/json',
+            'Content-Type': CONTENT_TYPE.ApplicationJson,
             Authorization: sessionStorage.getItem(ACCESS_TOKEN),
           },
         })
@@ -172,8 +173,8 @@ export function payByVBankCart(dto) {
       axios
         .post('/product/guest/orders/vbank/carts', JSON.stringify(dto), {
           headers: {
-            'Content-Type': 'application/json',
-            Authorization: cookie.load('guest'),
+            'Content-Type': CONTENT_TYPE.ApplicationJson,
+            Authorization: cookie.load(GUEST_COOKIE),
           },
         })
         .then((response) => {

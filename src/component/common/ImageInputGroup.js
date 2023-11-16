@@ -31,23 +31,29 @@ export default function ImageInputGroup(props) {
   while (i < until) {
     imageInputs = [];
     for (var index = i; index < i + num; index++) {
-      if (imageUrls[index] === undefined) {
+      const imageUrl = imageUrls[index];
+      if (!imageUrl) {
         if (imageUrls.length < max && index === imageUrls.length)
-          imageInputs.push(<GroupImageInput nth={index} />);
-        else imageInputs.push(<div className='image-crop hidden'></div>);
+          imageInputs.push(<GroupImageInput key={`input-${index}`} nth={index} />);
+        else imageInputs.push(<div key={`hidden-${index}`} className='image-crop hidden'></div>);
       } else {
         imageInputs.push(
           <GroupImageInput
+            key={`img-${index}`}
             nth={index}
-            image={imageUrls[index]}
-            alt={'첨부 이미지 ' + index}
+            image={imageUrl}
+            alt={`첨부 이미지 ${index}`}
             readOnly
           />,
         );
       }
     }
     i = index;
-    images.push(<div className='image-input-row'>{imageInputs}</div>);
+    images.push(
+      <div key={`row-${i}`} className='image-input-row'>
+        {imageInputs}
+      </div>,
+    );
   }
 
   /**
@@ -61,7 +67,7 @@ export default function ImageInputGroup(props) {
     const reader = new FileReader();
 
     return (
-      <label key={nth} className={imageFile ? 'image-input value' : 'image-input'}>
+      <label className={imageFile ? 'image-input value' : 'image-input'}>
         <input
           className='image-input-input'
           type='file'

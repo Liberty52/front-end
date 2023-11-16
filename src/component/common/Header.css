@@ -103,3 +103,17 @@
     top: 0;
   }
 }
+
+@media screen and (max-width: 300px) {
+  .header-sm {
+    padding: 0 3px;
+  }
+
+  .header-sm button img {
+    width: 20px;
+  }
+
+  .header-sm .logo-img {
+    width: 195px;
+  }
+}

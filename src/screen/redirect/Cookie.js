@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import cookie from 'react-cookies';
-import { ACCESS_TOKEN } from '../../constants/token';
+import { ACCESS_TOKEN, GUEST_COOKIE } from '../../constants/token';
+import { LOGIN } from '../../constants/path';
 
 export default function Cookie() {
   let navigate = useNavigate();
@@ -13,7 +14,7 @@ export default function Cookie() {
     if (sessionStorage.getItem(ACCESS_TOKEN)) {
       //   ACCESS_TOKEN = localStorage.getItem("ACCESS_TOKEN");
     } else {
-      if (cookie.load('guest')) {
+      if (cookie.load(GUEST_COOKIE)) {
         //   cookie.remove("guest", { path: "/" });
       } else {
         if (
@@ -21,9 +22,9 @@ export default function Cookie() {
             '현재 로그인 상태가 아닙니다. 비로그인 상태로 접속시 임시 데이터가 7일간 저장됩니다. 로그인하시겠습니까?',
           )
         ) {
-          navigate(`/login`);
+          navigate(LOGIN);
         } else {
-          cookie.save('guest', getRandom, {
+          cookie.save(GUEST_COOKIE, getRandom, {
             path: '/',
             expires,
           });

@@ -7,3 +7,14 @@ export const FAQ_MODE = {
   PRODUCT_WARRANTY: 'PRODUCT_WARRANTY',
   ETC: 'ETC',
 };
+
+export const ORDER_MODE = {
+  CART: 'cart',
+  BUY: 'buy',
+};
+
+export const SUPPORT_MODE = {
+  FAQ: 'FAQ',
+  WARRANTY: '제품 보증',
+  NOTICE: '공지사항',
+};

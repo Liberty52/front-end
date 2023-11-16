@@ -14,14 +14,15 @@ import uuid from 'react-uuid';
 import Footer from '../../component/common/Footer';
 import FaqCardList from '../../component/support/FaqCardList';
 import Header from '../../component/common/Header';
+import { SUPPORT_MODE } from '../../constants/mode';
 
 export default function Support() {
-  const [mode, setMode] = useState('FAQ');
+  const [mode, setMode] = useState(SUPPORT_MODE.FAQ);
   const [noticeId, setNoticeId] = useState('');
   const HeaderItems = [
-    { name: 'FAQ', onClick: () => changeMode('FAQ') },
+    { name: SUPPORT_MODE.FAQ, onClick: () => changeMode(SUPPORT_MODE.FAQ) },
     // {name : "제품 보증", onClick : () => changeMode("제품 보증")},
-    { name: '공지사항', onClick: () => changeMode('공지사항') },
+    { name: SUPPORT_MODE.NOTICE, onClick: () => changeMode(SUPPORT_MODE.NOTICE) },
   ];
 
   const changeMode = (name) => {
@@ -31,11 +32,11 @@ export default function Support() {
 
   const createBody = () => {
     switch (mode) {
-      case 'FAQ':
+      case SUPPORT_MODE.FAQ:
         return <FaqCardList />;
-      case '제품 보증':
+      case SUPPORT_MODE.WARRANTY:
         return <Warranty />;
-      case '공지사항':
+      case SUPPORT_MODE.NOTICE:
         return createNoticeBody();
     }
   };

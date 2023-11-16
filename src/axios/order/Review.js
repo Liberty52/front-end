@@ -1,6 +1,7 @@
 import axios from '../axios';
 import { ACCESS_TOKEN } from '../../constants/token';
-import { CREATE_REVIEW } from '../../constants/api';
+import { CREATE_REVIEW, DELETE_REVIEW } from '../../constants/api';
+import { CONTENT_TYPE } from '../../constants/header';
 
 export function postReview(dto, files) {
   const formData = new FormData();
@@ -8,12 +9,12 @@ export function postReview(dto, files) {
     if (files[i] !== undefined) formData.append('images', files[i]);
   }
 
-  formData.append('dto', new Blob([JSON.stringify(dto)], { type: 'application/json' }));
+  formData.append('dto', new Blob([JSON.stringify(dto)], { type: CONTENT_TYPE.ApplicationJson }));
   axios
     .post(CREATE_REVIEW(), formData, {
       headers: {
         Authorization: sessionStorage.getItem(ACCESS_TOKEN),
-        'Content-Type': 'multipart/form-data',
+        'Content-Type': CONTENT_TYPE.MultipartFormData,
       },
     })
     .then(() => {
@@ -51,7 +52,7 @@ export function patchContents(reviewId, dto) {
   return axios.patch(`/product/reviews/${reviewId}`, JSON.stringify(dto), {
     headers: {
       Authorization: sessionStorage.getItem('ACCESS_TOKEN'),
-      'Content-Type': 'application/json',
+      'Content-Type': CONTENT_TYPE.ApplicationJson,
     },
   });
 }
@@ -69,7 +70,7 @@ export function postImage(reviewId, files) {
     .post(`/product/reviews/${reviewId}/images`, formData, {
       headers: {
         Authorization: sessionStorage.getItem(ACCESS_TOKEN),
-        'Content-Type': 'multipart/form-data',
+        'Content-Type': CONTENT_TYPE.MultipartFormData,
       },
     })
     .then(() => {
@@ -93,7 +94,7 @@ export function delImage(reviewId, dto) {
       data: JSON.stringify(dto),
       headers: {
         Authorization: sessionStorage.getItem('ACCESS_TOKEN'),
-        'Content-Type': 'application/json',
+        'Content-Type': CONTENT_TYPE.ApplicationJson,
       },
     })
     .then(() => {
@@ -107,20 +108,10 @@ export function delImage(reviewId, dto) {
   return false;
 }
 
-export function deleteReview(reviewId, onSuccess) {
-  if (window.confirm('리뷰를 삭제하시겠습니까?')) {
-    axios
-      .delete(`/product/reviews/${reviewId}`, {
-        headers: {
-          Authorization: sessionStorage.getItem(ACCESS_TOKEN),
-        },
-      })
-      .then(() => {
-        alert('리뷰가 삭제되었습니다.');
-        onSuccess();
-      })
-      .catch((response) => {
-        if (response.status === 404) alert('해당 리뷰가 존재하지 않습니다.');
-      });
-  }
+export function deleteReview(reviewId) {
+  return axios.delete(DELETE_REVIEW(reviewId), {
+    headers: {
+      Authorization: sessionStorage.getItem(ACCESS_TOKEN),
+    },
+  });
 }

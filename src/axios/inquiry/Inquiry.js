@@ -1,5 +1,7 @@
 import axios from '../axios';
 import { ACCESS_TOKEN } from '../../constants/token';
+import { INQUIRY } from '../../constants/path';
+import { CONTENT_TYPE } from '../../constants/header';
 
 export function fetchOrders(sessionToken) {
   return axios.get('/product/orders', {
@@ -14,17 +16,15 @@ export function cancelOrder(dto, receiverPhoneNumber) {
         Authorization: sessionStorage.getItem(ACCESS_TOKEN)
           ? sessionStorage.getItem(ACCESS_TOKEN)
           : receiverPhoneNumber,
-        'Content-Type': `application/json`,
+        'Content-Type': CONTENT_TYPE.ApplicationJson,
       },
     })
     .then((response) => {
-      console.log('Response:', response.data);
       alert(response.data.message);
-      window.location.href = '/inquiry';
+      window.location.href = INQUIRY;
     })
     .catch((e) => {
       if (e.response) {
-        console.log('Error:', e.response.data);
         if (e.response.status === 400)
           alert('DTO 문제 또는 이미 주문 취소한 경우 또는 주문 상태가 ORDERED 이상입니다');
         else if (e.response.status === 401) alert('JWT 토큰이 유효하지 않습니다');

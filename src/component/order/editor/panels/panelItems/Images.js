@@ -121,6 +121,7 @@ const ImageItem = ({ preview, onClick }) => {
           pointerEvents: 'none',
           verticalAlign: 'middle',
         })}
+        alt='preview'
       />
     </div>
   );
