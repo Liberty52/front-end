@@ -52,6 +52,7 @@ export default function Choose() {
   function ProductContent(props) {
     const [modal, showModal] = useState(false);
     const productInfo = props.productInfo;
+    console.log(productInfo);
     const navigate = useNavigate();
     const cardClicked = () => {
       navigate(ORDER, {
@@ -64,7 +65,7 @@ export default function Choose() {
     return (
       <>
         <div className='choose'>
-          {modal ? (
+          {modal && (
             <ReviewModal
               closeModal={() => showModal(false)}
               productInfo={productInfo}
@@ -72,8 +73,6 @@ export default function Choose() {
                 getProductFromServer();
               }}
             />
-          ) : (
-            <></>
           )}
         </div>
         <div>
@@ -101,7 +100,7 @@ export default function Choose() {
                       <Row>
                         <span className='choose-productName'> {productInfo.name}</span>
                         <span className='choose-iscustomtext'>
-                          {productInfo.iscustom === 'true' ? 'custom' : <p>premium license</p>}
+                          {productInfo.custom ? <p>custom</p> : <p>premium license</p>}
                         </span>
                         <span className='choose-productPrice'> {productInfo.price}원</span>
                         <span>
