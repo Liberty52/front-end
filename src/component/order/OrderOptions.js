@@ -24,6 +24,7 @@ export default function OrderOptions({ productId, productInfo, price, setPrice }
   const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
+    setFrameOption({});
     if (!productInfo?.custom) {
       getLicenseImg(productId).then((res) => {
         setLicense(res.data);
