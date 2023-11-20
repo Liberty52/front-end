@@ -11,6 +11,7 @@ import {
   Content,
   Date,
   Page,
+  CommmentEditer,
 } from './style/Notice';
 
 import {
@@ -67,7 +68,7 @@ export default function NoticeComment({ noticeId }) {
     if (res.status === 200) {
       getComment();
     } else if (res.status === 400) {
-      alert('잘못된 요청입니다');
+      alert('잘못된 데이터로 요청하셨습니다');
     } else if (res.status === 401) {
       alert('존재하지 않는 유저입니다');
     } else if (res.status === 403) {
@@ -104,8 +105,8 @@ export default function NoticeComment({ noticeId }) {
         <CommentInfo>
           <WriterName>{comment.writerName}</WriterName>
           <Date>{formatDate(comment.createdAt)}</Date>
-          {comment.mine ? (
-            <div style={{ display: 'flex', gap: '5px', marginLeft: '15px' }}>
+          {comment.mine && (
+            <CommmentEditer>
               <p
                 onClick={() => {
                   setEditing(true);
@@ -120,8 +121,8 @@ export default function NoticeComment({ noticeId }) {
               >
                 삭제
               </p>
-            </div>
-          ) : null}
+            </CommmentEditer>
+          ) }
         </CommentInfo>
 
         {editing ? (
@@ -200,6 +201,5 @@ function formatDate(date) {
   var datePart = dateParts[0];
   var timePart = dateParts[1].split('.')[0].slice(0, 5);
   var formattedDate = datePart + ' ' + timePart;
-
   return formattedDate;
 }
