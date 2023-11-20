@@ -12,16 +12,14 @@ import {
   Date,
   Page,
 } from './style/Notice';
-<<<<<<< Updated upstream
-import { postComment, retrieveComments } from '../../axios/support/Notice';
-=======
+
 import {
   deleteComment,
   patchComment,
   postComment,
   retrieveComments,
 } from '../../axios/support/Notice';
->>>>>>> Stashed changes
+
 import { ACCESS_TOKEN } from '../../constants/token';
 
 export default function NoticeComment({ noticeId }) {
@@ -63,10 +61,7 @@ export default function NoticeComment({ noticeId }) {
       alert('로그인이 필요한 기능입니다');
     }
   };
-<<<<<<< Updated upstream
 
-  function CommentItem({ comment }) {
-=======
   const handleEditComment = async (commentId, content) => {
     const res = await patchComment(noticeId, commentId, content);
     if (res.status === 200) {
@@ -103,7 +98,7 @@ export default function NoticeComment({ noticeId }) {
   function CommentItem({ comment }) {
     const [editing, setEditing] = useState(false);
     const [input, setInput] = useState(comment.content);
->>>>>>> Stashed changes
+
     return (
       <CommentContainer>
         <CommentInfo>
@@ -128,9 +123,7 @@ export default function NoticeComment({ noticeId }) {
             </div>
           ) : null}
         </CommentInfo>
-<<<<<<< Updated upstream
-        <Content>{comment.content}</Content>
-=======
+
         {editing ? (
           <Content>
             <input value={input} onChange={(e) => setInput(e.target.value)} />
@@ -153,7 +146,6 @@ export default function NoticeComment({ noticeId }) {
         ) : (
           <Content>{comment.content}</Content>
         )}
->>>>>>> Stashed changes
       </CommentContainer>
     );
   }

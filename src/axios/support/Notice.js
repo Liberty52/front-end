@@ -4,11 +4,8 @@ import {
   NOTICE_LIST,
   GET_NOTICE_COMMENT,
   POST_NOTICE_COMMENT,
-<<<<<<< Updated upstream
-=======
   PATCH_NOTICE_COMMENT,
   DELETE_NOTICE_COMMENT,
->>>>>>> Stashed changes
 } from '../../constants/api';
 import { ACCESS_TOKEN } from '../../constants/token';
 import { CONTENT_TYPE } from '../../constants/header';
@@ -39,8 +36,7 @@ export const postComment = (noticeId, content) => {
     },
   });
 };
-<<<<<<< Updated upstream
-=======
+
 
 export const patchComment = (noticeId, commentId, content) => {
   const data = { content: content };
@@ -60,4 +56,3 @@ export const deleteComment = (noticeId, commentId) => {
     },
   });
 };
->>>>>>> Stashed changes
