@@ -41,13 +41,20 @@ import {
 import Faq from './screen/support/Faq';
 import Choose from './screen/order/Choose';
 import { useEffect } from 'react';
-import ReactGA from 'react-ga4';
 
-ReactGA.initialize(process.env.REACT_APP_GA_KEY);
 
 export default function App() {
   useEffect(() => {
-    ReactGA.send({ hitType: 'pageview', page: window.location.pathname });
+    (function (w, d, s, l, i) {
+      w[l] = w[l] || [];
+      w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+      var f = d.getElementsByTagName(s)[0],
+          j = d.createElement(s),
+          dl = l != 'dataLayer' ? '&l=' + l : '';
+      j.async = true;
+      j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+      f.parentNode.insertBefore(j, f);
+    })(window, document, 'script', 'dataLayer', process.env.REACT_APP_GA_KEY);
   }, []);
 
   return (
@@ -65,11 +72,11 @@ export default function App() {
           <Route path={PAYMENT} element={<Payment />} />
           <Route path={CHANGE_PASSWORD} element={<ChangePassword />} />
           <Route path={INQUIRY} element={<Inquiry />} />
-          <Route path={DETAIL} element={<Detail />} />
-          <Route path={GUEST_DETAIL} element={<Detail />} />
+          <Route path={`${DETAIL}/:orderId`} element={<Detail />} />
+          <Route path={`${GUEST_DETAIL}/:orderId`} element={<Detail />} />
           <Route path={EDITOR} element={<Editor />} />
           <Route path={QUESTION} element={<QuestionList />} />
-          <Route path={QUESTION_DETAIL} element={<QuestionDetail />} />
+          <Route path={`${QUESTION_DETAIL}/:id`} element={<QuestionDetail />} />
           <Route path={QUESTION_EDITOR} element={<QuestionEditor />} />
           <Route path={SUPPORT} element={<Support />} />
           <Route path={FAQ} element={<Faq />} />

@@ -41,7 +41,7 @@ export default function QuestionDetail() {
       getQuestionDetail(id).then((res) => {
         prevData = res.data;
         setData(prevData);
-        const viewer = new Editor.factory({
+        new Editor.factory({
           el: document.querySelector('#viewer'),
           height: '500px',
           initialEditType: 'wysiwyg',

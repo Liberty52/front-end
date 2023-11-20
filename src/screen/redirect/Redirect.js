@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { ACCESS_TOKEN, REFRESH_TOKEN } from '../../constants/token';
+import { MAIN } from '../../constants/path';
 
 export default function Redirect() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -10,7 +11,7 @@ export default function Redirect() {
     const refreshToken = searchParams.get('refreshToken');
     sessionStorage.setItem(ACCESS_TOKEN, accessToken);
     localStorage.setItem(REFRESH_TOKEN, refreshToken);
-    navigate('/', {
+    navigate(MAIN, {
       replace: true,
     });
   }, []);

@@ -7,7 +7,7 @@ import KeyboardArrowDown from '@mui/icons-material/KeyboardArrowDown';
 import Checkbox from '../../../component/common/Checkbox';
 import { useEffect, useState } from 'react';
 import { getVBankInfos } from '../../../axios/order/Payment';
-import { PAYMENT_TYPE, ORDER_STATUS } from '../../../constants/order-info';
+import { PAYMENT_TYPE } from '../../../constants/order-info';
 
 function PaymentMethod(props) {
   const onPMChanged = (e) => {

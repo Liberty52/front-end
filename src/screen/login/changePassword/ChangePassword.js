@@ -1,21 +1,17 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { resetPassword } from '../../../axios/login/Login.js';
 import './ChangePassword.css';
 import { useSearchParams } from 'react-router-dom';
 import { useNavigate } from 'react-router';
 import Input from '../../../component/common/Input';
 import Button from '../../../component/common/Button';
+import { LOGIN } from '../../../constants/path.js';
 
 export default function ChangePassword() {
   const [errorMessage, setErrorMessage] = useState('');
   const [isSuccess, setIsSuccess] = useState(false);
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
-
-  useEffect(() => {
-    const emailToken = searchParams.get('emailToken');
-    const limitTime = searchParams.get('limitTime');
-  }, [searchParams]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -42,7 +38,7 @@ export default function ChangePassword() {
   };
 
   if (isSuccess) {
-    navigate('/login'); //로그인
+    navigate(LOGIN); //로그인
   }
 
   return (

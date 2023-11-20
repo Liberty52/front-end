@@ -205,7 +205,12 @@ const ResizeTemplate = () => {
                             justifyContent: 'center',
                           }}
                         >
-                          <img src={previewImgs[sampleFrame.previewId]} width={50} height={50} />
+                          <img
+                            src={previewImgs[sampleFrame.previewId]}
+                            width={50}
+                            height={50}
+                            alt='샘플 이미지'
+                          />
                         </Block>
                         <Block $style={{ fontSize: '13px', textAlign: 'center' }}>
                           <Block $style={{ fontWeight: 500 }}>{sampleFrame.name}</Block>

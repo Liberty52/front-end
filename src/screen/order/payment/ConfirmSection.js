@@ -20,6 +20,7 @@ import liberty52 from '../../../image/icon/liberty52.jpg';
 // react
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { DETAIL, GUEST_DETAIL } from '../../../constants/path';
 
 function Product(props) {
   const productInfo = props.productInfo;
@@ -334,9 +335,9 @@ export default function ConfirmSection(props) {
 
   if (success) {
     if (sessionStorage.getItem(ACCESS_TOKEN)) {
-      navigate(`/detail/${orderId}`);
+      navigate(`${DETAIL}/${orderId}`);
     } else {
-      navigate(`/product/guest/${orderNum}?phoneNumber=${destinationDto.receiverPhoneNumber}`);
+      navigate(`${GUEST_DETAIL}/${orderNum}?phoneNumber=${destinationDto.receiverPhoneNumber}`);
     }
   }
 

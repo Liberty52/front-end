@@ -4,6 +4,11 @@ import {
   NOTICE_LIST,
   GET_NOTICE_COMMENT,
   POST_NOTICE_COMMENT,
+<<<<<<< Updated upstream
+=======
+  PATCH_NOTICE_COMMENT,
+  DELETE_NOTICE_COMMENT,
+>>>>>>> Stashed changes
 } from '../../constants/api';
 import { ACCESS_TOKEN } from '../../constants/token';
 import { CONTENT_TYPE } from '../../constants/header';
@@ -34,3 +39,25 @@ export const postComment = (noticeId, content) => {
     },
   });
 };
+<<<<<<< Updated upstream
+=======
+
+export const patchComment = (noticeId, commentId, content) => {
+  const data = { content: content };
+  return request.patch(PATCH_NOTICE_COMMENT(noticeId, commentId), data, {
+    headers: {
+      Authorization: sessionStorage.getItem(ACCESS_TOKEN),
+      'Content-Type': CONTENT_TYPE.ApplicationJson,
+    },
+  });
+};
+
+export const deleteComment = (noticeId, commentId) => {
+  return request.delete(DELETE_NOTICE_COMMENT(noticeId, commentId), {
+    headers: {
+      Authorization: sessionStorage.getItem(ACCESS_TOKEN),
+      'Content-Type': CONTENT_TYPE.ApplicationJson,
+    },
+  });
+};
+>>>>>>> Stashed changes
