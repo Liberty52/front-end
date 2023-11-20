@@ -84,7 +84,7 @@ export default function NoticeComment({ noticeId }) {
     if (res.status === 204) {
       getComment();
     } else if (res.status === 400) {
-      alert('잘못된 요청입니다');
+      alert('잘못된 데이터로 요청하셨습니다');
     } else if (res.status === 401) {
       alert('존재하지 않는 유저입니다');
     } else if (res.status === 403) {
