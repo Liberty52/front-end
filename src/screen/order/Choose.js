@@ -56,6 +56,7 @@ export default function Choose() {
     const isSoldOut = productInfo.state === 'SOLD_OUT' ? true : false;
 
     const cardClicked = () => {
+
       if (!isSoldOut) {
         navigate(ORDER, {
           state: {
