@@ -132,6 +132,7 @@ export default function NoticeComment({ noticeId }) {
               onClick={() => {
                 handleEditComment(comment.commentId, input);
               }}
+              style={{ margin: '10px' }}
             >
               수정
             </button>
