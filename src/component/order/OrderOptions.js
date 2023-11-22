@@ -22,6 +22,7 @@ export default function OrderOptions({ productId, productInfo, price, setPrice }
   const [mode, setMode] = useState('');
   const [additionalPrice, setAdditionalPrice] = useState({});
   const [quantity, setQuantity] = useState(1);
+  const [licenseId, setLicenseId] = useState('');
 
   useEffect(() => {
     setFrameOption({});
@@ -56,12 +57,16 @@ export default function OrderOptions({ productId, productInfo, price, setPrice }
     const options = Object.values(frameOption).map((item) => {
       return item.id;
     });
-    const image = e.target.file.files[0];
     const data = {
       productId: productInfo?.id,
       optionDetailIds: options,
       quantity: parseInt(quantity),
     };
+    const isCustom = productInfo?.custom;
+    let image = null;
+    if (isCustom) {
+      image = e.target.file.files[0];
+    }
     imageFile = image;
     let pass = true;
 
@@ -75,7 +80,7 @@ export default function OrderOptions({ productId, productInfo, price, setPrice }
         pass = false;
       }
     });
-    if (!imageFile) {
+    if (!imageFile && isCustom) {
       Swal.fire({
         title: '이미지를 입력해주세요',
         icon: 'warning',
@@ -83,10 +88,21 @@ export default function OrderOptions({ productId, productInfo, price, setPrice }
       window.location.href = '#add-image';
       pass = false;
     }
+    if (!isCustom) {
+      data.optionDetailIds = [licenseId, ...options];
+      if (licenseId == '') {
+        Swal.fire({
+          title: '라이선스 이미지를 입력해주세요',
+          icon: 'warning',
+        });
+        window.location.href = '#add-image';
+        pass = false;
+      }
+    }
     switch (mode) {
       case ORDER_MODE.CART:
         if (!pass) break;
-        post(data, imageFile);
+        post(data, imageFile, isCustom);
         break;
       case ORDER_MODE.BUY:
         if (!pass) break;
@@ -123,6 +139,7 @@ export default function OrderOptions({ productId, productInfo, price, setPrice }
             custom={productInfo.custom}
             optionItems={license.optionItems}
             moveToEditor={moveToEditor}
+            setLicenseId={setLicenseId}
           />
           <Quantity
             productName={productInfo.name}
@@ -211,7 +228,7 @@ const Options = ({ options, onHandleChange }) => {
   );
 };
 
-const AddImage = ({ custom, optionItems, moveToEditor }) => {
+const AddImage = ({ custom, optionItems, moveToEditor, setLicenseId }) => {
   return (
     <>
       {custom ? (
@@ -234,6 +251,9 @@ const AddImage = ({ custom, optionItems, moveToEditor }) => {
               <img
                 src={optionItem.artUrl}
                 alt={optionItem.artName}
+                onClick={() => {
+                  setLicenseId(optionItem.id);
+                }}
                 onContextMenu={(e) => {
                   e.preventDefault();
                 }}

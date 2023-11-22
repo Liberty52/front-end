@@ -14,16 +14,16 @@ import {
   PRODUCT_OPTION,
 } from '../../constants/api';
 
-export default function post(dto, file) {
+export default function post(dto, file, isCustom) {
   const formData = new FormData();
-  formData.append('file', file);
+  if (isCustom) formData.append('file', file);
   formData.append('dto', new Blob([JSON.stringify(dto)], { type: CONTENT_TYPE.ApplicationJson }));
   if (sessionStorage.getItem(ACCESS_TOKEN)) {
     axios
         .post(ADD_CART(), formData, {
           headers: {
             Authorization: sessionStorage.getItem(ACCESS_TOKEN),
-            "Contest-Type": "multipart/form-data",
+            "Content-Type": CONTENT_TYPE.MultipartFormData,
           },
       })
       .then(() => {
