@@ -9,9 +9,10 @@ import LButton from '../../component/common/Button';
 import { fetchCartData, handleDeleteClick, handleEditClick } from '../../axios/cart/Cart';
 import { addComma } from './Comma';
 import cookie from 'react-cookies';
-import { ACCESS_TOKEN } from '../../constants/token';
+import { ACCESS_TOKEN, GUEST_COOKIE } from '../../constants/token';
 import { useMediaQuery } from 'react-responsive';
 import Select from 'react-select';
+import { MAIN, PAYMENT } from '../../constants/path';
 
 export default function CartList({ setEmptyMode }) {
   const isDesktopOrMobile = useMediaQuery({ query: '(max-width:768px)' });
@@ -45,7 +46,7 @@ export default function CartList({ setEmptyMode }) {
   };
   const handleRowClick = (id, idx, options, quantity) => {
     let newHidden = [...hidden];
-    if (newHidden.indexOf(false) == idx) {
+    if (newHidden.indexOf(false) === idx) {
       // when opened edited row
       newHidden[idx] = !newHidden[idx];
       setHidden(newHidden);
@@ -103,11 +104,11 @@ export default function CartList({ setEmptyMode }) {
         setEmptyMode,
         setProductOption,
       );
-    } else if (cookie.load('guest')) {
-      fetchCartData(cookie.load('guest'), setCartList, setEmptyMode, setProductOption);
+    } else if (cookie.load(GUEST_COOKIE)) {
+      fetchCartData(cookie.load(GUEST_COOKIE), setCartList, setEmptyMode, setProductOption);
     } else {
       alert('잘못된 접근입니다');
-      return navigate('/');
+      return navigate(MAIN);
     }
   }, []);
 
@@ -119,10 +120,10 @@ export default function CartList({ setEmptyMode }) {
   }, [cartData]);
 
   function pay() {
-    if (checkedList == '') {
+    if (checkedList === '') {
       alert('체크된 장바구니 항목이 없습니다');
     } else {
-      navigate('/payment', {
+      navigate(PAYMENT, {
         state: {
           checkedList,
           paymentValue,
@@ -139,7 +140,7 @@ export default function CartList({ setEmptyMode }) {
     );
   };
   // const data = mockData;
-  if (!cartData || cartData == '') {
+  if (!cartData || cartData === '') {
     return (
       <div id='cartTable'>
         <div className='cart-header'>

@@ -7,6 +7,7 @@ import menuImgActive from '../../image/icon/menu-active.png';
 import userMenuImg from '../../image/icon/user-menu.png';
 import userMenuImgActive from '../../image/icon/user-menu-active.png';
 import ImageButton from './ImageButton';
+import { MAIN } from '../../constants/path';
 
 function LargeHeader({ headerLeft, headerRight, fixed }) {
   return (
@@ -14,7 +15,7 @@ function LargeHeader({ headerLeft, headerRight, fixed }) {
       <ul className='header-items'>
         <li>
           <a href={'/'}>
-            <img className='logo-img' src={logo} />
+            <img className='logo-img' src={logo} alt='logo' />
           </a>
         </li>
         {headerLeft}
@@ -41,7 +42,7 @@ function SmallHeader({ headerLeft, headerRight, fixed }) {
           }}
         />
         <a href={'/'}>
-          <img className='logo-img' src={logo} />
+          <img className='logo-img' src={logo} alt='logo' />
         </a>
         <ImageButton
           width={'23px'}
@@ -97,19 +98,19 @@ export default function Header({ fixed }) {
             if (window.confirm('로그아웃하시겠습니까?')) {
               sessionStorage.removeItem(ACCESS_TOKEN);
               localStorage.removeItem(REFRESH_TOKEN);
-              window.location.href = '/';
+              window.location.href = MAIN;
             }
           },
         },
         { name: '장바구니', href: 'cart' },
         { name: '주문조회', href: 'inquiry' },
-        { name: '구매하기', href: 'order' },
+        { name: '구매하기', href: 'choose' },
       ]);
     } else {
       setHeaderItemsRight([
         { name: '로그인', href: 'login' },
         { name: '장바구니', href: 'cart' },
-        { name: '구매하기', href: 'order' },
+        { name: '구매하기', href: 'choose' },
       ]);
     }
   }, []);

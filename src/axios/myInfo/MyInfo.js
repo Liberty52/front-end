@@ -1,5 +1,6 @@
 import axios from '../axios';
 import { ACCESS_TOKEN } from '../../constants/token';
+import { CONTENT_TYPE } from '../../constants/header';
 
 export function delMyInfo() {
   if (window.confirm('정말로 탈퇴하시겠습니까?')) {
@@ -21,7 +22,7 @@ export function putMyInfo(dto, file) {
       .put('/auth/my', formData, {
         headers: {
           Authorization: sessionStorage.getItem(ACCESS_TOKEN),
-          'Contest-Type': 'multipart/form-data',
+          'Content-Type': CONTENT_TYPE.MultipartFormData,
         },
       })
       .then(() => {

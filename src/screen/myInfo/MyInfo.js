@@ -8,6 +8,7 @@ import { delMyInfo, putMyInfo, getMyInfo } from '../../axios/myInfo/MyInfo';
 import Header from '../../component/common/Header';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
+import { MAIN } from '../../constants/path';
 
 function UpdateInfo(props) {
   const myInfo = props.myInfo;
@@ -129,7 +130,7 @@ function ButtonGroup(props) {
                 localStorage.clear();
                 sessionStorage.clear();
                 alert('탈퇴가 성공적으로 이루어졌습니다.');
-                navigate('/');
+                navigate(MAIN);
               })
               .catch((err) => alert(err.response.data.message));
           }

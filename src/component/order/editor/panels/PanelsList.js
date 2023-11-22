@@ -43,6 +43,11 @@ const BASE_ITEMS = [
     name: 'License',
     label: '라이센스',
   },
+  {
+    id: 'text',
+    name: 'Text',
+    label: '텍스트',
+  },
 ];
 
 const PanelsList = () => {

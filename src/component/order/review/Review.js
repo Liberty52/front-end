@@ -3,152 +3,11 @@
 import './Review.css';
 import React, { useState, useEffect } from 'react';
 import Checkbox from '../../common/Checkbox';
-import Image from '../../common/Image';
-import ReviewModal from './ReviewModal';
-import ReplyContents from './ReplyContents';
-import star from '../../../image/icon/star.png';
-import star_filled from '../../../image/icon/star_filled.png';
-import { deleteReview, getReview } from '../../../axios/order/Review';
+import { ReviewContent } from './ReviewContent';
+import ReviewPages from './ReviewPages';
+import { getReview } from '../../../axios/order/Review';
 
 export default function Review() {
-  function ReviewContents() {
-    let list = [];
-    for (var i = 0; i < reviewContents.length; i++) {
-      list.push(<ReviewContent key={i} reviewInfo={reviewContents[i]} />);
-    }
-    return <div>{list.length > 0 ? list : <span>작성된 구매평이 없습니다.</span>}</div>;
-  }
-  function ReviewContent(props) {
-    const [modal, showModal] = useState(false);
-    const reviewInfo = props.reviewInfo;
-
-    const filesChildNode = [];
-    reviewInfo.imageUrls.map((imageUrl, index) => {
-      filesChildNode.push(
-        <Image
-          key={index}
-          image={imageUrl}
-          onClick={(e) => {
-            const img = e.target;
-            const imageCrop = img.parentNode;
-            if (imageCrop.style.width === 'auto') {
-              imageCrop.style.width = '100px';
-              imageCrop.style.height = '100px';
-              img.style.width = '100%';
-            } else {
-              imageCrop.style.width = 'auto';
-              imageCrop.style.height = 'auto';
-              img.style.width = '300px';
-            }
-          }}
-          square
-        />,
-      );
-    });
-
-    return (
-      <div className='review-content'>
-        {modal ? (
-          <ReviewModal
-            closeModal={() => showModal(false)}
-            reviewInfo={reviewInfo}
-            onSuccess={() => {
-              getReviewFromServer();
-            }}
-          />
-        ) : (
-          <></>
-        )}
-        <div className='review-header'>
-          <div className='user'>
-            <Image
-              image={reviewInfo.authorProfileUrl === null ? '' : reviewInfo.authorProfileUrl}
-            />
-            <div className='name'>{reviewInfo.authorName}</div>
-            <div className='rating'>
-              <img src={star_filled} />
-              <img src={reviewInfo.rating < 2 ? star : star_filled} />
-              <img src={reviewInfo.rating < 3 ? star : star_filled} />
-              <img src={reviewInfo.rating < 4 ? star : star_filled} />
-              <img src={reviewInfo.rating < 5 ? star : star_filled} />
-            </div>
-          </div>
-          {reviewInfo.isYours ? (
-            <div className='content-buttons'>
-              <span>
-                <a
-                  onClick={() => {
-                    showModal(true);
-                  }}
-                >
-                  수정
-                </a>
-              </span>
-              <span>|</span>
-              <span>
-                <a
-                  onClick={() => {
-                    deleteReview(reviewInfo.reviewId, getReviewFromServer);
-                  }}
-                >
-                  삭제
-                </a>
-              </span>
-            </div>
-          ) : (
-            <></>
-          )}
-        </div>
-        <div className='content'>{reviewInfo.content}</div>
-        <div className='files'>{filesChildNode}</div>
-        <span
-          className='reply-num'
-          onClick={() => {
-            const reply = document.getElementById(reviewInfo.reviewId);
-            if (reply.style.display === 'block') {
-              reply.style.display = 'none';
-            } else {
-              reply.style.display = 'block';
-            }
-          }}
-        >
-          댓글 {reviewInfo.replies.length}
-        </span>
-        <ReplyContents id={reviewInfo.reviewId} replies={reviewInfo.replies} />
-      </div>
-    );
-  }
-
-  function Pages(props) {
-    const pages = props.pages;
-    const list = [];
-    for (let i = pages.startPage; i <= pages.lastPage; i++) {
-      if (i === pages.currentPage)
-        list.push(
-          <span
-            key={i}
-            className='active'
-            onClick={() => {
-              setPageNum(i - 1);
-            }}
-          >
-            {i}
-          </span>,
-        );
-      else
-        list.push(
-          <span
-            key={i}
-            onClick={() => {
-              setPageNum(i - 1);
-            }}
-          >
-            {i}
-          </span>,
-        );
-    }
-    return <div className='pages'>{list}</div>;
-  }
   const [onlyPhoto, setOnlyPhoto] = useState(false);
   const [reviewContents, setReviewContents] = useState([]);
   const [pages, setPages] = useState({
@@ -157,6 +16,10 @@ export default function Review() {
     currentPage: 1,
   });
   const [pageNum, setPageNum] = useState(0);
+
+  useEffect(() => {
+    getReviewFromServer();
+  }, [onlyPhoto, pageNum]);
 
   function getReviewFromServer() {
     getReview('LIB-001', 10, pageNum, onlyPhoto).then((res) => {
@@ -183,10 +46,6 @@ export default function Review() {
     });
   }
 
-  useEffect(() => {
-    getReviewFromServer();
-  }, [onlyPhoto, pageNum]);
-
   return (
     <div className='review'>
       <div className='filter'>
@@ -197,8 +56,22 @@ export default function Review() {
           }}
         />
       </div>
-      <ReviewContents reviewContents={reviewContents} />
-      <Pages pages={pages} />
+      <div>
+        {reviewContents.length === 0 ? (
+          <span>작성된 구매평이 없습니다.</span>
+        ) : (
+          reviewContents.map((reviewInfo, i) => {
+            return (
+              <ReviewContent
+                key={i}
+                reviewInfo={reviewInfo}
+                getReviewFromServer={getReviewFromServer}
+              />
+            );
+          })
+        )}
+      </div>
+      <ReviewPages pages={pages} setPageNum={setPageNum} />
     </div>
   );
 }

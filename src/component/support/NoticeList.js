@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import styled from 'styled-components';
 import { retrieveNoticeList } from '../../axios/support/Notice';
 import {
   PageMoveButton,
@@ -35,11 +34,11 @@ export default function NoticeList({ setNoticeId }) {
     setPageNum(id - 1);
   };
   const pageNumberMinusButtonClicked = () => {
-    if (pageNum == 0) return;
+    if (pageNum === 0) return;
     setPageNum((prev) => prev - 1);
   };
   const pageNumberPlusButtonClicked = () => {
-    if (pageNum == data.totalPage - 1) return;
+    if (pageNum === data.totalPage - 1) return;
     setPageNum((prev) => prev + 1);
   };
   return (
