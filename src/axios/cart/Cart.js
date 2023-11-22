@@ -14,17 +14,17 @@ import {
   PRODUCT_OPTION,
 } from '../../constants/api';
 
-export default function post(dto, file) {
+export default function post(dto, file, isCustom) {
   const formData = new FormData();
-  formData.append('file', file);
+  if (isCustom) formData.append('file', file);
   formData.append('dto', new Blob([JSON.stringify(dto)], { type: CONTENT_TYPE.ApplicationJson }));
   if (sessionStorage.getItem(ACCESS_TOKEN)) {
     axios
-      .post(ADD_CART, formData, {
-        headers: {
-          Authorization: sessionStorage.getItem(ACCESS_TOKEN),
-          'Content-Type': CONTENT_TYPE.MultipartFormData,
-        },
+        .post(ADD_CART(), formData, {
+          headers: {
+            Authorization: sessionStorage.getItem(ACCESS_TOKEN),
+            "Content-Type": CONTENT_TYPE.MultipartFormData,
+          },
       })
       .then(() => {
         alert('장바구니에 담겼습니다!');
@@ -51,13 +51,13 @@ export const fetchCartData = (token, setCartList, setEmptyMode, setProductOption
   };
 
   axios
-    .get(CART_LIST, { headers })
+    .get(CART_LIST(), { headers })
     .then((response) => {
       setCartList(response.data);
       if (!response.data || response.data === '') {
         setEmptyMode(true);
       } else {
-        axios.get(PRODUCT_OPTION, { headers }).then((response) => {
+        axios.get(PRODUCT_OPTION(), { headers }).then((response) => {
           setProductOption(response.data[0].productOptionList);
         });
       }
