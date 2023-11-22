@@ -4,10 +4,7 @@ import cookie from 'react-cookies';
 import { CONTENT_TYPE } from '../../constants/header';
 
 function checkLicense(dto, file) {
-  if ('licenseOptionDetailId' in dto.productDto) {
-    file = null;
-    console.log(dto, file);
-  }
+  if ('licenseOptionDetailId' in dto.productDto) file = null;
 }
 
 export function prepareCard(dto, file) {
