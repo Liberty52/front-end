@@ -102,12 +102,27 @@ export const CommentInfo = styled.div`
 `;
 export const WriterName = styled.span`
   margin-right: 10px;
+  align-items: center;
 `;
 export const Date = styled.span`
   font-size: 12px;
   color: rgba(0, 0, 0, 0.5);
+  align-items: center;
 `;
 export const Content = styled.div``;
 export const Page = styled.span`
   margin: 0 5px;
+`;
+export const CommmentEditer = styled.div`
+  display: flex;
+  gap: 5px;
+  margin-left: 15px;
+  align-items: center; 
+  padding: 0;
+  p {
+    font-size: 13px; 
+    line-height: 1;
+    margin: 0; 
+    padding: 0;
+  }
 `;
