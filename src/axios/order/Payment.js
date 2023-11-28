@@ -3,7 +3,12 @@ import { ACCESS_TOKEN, GUEST_COOKIE } from '../../constants/token';
 import cookie from 'react-cookies';
 import { CONTENT_TYPE } from '../../constants/header';
 
+function checkLicense(dto, file) {
+  if ('licenseOptionDetailId' in dto.productDto) file = null;
+}
+
 export function prepareCard(dto, file) {
+  checkLicense(dto, file);
   const formData = new FormData();
   formData.append('imageFile', file);
   formData.append('dto', new Blob([JSON.stringify(dto)], { type: CONTENT_TYPE.ApplicationJson }));
@@ -103,6 +108,7 @@ export function getVBankInfos() {
 }
 
 export function payByVBank(dto, file) {
+  checkLicense(dto, file);
   const formData = new FormData();
   formData.append('imageFile', file);
   formData.append('dto', new Blob([JSON.stringify(dto)], { type: 'application/json' }));

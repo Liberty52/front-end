@@ -22,7 +22,7 @@ export default function OrderOptions({ productId, productInfo, price, setPrice }
   const [mode, setMode] = useState('');
   const [additionalPrice, setAdditionalPrice] = useState({});
   const [quantity, setQuantity] = useState(1);
-  const [licenseId, setLicenseId] = useState('');
+  const [img, setImg] = useState({ id: '', src: '' });
 
   useEffect(() => {
     setFrameOption({});
@@ -52,22 +52,35 @@ export default function OrderOptions({ productId, productInfo, price, setPrice }
     });
   };
 
+  const onHandleImg = (id, src) => {
+    setImg({ id, src });
+  };
+
   const onHandleSubmit = (e) => {
     e.preventDefault();
     const options = Object.values(frameOption).map((item) => {
       return item.id;
     });
-    const data = {
-      productId: productInfo?.id,
-      optionDetailIds: options,
-      quantity: parseInt(quantity),
-    };
-    const isCustom = productInfo?.custom;
-    let image = null;
-    if (isCustom) {
-      image = e.target.file.files[0];
+
+    let data = {};
+
+    if (productInfo.custom) {
+      imageFile = e.target.file.files[0];
+      data = {
+        productId: productInfo?.id,
+        optionDetailIds: options,
+        quantity: parseInt(quantity),
+      };
+    } else {
+      imageFile = img.src;
+      data = {
+        productId: productInfo?.id,
+        optionDetailIds: options,
+        licenseOptionDetailId: img.id,
+        quantity: parseInt(quantity),
+      };
     }
-    imageFile = image;
+
     let pass = true;
 
     Object.values(productInfo.options).map((option, idx) => {
@@ -80,7 +93,7 @@ export default function OrderOptions({ productId, productInfo, price, setPrice }
         pass = false;
       }
     });
-    if (!imageFile && isCustom) {
+    if (!imageFile) {
       Swal.fire({
         title: '이미지를 입력해주세요',
         icon: 'warning',
@@ -88,32 +101,25 @@ export default function OrderOptions({ productId, productInfo, price, setPrice }
       window.location.href = '#add-image';
       pass = false;
     }
-    if (!isCustom) {
-      data.optionDetailIds = [licenseId, ...options];
-      if (licenseId == '') {
-        Swal.fire({
-          title: '라이선스 이미지를 입력해주세요',
-          icon: 'warning',
-        });
-        window.location.href = '#add-image';
-        pass = false;
-      }
-    }
     switch (mode) {
       case ORDER_MODE.CART:
         if (!pass) break;
-        post(data, imageFile, isCustom);
+        post(data, imageFile);
         break;
       case ORDER_MODE.BUY:
         if (!pass) break;
         navigate(PAYMENT, {
           state: {
-            frameOption: frameOption,
-            price: price,
-            quantity: quantity,
+            frameOption,
+            price,
+            quantity,
+            productName: productInfo.name,
             add_image: imageFile,
+            ...(!productInfo.custom && { licenseOptionDetailId: img.id }),
           },
         });
+      default:
+        break;
     }
   };
 
@@ -139,7 +145,7 @@ export default function OrderOptions({ productId, productInfo, price, setPrice }
             custom={productInfo.custom}
             optionItems={license.optionItems}
             moveToEditor={moveToEditor}
-            setLicenseId={setLicenseId}
+            onHandleImg={onHandleImg}
           />
           <Quantity
             productName={productInfo.name}
@@ -228,7 +234,7 @@ const Options = ({ options, onHandleChange }) => {
   );
 };
 
-const AddImage = ({ custom, optionItems, moveToEditor, setLicenseId }) => {
+const AddImage = ({ custom, optionItems, moveToEditor, onHandleImg }) => {
   return (
     <>
       {custom ? (
@@ -251,11 +257,11 @@ const AddImage = ({ custom, optionItems, moveToEditor, setLicenseId }) => {
               <img
                 src={optionItem.artUrl}
                 alt={optionItem.artName}
-                onClick={() => {
-                  setLicenseId(optionItem.id);
-                }}
                 onContextMenu={(e) => {
                   e.preventDefault();
+                }}
+                onClick={(e) => {
+                  onHandleImg(optionItem.id, e.target.src);
                 }}
                 style={{ width: '100%', height: '100%' }}
               />

@@ -1,0 +1,15 @@
+name: 'PR Auto Assign'
+on:
+  pull_request:
+    types: [opened, ready_for_review]
+
+jobs:
+  add-reviews:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 깃허브 액션 체크아웃
+        uses: actions/checkout@v2
+        
+      - uses: kentaro-m/auto-assign-action@v1.2.5
+        with:
+          configuration-path: '.github/pr-auto-assign_configs.yml' 

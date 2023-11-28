@@ -279,18 +279,20 @@ function ConfirmSection(props) {
 
   const productInfo = props.productInfo;
   let productInfoList = productInfo;
-
   if (!Array.isArray(productInfo)) {
     productInfoList = [productInfo];
   }
 
   const length = productInfoList.length;
   const productDto = {
-    productName: 'Liberty 52_Frame',
+    productName: productInfo.productName,
     optionDetailIds: Object.values(productInfoList[0].frameOption).map((optionDetail) => {
       return optionDetail.id;
     }),
-    quantity: props.productInfo.quantity,
+    ...(productInfo.licenseOptionDetailId && {
+      licenseOptionDetailId: productInfo.licenseOptionDetailId,
+    }),
+    quantity: productInfo.quantity,
   };
 
   const destinationDto = {
@@ -505,7 +507,7 @@ export default function Payment() {
   });
 
   const location = useLocation();
-  const locationData = { ...location.state }; // mounting_method, basic_material, add_material, add_image, quantity
+  const locationData = { ...location.state };
   let productInfo = '';
   let productIdList = '';
   if (!locationData.checkedList) {
