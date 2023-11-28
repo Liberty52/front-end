@@ -76,7 +76,7 @@ export default function OrderOptions({ productId, productInfo, price, setPrice }
       data = {
         productId: productInfo?.id,
         optionDetailIds: options,
-        licenseOptionDetailId: img.id,
+        licenseOptionId: img.id,
         quantity: parseInt(quantity),
       };
     }
@@ -104,7 +104,7 @@ export default function OrderOptions({ productId, productInfo, price, setPrice }
     switch (mode) {
       case ORDER_MODE.CART:
         if (!pass) break;
-        post(data, imageFile);
+        post(data, imageFile, productInfo.custom);
         break;
       case ORDER_MODE.BUY:
         if (!pass) break;

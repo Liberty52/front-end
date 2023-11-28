@@ -134,7 +134,7 @@ export default function CartList({ setEmptyMode }) {
   }, [cartData]);
 
   function pay() {
-    if (checkedList == '') {
+    if (checkedList === '') {
       alert('체크된 장바구니 항목이 없습니다');
     } else {
       navigate(PAYMENT, {

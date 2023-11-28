@@ -4,8 +4,9 @@ import { ACCESS_TOKEN, GUEST_COOKIE } from '../../constants/token';
 import { CONTENT_TYPE } from '../../constants/header';
 import { BACK, CART } from '../../constants/path';
 import {
-  ADD_CART,
-  ADD_CART_GUEST,
+  ADD_CART_CUSTOM,
+  ADD_CART_CUSTOM_GUEST,
+  ADD_CART_LICENSE,
   CART_LIST,
   DELETE_CART,
   DELETE_CART_GUEST,
@@ -13,35 +14,59 @@ import {
   EDIT_CART_GUEST,
   PRODUCT_OPTION,
 } from '../../constants/api';
+import Swal from "sweetalert2";
 
 export default function post(dto, file, isCustom) {
   const formData = new FormData();
-  if (isCustom) formData.append('file', file);
   formData.append('dto', new Blob([JSON.stringify(dto)], { type: CONTENT_TYPE.ApplicationJson }));
-  if (sessionStorage.getItem(ACCESS_TOKEN)) {
-    axios
-        .post(ADD_CART(), formData, {
-          headers: {
-            Authorization: sessionStorage.getItem(ACCESS_TOKEN),
-            "Content-Type": CONTENT_TYPE.MultipartFormData,
-          },
-      })
-      .then(() => {
-        alert('장바구니에 담겼습니다!');
-        window.location.replace(BACK);
-      });
+
+    function alertSuccess() {
+        Swal.fire({
+            title: '장바구니에 담겼습니다',
+            icon: 'success',
+        });
+    }
+
+    if (sessionStorage.getItem(ACCESS_TOKEN)) {
+    if (isCustom) {
+      formData.append('file', file);
+      axios
+          .post(ADD_CART_CUSTOM(), formData, {
+            headers: {
+              Authorization: sessionStorage.getItem(ACCESS_TOKEN),
+              "Content-Type": CONTENT_TYPE.MultipartFormData,
+            },
+          })
+          .then(() => {
+            alertSuccess();
+          });
+    }
+    if (!isCustom) {
+      axios
+          .post(ADD_CART_LICENSE(), formData, {
+            headers: {
+              Authorization: sessionStorage.getItem(ACCESS_TOKEN),
+              "Content-Type": CONTENT_TYPE.MultipartFormData,
+            },
+          })
+          .then(() => {
+              alertSuccess();
+          });
+    }
   } else {
     axios
-      .post(ADD_CART_GUEST, formData, {
+      .post(ADD_CART_CUSTOM_GUEST(), formData, {
         headers: {
           Authorization: cookie.load(GUEST_COOKIE),
           'Content-Type': CONTENT_TYPE.MultipartFormData,
         },
       })
-      .then(() => {
-        alert('비회원 장바구니에 담겼습니다!');
-        window.location.replace(BACK);
-      });
+        .then(() => {
+          Swal.fire({
+            title: '비회원 장바구니에 담겼습니다',
+            icon: 'success',
+          });
+        });
   }
 }
 

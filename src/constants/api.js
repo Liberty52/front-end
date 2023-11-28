@@ -29,8 +29,10 @@ export const DELETE_REVIEW = (reviewId) => `/product/reviews/${reviewId}`;
 export const LICENSE_LIST = () => `/product/licenseImage`;
 
 // cart api
-export const ADD_CART = () => '/product/carts/custom-products';
-export const ADD_CART_GUEST = () => '/product/guest/carts/custom-products';
+export const ADD_CART_CUSTOM = () => '/product/carts/custom-products';
+export const ADD_CART_LICENSE = () => '/product/carts/license-products';
+export const ADD_CART_CUSTOM_GUEST = () => '/product/guest/carts/custom-products';
+export const ADD_CART_LICENSE_GUEST = () => '/product/guest/carts/license-products';
 export const CART_LIST = () => '/product/carts';
 export const PRODUCT_OPTION = () => '/product/carts/productOptionInfo';
 export const DELETE_CART = (id) => `/product/carts/custom-products/${id}`;
