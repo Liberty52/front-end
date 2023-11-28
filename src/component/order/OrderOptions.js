@@ -6,12 +6,14 @@ import Swal from 'sweetalert2';
 import Button from '../../component/common/Button';
 import ImageInput from '../../component/common/ImageInput';
 import Radio from '../../component/common/Radio';
+import ModalBtn from '@mui/material/Button';
 
 import post from '../../axios/cart/Cart';
 import { getLicenseImg } from '../../axios/order/Order';
 
 import { ORDER_MODE } from '../../constants/mode';
 import { EDITOR, PAYMENT } from '../../constants/path';
+import PreviewLicense from './PreviewLicense';
 
 export default function OrderOptions({ productId, productInfo, price, setPrice }) {
   let imageFile = '';
@@ -143,7 +145,7 @@ export default function OrderOptions({ productId, productInfo, price, setPrice }
           <Options options={productInfo.options} onHandleChange={onHandleChange} />
           <AddImage
             custom={productInfo.custom}
-            optionItems={license.optionItems}
+            optionItems={license?.optionItems}
             moveToEditor={moveToEditor}
             onHandleImg={onHandleImg}
           />
@@ -235,6 +237,11 @@ const Options = ({ options, onHandleChange }) => {
 };
 
 const AddImage = ({ custom, optionItems, moveToEditor, onHandleImg }) => {
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
   return (
     <>
       {custom ? (
@@ -250,24 +257,17 @@ const AddImage = ({ custom, optionItems, moveToEditor, onHandleImg }) => {
           </div>
         </div>
       ) : (
-        optionItems &&
-        optionItems.map((optionItem) => {
-          return (
-            <div key={optionItem.id} style={{ width: '300px', height: '150px' }}>
-              <img
-                src={optionItem.artUrl}
-                alt={optionItem.artName}
-                onContextMenu={(e) => {
-                  e.preventDefault();
-                }}
-                onClick={(e) => {
-                  onHandleImg(optionItem.id, e.target.src);
-                }}
-                style={{ width: '100%', height: '100%' }}
-              />
-            </div>
-          );
-        })
+        <>
+          <ModalBtn onClick={handleOpen}>라이센스 이미지 보기</ModalBtn>
+          {open && (
+            <PreviewLicense
+              optionItems={optionItems}
+              onHandleImg={onHandleImg}
+              open={open}
+              handleClose={handleClose}
+            />
+          )}
+        </>
       )}
     </>
   );
