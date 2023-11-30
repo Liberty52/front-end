@@ -31,6 +31,7 @@ function InquiryDetails() {
           },
         });
         setOrderDetails(response.data);
+        console.log(response.data);
         setLoading(false);
       } catch (error) {
         console.error('Error fetching order details:', error);
@@ -103,19 +104,24 @@ function InquiryDetails() {
                 </li>
               </ul>
             </div>
-            <ImgDetailsSection productUrl={product.productUrl} />
+            <ImgDetailsSection product={product} />
           </>
         ))}
       </>
     );
   }
 
-  function ImgDetailsSection({ productUrl }) {
+  function ImgDetailsSection({ product }) {
+    console.log(product);
     return (
       <div className='section2'>
         <p className='DetailCName'>배경이미지 시안</p>
         <div className='content'>
-          <img src={productUrl} alt='배경이미지 시안' className='Detail-Img' />
+          <img
+            src={product.custom ? product.productUrl : product.licenseArtUrl}
+            alt='배경이미지 시안'
+            className='Detail-Img'
+          />
         </div>
       </div>
     );
