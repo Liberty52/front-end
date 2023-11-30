@@ -68,10 +68,7 @@ function SmallHeader({ headerLeft, headerRight, fixed }) {
 
 export default function Header({ fixed }) {
   const headerItemsLeft = [
-    { name: '제품소개', href: '#' },
-    { name: '사업소개', href: '#' },
-    { name: '지점소개(쇼룸)', href: '#' },
-    { name: '고객지원', href: 'support' },
+    { name: '고객지원', href: 'support', className: 'customer-support-header'  },
   ];
 
   const headerLeft = [];
@@ -79,7 +76,7 @@ export default function Header({ fixed }) {
     let headerItem = headerItemsLeft[i];
     headerLeft.push(
       <li key={headerItem.name}>
-        <a href={'/' + headerItem.href}>{headerItem.name}</a>
+        <a href={'/' + headerItem.href} className={headerItem.className}>{headerItem.name}</a>
       </li>,
     );
   }

@@ -45,7 +45,10 @@
 .header-sm {
   display: none;
 }
-
+.customer-support-header {
+  font-size: 16px;
+  margin-left: 20px;
+}
 .header-items-group .header-items {
   display: flex;
   align-items: center;
