@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Modal, ModalBody, ModalHeader, ModalButton } from 'baseui/modal';
 import { Block } from 'baseui/block';
 import { Radio, RadioGroup, ALIGN } from 'baseui/radio';
@@ -6,22 +6,25 @@ import { LabelSmall, HeadingXSmall } from 'baseui/typography';
 import { useEditor } from '@layerhub-io/react';
 import { ModalFooter } from 'react-bootstrap';
 import Frame from '../../../image/icon/frame.png';
-import Glow from '../../../image/icon/glow.png';
-import useAppContext from '../../../hooks/useAppContext';
 import mergeImages from 'merge-images';
 import { resizedataURL } from '../../../utils';
-import { ADDITIONAL_MATERIAL } from '../../../global/Constants';
+import { getAllPreviewEffectImages } from '../../../axios/image-editor/preview-effects/PreviewEffectApi.ts';
 
-const generateMergedImageURL = async ({ customImage, isGlow }) => {
+const generateMergedImageURL = async ({ customImage, isGlow, effect }) => {
   const images = [{ src: Frame }, { src: await resizeImage(customImage), x: 412, y: 238 }];
-  if (isGlow) {
-    images.push({ src: await resizeImage(Glow), x: 412, y: 238 });
+  if (effect.src !== '') {
+    images.push({
+      src: await resizeImage(effect.src + '?timestamp=' + new Date().getTime()), // to avoid cors, add timestamp
+      x: 412,
+      y: 238,
+    });
   }
   return await mergeImages(images);
 };
 
 const resizeImage = async (binary) => {
   const img = document.createElement('img');
+  img.crossOrigin = 'anonymous'; // to avoid cors
   const canvas = document.createElement('canvas');
   const resizedImageURL = await resizedataURL(img, canvas, binary, 1750, 1010).finally(
     () => img.remove() && canvas.remove(),
@@ -30,13 +33,21 @@ const resizeImage = async (binary) => {
 };
 
 const Preview = ({ isOpen, setIsOpen }) => {
-  const { frameOption, setFrameOption } = useAppContext();
   const editor = useEditor();
   const [loading, setLoading] = React.useState(true);
-  const [additionalOption, setAdditionalOption] = React.useState(frameOption['기본소재 옵션']);
   const [state, setState] = React.useState({
     image: '',
   });
+  const [previewEffects, updatePreviewEffects] = useState([]);
+  const [selectedEffect, updateSelectedEffect] = useState(null);
+
+  useEffect(() => {
+    (async () => {
+      const effects = await getAllPreviewEffectImages();
+      updatePreviewEffects(() => [...effects]);
+      updateSelectedEffect(effects[0]);
+    })();
+  }, []);
 
   const rollbackPreview = React.useCallback(async () => {
     if (!editor) return;
@@ -45,37 +56,26 @@ const Preview = ({ isOpen, setIsOpen }) => {
     editor.frame.setBackgroundColor('#ffffff');
 
     // rollback opacity of objects to previous state
-    editor.objects
-      .list()
-      .map((obj) =>
-        frameOption['기본소재 옵션']?.includes('실버')
-          ? (obj.opacity /= 0.65)
-          : (obj.opacity /= 0.9),
-      );
+    editor.objects.list().map((obj) => (obj.opacity /= selectedEffect.opacity / 100));
 
     setLoading(false);
-  }, [editor, frameOption]);
+  }, [editor, selectedEffect]);
 
   const makePreview = async () => {
     if (!editor) return;
     // set frame background by options
-    frameOption['기본소재 옵션']?.includes('실버')
+
+    selectedEffect.name.includes('실버')
       ? editor.frame.setBackgroundColor('#9B9B9B')
       : editor.frame.setBackgroundColor('#ffffff');
-    // set opacity of objects
-    editor.objects
-      .list()
-      .map((obj) =>
-        frameOption['기본소재 옵션']?.includes('실버')
-          ? (obj.opacity *= 0.65)
-          : (obj.opacity *= 0.9),
-      );
+    editor.objects.list().map((obj) => (obj *= selectedEffect.opacity / 100));
 
     const template = editor.scene.exportToJSON();
     const imageURL = await editor.renderer.render(template);
     const image = await generateMergedImageURL({
       customImage: imageURL,
-      isGlow: frameOption['기본소재 옵션']?.includes('유광'),
+      isGlow: selectedEffect.name.includes('유광'),
+      effect: selectedEffect,
     });
 
     setState({ image });
@@ -84,7 +84,8 @@ const Preview = ({ isOpen, setIsOpen }) => {
 
   React.useEffect(() => {
     makePreview();
-  }, [editor, frameOption]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [editor, selectedEffect]);
 
   const handleSave = React.useCallback(async () => {
     await rollbackPreview();
@@ -98,17 +99,13 @@ const Preview = ({ isOpen, setIsOpen }) => {
     a.click();
     a.remove();
     setIsOpen(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editor]);
 
   const handleChangeRadio = async (e) => {
     const currentTargetValue = e.currentTarget.value;
     await rollbackPreview();
-    setAdditionalOption(currentTargetValue);
-
-    setFrameOption({
-      ...frameOption,
-      [`기본소재 옵션`]: currentTargetValue,
-    });
+    updateSelectedEffect(previewEffects[+currentTargetValue]);
   };
 
   return (
@@ -162,13 +159,13 @@ const Preview = ({ isOpen, setIsOpen }) => {
               <LabelSmall>옵션 적용은 주문페이지에서 해주세요</LabelSmall>
             </Block>
             <RadioGroup
-              value={additionalOption}
+              value={previewEffects.indexOf(selectedEffect)}
               onChange={handleChangeRadio}
               align={ALIGN.vertical}
             >
-              {ADDITIONAL_MATERIAL.map((option, idx) => (
-                <Radio key={idx} value={option}>
-                  {option}
+              {previewEffects.map((e, idx) => (
+                <Radio key={e.id} value={idx}>
+                  {e.name}
                 </Radio>
               ))}
             </RadioGroup>
@@ -182,7 +179,7 @@ const Preview = ({ isOpen, setIsOpen }) => {
               padding: '2rem',
             }}
           >
-            {!loading && <img width='100%' height='100%' src={state.image} />}
+            {!loading && <img width='100%' height='100%' src={state.image} alt='alt' />}
           </Block>
         </Block>
       </ModalBody>
