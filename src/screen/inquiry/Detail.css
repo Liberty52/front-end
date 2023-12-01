@@ -84,7 +84,7 @@
   max-height: 100px;
 }
 
-.productRepresentUrl {
+.detail .productRepresentUrl {
   width: 200px;
   object-fit: contain;
   max-height: 150px;
@@ -167,7 +167,7 @@
     flex-direction: row;
   }
 
-  .section1 .productRepresentUrl {
+  .detail .section1 .productRepresentUrl {
     margin-right: 3rem;
   }
 

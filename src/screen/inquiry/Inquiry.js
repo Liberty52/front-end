@@ -10,6 +10,7 @@ import Button from '../../component/common/Button';
 import { ACCESS_TOKEN } from '../../constants/token';
 import Swal from 'sweetalert2';
 import { DETAIL } from '../../constants/path';
+import PhotoNotFoundImg from '../../image/icon/photo-not-found.svg';
 
 export async function getAccessToken() {
   return sessionStorage.getItem(ACCESS_TOKEN);
@@ -96,7 +97,14 @@ function OrderList() {
       <div className='order-img-wrapper'>
         <div className='order-left'>
           <p>{orderNum}</p>
-          <img src={productRepresentUrl} alt='representative' className='productRepresentUrl' />
+          <div className='order-image-wrapper'>
+            <img
+              style={{ width: !productRepresentUrl && 55 }}
+              src={productRepresentUrl ? productRepresentUrl : PhotoNotFoundImg}
+              alt='representative'
+              className='productRepresentUrl'
+            />
+          </div>
           <CancelOrderButton
             order={{ orderId, orderStatus, paymentType }}
             showCancelModal={showCancelModal}
@@ -117,7 +125,6 @@ function OrderList() {
                 <p>{product.name}</p>
                 <p>{product.quantity} 개</p>
                 <p>₩{product.price.toLocaleString()}</p>
-
                 <div className='buttons'>
                   <Button
                     type='button'

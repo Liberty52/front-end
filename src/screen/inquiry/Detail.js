@@ -7,6 +7,7 @@ import { useParams, useLocation } from 'react-router-dom';
 import axios from '../../axios/axios';
 import Button from '../../component/common/Button';
 import { fetchRealTimeDeliveryInfo } from '../../axios/inquiry/Inquiry';
+import PhotoNotFoundImg from '../../image/icon/photo-not-found.svg';
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -85,7 +86,11 @@ function InquiryDetails() {
               <ul className='Detailul'>
                 <li key={product.name} className='DetailProduct'>
                   <img
-                    src={orderDetails.productRepresentUrl}
+                    src={
+                      orderDetails.productRepresentUrl
+                        ? orderDetails.productRepresentUrl
+                        : PhotoNotFoundImg
+                    }
                     alt={product.name}
                     className='productRepresentUrl'
                   />
