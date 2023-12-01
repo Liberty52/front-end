@@ -37,5 +37,6 @@ export const CART_LIST = () => '/product/carts';
 export const PRODUCT_OPTION = () => '/product/carts/productOptionInfo';
 export const DELETE_CART = (id) => `/product/carts/custom-products/${id}`;
 export const DELETE_CART_GUEST = (id) => `/product/guest/carts/custom-products/${id}`;
-export const EDIT_CART = (id) => `/product/carts/customProducts/${id}`;
-export const EDIT_CART_GUEST = (id) => `/product/guest/carts/customProducts/${id}`;
+export const EDIT_CART = (id) => `/product/carts/custom-products/${id}`;
+export const EDIT_CART_GUEST = (id) => `/product/guest/carts/custom-products/${id}`;
+export const EDIT_CART_IMAGE = (id) => `/product/carts/custom-products/image/${id}`;

@@ -4,15 +4,15 @@ import { ACCESS_TOKEN, GUEST_COOKIE } from '../../constants/token';
 import { CONTENT_TYPE } from '../../constants/header';
 import { BACK, CART } from '../../constants/path';
 import {
-  ADD_CART_CUSTOM,
-  ADD_CART_CUSTOM_GUEST,
-  ADD_CART_LICENSE,
-  CART_LIST,
-  DELETE_CART,
-  DELETE_CART_GUEST,
-  EDIT_CART,
-  EDIT_CART_GUEST,
-  PRODUCT_OPTION,
+    ADD_CART_CUSTOM,
+    ADD_CART_CUSTOM_GUEST,
+    ADD_CART_LICENSE,
+    CART_LIST,
+    DELETE_CART,
+    DELETE_CART_GUEST,
+    EDIT_CART,
+    EDIT_CART_GUEST, EDIT_CART_IMAGE,
+    PRODUCT_OPTION,
 } from '../../constants/api';
 import Swal from "sweetalert2";
 
@@ -78,12 +78,23 @@ export const fetchCartData = (token, setCartList, setEmptyMode, setProductOption
   axios
     .get(CART_LIST(), { headers })
     .then((response) => {
-      setCartList(response.data);
+        const responseData = (response.data.map(item => {
+          const updatedLicense = item.license === null ? '' : item.license;
+          const updatedOptions = item.options === null ? '' : item.options;
+          return {
+              ...item,
+              license: updatedLicense,
+              options: updatedOptions
+          };
+      }));
+      setCartList(responseData);
+      console.log(responseData);
       if (!response.data || response.data === '') {
         setEmptyMode(true);
       } else {
         axios.get(PRODUCT_OPTION(), { headers }).then((response) => {
-          setProductOption(response.data[0].productOptionList);
+          setProductOption(response.data);
+          console.log(response.data);
         });
       }
     })
@@ -125,30 +136,39 @@ export const handleDeleteClick = (checkedList) => {
 };
 
 export const handleEditClick = (customProductId, dto, file) => {
-  const formData = new FormData();
-  formData.append('file', file);
-  formData.append('dto', new Blob([JSON.stringify(dto)], { type: CONTENT_TYPE.ApplicationJson }));
-  if (sessionStorage.getItem(ACCESS_TOKEN)) {
-    axios
-      .patch(EDIT_CART(customProductId), formData, {
-        headers: {
-          Authorization: sessionStorage.getItem(ACCESS_TOKEN),
-          'Content-Type': CONTENT_TYPE.MultipartFormData,
-        },
-      })
-      .then(() => {
-        window.location.replace(CART);
-      });
-  } else {
-    axios
-      .patch(EDIT_CART_GUEST(customProductId), formData, {
-        headers: {
-          Authorization: cookie.load(GUEST_COOKIE),
-          'Content-Type': CONTENT_TYPE.MultipartFormData,
-        },
-      })
-      .then(() => {
-        window.location.replace(CART);
-      });
-  }
+    console.log(dto, file)
+    const formData = new FormData();
+    const imageFormData = new FormData();
+    imageFormData.append('file[imageFile]', file);
+    formData.append('dto', new Blob([JSON.stringify(dto)], {type: CONTENT_TYPE.ApplicationJson}));
+    const accessToken = sessionStorage.getItem(ACCESS_TOKEN);
+    if (accessToken) {
+        const editCart = (url, data) => {
+            axios
+                .patch(url, data, {
+                    headers: {
+                        Authorization: accessToken,
+                        'Content-Type': CONTENT_TYPE.MultipartFormData,
+                    },
+                })
+                .then(() => {
+                    window.location.replace(CART);
+                });
+        };
+        if (file !== null) {
+            editCart(EDIT_CART_IMAGE(customProductId), imageFormData);
+        }
+        editCart(EDIT_CART(customProductId), formData);
+    } else {
+        axios
+            .patch(EDIT_CART_GUEST(customProductId), formData, {
+                headers: {
+                    Authorization: cookie.load(GUEST_COOKIE),
+                    'Content-Type': CONTENT_TYPE.MultipartFormData,
+                },
+            })
+            .then(() => {
+                window.location.replace(CART);
+            });
+    }
 };

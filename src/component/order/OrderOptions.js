@@ -78,7 +78,7 @@ export default function OrderOptions({ productId, productInfo, price, setPrice }
       data = {
         productId: productInfo?.id,
         optionDetailIds: options,
-        licenseOptionId: img.id,
+        licenseOptionDetailId: img.id,
         quantity: parseInt(quantity),
       };
     }

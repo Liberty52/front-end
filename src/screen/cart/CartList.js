@@ -51,11 +51,11 @@ export default function CartList({ setEmptyMode }) {
       quantity: Number(quantity),
     };
     if (editMode) {
-      handleEditClick(customProductId, data, imageFile);
+      handleEditClick(customProductId, data, imageFile.file);
       setEditMode(false);
     }
   };
-  const handleRowClick = (id, idx, options, quantity) => {
+  const handleRowClick = (id, idx, options, quantity, custom) => {
     let newHidden = [...hidden];
     if (newHidden.indexOf(false) === idx) {
       // when opened edited row
@@ -67,7 +67,7 @@ export default function CartList({ setEmptyMode }) {
       newHidden[idx] = !newHidden[idx];
       setHidden(newHidden);
       setDisabledBtn(false);
-      options.forEach((option) => {
+      if (custom) options.forEach((option) => {
         basicFormValue[option.optionId] = option.detailId;
       });
     }
@@ -208,13 +208,13 @@ export default function CartList({ setEmptyMode }) {
                 cartData.map((item, idx) => {
                   let orderAmount = 0.0;
                   let totalOptionPrice = 0.0;
-                  item.options.map((option) => (totalOptionPrice += option.price));
+                  if (item.options != '') item.options.map((option) => (totalOptionPrice += option.price));
                   orderAmount = (item.price + totalOptionPrice) * item.quantity;
                   return (
                     <>
                       <tr
                         key={idx}
-                        onClick={() => handleRowClick(item.id, idx, item.options, item.quantity)}
+                        onClick={() => handleRowClick(item.id, idx, item.options, item.quantity, item.custom)}
                       >
                         <th>
                           <input
@@ -238,11 +238,10 @@ export default function CartList({ setEmptyMode }) {
                         <th>{item.name}</th>
                         <th>{addComma(item.price)}원</th>
                         <th>
-                          {item.options.map((option) => (
-                            <p>
-                              {option.optionName} : {option.detailName} (+
-                              {addComma(option.price)}원)
-                            </p>
+                          {item.options && item.options !== '' && item.options.map((option) => (
+                              <p>
+                                {option.optionName} : {option.detailName} (+{addComma(option.price)}원)
+                              </p>
                           ))}
                         </th>
                         <th>
@@ -264,50 +263,87 @@ export default function CartList({ setEmptyMode }) {
                         <th></th>
                         <th>
                           <div
-                            style={{
-                              display: 'flex',
-                              flexDirection: 'column',
-                            }}
+                              style={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                              }}
                           >
-                            {productOption.map((option) => {
-                              let selectId = option.optionId;
-                              let placeholderContent = `"${option.optionName}"을(를) 선택해주세요`;
-                              const options = option.optionDetailList.map((optionDetail) => ({
-                                value: optionDetail.optionDetailId,
-                                label: optionDetail.optionDetailName,
-                              }));
-                              return (
-                                <th key={option.optionId}>
-                                  <Select
-                                    style={{ width: '200px', fontSize: '12px' }}
-                                    onChange={(e) => onHandleChange(e.value, selectId)}
-                                    placeholder={placeholderContent}
-                                    options={options}
-                                  />
-                                </th>
-                              );
-                            })}
+                            {item.custom ? (
+                                productOption[0] && productOption[0].productOptionList ? (
+                                    productOption[0].productOptionList.map((option) => {
+                                      let selectId = option.optionId;
+                                      let placeholderContent = `"${option.optionName}"을(를) 선택해주세요`;
+
+                                      const options = option.optionDetailList.map((optionDetail) => ({
+                                        value: optionDetail.optionDetailId,
+                                        label: optionDetail.optionDetailName,
+                                      }));
+
+                                      return (
+                                          <th key={option.optionId}>
+                                            <Select
+                                                style={{ width: '200px', fontSize: '12px' }}
+                                                onChange={(e) => onHandleChange(e.value, selectId)}
+                                                placeholder={placeholderContent}
+                                                options={options}
+                                            />
+                                          </th>
+                                      );
+                                    })
+                                ) : null
+                            ) : (
+
+                                (() => {
+                                  const matchedIndex = productOption.findIndex(optionItem => optionItem.productId === item.productId);
+
+                                  if (matchedIndex !== -1) {
+                                    return productOption[matchedIndex].productOptionList.map((option) => {
+                                      let selectId = option.optionId;
+                                      let placeholderContent = `"${option.optionName}"을(를) 선택해주세요`;
+
+                                      const options = option.optionDetailList.map((optionDetail) => ({
+                                        value: optionDetail.optionDetailId,
+                                        label: optionDetail.optionDetailName,
+                                      }));
+
+                                      return (
+                                          <th key={option.optionId}>
+                                            <Select
+                                                style={{ width: '200px', fontSize: '12px' }}
+                                                onChange={(e) => onHandleChange(e.value, selectId)}
+                                                placeholder={placeholderContent}
+                                                options={options}
+                                            />
+                                          </th>
+                                      );
+                                    });
+                                  }
+                                })()
+                            )}
                           </div>
                         </th>
+
                         <th>
-                          {imageFile !== '' ? (
-                              <div onClick={onImageClick}>
-                                <img
-                                    src={imageFile.imageUrl}
-                                    alt='Selected'
-                                    style={{ width: '100%', height: 'auto', cursor: 'pointer' }}
-                                />
-                              </div>
-                          ) : (
-                              <input
-                                  type='file'
-                                  accept='image/*'
-                                  name='file'
-                                  onChange={onImageChange}
-                                  className='form-control'
-                                  id='fileInput'
-                              />
-                          )}
+                          {item.custom ? (
+                              imageFile !== '' ? (
+                                  <div onClick={onImageClick}>
+                                    <img
+                                        src={imageFile.imageUrl}
+                                        alt='Selected'
+                                        style={{ width: '100%', height: 'auto', cursor: 'pointer' }}
+                                    />
+                                  </div>
+                              ) : (
+                                  <input
+                                      type='file'
+                                      accept='image/*'
+                                      name='file'
+                                      onChange={onImageChange}
+                                      className='form-control'
+                                      id='fileInput'
+                                  />
+                              )
+                          ) : null}
                         </th>
                         <th>
                           <input
