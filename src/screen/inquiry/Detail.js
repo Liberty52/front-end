@@ -32,7 +32,6 @@ function InquiryDetails() {
           },
         });
         setOrderDetails(response.data);
-        console.log(response.data);
         setLoading(false);
       } catch (error) {
         console.error('Error fetching order details:', error);
@@ -122,7 +121,6 @@ function InquiryDetails() {
   }
 
   function ImgDetailsSection({ product }) {
-    console.log(product);
     return (
       <div className='section2'>
         <div className='DetailName'>배경이미지 시안</div>
