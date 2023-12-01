@@ -13,7 +13,7 @@ import { getLicenseImg } from '../../axios/order/Order';
 
 import { ORDER_MODE } from '../../constants/mode';
 import { EDITOR, PAYMENT } from '../../constants/path';
-import PreviewLicense from './PreviewLicense';
+import PreviewLicense from './previewLicense/PreviewLicense';
 
 export default function OrderOptions({ productId, productInfo, price, setPrice }) {
   let imageFile = '';
