@@ -61,19 +61,30 @@ function OrderList() {
               className='order-item'
               onClick={() => goToDetail(order.orderId)}
             >
-              <OrderImg
-                orderId={order.orderId}
-                orderNum={order.orderNum}
-                productRepresentUrl={order.productRepresentUrl}
-                paymentType={order.paymentType}
-                goToDetail={goToDetail}
-                showCancelModal={showCancelModal}
-                setSelectedOrder={setSelectedOrder}
-                orderStatus={order.orderStatus}
-              />
-              <OrderInfo
-                order={order}
-                showReviewModal={showReviewModal}
+              <div className='order-info'>
+                <OrderImg
+                  orderId={order.orderId}
+                  orderNum={order.orderNum}
+                  productRepresentUrl={order.productRepresentUrl}
+                  paymentType={order.paymentType}
+                  goToDetail={goToDetail}
+                  showCancelModal={showCancelModal}
+                  setSelectedOrder={setSelectedOrder}
+                  orderStatus={order.orderStatus}
+                />
+                <OrderInfo
+                  order={order}
+                  showReviewModal={showReviewModal}
+                  showCancelModal={showCancelModal}
+                  setSelectedOrder={setSelectedOrder}
+                />
+              </div>
+              <CancelOrderButton
+                order={{
+                  orderId: order.orderId,
+                  orderStatus: order.orderStatus,
+                  paymentType: order.paymentType,
+                }}
                 showCancelModal={showCancelModal}
                 setSelectedOrder={setSelectedOrder}
               />
@@ -94,21 +105,13 @@ function OrderList() {
     orderStatus,
   }) {
     return (
-      <div className='order-img-wrapper'>
-        <div className='order-left'>
-          <p>{orderNum}</p>
-          <div className='order-image-wrapper'>
-            <img
-              style={{ width: !productRepresentUrl && 55 }}
-              src={productRepresentUrl ? productRepresentUrl : PhotoNotFoundImg}
-              alt='representative'
-              className='productRepresentUrl'
-            />
-          </div>
-          <CancelOrderButton
-            order={{ orderId, orderStatus, paymentType }}
-            showCancelModal={showCancelModal}
-            setSelectedOrder={setSelectedOrder}
+      <div className='order-left'>
+        <div className='order-image-wrapper'>
+          <img
+            style={{ width: !productRepresentUrl && 55 }}
+            src={productRepresentUrl ? productRepresentUrl : PhotoNotFoundImg}
+            alt='representative'
+            className='productRepresentUrl'
           />
         </div>
       </div>
@@ -119,38 +122,36 @@ function OrderList() {
     return (
       <div className='order-info-wrapper'>
         <div className='order-right-top'>
-          <ul>
-            {order.products.map((product) => (
-              <li className='product-item' key={product.name}>
-                <p>{product.name}</p>
-                <p>{product.quantity} 개</p>
-                <p>₩{product.price.toLocaleString()}</p>
-                <div className='buttons'>
-                  <Button
-                    type='button'
-                    className='review'
-                    text={product.hasReview ? '리뷰 완료' : '리뷰 쓰기'}
-                    disabled={product.hasReview}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      if (order.orderStatus === '배송완료') {
-                        showReviewModal(true);
-                        setSelectedOrder({
-                          ...product,
-                          paymentType: order.paymentType,
-                        });
-                      } else {
-                        Swal.fire({
-                          title: '배송 완료 상태만 리뷰 작성 가능합니다.',
-                          icon: 'warning',
-                        });
-                      }
-                    }}
-                  />
-                </div>
-              </li>
-            ))}
-          </ul>
+          {order.products.map((product) => (
+            <div className='product-item' key={product.name}>
+              <p>{product.name}</p>
+              <p>{product.quantity} 개</p>
+              <p>₩{product.price.toLocaleString()}</p>
+              <p className='buttons'>
+                <Button
+                  type='button'
+                  className='review'
+                  text={product.hasReview ? '리뷰 완료' : '리뷰 쓰기'}
+                  disabled={product.hasReview}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    if (order.orderStatus === '배송완료') {
+                      showReviewModal(true);
+                      setSelectedOrder({
+                        ...product,
+                        paymentType: order.paymentType,
+                      });
+                    } else {
+                      Swal.fire({
+                        title: '배송 완료 상태만 리뷰 작성 가능합니다.',
+                        icon: 'warning',
+                      });
+                    }
+                  }}
+                />
+              </p>
+            </div>
+          ))}
         </div>
         <div className='order-right-bottom'>
           <div className='PayAdd-wrapper'>
