@@ -139,7 +139,7 @@ function Product(props) {
     <div className='confirm-product'>
       <img src={liberty52} alt='제품 이미지' />
       <div>
-        <div className='title'>Liberty 52_Frame</div>
+        <div className='title'>{productInfo.productName}</div>
         <div>
           {Object.values(productInfo.frameOption).map((option, idx) => {
             return <div key={idx}>{option.name}</div>;
