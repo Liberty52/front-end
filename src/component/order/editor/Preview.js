@@ -61,8 +61,8 @@ const Preview = ({ isOpen, setIsOpen }) => {
     setLoading(false);
   }, [editor, selectedEffect]);
 
-  const makePreview = async () => {
-    if (!editor) return;
+  const makePreview = React.useCallback(async () => {
+    if (!editor || !selectedEffect) return;
     // set frame background by options
 
     selectedEffect.name.includes('실버')
@@ -80,7 +80,7 @@ const Preview = ({ isOpen, setIsOpen }) => {
 
     setState({ image });
     setLoading(false);
-  };
+  }, [editor, selectedEffect]);
 
   React.useEffect(() => {
     makePreview();
@@ -90,6 +90,7 @@ const Preview = ({ isOpen, setIsOpen }) => {
   const handleSave = React.useCallback(async () => {
     await rollbackPreview();
 
+    editor.frame.setBackgroundColor('transparent');
     const template = editor.scene.exportToJSON();
     const image = await editor.renderer.render(template);
 
@@ -100,7 +101,7 @@ const Preview = ({ isOpen, setIsOpen }) => {
     a.remove();
     setIsOpen(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [editor]);
+  }, [editor, selectedEffect]);
 
   const handleChangeRadio = async (e) => {
     const currentTargetValue = e.currentTarget.value;
