@@ -1,5 +1,4 @@
 import './Order.css';
-import $ from 'jquery';
 import Header from '../../component/common/Header';
 import Footer from '../../component/common/Footer';
 import { useEffect, useState } from 'react';
@@ -34,9 +33,11 @@ const Order = () => {
   useEffect(() => {
     retriveProductData();
 
-    $(window).on('resize', function () {
-      calcHeight();
-    });
+    window.addEventListener('resize', calcHeight);
+    return () => {
+      // unmount 시 event 제거
+      window.removeEventListener('resize', calcHeight);
+    };
   }, []);
 
   // set product-image top : vertical center
