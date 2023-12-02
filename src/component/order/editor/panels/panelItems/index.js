@@ -4,7 +4,6 @@ import Uploads from './Uploads';
 import Images from './Images';
 import Layers from './Layers';
 import AI from './AI';
-import License from './License';
 import Text from './Text';
 export default {
   Customize,
@@ -12,6 +11,5 @@ export default {
   Images,
   Layers,
   AI,
-  License,
   Text,
 };

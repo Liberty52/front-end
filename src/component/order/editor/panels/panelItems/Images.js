@@ -1,17 +1,28 @@
-import React from 'react';
-import { useStyletron } from 'baseui';
 import { Block } from 'baseui/block';
-import { images } from '../../../../../constants/mock-data';
+import useSidebarOpen from '../../../../../hooks/useSidebarOpen';
+import AngleDoubleLeft from '../../icons/AngleDoubleLeft';
+import { useCallback, useEffect, useState } from 'react';
+import { getLicenseList } from '../../../../../axios/order/editor/License';
 import { useEditor } from '@layerhub-io/react';
 import Scrollable from '../../common/Scrollable';
-import AngleDoubleLeft from '../../icons/AngleDoubleLeft';
-import useSidebarOpen from '../../../../../hooks/useSidebarOpen';
+import { useStyletron } from 'baseui';
 
-const Images = () => {
-  const editor = useEditor();
+const License = () => {
   const { setIsSidebarOpen } = useSidebarOpen();
+  const [licenses, setLicenses] = useState([]);
+  const editor = useEditor();
 
-  const addObject = React.useCallback(
+  useEffect(() => {
+    getLicense();
+  }, []);
+
+  const getLicense = () => {
+    getLicenseList().then((res) => {
+      setLicenses(res.data);
+    });
+  };
+
+  const addObject = useCallback(
     async (url) => {
       if (editor) {
         const options = {
@@ -46,13 +57,19 @@ const Images = () => {
       </Block>
       <Scrollable>
         <Block padding='0 1.5rem'>
-          <div style={{ display: 'grid', gap: '8px', gridTemplateColumns: '1fr 1fr' }}>
-            {images.map((image, index) => {
+          <div
+            style={{
+              display: 'grid',
+              gap: '8px',
+              gridTemplateColumns: '1fr 1fr',
+            }}
+          >
+            {licenses.map((license, index) => {
               return (
                 <ImageItem
                   key={index}
-                  onClick={() => addObject(image.src.large)}
-                  preview={image.src.small}
+                  onClick={() => addObject(license.imageUrl)}
+                  preview={license.imageUrl}
                 />
               );
             })}
@@ -127,4 +144,4 @@ const ImageItem = ({ preview, onClick }) => {
   );
 };
 
-export default Images;
+export default License;
