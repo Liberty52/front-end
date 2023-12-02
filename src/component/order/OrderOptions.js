@@ -106,7 +106,7 @@ export default function OrderOptions({ productId, productInfo, price, setPrice }
     switch (mode) {
       case ORDER_MODE.CART:
         if (!pass) break;
-        post(data, imageFile);
+        post(data, imageFile, productInfo.custom);
         break;
       case ORDER_MODE.BUY:
         if (!pass) break;
