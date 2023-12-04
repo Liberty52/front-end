@@ -39,11 +39,6 @@ const BASE_ITEMS = [
     label: 'AI',
   },
   {
-    id: 'license',
-    name: 'License',
-    label: '라이센스',
-  },
-  {
     id: 'text',
     name: 'Text',
     label: '텍스트',

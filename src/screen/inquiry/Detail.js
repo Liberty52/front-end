@@ -7,6 +7,7 @@ import { useParams, useLocation } from 'react-router-dom';
 import axios from '../../axios/axios';
 import Button from '../../component/common/Button';
 import { fetchRealTimeDeliveryInfo } from '../../axios/inquiry/Inquiry';
+import PhotoNotFoundImg from '../../image/icon/photo-not-found.svg';
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -84,38 +85,51 @@ function InquiryDetails() {
               <ul className='Detailul'>
                 <li key={product.name} className='DetailProduct'>
                   <img
-                    src={orderDetails.productRepresentUrl}
+                    src={
+                      orderDetails.productRepresentUrl
+                        ? orderDetails.productRepresentUrl
+                        : PhotoNotFoundImg
+                    }
                     alt={product.name}
                     className='productRepresentUrl'
                   />
                   <div className='productInfo'>
-                    <p className='DetailProductName'>{product.name}</p>
-                    <p className='DetailProductOptions'>
+                    <div className='DetailProductInfo'>
+                      <div className='DetailProductName'>{product.name}</div>
+                      <div className='DetailProductType'>
+                        {product.custom ? 'custom' : 'premium license'}
+                      </div>
+                    </div>
+                    <div className='DetailProductOptions'>
                       {product.options.map((option) => (
-                        <p key={option}>{option}</p>
+                        <div key={option}>{option}</div>
                       ))}
-                    </p>
+                    </div>
                     <div className='Detail-product-bottom'>
-                      <p className='DetailProductQuantity'>{product.quantity} 개</p>
-                      <p className='DetailProductPrice'>₩{product.price.toLocaleString()}</p>
+                      <div className='DetailProductQuantity'>{product.quantity} 개</div>
+                      <div className='DetailProductPrice'>₩{product.price.toLocaleString()}</div>
                     </div>
                   </div>
                 </li>
               </ul>
             </div>
-            <ImgDetailsSection productUrl={product.productUrl} />
+            <ImgDetailsSection product={product} />
           </>
         ))}
       </>
     );
   }
 
-  function ImgDetailsSection({ productUrl }) {
+  function ImgDetailsSection({ product }) {
     return (
       <div className='section2'>
-        <p className='DetailCName'>배경이미지 시안</p>
+        <div className='DetailName'>배경이미지 시안</div>
         <div className='content'>
-          <img src={productUrl} alt='배경이미지 시안' className='Detail-Img' />
+          <img
+            src={product.custom ? product.productUrl : product.licenseArtUrl}
+            alt='배경이미지 시안'
+            className='Detail-Img'
+          />
         </div>
       </div>
     );
@@ -124,28 +138,22 @@ function InquiryDetails() {
   function DeliveryDetailsSection({ orderDetails }) {
     return (
       <div className='section3'>
-        <p className='DetailCName'>배송 상세 정보</p>
+        <div className='DetailName'>배송 상세 정보</div>
         <div className='content'>
-          <p className='DetailSpacing'>
-            <div>배송지: </div>
+          <div className='DetailSpacing'>
+            <div className='strong'>배송지: </div>
             <div>{orderDetails.address}</div>
-          </p>
-          <p className='DetailSpacing'>
-            <div>연락처 정보: </div>
-            <div>{orderDetails.receiverEmail}</div>
-            <div>{orderDetails.receiverPhoneNumber}</div>
-            <div>{orderDetails.receiverName}</div>
-          </p>
+          </div>
           {orderDetails.orderDelivery !== null ? (
             <div>
-              <p className='DetailDelivery_courierName'>
-                <div>택배사 이름: </div>
+              <div className='DetailDelivery_courierName'>
+                <div className='strong'>택배사 이름: </div>
                 <div>{orderDetails.orderDelivery.name}</div>
-              </p>
-              <p className='DetailDelivery_trackingNumber'>
-                <div>운송장번호: </div>
+              </div>
+              <div className='DetailDelivery_trackingNumber strong'>
+                <div>운송장 번호: </div>
                 <div>{orderDetails.orderDelivery.trackingNumber}</div>
-              </p>
+              </div>
               <Button
                 className='getDeleiveryInfo'
                 text='배송조회'
@@ -157,15 +165,19 @@ function InquiryDetails() {
                   );
                   fetchRealTimeDeliveryInfo(orderId, phoneNumber, orderDetails, popup);
                 }}
-              ></Button>
+              />
             </div>
           ) : (
-            <div>
-              <p className='DetailDelivery'>
-                <div>배송준비중</div>
-              </p>
+            <div className='DetailSpacing'>
+              <div className='strong'>배송 준비 중</div>
             </div>
           )}
+          <div>
+            <div className='strong'>연락처 정보: </div>
+            <div>{orderDetails.receiverEmail}</div>
+            <div>{orderDetails.receiverPhoneNumber}</div>
+            <div>{orderDetails.receiverName}</div>
+          </div>
         </div>
       </div>
     );
@@ -182,21 +194,24 @@ function InquiryDetails() {
 
     return (
       <div className='section4'>
-        <p className='DetailCName'>결제 상세 정보</p>
+        <div className='DetailName'>결제 상세 정보</div>
         <div className='content'>
-          <p className='DetailSpacing'>
-            <div>결제 수단: </div>
+          <div className='DetailSpacing'>
+            <div className='strong'>결제 수단: </div>
             <div className='detail-card'>
-              <p>{paymentType} </p>
-              <p className='detail-cardInfo'>{cardInfo}</p>
+              <div>
+                ({paymentType}) {cardInfo}
+              </div>
             </div>
+          </div>
+          <div className='DetailSpacing'>
+            <div className='strong'>결제 일자:</div>
             <div>{orderDetails.orderDate}</div>
-          </p>
-
-          <p className='DetailSpacing'>
-            <div>청구 주소: </div>
+          </div>
+          <div>
+            <div className='strong'>청구 주소: </div>
             <div>{orderDetails.address}</div>
-          </p>
+          </div>
         </div>
       </div>
     );
@@ -205,23 +220,23 @@ function InquiryDetails() {
   function ResultDetailsSection({ orderDetails }) {
     return (
       <div className='section5'>
-        <p className='DetailCName'>총계</p>
+        <div className='DetailName'>총계</div>
         <div className='content-col'>
           <div className='FinalTop'>
-            <p className='charge'>
+            <div className='charge'>
               <div>소계</div>
               <div>₩{orderDetails.totalProductPrice.toLocaleString()}</div>
-            </p>
-            <p className='delivery'>
+            </div>
+            <div className='delivery'>
               <div>배송비</div>
               <div>₩{orderDetails.deliveryFee.toLocaleString()}</div>
-            </p>
+            </div>
           </div>
           <div className='FinalBottom'>
-            <p className='finalDetail'>
+            <div className='finalDetail'>
               <div>총계</div>
               <div>₩{orderDetails.totalPrice.toLocaleString()}</div>
-            </p>
+            </div>
           </div>
         </div>
       </div>

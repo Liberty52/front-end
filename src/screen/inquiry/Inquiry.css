@@ -13,26 +13,19 @@
 }
 
 .inquiry .order-item {
+  padding: 1.5rem 0;
+  border-bottom: 1px solid #ccc;
+}
+
+.inquiry .order-info {
   display: grid;
   grid-template-columns: 1fr 7fr;
   align-items: center;
-  border-bottom: 1px solid #ccc;
-  padding-top: 1.5rem;
-  padding-bottom: 1.5rem;
   cursor: pointer;
 }
 
-.inquiry .order-img-wrapper,
 .inquiry .order-info-wrapper {
   width: 100%;
-}
-
-.inquiry .order-right-top ul {
-  margin: 0;
-  padding: 0;
-  margin-bottom: 1rem;
-  width: 100%;
-  margin-left: 5%;
 }
 
 .inquiry .order-right-bottom {
@@ -43,31 +36,34 @@
   margin-left: 3rem;
 }
 
-.inquiry.order-img-wrapper {
+.inquiry .order-image-wrapper {
   float: left;
   margin-right: 10px;
+  text-align: center;
 }
 
-.inquiry .buttons {
-  margin-right: 3rem;
-  margin-bottom: 1rem;
+.inquiry .order-image-wrapper,
+.inquiry .productRepresentUrl {
+  width: 120px;
+  height: 120px;
+}
+
+.inquiry .buttons button {
+  width: auto;
+  font-size: 15px;
+  margin: 0;
+  padding: 7px 13px;
 }
 
 .inquiry .cancel,
 .inquiry .review {
   display: inline-block;
-  margin-right: 10px;
   margin-top: 0;
   margin-bottom: 0;
 }
 
 .inquiry .TCheck {
   font-size: 30px;
-}
-
-.inquiry .productRepresentUrl {
-  width: 120px !important;
-  height: 120px !important;
 }
 
 .inquiry .order-left p {
@@ -92,13 +88,11 @@
   border: none;
   cursor: pointer;
   width: 50px;
-  height: 50px;
   font-size: medium;
   grid-column-start: 5;
   grid-column-end: 6;
   width: 100%;
-  padding: 10px;
-  margin: 6px 0;
+  padding: 7px;
   align-items: center;
 }
 
@@ -106,7 +100,7 @@
 .inquiry .address2,
 .inquiry .date,
 .inquiry .order-status,
-.cancel {
+.inquiry .cancel {
   flex-grow: 1;
   display: flex;
   flex-wrap: wrap;
@@ -134,7 +128,7 @@
 
 .inquiry .product-item {
   display: grid;
-  grid-template-columns: 2fr 2fr 1fr 1fr;
+  grid-template-columns: 3.5fr 1.25fr 1.25fr 1fr;
 }
 
 .inquiry .product-item p {
@@ -159,24 +153,37 @@
 }
 
 @media only screen and (max-width: 768px) {
+  .inquiry .order-item {
+    padding: 0.5rem 10px;
+  }
+
+  .inquiry .order-right-bottom {
+    display: none;
+  }
+
+  .inquiry .order-image-wrapper,
+  .inquiry .productRepresentUrl {
+    width: 100px;
+    height: 100px;
+  }
+
   .inquiry .order-info-wrapper {
     display: flex;
     flex-direction: column;
   }
 
-  .inquiry .order-info-wrapper .order-right-top ul li {
+  .inquiry .order-info-wrapper .product-item {
     display: flex;
     flex-direction: column;
   }
 
   .inquiry .sectionOrder {
-    margin-right: 5rem;
-    margin-left: 5rem;
-    margin-bottom: 1.8rem;
+    margin: 0 5% 1.8rem;
   }
 
   .inquiry .product-item p {
     justify-content: left;
+    margin: 0;
   }
 
   .inquiry .TCheck {
@@ -186,14 +193,23 @@
   }
 
   .inquiry .order-info-wrapper {
-    margin-left: 3rem;
+    margin-left: 2rem;
   }
 
-  .inquiry .buttons {
-    display: none;
+  .inquiry .product-item p {
+    font-size: 16px;
   }
 
-  .inquiry .order-info-wrapper > *:not(.order-right-top) {
-    display: none;
+  .inquiry .buttons button {
+    font-size: 12px;
+    padding: 5px 10px;
+  }
+
+  .inquiry .cancel-button {
+    margin-top: 10px;
+  }
+
+  .inquiry .cancel {
+    padding: 0;
   }
 }
