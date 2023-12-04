@@ -17,7 +17,6 @@ export const PATCH_NOTICE_COMMENT = (noticeId, commentId) =>
 export const DELETE_NOTICE_COMMENT = (noticeId, commentId) =>
   `/auth/notices/${noticeId}/comments/${commentId}`;
 
-
 // order api
 export const PRODUCT_INFO = (id) => `/product/products/${id}`;
 export const LICENSE_IMAGES = (productId) => `/product/licenseProductOptionInfo/${productId}`;
@@ -26,7 +25,7 @@ export const LICENSE_IMAGES = (productId) => `/product/licenseProductOptionInfo/
 export const CREATE_REVIEW = () => `/product/reviews`;
 export const DELETE_REVIEW = (reviewId) => `/product/reviews/${reviewId}`;
 
-export const LICENSE_LIST = () => `/product/licenseImage`;
+export const SAMPLE_LIST = () => `/product/licenseImage`;
 
 // cart api
 export const ADD_CART_CUSTOM = () => '/product/carts/custom-products';

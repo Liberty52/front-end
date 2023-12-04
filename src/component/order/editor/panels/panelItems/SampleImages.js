@@ -2,23 +2,23 @@ import { Block } from 'baseui/block';
 import useSidebarOpen from '../../../../../hooks/useSidebarOpen';
 import AngleDoubleLeft from '../../icons/AngleDoubleLeft';
 import { useCallback, useEffect, useState } from 'react';
-import { getLicenseList } from '../../../../../axios/order/editor/License';
+import { getSampleList } from '../../../../../axios/order/editor/SampleImages';
 import { useEditor } from '@layerhub-io/react';
 import Scrollable from '../../common/Scrollable';
 import { useStyletron } from 'baseui';
 
-const License = () => {
+const SampleImages = () => {
   const { setIsSidebarOpen } = useSidebarOpen();
-  const [licenses, setLicenses] = useState([]);
+  const [sampleImages, setSampleImages] = useState([]);
   const editor = useEditor();
 
   useEffect(() => {
-    getLicense();
+    getSampleImages();
   }, []);
 
-  const getLicense = () => {
-    getLicenseList().then((res) => {
-      setLicenses(res.data);
+  const getSampleImages = () => {
+    getSampleList().then((res) => {
+      setSampleImages(res.data);
     });
   };
 
@@ -64,12 +64,12 @@ const License = () => {
               gridTemplateColumns: '1fr 1fr',
             }}
           >
-            {licenses.map((license, index) => {
+            {sampleImages.map((sampleImage, index) => {
               return (
                 <ImageItem
                   key={index}
-                  onClick={() => addObject(license.imageUrl)}
-                  preview={license.imageUrl}
+                  onClick={() => addObject(sampleImage.imageUrl)}
+                  preview={sampleImage.imageUrl}
                 />
               );
             })}
@@ -144,4 +144,4 @@ const ImageItem = ({ preview, onClick }) => {
   );
 };
 
-export default License;
+export default SampleImages;
