@@ -86,7 +86,7 @@ export default function CartList({ setEmptyMode }) {
   };
   const onCheckedElement = (checked, item, price, options, quantity, url, deliveryFee) => {
     const frameOption = {};
-    options.map((option) => {
+    if (options !== '' && options !== null) options.map((option) => {
       frameOption[option.optionName] = option.detailName;
     });
     let thisValue = {
