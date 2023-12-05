@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Cart.css';
 import './CartPrice.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -13,12 +13,14 @@ import { ACCESS_TOKEN, GUEST_COOKIE } from '../../constants/token';
 import { useMediaQuery } from 'react-responsive';
 import Select from 'react-select';
 import { MAIN, PAYMENT } from '../../constants/path';
+import ImageInput from "../../component/common/ImageInput";
+import ModalBtn from "@mui/material/Button";
+import PreviewLicense from "../../component/order/previewLicense/PreviewLicense";
+import {getLicenseImg} from "../../axios/order/Order";
 
 export default function CartList({ setEmptyMode }) {
   const isDesktopOrMobile = useMediaQuery({ query: '(max-width:768px)' });
   const navigate = useNavigate();
-  const fileInputRef = useRef(null);
-
   const [checkedList, setCheckedList] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0.0);
   const [deliveryPrice, setDeliveryPrice] = useState(0.0);
@@ -27,22 +29,18 @@ export default function CartList({ setEmptyMode }) {
   const [formValue, setFormValue] = useState({});
   const [quantity, setQuantity] = useState();
   const [hidden, setHidden] = useState([]);
-  let [imageFile, setImageFile] = useState('');
+  const [img, setImg] = useState({ id: '', src: '' });
+  const [file, setFile] = useState({});
   let [disabledBtn, setDisabledBtn] = useState(true);
   let [customProductId, setCustomProductId] = useState('');
+  let [isCustom, setIsCustom] = useState();
   let basicFormValue = {};
-  const onImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const imageUrl = URL.createObjectURL(file);
-      setImageFile({ file, imageUrl });
-    }
+
+  const onHandleImg = (id, src) => {
+    setImg({ id, src });
   };
-  const onImageClick = () => {
-    const fileInput = document.getElementById('fileInput');
-    if (fileInput) {
-      fileInput.click();
-    }
+  const onHandleFile = (file) => {
+    setFile(file);
   };
   const onHandleSubmit = (e) => {
     e.preventDefault();
@@ -50,12 +48,17 @@ export default function CartList({ setEmptyMode }) {
       optionDetailIds: Object.values(formValue).filter(Boolean),
       quantity: Number(quantity),
     };
+    const licenseOptionId = {
+      licenseOptionId: img.id
+    }
     if (editMode) {
-      handleEditClick(customProductId, data, imageFile.file);
+      handleEditClick(customProductId, data, file, licenseOptionId, isCustom);
       setEditMode(false);
     }
   };
+
   const handleRowClick = (id, idx, options, quantity, custom) => {
+    setIsCustom(custom);
     let newHidden = [...hidden];
     if (newHidden.indexOf(false) === idx) {
       // when opened edited row
@@ -67,14 +70,13 @@ export default function CartList({ setEmptyMode }) {
       newHidden[idx] = !newHidden[idx];
       setHidden(newHidden);
       setDisabledBtn(false);
-      if (custom) options.forEach((option) => {
+      if (options !== '' && options !== null) options.forEach((option) => {
         basicFormValue[option.optionId] = option.detailId;
       });
     }
     setCustomProductId(id);
     setFormValue(basicFormValue);
     setQuantity(quantity);
-    setImageFile('');
   };
   const onHandleChange = (value, optionId) => {
     setFormValue({
@@ -84,7 +86,7 @@ export default function CartList({ setEmptyMode }) {
   };
   const onCheckedElement = (checked, item, price, options, quantity, url, deliveryFee) => {
     const frameOption = {};
-    options.map((option) => {
+    if (options !== '' && options !== null) options.map((option) => {
       frameOption[option.optionName] = option.detailName;
     });
     let thisValue = {
@@ -190,6 +192,7 @@ export default function CartList({ setEmptyMode }) {
           <div className='cart-header'>
             <h1>장바구니 / Shopping cart</h1>
           </div>
+          <form onSubmit={onHandleSubmit}>
           <Table bordered hover className='cartTable'>
             <thead>
               <tr>
@@ -324,26 +327,12 @@ export default function CartList({ setEmptyMode }) {
                         </th>
 
                         <th>
-                          {item.custom ? (
-                              imageFile !== '' ? (
-                                  <div onClick={onImageClick}>
-                                    <img
-                                        src={imageFile.imageUrl}
-                                        alt='Selected'
-                                        style={{ width: '100%', height: 'auto', cursor: 'pointer' }}
-                                    />
-                                  </div>
-                              ) : (
-                                  <input
-                                      type='file'
-                                      accept='image/*'
-                                      name='file'
-                                      onChange={onImageChange}
-                                      className='form-control'
-                                      id='fileInput'
-                                  />
-                              )
-                          ) : null}
+                          <AddImage
+                              custom={item.custom}
+                              onHandleImg={onHandleImg}
+                              productId={item.productId}
+                              onHandleFile={onHandleFile}
+                          />
                         </th>
                         <th>
                           <input
@@ -365,7 +354,6 @@ export default function CartList({ setEmptyMode }) {
                 })}
             </tbody>
           </Table>
-          <form onSubmit={onHandleSubmit}>
             <div className='btnLayout'>
               <Button
                 className='UDBtn'
@@ -419,3 +407,74 @@ export default function CartList({ setEmptyMode }) {
     );
   }
 }
+
+const AddImage = ({ custom, onHandleImg, productId, onHandleFile }) => {
+  const [open, setOpen] = useState(false);
+  const [selectedImg, setSelectedImg] = useState(null);
+  const [licenseData, setLicenseData] = useState(null);
+
+  const handleOpen = async () => {
+    const response = await getLicenseImg(productId);
+    setLicenseData(response.data);
+    setOpen(true);
+  };
+  const handleClose = () => setOpen(false);
+  const handleImageSelection = (id, src) => {
+    setSelectedImg({ id, src });
+    onHandleImg(id, src);
+  };
+  const handleImageChange = (file) => {
+    onHandleFile(file);
+  };
+
+  return (
+      <>
+        {custom ? (
+            <div className='radio-btn'>
+              <ImageInput
+                  width='100%'
+                  height='100%'
+                  square={true}
+                  readOnly={false}
+                  onImageChange={handleImageChange}
+              />
+            </div>
+        ) : (
+            <>
+              {selectedImg ? (
+                  <>
+                    <img
+                        src={selectedImg.src}
+                        alt='Selected'
+                        onLoad={() => console.log('이미지 로드 성공')}
+                        onError={() => console.log('이미지 로드 실패')}
+                        style={{ width: '100%', height: 'auto', cursor: 'pointer' }}
+                        onClick={handleOpen}
+                    />
+                    {open && (
+                        <PreviewLicense
+                            optionItems={licenseData?.optionItems || []}
+                            onHandleImg={handleImageSelection}
+                            open={open}
+                            handleClose={handleClose}
+                        />
+                    )}
+                  </>
+              ) : (
+                  <>
+                    <ModalBtn onClick={handleOpen}>라이센스 선택</ModalBtn>
+                    {open && (
+                        <PreviewLicense
+                            optionItems={licenseData?.optionItems || []}
+                            onHandleImg={handleImageSelection}
+                            open={open}
+                            handleClose={handleClose}
+                        />
+                    )}
+                  </>
+              )}
+            </>
+        )}
+      </>
+  );
+};

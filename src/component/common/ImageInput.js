@@ -19,15 +19,16 @@ export default function ImageInput(props) {
           if (props.readOnly) e.preventDefault();
         }}
         onChange={(e) => {
-          const file = e.currentTarget.files[0];
-          if (file) {
-            reader.readAsDataURL(file);
-            reader.onloadend = () => {
-              setImgFile(reader.result);
-              const img = e.target.parentNode.children[1].children[1];
-              img.src = imgFile;
-            };
-          }
+            const file = e.currentTarget.files[0];
+            if (file) {
+                reader.readAsDataURL(file);
+                reader.onloadend = () => {
+                    setImgFile(reader.result);
+                    const img = e.target.parentNode.children[1].children[1];
+                    img.src = imgFile;
+                    props.onImageChange && props.onImageChange(file);
+                }
+            }
         }}
       />
       <div
