@@ -159,11 +159,9 @@ export const handleEditClick = (itemId, dto, file, licenseId, isCustom) => {
                 });
         };
         if (isCustom && file !== '') {
-            console.log(file);
             editCart(EDIT_CART_IMAGE(itemId), imageFormData);
         }
         if (!isCustom && licenseId.licenseOptionId !== '') {
-            console.log(licenseId, accessToken);
             editCart(EDIT_CART_LICENSE(itemId), licenseFormData);
         }
         editCart(EDIT_CART(itemId), formData);
