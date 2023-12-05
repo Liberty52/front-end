@@ -39,3 +39,4 @@ export const DELETE_CART_GUEST = (id) => `/product/guest/carts/custom-products/$
 export const EDIT_CART = (id) => `/product/carts/custom-products/${id}`;
 export const EDIT_CART_GUEST = (id) => `/product/guest/carts/custom-products/${id}`;
 export const EDIT_CART_IMAGE = (id) => `/product/carts/custom-products/image/${id}`;
+export const EDIT_CART_LICENSE = (id) => `/product/carts/license-products/${id}`;

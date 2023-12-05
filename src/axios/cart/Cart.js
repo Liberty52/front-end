@@ -11,7 +11,9 @@ import {
     DELETE_CART,
     DELETE_CART_GUEST,
     EDIT_CART,
-    EDIT_CART_GUEST, EDIT_CART_IMAGE,
+    EDIT_CART_GUEST,
+    EDIT_CART_IMAGE,
+    EDIT_CART_LICENSE,
     PRODUCT_OPTION,
 } from '../../constants/api';
 import Swal from "sweetalert2";
@@ -135,12 +137,13 @@ export const handleDeleteClick = (checkedList) => {
   }
 };
 
-export const handleEditClick = (customProductId, dto, file) => {
-    console.log(dto, file)
+export const handleEditClick = (itemId, dto, file, licenseId, isCustom) => {
     const formData = new FormData();
     const imageFormData = new FormData();
-    imageFormData.append('file[imageFile]', file);
+    const licenseFormData = new FormData();
     formData.append('dto', new Blob([JSON.stringify(dto)], {type: CONTENT_TYPE.ApplicationJson}));
+    imageFormData.append('file', file);
+    licenseFormData.append('dto', new Blob([JSON.stringify(licenseId)], { type: CONTENT_TYPE.ApplicationJson }));
     const accessToken = sessionStorage.getItem(ACCESS_TOKEN);
     if (accessToken) {
         const editCart = (url, data) => {
@@ -155,13 +158,18 @@ export const handleEditClick = (customProductId, dto, file) => {
                     window.location.replace(CART);
                 });
         };
-        if (file !== null) {
-            editCart(EDIT_CART_IMAGE(customProductId), imageFormData);
+        if (isCustom && file !== '') {
+            console.log(file);
+            editCart(EDIT_CART_IMAGE(itemId), imageFormData);
         }
-        editCart(EDIT_CART(customProductId), formData);
+        if (!isCustom && licenseId.licenseOptionId !== '') {
+            console.log(licenseId, accessToken);
+            editCart(EDIT_CART_LICENSE(itemId), licenseFormData);
+        }
+        // editCart(EDIT_CART(itemId), formData);
     } else {
         axios
-            .patch(EDIT_CART_GUEST(customProductId), formData, {
+            .patch(EDIT_CART_GUEST(itemId), formData, {
                 headers: {
                     Authorization: cookie.load(GUEST_COOKIE),
                     'Content-Type': CONTENT_TYPE.MultipartFormData,
