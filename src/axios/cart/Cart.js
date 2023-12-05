@@ -90,13 +90,11 @@ export const fetchCartData = (token, setCartList, setEmptyMode, setProductOption
           };
       }));
       setCartList(responseData);
-      console.log(responseData);
       if (!response.data || response.data === '') {
         setEmptyMode(true);
       } else {
         axios.get(PRODUCT_OPTION(), { headers }).then((response) => {
           setProductOption(response.data);
-          console.log(response.data);
         });
       }
     })
@@ -164,7 +162,7 @@ export const handleEditClick = (itemId, dto, file, licenseId, isCustom) => {
     };
     const executeRequestsSequentially = async () => {
         console.log(file);
-        if (isCustom && file !== '' && file !== null) {
+        if (isCustom && file !== '' && file !== null && JSON.stringify(file) !== '{}') {
             await editCart(EDIT_CART_IMAGE(itemId), imageFormData);
         }
         if (!isCustom && licenseId.licenseOptionId !== '') {
