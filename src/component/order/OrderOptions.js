@@ -264,13 +264,11 @@ const AddImage = ({ custom, optionItems, moveToEditor, onHandleImg }) => {
       ) : (
         <>
           {selectedImg && (
-            <div className='selected-image' style={{ marginTop: '20px' }}>
-              <img
-                src={selectedImg.src}
-                alt='Selected'
-                onLoad={() => console.log('이미지 로드 성공')}
-                onError={() => console.log('이미지 로드 실패')}
-              />
+            <div
+              className='selected-image'
+              style={{ marginTop: '20px', width: '300px', height: '200px' }}
+            >
+              <img src={selectedImg.src} alt='Selected' style={{ width: '100%', height: '100%' }} />
             </div>
           )}
           <ModalBtn onClick={handleOpen}>라이센스 이미지 보기</ModalBtn>

@@ -25,7 +25,6 @@ const PreviewLicense = ({ optionItems, onHandleImg, open, handleClose }) => {
               <StyledLabel key={optionItem.id} isSelected={isSelected}>
                 <input
                   type='radio'
-                  name='test'
                   checked={isSelected}
                   onChange={() => setSelectedOption(optionItem.id)}
                 />
