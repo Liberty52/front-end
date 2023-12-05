@@ -166,7 +166,7 @@ export const handleEditClick = (itemId, dto, file, licenseId, isCustom) => {
             console.log(licenseId, accessToken);
             editCart(EDIT_CART_LICENSE(itemId), licenseFormData);
         }
-        // editCart(EDIT_CART(itemId), formData);
+        editCart(EDIT_CART(itemId), formData);
     } else {
         axios
             .patch(EDIT_CART_GUEST(itemId), formData, {
