@@ -32,8 +32,11 @@ export const StyledLabel = styled.label`
   img {
     width: 100%;
     height: 100%;
-    transition: transform 0.3s;
-    transform-origin: center center;
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
   }
 
   .check-icon {
@@ -57,6 +60,8 @@ export const StyledLabel = styled.label`
 
 export const ImagesContainer = styled.div`
   display: flex;
+  width: 100%;
+  height: 100%;
   gap: 16px;
   overflow-x: auto;
   padding: 16px;
