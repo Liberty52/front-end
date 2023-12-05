@@ -7,7 +7,7 @@ import { ReviewContent } from './ReviewContent';
 import ReviewPages from './ReviewPages';
 import { getReview } from '../../../axios/order/Review';
 
-export default function Review() {
+export default function Review({ productId }) {
   const [onlyPhoto, setOnlyPhoto] = useState(false);
   const [reviewContents, setReviewContents] = useState([]);
   const [pages, setPages] = useState({
@@ -22,7 +22,7 @@ export default function Review() {
   }, [onlyPhoto, pageNum]);
 
   function getReviewFromServer() {
-    getReview('LIB-001', 10, pageNum, onlyPhoto).then((res) => {
+    getReview(productId, 10, pageNum, onlyPhoto).then((res) => {
       const contents = res.contents;
       setReviewContents([]);
       for (var i = 0; i < contents.length; i++) {

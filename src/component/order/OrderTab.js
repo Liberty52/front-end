@@ -41,7 +41,7 @@ function a11yProps(index) {
   };
 }
 
-export default function OrderTab({ content }) {
+export default function OrderTab({ content, productId }) {
   const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
@@ -57,7 +57,7 @@ export default function OrderTab({ content }) {
     {
       value: 'review',
       label: '리뷰',
-      content: <Review />,
+      content: <Review productId={productId} />,
     },
   ];
 
