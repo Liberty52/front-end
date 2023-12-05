@@ -64,7 +64,7 @@ const Order = () => {
           />
         </div>
       </div>
-      <OrderTab content={productInfo.content} />
+      <OrderTab content={productInfo.content} productId={productId} />
       <Footer />
     </div>
   );
