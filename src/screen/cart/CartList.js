@@ -40,7 +40,7 @@ export default function CartList({ setEmptyMode }) {
     setImg({ id, src });
   };
   const onHandleFile = (file) => {
-    setFile({ file });
+    setFile(file);
   };
   const onHandleSubmit = (e) => {
     e.preventDefault();
