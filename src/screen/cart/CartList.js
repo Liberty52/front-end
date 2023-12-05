@@ -70,7 +70,7 @@ export default function CartList({ setEmptyMode }) {
       newHidden[idx] = !newHidden[idx];
       setHidden(newHidden);
       setDisabledBtn(false);
-      options.forEach((option) => {
+      if (options !== '' && options !== null) options.forEach((option) => {
         basicFormValue[option.optionId] = option.detailId;
       });
     }
