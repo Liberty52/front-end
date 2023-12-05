@@ -145,36 +145,37 @@ export const handleEditClick = (itemId, dto, file, licenseId, isCustom) => {
     imageFormData.append('file', file);
     licenseFormData.append('dto', new Blob([JSON.stringify(licenseId)], { type: CONTENT_TYPE.ApplicationJson }));
     const accessToken = sessionStorage.getItem(ACCESS_TOKEN);
-    if (accessToken) {
-        const editCart = (url, data) => {
-            axios
-                .patch(url, data, {
-                    headers: {
-                        Authorization: accessToken,
-                        'Content-Type': CONTENT_TYPE.MultipartFormData,
-                    },
-                })
-                .then(() => {
-                    window.location.replace(CART);
-                });
-        };
-        if (isCustom && file !== '') {
-            editCart(EDIT_CART_IMAGE(itemId), imageFormData);
+
+    const editCart = (url, data) => {
+        return axios.patch(url, data, {
+            headers: {
+                Authorization: accessToken,
+                'Content-Type': CONTENT_TYPE.MultipartFormData,
+            },
+        });
+    };
+    const editCartGuest = () => {
+        return axios.patch(EDIT_CART_GUEST(itemId), formData, {
+            headers: {
+                Authorization: cookie.load(GUEST_COOKIE),
+                'Content-Type': CONTENT_TYPE.MultipartFormData,
+            },
+        });
+    };
+    const executeRequestsSequentially = async () => {
+        console.log(file);
+        if (isCustom && file !== '' && file !== null) {
+            await editCart(EDIT_CART_IMAGE(itemId), imageFormData);
         }
         if (!isCustom && licenseId.licenseOptionId !== '') {
-            editCart(EDIT_CART_LICENSE(itemId), licenseFormData);
+            await editCart(EDIT_CART_LICENSE(itemId), licenseFormData);
         }
-        editCart(EDIT_CART(itemId), formData);
-    } else {
-        axios
-            .patch(EDIT_CART_GUEST(itemId), formData, {
-                headers: {
-                    Authorization: cookie.load(GUEST_COOKIE),
-                    'Content-Type': CONTENT_TYPE.MultipartFormData,
-                },
-            })
-            .then(() => {
-                window.location.replace(CART);
-            });
-    }
+        await editCart(EDIT_CART(itemId), formData);
+    };
+    const handleSuccess = () => {
+        window.location.replace(CART);
+    };
+    if (accessToken) {
+        executeRequestsSequentially().then(handleSuccess);
+    } else editCartGuest().then(handleSuccess);
 };
